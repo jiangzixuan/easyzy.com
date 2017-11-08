@@ -1,0 +1,36 @@
+﻿* {
+    margin: 0 auto;
+    padding: 0px;
+    font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", SimHei, sans-serif;
+}
+
+.left{float:left;}
+.right{float:right;}
+.font-yahei {
+    font-family: "Microsoft YaHei"
+}
+.content-container {
+    font-size:14px;
+}
+
+.header-wrap {
+    margin:0 auto; padding:10px 50px;
+}
+.header-wrap .head {
+    height: 60px;
+    line-height: 60px;
+}
+
+.header-wrap .head .logo{ width:180px; height:60px;}
+
+.content .home .slider{width:100%; height:500px; background:#60DDBE;}
+.content .home .slider .pic-field{margin:0 auto; width:1000px; padding:100px 0;}
+
+.content .home .funcs{width:100%; height:300px; padding-bottom:40px;}
+.content .home .funcs .func-field{margin:0 auto; width:1000px; padding:50px 50px;}
+.content .home .func-field .func{width:300px; margin-left:30px;}
+.content .home .func-field .func img{width:300px;}
+.content .home .func-field .func p{padding:5px 0; text-align:center;}
+.content .home .func-field .func p.funcname{font-size:18px;}
+.foot-wrap{width: 100%;min-width: 1000px;padding: 30px 0;overflow: hidden;background: #333;}
+.foot{text-align:center; color:#e4e6ed;}
