@@ -13,6 +13,11 @@ namespace easyzy.common
 {
     public class Util
     {
+        public static string GetConnectString(string Name)
+        {
+            return System.Configuration.ConfigurationManager.ConnectionStrings[Name].ToString();
+        }
+
         /// <summary>
         /// 计算总页数
         /// </summary>

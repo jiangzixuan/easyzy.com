@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace easyzy.model
+namespace easyzy.bll
 {
-    public class Class1
+    class b_ZyRedis
     {
     }
 }

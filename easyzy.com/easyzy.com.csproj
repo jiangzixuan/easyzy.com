@@ -177,6 +177,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Sqls\master.sql" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -213,9 +214,17 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\easyzy.bll\easyzy.bll.csproj">
+      <Project>{4503652c-3791-472e-b713-c5f6ed1bd3e1}</Project>
+      <Name>easyzy.bll</Name>
+    </ProjectReference>
     <ProjectReference Include="..\easyzy.common\easyzy.common.csproj">
       <Project>{499AB9D5-722B-4EB2-843E-4CE9F0C3080F}</Project>
       <Name>easyzy.common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\easyzy.model\easyzy.model.csproj">
+      <Project>{bdae15d5-7d3c-48a5-ab85-e7b8c855f66a}</Project>
+      <Name>easyzy.model</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

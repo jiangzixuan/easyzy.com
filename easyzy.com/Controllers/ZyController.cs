@@ -1,4 +1,5 @@
-﻿using easyzy.common;
+﻿using easyzy.bll;
+using easyzy.common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace easyzy.com.Controllers
     {
         public ActionResult add()
         {
-            
+            var zy = b_Zy.GetZy(1000000);
             return View();
         }
     }

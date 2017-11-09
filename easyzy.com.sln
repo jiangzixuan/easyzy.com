@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easyzy.model", "easyzy.mode
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easyzy.bll", "easyzy.bll\easyzy.bll.csproj", "{4503652C-3791-472E-B713-C5F6ED1BD3E1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "easyzy.lib", "easyzy.lib", "{DDEE0C77-25CA-43DF-902E-CA56BC528143}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
