@@ -2,6 +2,115 @@
 @{
     ViewBag.Title = "add";
 }
+<div class="slider">
+    <div class="pic-field">
+        <img src="/Images/boshimao.png" width="400" />
+    </div>
+</div>
+<div class="content">
+    <div class="main-content">
+        <div class="fileupload file">
+            
+            <div class="uploadline">
+                <span class="uploadname f1">选择作业内容文档：</span>
+                <div class="uploadpath f1 uploadbodypath"></div>
+                <div class="uploadfile left">
+                    <input id="file" class="fl upload-file" type="file" style="z-index: 1;" />
+                    <div class="left choose choosebody">浏览</div>
+                </div>
+            </div>
+            <div class="uploadline">
+                <span class="uploadname f1">选择作业答案/解析文档：</span>
+                <div class="uploadpath f1 uploadanswerpath"></div>
+                <div class="uploadfile left">
+                    <div class="left choose chooseanswer">浏览</div>
+                </div>
+            </div>
+            <div class="uploadbtn"><a href="#" onclick="upload();">上传</a></div>
+           
+        </div>
+        <div class="preview file">
+            
+        </div>
 
-<h2>add</h2>
+        <div class="submit file">
 
+        </div>
+    </div>
+</div>
+<script src="/Scripts/plupload/moxie.js"></script>
+<script src="/Scripts/plupload/plupload.dev.js"></script>
+<script type="text/javascript">
+    var cur_data = {
+        type: 0
+    }
+
+    $(".choosebody").on("click", function () {
+        cur_data.type = 0;
+        $("#file").click();
+    })
+
+    $(".chooseanswer").on("click", function () {
+        cur_data.type = 1;
+        $("#file").click();
+    })
+
+    //实例化一个plupload上传对象
+    var uploader = new plupload.Uploader({
+        runtimes: 'html5,flash,silverlight,html4',//
+        browse_button: 'file', //触发文件选择对话框的按钮，为那个元素id
+        url: 'UploadVideo.aspx?_action=Upload', //服务器端的上传页面地址
+        fileUploadContainer: "fileupload",//上传控件的dom元素ID
+        filters: {
+            mime_types: [ //只允许上传Word文件
+                { title: "Word files", extensions: "doc,docx" }
+            ],
+            max_file_size: '50mb', //最大只能上传400kb的文件
+            prevent_duplicates: true //不允许选取重复文件
+        },
+        multi_selection: false,
+        multiSelection: false,
+        max_file_size: '50mb',//文件最大限制
+        chunk_size: '0'
+        //chunk_size: '1mb'//分片上传文件时，每片文件被切割成的大小，为数字时单位为字节
+    });
+
+    //在实例对象上调用init()方法进行初始化
+    uploader.init();
+
+    //绑定各种事件，并在事件监听函数中做你想做的事
+    //每个事件监听函数都会传入一些很有用的参数，
+    //我们可以利用这些参数提供的信息来做比如更新UI，提示上传进度等操作
+    uploader.bind('FilesAdded', function (uploader, files) {
+        
+        var filename = files[0].name;
+        if (cur_data.type == 0) {
+            $(".uploadbodypath").html(filename);
+        }
+        else
+        {
+            $(".uploadanswerpath").html(filename);
+        }
+    })
+
+    //上传进度
+    uploader.bind('UploadProgress', function (uploader, file) {
+    })
+
+    //上传完成
+    uploader.bind('UploadComplete', function (uploader, files) {
+        uploader.removeFile(files[0]); //从内存中删掉这个文件
+    });
+
+    //提交时候附带参数（Post）
+    uploader.setOption({
+        'multipart_params': {
+            BankID: $("#BankSelecter").val(),
+            Title: $("#Title").val(),
+            Description: $("#Description").val(),
+            FileSize: $("#FileSize").val()
+        }
+    });
+    //开始上传
+    uploader.start();
+</script>
