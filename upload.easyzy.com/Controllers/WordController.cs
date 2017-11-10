@@ -28,7 +28,13 @@ namespace upload.easyzy.com.Controllers
         }
 
         [HttpPut]
-        public ResponseEntity<dtoWordUploadPath> Put()
+        public void Put()
+        {
+            
+        }
+
+        [HttpPost]
+        public ResponseEntity<dtoWordUploadPath> Post()
         {
             ResponseEntity<dtoWordUploadPath> result = new ResponseEntity<dtoWordUploadPath>();
             dtoWordUploadPath dto = new dtoWordUploadPath();
@@ -53,30 +59,41 @@ namespace upload.easyzy.com.Controllers
                     string path = "";
                     int wordFunc = Convert.ToInt32(HttpContext.Current.Request.Form["func"]);
                     int wordCategory = Convert.ToInt32(HttpContext.Current.Request.Form["category"]);
-                    path = "/word/" + wordFunc + "/" + wordCategory;
+                    path = "\\word\\" + wordFunc + "\\" + wordCategory;
                     string saveName = UniqueObjectID.GenerateStrNewId();
                     filePath = FileHelper.SaveFile(file, path, saveName);
-
-                    //Word转Html
-                    string htmlPath = filePath.Replace("word", "html");
-                    bool b = FileHelper.Word2Html(filePath, htmlPath);
-                    if (b)
+                    if (wordFunc == (int)EasyzyConst.WordFunc.CreateZY)
                     {
-                        dto.WordPath = filePath;
-                        dto.HtmlPath = htmlPath;
-                        result.Code = (int)ResponseCode.Success;
-                        result.BussCode = (int)ResponseBussCode.Success;
-                        result.Data = dto;
-                        result.Message = "";
+                        //Word转Html
+                        string htmlPath = filePath.Replace("word", "html").Replace("docx", "html").Replace("doc", "html");
+                        bool b = FileHelper.Word2Html(filePath, htmlPath);
+                        if (b)
+                        {
+                            dto.WordPath = filePath;
+                            dto.HtmlPath = htmlPath;
+                            result.Code = (int)ResponseCode.Success;
+                            result.BussCode = (int)ResponseBussCode.Success;
+                            result.Data = dto;
+                            result.Message = "";
+                        }
+                        else
+                        {
+                            dto.WordPath = filePath;
+                            dto.HtmlPath = "";
+                            result.Code = (int)ResponseCode.Error;
+                            result.BussCode = (int)ResponseBussCode.Error;
+                            result.Data = dto;
+                            result.Message = "word转html失败！";
+                        }
                     }
                     else
                     {
                         dto.WordPath = filePath;
                         dto.HtmlPath = "";
-                        result.Code = (int)ResponseCode.Error;
-                        result.BussCode = (int)ResponseBussCode.Error;
+                        result.Code = (int)ResponseCode.Success;
+                        result.BussCode = (int)ResponseBussCode.Success;
                         result.Data = dto;
-                        result.Message = "word转html失败！";
+                        result.Message = "";
                     }
                 }
                 catch (Exception ex)
@@ -96,12 +113,6 @@ namespace upload.easyzy.com.Controllers
                 result.Message = "找不到上传文件";
             }
             return result;
-        }
-
-        [HttpPost]
-        public string Post(int id)
-        {
-            return "post_" + id;
         }
     }
 }

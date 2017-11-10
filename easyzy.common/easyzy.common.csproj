@@ -57,7 +57,6 @@
     <Compile Include="MySqlDBHelper.cs" />
     <Compile Include="UniqueObjectID.cs" />
     <Compile Include="Util.cs" />
-    <Compile Include="DBHelper.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

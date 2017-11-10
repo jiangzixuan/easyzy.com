@@ -21,10 +21,10 @@ namespace easyzy.common
             
             string FileName = file.FileName;
             string Pattern = FileName.Substring(FileName.LastIndexOf(".") + 1);
-            string shortTime = DateTime.Now.ToShortDateString().Replace("/", "-");
-            string filePath = (path.EndsWith("/") ? path : (path + "/")) + shortTime + "/" + saveName + "." + Pattern;
-            string fileToUpload = AppDomain.CurrentDomain.BaseDirectory + (path.EndsWith("/")?path:(path+"/")) + shortTime + "/" + saveName + "." + Pattern;
-            
+            string shortTime = DateTime.Now.ToString("yyyyMMdd");
+            string filePath = (path.EndsWith("\\") ? path : (path + "\\")) + shortTime + "\\" + saveName + "." + Pattern;
+            string fileToUpload = AppDomain.CurrentDomain.BaseDirectory + (path.EndsWith("\\")?path:(path+"\\")) + shortTime + "\\" + saveName + "." + Pattern;
+            path = AppDomain.CurrentDomain.BaseDirectory + (path.EndsWith("\\") ? path : (path + "\\")) + shortTime;
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -41,6 +41,8 @@ namespace easyzy.common
         {
             try
             {
+                wordPath = AppDomain.CurrentDomain.BaseDirectory + wordPath;
+                htmlPath = AppDomain.CurrentDomain.BaseDirectory + htmlPath;
                 if (!File.Exists(wordPath))
                 {
                     return false;

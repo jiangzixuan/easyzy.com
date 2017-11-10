@@ -13,38 +13,45 @@
     <div class="main-content">
         <div class="fileupload file">
             
-            <div class="uploadline">
+            <div class="uploadline body">
                 <span class="uploadname f1">选择作业内容文档：</span>
                 <div class="uploadpath f1 uploadbodypath"></div>
                 <div class="uploadfile left">
                     <input id="file" class="fl upload-file" type="file" style="z-index: 1;" />
                     <div class="left choose choosebody">浏览</div>
+                    <div class="left progressbar"><div class="curprogress left" style="width:0%;"></div></div>
+                    <div class="left uploadpercent">（0%）</div>
                 </div>
             </div>
-            <div class="uploadline">
+            <div class="uploadline answer">
                 <span class="uploadname f1">选择作业答案/解析文档：</span>
                 <div class="uploadpath f1 uploadanswerpath"></div>
                 <div class="uploadfile left">
                     <div class="left choose chooseanswer">浏览</div>
+                    <div class="left progressbar"><div class="curprogress left" style="width:0%;"></div></div>
+                    <div class="left uploadpercent">（0%）</div>
                 </div>
             </div>
-            <div class="uploadbtn"><a href="#" onclick="upload();">上传</a></div>
+            <div class="uploadbtn"><a href="#" id="uploadbtn">上传</a></div>
            
         </div>
         <div class="preview file">
-            
-        </div>
-
-        <div class="submit file">
-
+            <div class="zyno"></div>
+            <iframe name="ifraRight" id="ifraBody" style="width:100%;" src="" frameborder="0" ></iframe>
+            <iframe name="ifraRight" id="ifraAnswer" style="width:100%;" src="" frameborder="0"></iframe>
         </div>
     </div>
 </div>
 <script src="/Scripts/plupload/moxie.js"></script>
 <script src="/Scripts/plupload/plupload.dev.js"></script>
+
 <script type="text/javascript">
     var cur_data = {
-        type: 0
+        type: 0,
+        body_word: '',
+        body_html: '',
+        answer_word: '',
+        answer_html:''
     }
 
     $(".choosebody").on("click", function () {
@@ -61,7 +68,10 @@
     var uploader = new plupload.Uploader({
         runtimes: 'html5,flash,silverlight,html4',//
         browse_button: 'file', //触发文件选择对话框的按钮，为那个元素id
-        url: 'UploadVideo.aspx?_action=Upload', //服务器端的上传页面地址
+        url: 'http://upload.easyzy.com/api/word', //服务器端的上传页面地址
+        //url: 'http://localhost:63428/api/word',
+        flash_swf_url: '/plupload/Moxie.swf', //swf文件，当需要使用swf方式进行上传时需要配置该参数
+        silverlight_xap_url: '/plupload/Moxie.xap', //silverlight文件，当需要使用silverlight方式进行上传时需要配置该参数
         fileUploadContainer: "fileupload",//上传控件的dom元素ID
         filters: {
             mime_types: [ //只允许上传Word文件
@@ -71,7 +81,6 @@
             prevent_duplicates: true //不允许选取重复文件
         },
         multi_selection: false,
-        multiSelection: false,
         max_file_size: '50mb',//文件最大限制
         chunk_size: '0'
         //chunk_size: '1mb'//分片上传文件时，每片文件被切割成的大小，为数字时单位为字节
@@ -80,39 +89,130 @@
     //在实例对象上调用init()方法进行初始化
     uploader.init();
 
+    var cur_data = {
+        bodyid: 0,
+        answerid: 0
+    }
+
     //绑定各种事件，并在事件监听函数中做你想做的事
     //每个事件监听函数都会传入一些很有用的参数，
     //我们可以利用这些参数提供的信息来做比如更新UI，提示上传进度等操作
     uploader.bind('FilesAdded', function (uploader, files) {
-        
+        var fileid = files[0].id;
+
         var filename = files[0].name;
         if (cur_data.type == 0) {
+            cur_data.bodyid = fileid;
+            //去除其他
+            for (var i = 0; i < uploader.files.length; i++) {
+                if (uploader.files[i].id != fileid && uploader.files[i].id != cur_data.answerid) {
+                    uploader.removeFile(uploader.files[i]);
+                }
+            }
             $(".uploadbodypath").html(filename);
         }
-        else
-        {
+        else {
+            cur_data.answerid = fileid
+            //去除其他
+            for (var i = 0; i < uploader.files.length; i++) {
+                if (uploader.files[i].id != fileid && uploader.files[i].id != cur_data.bodyid) {
+                    uploader.removeFile(uploader.files[i]);
+                }
+            }
             $(".uploadanswerpath").html(filename);
         }
     })
 
     //上传进度
     uploader.bind('UploadProgress', function (uploader, file) {
+        if (file.id == cur_data.bodyid) {
+            $(".body .uploadpercent").html("（" + file.percent + "%）")
+            $(".body .curprogress").css("width", file.percent + "%");
+        }
+        else {
+            $(".answer .uploadpercent").html("（" + file.percent + "%）")
+            $(".answer .curprogress").css("width", file.percent + "%");
+        }
     })
 
-    //上传完成
+    //上传前
+    uploader.bind('BeforeUpload', function (uploader, file) {
+        var category = 0;
+        if (file.id == cur_data.bodyid) {
+            category = 0;
+        }
+        else {
+            category = 1;
+        }
+        uploader.setOption({
+            'multipart_params': {
+                func: @ViewBag.WordFunc,
+                category: category
+            }
+        });
+    })
+
+    //单个文件上传完成
+    uploader.bind('FileUploaded', function (uploader, file, data) {
+        var json = JSON.parse(data.response);
+        if (json.Code != 1200 || json.BussCode != 1000) {
+            dialogAlert(json.Message);
+        }
+        else
+        {
+            if (file.id == cur_data.bodyid) {
+                cur_data.body_word = json.Data.WordPath;
+                cur_data.body_html = json.Data.HtmlPath;
+            }
+            else {
+                cur_data.answer_word = json.Data.WordPath;
+                cur_data.answer_html = json.Data.HtmlPath;
+            }
+        }
+    })
+
+    //所有文件上传完成
     uploader.bind('UploadComplete', function (uploader, files) {
-        uploader.removeFile(files[0]); //从内存中删掉这个文件
+        CreateZY();
+
+        for (var i = 0; i < uploader.files.length; i++) {
+            uploader.removeFile(uploader.files[i]);
+        }
+        
     });
 
-    //提交时候附带参数（Post）
-    uploader.setOption({
-        'multipart_params': {
-            BankID: $("#BankSelecter").val(),
-            Title: $("#Title").val(),
-            Description: $("#Description").val(),
-            FileSize: $("#FileSize").val()
-        }
-    });
     //开始上传
-    uploader.start();
+    $("#uploadbtn").on("click", function () {
+        if (uploader.files.length == 0) {
+            dialogAlert("尚未选择任何文档！");
+        }
+        else {
+            jQuery.support.cors = true;
+            uploader.start();
+        }
+    })
+
+    //入库
+    var CreateZY = function () {
+        if (cur_data.body_word != "" && cur_data.body_html != "")
+        {
+            $.post("CreateZy", { bodyWordPath: cur_data.body_word, bodyHtmlPath: cur_data.body_html, answerWordPath: cur_data.answer_word, answerHtmlPath: cur_data.answer_html }, function (data) {
+                if (data == "")
+                {
+                    dialogAlert("生成作业失败！");
+                }
+                else
+                {
+                    $("#ifraBody").attr("src", "http://upload.easyzy.com" + cur_data.body_html);
+                    $("#ifraAnswer").attr("src", "http://upload.easyzy.com" + cur_data.answer_html);
+                    $(".preview .zyno").html("作业编号：" + data);
+                    $(".preview").show();
+                    cur_data.body_word = "";
+                    cur_data.body_html = "";
+                    cur_data.answer_word = "";
+                    cur_data.answer_html = "";
+                }
+            })
+        }
+    }
 </script>

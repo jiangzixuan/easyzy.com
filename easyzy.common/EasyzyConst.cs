@@ -15,5 +15,10 @@ namespace easyzy.common
         {
             CreateZY = 0
         }
+
+        public static string GetZyNum(int id)
+        {
+            return "Zy" + id;
+        }
     }
 }

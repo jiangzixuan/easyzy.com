@@ -29,5 +29,7 @@ namespace easyzy.model.entity
         public string MobileBrand { get; set; }
 
         public string SystemType { get; set; }
+
+        public string Browser { get; set; }
     }
 }
