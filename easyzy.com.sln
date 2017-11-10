@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easyzy.model", "easyzy.mode
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easyzy.bll", "easyzy.bll\easyzy.bll.csproj", "{4503652C-3791-472E-B713-C5F6ED1BD3E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "upload.easyzy.com", "upload.easyzy.com\upload.easyzy.com.csproj", "{D35BBB88-9DF4-48BC-8882-2C72A4AA32E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{4503652C-3791-472E-B713-C5F6ED1BD3E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4503652C-3791-472E-B713-C5F6ED1BD3E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4503652C-3791-472E-B713-C5F6ED1BD3E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D35BBB88-9DF4-48BC-8882-2C72A4AA32E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D35BBB88-9DF4-48BC-8882-2C72A4AA32E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D35BBB88-9DF4-48BC-8882-2C72A4AA32E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D35BBB88-9DF4-48BC-8882-2C72A4AA32E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

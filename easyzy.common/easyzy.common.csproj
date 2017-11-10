@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Aspose.Words">
+      <HintPath>..\easyzy.lib\Aspose.Words.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -49,7 +52,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EasyzyConst.cs" />
+    <Compile Include="FileHelper.cs" />
     <Compile Include="MySqlDBHelper.cs" />
+    <Compile Include="UniqueObjectID.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="DBHelper.cs" />
     <Compile Include="LogHelper.cs" />
