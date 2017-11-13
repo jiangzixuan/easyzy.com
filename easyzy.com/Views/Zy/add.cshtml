@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "易作业-创建作业";
     ViewBag.Keywords = "Word上传作业，自传作业，新建作业，方便的新建作业";
     ViewBag.Description = "通过Word文档新建作业";
@@ -32,16 +31,56 @@
                     <div class="left uploadpercent">（0%）</div>
                 </div>
             </div>
-            <div class="uploadbtn"><a href="#" id="uploadbtn">上传</a></div>
-           
+            <div class="uploadbtn"><a class="btn" href="#" id="uploadbtn">上传</a></div>
+            
         </div>
-        <div class="preview file">
-            <div class="zyno"></div>
-            <iframe name="ifraRight" id="ifraBody" style="width:100%;" src="" frameborder="0" ></iframe>
-            <iframe name="ifraRight" id="ifraAnswer" style="width:100%;" src="" frameborder="0"></iframe>
+        <div class="uploadedinfo file" style="display:block;">
+            <div>
+                文档已上传成功，作业编号：<b class="zyno">Zy1000001</b> <br/>
+                如果您未登录系统，请记住此编号，因为它将是完成此作业的唯一识别码。<br />
+                如果您已登录，可以在个人中心找到此作业相关信息。<br />
+                您还可以<a href="#" class="btn" onclick="preview();">预览</a> 或者 <a class="btn" href="#" onclick="setanswer();">设置答案</a>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<div class="preview st-roster" style="display:none;">
+    <img src="/Images/close.png" class="popclose" />
+    <iframe name="ifraRight" id="ifraBody" style="width:100%;" src="http://upload.easyzy.com\html\0\0\20171110\5a057047d3afeb3c2c53cd68.html" frameborder="0" onLoad="this.height=500"></iframe>
+    <iframe name="ifraRight" id="ifraAnswer" style="width:100%; height:90%;" src="http://upload.easyzy.com\html\0\0\20171110\5a057047d3afeb3c2c53cd68.html" frameborder="0" onLoad="this.height=500"></iframe>
+</div>
+
+<div class="setanswer st-roster" style="display:none;">
+    <img src="/Images/close.png" class="popclose" />
+    <div class="poptitle">
+        拆题并设置答案
+    </div>
+    <div class="popcontent">
+        <div class="addedques">
+            <table id="tabques" width="100%" border="0" cellspacing="1" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th>大题号</th>
+                        <th>小题号</th>
+                        <th>题型</th>
+                        <th>客观题答案</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+        <div class="addbtn">
+            添加数量: <input type="text" style="width:30px;" /> 
+            添加题型：<a class="rdoy">客观题</a> <input type="radio" />主观题 
+            <a href="#" class="btn">添加</a>
+            <a href="#" class="btn right">保存</a>
         </div>
     </div>
 </div>
+
 <script src="/Scripts/plupload/moxie.js"></script>
 <script src="/Scripts/plupload/plupload.dev.js"></script>
 
@@ -203,10 +242,10 @@
                 }
                 else
                 {
-                    $("#ifraBody").attr("src", "http://upload.easyzy.com" + cur_data.body_html);
-                    $("#ifraAnswer").attr("src", "http://upload.easyzy.com" + cur_data.answer_html);
-                    $(".preview .zyno").html("作业编号：" + data);
-                    $(".preview").show();
+                    //$("#ifraBody").attr("src", "http://upload.easyzy.com" + cur_data.body_html);
+                    //$("#ifraAnswer").attr("src", "http://upload.easyzy.com" + cur_data.answer_html);
+                    //$(".preview .zyno").html("作业编号：" + data);
+                    $(".uploadedinfo").show();
                     cur_data.body_word = "";
                     cur_data.body_html = "";
                     cur_data.answer_word = "";
@@ -215,4 +254,20 @@
             })
         }
     }
+
+    var preview = function () {
+        $(".preview").show();
+        $('body').prepend('<div class="shade fixed1"></div>');
+    }
+
+    var setanswer = function () {
+        $(".setanswer").show();
+        $('body').prepend('<div class="shade fixed1"></div>');
+    }
+
+    $(".st-roster .popclose").click(function () {
+        $(".preview").hide();
+        $(".setanswer").hide();
+        $(".shade").hide();
+    })
 </script>

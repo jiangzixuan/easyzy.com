@@ -157,9 +157,11 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\boshimao.png" />
+    <Content Include="Images\close.png" />
     <Content Include="Images\createzy.jpg" />
     <Content Include="Images\easy.png" />
     <Content Include="Images\easyzy.png" />
+    <Content Include="Images\radio.png" />
     <Content Include="Scripts\artDialog\css\ui-dialog.css" />
     <Content Include="Scripts\artDialog\dialog-plus-min.js" />
     <Content Include="Scripts\artDialog\dialog.js" />
@@ -202,6 +204,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Zy\add.cshtml" />
     <Content Include="Scripts\plupload\Moxie.xap" />
+    <Content Include="Views\Zy\open.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
