@@ -58,6 +58,9 @@ a.btn{border: 0;
     height: 60px;
     line-height: 60px;
 }
+.reg{background:rgba(0,0,0,.3); padding:30px 50px;}
+.reg .title{font-size:18px; color:#fff;}
+.reg .info input{line-height:35px; height:35px; width:200px; }
 
 .header-wrap .head .logo{ width:180px; height:60px;}
 .slider{ background:#82f7da;}

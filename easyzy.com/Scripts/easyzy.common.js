@@ -25,3 +25,8 @@ function dialogConfirm(content, okfunction, cancelfunction) {
 
 	return d;
 }
+
+function reguser()
+{
+    $(".reg").slideDown();
+}
