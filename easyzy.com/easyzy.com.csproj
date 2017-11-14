@@ -158,6 +158,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\boshimao.png" />
+    <Content Include="Images\checkbox.png" />
     <Content Include="Images\close.png" />
     <Content Include="Images\createzy.jpg" />
     <Content Include="Images\easy.png" />

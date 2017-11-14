@@ -59,7 +59,7 @@
     </div>
     <div class="popcontent">
         <div class="addedques">
-            <table id="tabques" width="100%" border="0" cellspacing="1" cellpadding="0">
+            <table id="tabques" width="100%" border="0" cellspacing="1" cellpadding="0" class="tab-default">
                 <thead>
                     <tr>
                         <th>大题号</th>
@@ -73,9 +73,15 @@
             </table>
         </div>
         <div class="addbtn">
-            添加数量: <input type="text" style="width:30px;" /> 
-            添加题型：<a class="rdoy">客观题</a> <input type="radio" />主观题 
-            <a href="#" class="btn">添加</a>
+            添加数量：
+            <select id="addcountsel" style="width:50px; height:25px;">
+                <option value="1">1</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+            </select>
+            &nbsp;&nbsp;
+            添加题型：<a class="rdo choose" data-bind="0">客观题</a><a class="rdo unchoose" data-bind="1" style="margin-left:10px;">主观题 </a>
+            <a href="#" class="btn addques">添加</a>
             <a href="#" class="btn right">保存</a>
         </div>
     </div>
@@ -270,4 +276,77 @@
         $(".setanswer").hide();
         $(".shade").hide();
     })
+
+    $(".popcontent .addbtn .rdo").click(function () {
+        if ($(this).hasClass("unchoose"))
+        {
+            $(this).removeClass("unchoose").addClass("choose").siblings(".rdo").removeClass("choose").addClass("unchoose");
+        }
+    })
+
+    $(".setanswer .addques").click(function () {
+        var count = $(".addbtn #addcountsel").val();
+        var quesType = $(".popcontent .addbtn .rdo.choose").attr("data-bind");
+        var maxQuesNum = 0, quesCount = 0;
+        quesCount = $("#tbody tr").length;
+        $("#tbody tr .bigNum select").each(function () {
+            if ($(this).val() > maxQuesNum)
+            {
+                maxQuesNum = parseInt($(this).val());
+            }
+        })
+        var html = $("#tbody").html();
+        for (var i = 0; i < count; i++)
+        {
+            maxQuesNum += 1;
+            html += "<tr><td class='bigNum'><select>";
+            for (var j = 0; j < quesCount + (i + 1); j++)
+            {
+                html += "<option value='" + (j + 1) + "'" + (maxQuesNum == j + 1 ? "selected" : "") + ">第" + (j + 1) + "题</option>";
+            }
+            html +="</select ></td > ";
+            html += "<td><input class='smallNum' value='无' /></td>";
+            html += "<td><a class='rdo " + (quesType == 0 ? "choose" : "unchoose") + "' data-bind='0'>客观题</a><a class='rdo " + (quesType == 1 ? "choose" : "unchoose") + "' data-bind='1' style='margin-left:10px;'>主观题 </a></td>";
+            html += "<td>" + (quesType == 0 ? "<a class='chk unchoose' data-bind='A'>A</a><a class='chk unchoose' data-bind='B'>B</a><a class='chk unchoose' data-bind='C'>C</a><a class='chk unchoose' data-bind='D'>D</a>" : "") + "</td>";
+            html += "<td><a href='#'>删除</a></td></tr >";
+        }
+        $("#tbody").html(html);
+        initCheckbox();
+        initSelecter();
+    })
+
+    var initCheckbox = function () {
+        $(".popcontent .addedques .chk").on("click", function () {
+            if ($(this).hasClass("unchoose")) {
+                $(this).removeClass("unchoose").addClass("choose");
+            }
+            else {
+                $(this).removeClass("choose").addClass("unchoose");
+            }
+        })
+    }
+
+    var initSelecter = function () {
+        $(".popcontent .addedques .bigNum").on("change", function () {
+            var currentNum = $(this).val();
+            var preNum = $(this).parents("tr").prev().children(".bigNum").val();
+            if (currentNum == preNum)
+            {
+                var preSmallNum = $(this).parents("tr").prev().children(".smallNum").val();
+                if (preSmallNum == "无") {
+                    preSmallNum = 1;
+                    $(this).parents("tr").prev().children(".smallNum").val("1");
+                }
+                else
+                {
+                    preSmallNum = parseInt(preSmallNum);
+
+                }
+            }
+
+            var nextNum = $(this).parents("tr").next().children(".bigNum").val();
+
+
+        })
+    }
 </script>
