@@ -48,5 +48,10 @@ namespace easyzy.com.Controllers
             int Id = b_Zy.Create(zy);
             return Id > 0 ? EasyzyConst.GetZyNum(Id) : "";
         }
+
+        public string CreateZyStruct(int zyNum, string structString)
+        {
+            return "0";
+        }
     }
 }

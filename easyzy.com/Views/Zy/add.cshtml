@@ -31,7 +31,7 @@
                     <div class="left uploadpercent">（0%）</div>
                 </div>
             </div>
-            <div class="uploadbtn"><a class="btn" href="#" id="uploadbtn">上传</a></div>
+            <div class="uploadbtn"><a class="btn" href="javascript:void(0)" id="uploadbtn">上传</a></div>
             
         </div>
         <div class="uploadedinfo file" style="display:block;">
@@ -39,7 +39,8 @@
                 文档已上传成功，作业编号：<b class="zyno">Zy1000001</b> <br/>
                 如果您未登录系统，请记住此编号，因为它将是完成此作业的唯一识别码。<br />
                 如果您已登录，可以在个人中心找到此作业相关信息。<br />
-                您还可以<a href="#" class="btn" onclick="preview();">预览</a> 或者 <a class="btn" href="#" onclick="setanswer();">设置答案</a>
+                您还可以<a href="javascript:void(0)" class="btn" onclick="preview();">预览</a> 或者 <a class="btn" href="javascript:void(0)" onclick="setanswer();">设置答题卡</a><br />
+                设置答题卡后，系统将能自动批改客观题，同时为每道主观题提供单独上传答案的入口，否则学生将只能以作业为单位上传答案，并且不能自动批改主观题。
             </div>
         </div>
         
@@ -62,6 +63,7 @@
             <table id="tabques" width="100%" border="0" cellspacing="1" cellpadding="0" class="tab-default">
                 <thead>
                     <tr>
+                        <th>No.</th>
                         <th>大题号</th>
                         <th>小题号</th>
                         <th>题型</th>
@@ -81,8 +83,8 @@
             </select>
             &nbsp;&nbsp;
             添加题型：<a class="rdo choose" data-bind="0">客观题</a><a class="rdo unchoose" data-bind="1" style="margin-left:10px;">主观题 </a>
-            <a href="#" class="btn addques">添加</a>
-            <a href="#" class="btn right">保存</a>
+            <a href="javascript:void(0)" class="btn addques">添加</a>
+            <a href="javascript:void(0)" class="btn right savebtn">保存</a>
         </div>
     </div>
 </div>
@@ -250,7 +252,7 @@
                 {
                     //$("#ifraBody").attr("src", "http://upload.easyzy.com" + cur_data.body_html);
                     //$("#ifraAnswer").attr("src", "http://upload.easyzy.com" + cur_data.answer_html);
-                    //$(".preview .zyno").html("作业编号：" + data);
+                    $(".uploadedinfo .zyno").html("作业编号：" + data);
                     $(".uploadedinfo").show();
                     cur_data.body_word = "";
                     cur_data.body_html = "";
@@ -289,34 +291,56 @@
         var quesType = $(".popcontent .addbtn .rdo.choose").attr("data-bind");
         var maxQuesNum = 0, quesCount = 0;
         quesCount = $("#tbody tr").length;
-        $("#tbody tr .bigNum select").each(function () {
+        $("#tbody tr .bigNum").each(function () {
             if ($(this).val() > maxQuesNum)
             {
                 maxQuesNum = parseInt($(this).val());
             }
         })
-        var html = $("#tbody").html();
+        var html = "";
+        var q = quesCount;
         for (var i = 0; i < count; i++)
         {
             maxQuesNum += 1;
-            html += "<tr><td class='bigNum'><select>";
+            q += 1;
+            html += "<tr><td>" + q + "</td > <td class='td1'><select class='bigNum'>";
             for (var j = 0; j < quesCount + (i + 1); j++)
             {
                 html += "<option value='" + (j + 1) + "'" + (maxQuesNum == j + 1 ? "selected" : "") + ">第" + (j + 1) + "题</option>";
             }
-            html +="</select ></td > ";
-            html += "<td><input class='smallNum' value='无' /></td>";
-            html += "<td><a class='rdo " + (quesType == 0 ? "choose" : "unchoose") + "' data-bind='0'>客观题</a><a class='rdo " + (quesType == 1 ? "choose" : "unchoose") + "' data-bind='1' style='margin-left:10px;'>主观题 </a></td>";
-            html += "<td>" + (quesType == 0 ? "<a class='chk unchoose' data-bind='A'>A</a><a class='chk unchoose' data-bind='B'>B</a><a class='chk unchoose' data-bind='C'>C</a><a class='chk unchoose' data-bind='D'>D</a>" : "") + "</td>";
-            html += "<td><a href='#'>删除</a></td></tr >";
+            html +="</select ></td> ";
+            html += "<td><input class='smallNum' value='' /></td>";
+            html += "<td class='td2'><a href='javascript:void(0)' class='rdo " + (quesType == 0 ? "choose" : "unchoose") + "' data-bind='0'>客观题</a><a class='rdo " + (quesType == 1 ? "choose" : "unchoose") + "' data-bind='1' style='margin-left:10px;'>主观题 </a></td>";
+            html += "<td class='td3'>" + (quesType == 0 ? "<a href='javascript:void(0)' class='chk unchoose' data-bind='A'>A</a><a href='javascript:void(0)' class='chk unchoose' data-bind='B'>B</a><a href='javascript:void(0)' class='chk unchoose' data-bind='C'>C</a><a href='javascript:void(0)' class='chk unchoose' data-bind='D'>D</a>" : "") + "</td>";
+            html += "<td class='td4'></td></tr >";
         }
-        $("#tbody").html(html);
-        initCheckbox();
+        $("#tbody").append(html);
         initSelecter();
+        initRdo();
+        initCheckbox();
+        setDeleteBtn(); //只允许删除最后一行
     })
 
+    var initRdo = function () {
+        $("#tbody .td2").unbind(); //不然会绑定多次
+        $("#tbody .td2").on("click", ".rdo", function () {
+            if ($(this).hasClass("unchoose")) {
+                $(this).removeClass("unchoose").addClass("choose").siblings(".rdo").removeClass("choose").addClass("unchoose");
+                if ($(this).attr("data-bind") == "0") {
+                    $(this).parents("td").next().html("<a href='javascript:void(0)' class='chk unchoose' data-bind='A'>A</a><a href='javascript:void(0)' class='chk unchoose' data-bind='B'>B</a><a href='javascript:void(0)' class='chk unchoose' data-bind='C'>C</a><a href='javascript:void(0)' class='chk unchoose' data-bind='D'>D</a>");
+                    initCheckbox();
+                }
+                else
+                {
+                    $(this).parents("td").next().html("");
+                }
+            }
+        })
+    }
+
     var initCheckbox = function () {
-        $(".popcontent .addedques .chk").on("click", function () {
+        $("#tbody .td3").unbind(); //不然会绑定多次
+        $("#tbody .td3").on("click", ".chk", function () {
             if ($(this).hasClass("unchoose")) {
                 $(this).removeClass("unchoose").addClass("choose");
             }
@@ -327,26 +351,122 @@
     }
 
     var initSelecter = function () {
-        $(".popcontent .addedques .bigNum").on("change", function () {
+        $("#tbody .td1").unbind(); //不然会绑定多次
+        $("#tbody .td1").on("change", ".bigNum", function () {
             var currentNum = $(this).val();
-            var preNum = $(this).parents("tr").prev().children(".bigNum").val();
-            if (currentNum == preNum)
-            {
-                var preSmallNum = $(this).parents("tr").prev().children(".smallNum").val();
-                if (preSmallNum == "无") {
+            var preNum = $(this).parents("tr").prev().find(".bigNum").val();
+            var nextNum = $(this).parents("tr").next().find(".bigNum").val();
+            if (currentNum < preNum) {
+                alert("大题号不能小于上一题的大题号！");
+                return false;
+            }
+            else if (currentNum == preNum) {
+                var preSmallNum = $(this).parents("tr").prev().find(".smallNum").val();
+                if (preSmallNum == "") {
                     preSmallNum = 1;
-                    $(this).parents("tr").prev().children(".smallNum").val("1");
+                    $(this).parents("tr").prev().find(".smallNum").val("1");
                 }
-                else
-                {
+                else {
                     preSmallNum = parseInt(preSmallNum);
-
                 }
+                preSmallNum += 1;
+                $(this).parents("tr").find(".smallNum").val(preSmallNum);
+                $(this).parents("tr").nextAll().each(function () {
+                    preSmallNum += 1;
+                    $(this).find(".bigNum").val(currentNum);
+                    $(this).find(".smallNum").val(preSmallNum);
+                })
+            }
+            else if (currentNum - preNum > 1)
+            {
+                alert("大题号必须连续！");
+                return false;
+            }
+            else {
+                preSmallNum = 1;
+                $(this).parents("tr").find(".smallNum").val(preSmallNum);
+                $(this).parents("tr").nextAll().each(function () {
+                    preSmallNum += 1;
+                    $(this).find(".bigNum").val(currentNum);
+                    $(this).find(".smallNum").val(preSmallNum);
+                })
             }
 
-            var nextNum = $(this).parents("tr").next().children(".bigNum").val();
-
-
+            ResetSmallNum();
         })
     }
+
+    //将大题只有一个，小题号为“1”的重置为“”
+    var ResetSmallNum = function () {
+        $("#tbody tr .smallNum").each(function () {
+            if ($(this).val() == "1") {
+                var bigNum = $(this).parents("tr").find(".bigNum").val();
+                if ($("#tbody tr .bigNum option:selected[value=" + bigNum + "]").length == 1) {
+                    $(this).val("");
+                }
+            }
+        })
+    }
+
+    var setDeleteBtn = function () {
+
+        $("#tbody tr .td4").each(function () {
+            $(this).html("");
+        })
+        var s = $("#tbody").find("tr:last").find(".td4");
+        s.html("<a href='javascript:void(0)' onclick='deleteRow();'>删除</a>");
+        
+    }
+
+    var deleteRow = function () {
+        $("#tbody").find("tr:last").remove();
+        setDeleteBtn();
+    }
+
+    $(".savebtn").on("click", function () {
+        
+        if ($("#tbody tr").length == 0) return false;
+        if ($("#tbody tr").each(function () {
+            if ($(this).find(".rdo.choose").attr("data-bind") == "0" && !$(this).find(".chk.choose"))
+            {
+                alert("还有客观题没有设置答案！");
+                return false;
+            }
+        })
+
+        var zynum = $(".uploadedinfo .zyno").html().replace("作业编号：", "");
+        var structstring = "";
+        var singleques = [];
+        var queslist = [];
+        $("#tbody tr").each(function () {
+            var singleques = [], quesanswer = [];
+            singleques.push($(this).find(".bigNum").val());
+            singleques.push($(this).find(".smallNum").val());
+            var qtype = $(this).find(".rdo.choose").attr("data-bind");
+            if (qtype == "0") {
+                $(this).find(".chk.choose").each(function () {
+                    quesanswer.push($(this).attr("data-bind"));
+                })
+                singleques.push(quesanswer.join(""));
+            }
+            else {
+                singleques.push("");
+            }
+            
+            queslist.push(singleques.join("-"));
+        })
+        structstring = queslist.join("|");
+        $.post("CreateZyStruct",
+            { zyNum: zynum, structString: structstring},
+            function (data) {
+                if (data == "0")
+                {
+                    //禁用所有button
+                    $(".addbtn .savebtn").hide();
+                    $(".setanswer").hide();
+                    $(".shade").hide();
+                }
+            })
+    })
+
 </script>
