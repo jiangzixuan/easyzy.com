@@ -66,5 +66,17 @@ namespace easyzy.com.Controllers
 
             return i > 0 ? "" : "Error";
         }
+
+        public ActionResult Open()
+        {
+            return View();
+        }
+
+        public JsonResult QueryZy(string zyNum)
+        {
+            int zyId = EasyzyConst.GetZyId(zyNum);
+            T_Zy zy = B_ZyRedis.GetZy(zyId);
+            return Json(zy);
+        }
     }
 }

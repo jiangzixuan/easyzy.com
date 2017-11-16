@@ -25,5 +25,16 @@ namespace easyzy.common
         {
             return int.Parse(ZyNum.Replace("Zy", ""));
         }
+
+        public enum CacheProject
+        {
+            EasyZy
+        }
+
+        public enum CacheCatalog
+        {
+            User,
+            Zy
+        }
     }
 }

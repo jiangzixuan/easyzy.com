@@ -164,6 +164,7 @@
     <Content Include="Images\easy.png" />
     <Content Include="Images\easyzy.png" />
     <Content Include="Images\radio.png" />
+    <Content Include="RedisConfig.xml" />
     <Content Include="Scripts\artDialog\css\ui-dialog.css" />
     <Content Include="Scripts\artDialog\dialog-plus-min.js" />
     <Content Include="Scripts\artDialog\dialog.js" />

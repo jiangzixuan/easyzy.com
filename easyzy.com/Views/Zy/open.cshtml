@@ -10,7 +10,27 @@
 </div>
 <div class="content">
     <div class="main-content">
-
+        <div class="zyquery">
+            作业编号：<input id="zyNum" /> <a href="javascript:void(0);" class="btn" onclick="query();">查询</a>
+        </div>
+        <div class="zyopen">
+            <label>作业编号：<b></b></label>
+            <iframe name="ifraRight" id="ifraBody" style="width:100%;" src="" frameborder="0" onLoad="this.height=500"></iframe>
+            <iframe name="ifraRight" id="ifraAnswer" style="width:100%;" src="" frameborder="0" onLoad="this.height=500"></iframe>
+        </div>
     </div>
 </div>
+
+
+<script type="text/javascript">
+    var query = function () {
+        var zyNum = $("#zyNum").val();
+        $.post("QueryZy",
+            { zyNum: zyNum },
+            function () {
+
+            })
+    }
+
+</script>
 
