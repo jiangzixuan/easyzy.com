@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace easyzy.bll
 {
-    class b_ZyRedis
+    class B_ZyRedis
     {
     }
 }

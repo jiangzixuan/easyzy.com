@@ -43,8 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="b_Zy.cs" />
-    <Compile Include="b_ZyRedis.cs" />
+    <Compile Include="B_Zy.cs" />
+    <Compile Include="B_ZyRedis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

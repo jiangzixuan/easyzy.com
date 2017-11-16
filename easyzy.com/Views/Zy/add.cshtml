@@ -426,14 +426,15 @@
     $(".savebtn").on("click", function () {
         
         if ($("#tbody tr").length == 0) return false;
-        if ($("#tbody tr").each(function () {
-            if ($(this).find(".rdo.choose").attr("data-bind") == "0" && !$(this).find(".chk.choose"))
-            {
+        var b = true;
+        $("#tbody tr").each(function () {
+            if ($(this).find(".rdo.choose").attr("data-bind") == "0" && $(this).find(".chk.choose").length == 0) {
                 alert("还有客观题没有设置答案！");
+                b = false;
                 return false;
             }
-        })
-
+        });
+        if (!b) return false;
         var zynum = $(".uploadedinfo .zyno").html().replace("作业编号：", "");
         var structstring = "";
         var singleques = [];
@@ -443,6 +444,7 @@
             singleques.push($(this).find(".bigNum").val());
             singleques.push($(this).find(".smallNum").val());
             var qtype = $(this).find(".rdo.choose").attr("data-bind");
+            singleques.push(qtype);
             if (qtype == "0") {
                 $(this).find(".chk.choose").each(function () {
                     quesanswer.push($(this).attr("data-bind"));
@@ -459,12 +461,15 @@
         $.post("CreateZyStruct",
             { zyNum: zynum, structString: structstring},
             function (data) {
-                if (data == "0")
-                {
+                if (data == "") {
                     //禁用所有button
                     $(".addbtn .savebtn").hide();
                     $(".setanswer").hide();
                     $(".shade").hide();
+                }
+                else
+                {
+                    alert("保存失败！")
                 }
             })
     })

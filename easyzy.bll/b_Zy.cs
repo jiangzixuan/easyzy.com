@@ -1,10 +1,12 @@
 ﻿using easyzy.common;
 using easyzy.model.entity;
 using MySql.Data.MySqlClient;
+using System.Collections.Generic;
+using System.Text;
 
 namespace easyzy.bll
 {
-    public class b_Zy
+    public class B_Zy
     {
         /// <summary>
         /// 查询作业
@@ -48,6 +50,24 @@ namespace easyzy.bll
                 "@Browser".ToVarCharInPara(zy.Browser)
                 );
             return o == null ? 0 : int.Parse(o.ToString());
+        }
+
+        /// <summary>
+        /// 新增作业结构
+        /// </summary>
+        /// <param name="zysl"></param>
+        /// <returns></returns>
+        public static int AddZyStruct(List<T_ZyStruct> zysl)
+        {
+            string sql = "";
+            StringBuilder sb = new StringBuilder();
+            foreach (var item in zysl)
+            {
+                sb.AppendFormat(",(null, {0},{1},{2},{3},'{4}','{5}')", item.ZyId, item.BqNum, item.SqNum, item.QuesType, item.QuesAnswer, item.CreateDate);
+            }
+            sql = sb.ToString().Substring(1);
+            sql = "insert into T_ZyStruct(Id, ZyId, BqNum, SqNum, QuesType, QuesAnswer, CreateDate) values" + sql;
+            return MySqlHelper.ExecuteNonQuery(Util.GetConnectString("EasyZy_Home"), sql);
         }
     }
 }

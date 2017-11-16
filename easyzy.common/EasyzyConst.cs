@@ -20,5 +20,10 @@ namespace easyzy.common
         {
             return "Zy" + id;
         }
+
+        public static int GetZyId(string ZyNum)
+        {
+            return int.Parse(ZyNum.Replace("Zy", ""));
+        }
     }
 }
