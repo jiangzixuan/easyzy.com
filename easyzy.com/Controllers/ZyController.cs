@@ -1,6 +1,7 @@
 ﻿using easyzy.bll;
 using easyzy.common;
 using easyzy.model.entity;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,11 +73,13 @@ namespace easyzy.com.Controllers
             return View();
         }
 
-        public JsonResult QueryZy(string zyNum)
+        public string QueryZy(string zyNum)
         {
             int zyId = EasyzyConst.GetZyId(zyNum);
             T_Zy zy = B_ZyRedis.GetZy(zyId);
-            return Json(zy);
+            
+
+            return JsonConvert.SerializeObject(zy);
         }
     }
 }

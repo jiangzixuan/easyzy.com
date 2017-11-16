@@ -69,8 +69,8 @@ namespace upload.easyzy.com.Controllers
                         bool b = FileHelper.Word2Html(filePath, htmlPath);
                         if (b)
                         {
-                            dto.WordPath = filePath;
-                            dto.HtmlPath = htmlPath;
+                            dto.WordPath = filePath.Replace("\\", "/");
+                            dto.HtmlPath = htmlPath.Replace("\\", "/");
                             result.Code = (int)ResponseCode.Success;
                             result.BussCode = (int)ResponseBussCode.Success;
                             result.Data = dto;
@@ -78,7 +78,7 @@ namespace upload.easyzy.com.Controllers
                         }
                         else
                         {
-                            dto.WordPath = filePath;
+                            dto.WordPath = filePath.Replace("\\", "/");
                             dto.HtmlPath = "";
                             result.Code = (int)ResponseCode.Error;
                             result.BussCode = (int)ResponseBussCode.Error;
@@ -88,7 +88,7 @@ namespace upload.easyzy.com.Controllers
                     }
                     else
                     {
-                        dto.WordPath = filePath;
+                        dto.WordPath = filePath.Replace("\\", "/");
                         dto.HtmlPath = "";
                         result.Code = (int)ResponseCode.Success;
                         result.BussCode = (int)ResponseBussCode.Success;

@@ -14,7 +14,6 @@
             作业编号：<input id="zyNum" /> <a href="javascript:void(0);" class="btn" onclick="query();">查询</a>
         </div>
         <div class="zyopen">
-            <label>作业编号：<b></b></label>
             <iframe name="ifraRight" id="ifraBody" style="width:100%;" src="" frameborder="0" onLoad="this.height=500"></iframe>
             <iframe name="ifraRight" id="ifraAnswer" style="width:100%;" src="" frameborder="0" onLoad="this.height=500"></iframe>
         </div>
@@ -27,8 +26,17 @@
         var zyNum = $("#zyNum").val();
         $.post("QueryZy",
             { zyNum: zyNum },
-            function () {
-
+            function (json) {
+                if (json == "null") {
+                    dialogAlert("此作业编码不存在！");
+                    $("#zyNum").focus();
+                }
+                else
+                {
+                    var data = JSON.parse(json);
+                    $("#ifraBody").attr("src", data.BodyHtmlPath);
+                    $("#ifraAnswer").attr("src", data.AnswerHtmlPath);
+                }
             })
     }
 

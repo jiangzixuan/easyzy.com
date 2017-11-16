@@ -23,7 +23,7 @@ namespace easyzy.common
 
         public static int GetZyId(string ZyNum)
         {
-            return int.Parse(ZyNum.Replace("Zy", ""));
+            return int.Parse(ZyNum.ToLower().Replace("zy", ""));
         }
 
         public enum CacheProject

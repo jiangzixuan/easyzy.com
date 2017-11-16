@@ -59,6 +59,7 @@ namespace easyzy.common
                 RedisModel rm = GetRedisModel(catelog);
                 //单实例方式，PooledRedisClientManager为集群方式
                 result = new RedisClient(rm.Ip, rm.Port, rm.Pwd, rm.Db);
+                RedisCatelogDictionary.TryAdd(catelog, result);
             }
             return result;
         }
