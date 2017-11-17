@@ -164,6 +164,7 @@
     <Content Include="Images\easy.png" />
     <Content Include="Images\easyzy.png" />
     <Content Include="Images\radio.png" />
+    <Content Include="Images\write.png" />
     <Content Include="RedisConfig.xml" />
     <Content Include="Scripts\artDialog\css\ui-dialog.css" />
     <Content Include="Scripts\artDialog\dialog-plus-min.js" />
@@ -208,6 +209,7 @@
     <Content Include="Views\Zy\add.cshtml" />
     <Content Include="Scripts\plupload\Moxie.xap" />
     <Content Include="Views\Zy\open.cshtml" />
+    <Content Include="Views\Zy\GetZyStruct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -44,7 +44,8 @@ namespace easyzy.com.Controllers
                 IMEI = "",
                 MobileBrand = "",
                 SystemType = Request.Browser.Platform.ToString(),
-                Browser = Request.Browser.Browser.ToString()
+                Browser = Request.Browser.Browser.ToString(),
+                Structed = false
             };
             int Id = B_Zy.Create(zy);
             return Id > 0 ? EasyzyConst.GetZyNum(Id) : "";
@@ -64,7 +65,8 @@ namespace easyzy.com.Controllers
                 zysl.Add(zys);
             }
             int i = B_Zy.AddZyStruct(zysl);
-
+            B_Zy.UpdateZyStructed(zyId);
+            B_ZyRedis.DeleteZyCache(zyId);
             return i > 0 ? "" : "Error";
         }
 
@@ -77,9 +79,27 @@ namespace easyzy.com.Controllers
         {
             int zyId = EasyzyConst.GetZyId(zyNum);
             T_Zy zy = B_ZyRedis.GetZy(zyId);
-            
+            if (zy != null)
+            {
+                string uploadurl = Util.GetAppSetting("UploadUrlPrefix");
+                zy.BodyHtmlPath = uploadurl + zy.BodyHtmlPath;
+                zy.AnswerHtmlPath = uploadurl + zy.AnswerHtmlPath;
+            }
 
             return JsonConvert.SerializeObject(zy);
+        }
+
+        public ActionResult GetZyStruct(string zyNum)
+        {
+            int zyId = EasyzyConst.GetZyId(zyNum);
+            T_Zy zy = B_ZyRedis.GetZy(zyId);
+            T_ZyStruct zys = null;
+            if (zy.Structed)
+            {
+                zys = B_ZyRedis.GetZyStruct(zyId);
+            }
+            
+            return PartialView(zys);
         }
     }
 }

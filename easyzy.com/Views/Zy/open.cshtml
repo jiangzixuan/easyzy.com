@@ -8,25 +8,41 @@
         <img src="/Images/boshimao.png" width="400" />
     </div>
 </div>
-<div class="content">
+
+<div class="content" id="mao">
     <div class="main-content">
         <div class="zyquery">
-            作业编号：<input id="zyNum" /> <a href="javascript:void(0);" class="btn" onclick="query();">查询</a>
+            <b>作业编号：</b><input id="zyNum" /><a class="btn" onclick="query();">查询</a>
         </div>
         <div class="zyopen">
+            <input id="zyNumQueried" type="hidden" />
             <iframe name="ifraRight" id="ifraBody" style="width:100%;" src="" frameborder="0" onLoad="this.height=500"></iframe>
             <iframe name="ifraRight" id="ifraAnswer" style="width:100%;" src="" frameborder="0" onLoad="this.height=500"></iframe>
         </div>
     </div>
 </div>
+<div class="fixed">
+    <a title="打开答题卡" class="write"><img src="/Images/write.png" width="70" height="70" /></a>
+</div>
+<div class="fixed answercard">
 
-
+</div>
 <script type="text/javascript">
     var query = function () {
+        var mao = $("#mao"); //获得锚点   
+        if (mao.length > 0) {//判断对象是否存在   
+            var pos = mao.offset().top;
+            var poshigh = mao.height();
+            var p = -1 * (pos - poshigh - 15) + "px";
+            $("html,body").animate({ scrollTop: p }, 800);
+        }
+
         var zyNum = $("#zyNum").val();
+        if (zyNum == "") return false;
         $.post("QueryZy",
             { zyNum: zyNum },
             function (json) {
+                $("#zyNumQueried").val(zyNum);
                 if (json == "null") {
                     dialogAlert("此作业编码不存在！");
                     $("#zyNum").focus();
@@ -39,6 +55,20 @@
                 }
             })
     }
+
+    $(".write").on("click", function () {
+        var zyNum = $("#zyNumQueried").val();
+        if (zyNum == "") return false;
+        //查询答题卡
+        $.post("GetZyStruct",
+            { zyNum: zyNum },
+            function (json) {
+                $(".answercard").html(json);
+                $(".answercard").show();
+                $(this).hide();
+            })
+        
+    })
 
 </script>
 

@@ -1,0 +1,23 @@
+﻿@using easyzy.model.entity;
+@{var list = Model as List<T_ZyStruct>; }
+
+@if (list == null)
+{
+    <div class="answerpic"></div>
+    <div class="answerbtn"><a href="javascript:void(0);" class="btn">上传答案</a></div>
+}
+else
+{
+    foreach (var q in list)
+    {
+        
+        if (q.QuesType == 0)
+        {
+
+        }
+        else
+        {
+
+        }
+    }
+}

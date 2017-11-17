@@ -1,6 +1,8 @@
 ﻿using easyzy.common;
+using System;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace easyzy.com
 {
@@ -32,6 +34,30 @@ namespace easyzy.com
                 var userParam = $"\r\n异常用户:{0}\r\n请求设备:{context}\r\n异常路由:{para.Url}";
 
                 LogHelper.Error(message + userParam);
+                //bool isajax = filterContext.HttpContext.Request.Headers["X-Requested-With"] == null ? false : true;
+                //if (isajax)
+                //{
+                //    //异步数据
+                //    dynamic response = new
+                //    {
+                //        Code = "500",
+                //        Data = "全局异常系统",
+                //        Message = filterContext.Exception.Message
+                //    };
+                //    JsonResult errorJson = new JsonResult
+                //    {
+                //        JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                //        Data = response
+                //    };
+                //    filterContext.Result = errorJson;
+                //}
+                //else
+                //{
+                //    //获取异常信息，入库保存 
+                //    Exception error = filterContext.Exception;
+                //    string Message = error.Message;//错误信息 
+                //    filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { action = "error", controller = "default", ReturnUrl = "", message = Message }));//new RedirectToRouteResult("error", dic);//new RedirectResult("/default/error/");//跳转至错误提示页面 
+                //}
                 base.OnException(filterContext);
             }
         }

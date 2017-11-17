@@ -31,5 +31,7 @@ namespace easyzy.model.entity
         public string SystemType { get; set; }
 
         public string Browser { get; set; }
+
+        public bool Structed { get; set; }
     }
 }

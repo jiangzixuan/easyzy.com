@@ -18,6 +18,11 @@ namespace easyzy.common
             return System.Configuration.ConfigurationManager.ConnectionStrings[Name].ToString();
         }
 
+        public static string GetAppSetting(string key)
+        {
+            return System.Configuration.ConfigurationManager.AppSettings[key];
+        }
+
         /// <summary>
         /// 计算总页数
         /// </summary>

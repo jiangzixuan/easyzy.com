@@ -36,7 +36,7 @@
         </div>
         <div class="uploadedinfo file" style="display:none;">
             <div>
-                文档已上传成功，作业编号：<b class="zyno"></b><br/>
+                文档已上传成功，<b class="zyno"></b><br/>
                 如果您未登录系统，请记住此编号，因为它将是完成此作业的唯一识别码。<br />
                 如果您已登录，可以在个人中心找到此作业相关信息。<br />
                 您还可以<a href="javascript:void(0)" class="btn" onclick="preview();">预览</a> 或者 <a class="btn" href="javascript:void(0)" onclick="setanswer();">设置答题卡</a><br />
@@ -156,6 +156,7 @@
                     uploader.removeFile(uploader.files[i]);
                 }
             }
+            
             $(".uploadbodypath").html(filename);
         }
         else {

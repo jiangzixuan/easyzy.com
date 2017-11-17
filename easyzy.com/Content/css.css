@@ -21,6 +21,8 @@ a.btn{border: 0;
     color:#fff;
 }
 
+.fixed{position:fixed; top:500px; right:250px;}
+
 /*Table 样式*/
 .tab-default{line-height:40px;background:#d7d7d7; font-size:14px;}
 .tab-default th{background:#f4f4f4;}
@@ -81,21 +83,21 @@ a.btn{border: 0;
 .slider{ background:#82f7da;}
 .slider .pic-field{padding:50px 0;width:1200px;}
 
-.content {width:1200px; padding-bottom:40px;}
-.content .func-field{ padding:50px 50px; }
+.content {padding-bottom:40px; background:#f4f4f4;}
+.content .func-field{ padding:50px 50px; height:250px; }
 .content .func-field .func{width:300px; margin-left:30px;}
 .content .func-field .func img{width:300px;}
 .content .func-field .func p{padding:5px 0; text-align:center;}
 .content .func-field .func p.funcname{font-size:18px;}
 
-.content .main-content{background:#fff; margin-top:20px;}
+.content .main-content{width:1200px; background:#fff; padding:20px;}
 
 .file{font-size:16px; border:1px dashed #15b0f5;padding:20px 0; margin-top:20px;}
 
 .fileupload .uploadline{clear:both; padding:10px 0 0 65px; line-height:30px;}
 .fileupload .uploadline .uploadname{width:200px; text-align:right;}
 
-.fileupload .uploadline .uploadpath{width:400px; height:30px; border:1px solid #ffd800; padding:0 5px;}
+.fileupload .uploadline .uploadpath{width:400px; height:30px; border:1px solid #ffd800; padding:0 5px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;}
 .fileupload .upload-file{list-style-type:none;right: 0;top: 0;opacity: 0; position:absolute;}
 .uploadfile .choose{padding:0 10px; border:1px solid #808080; background:#e4e6ed; cursor:pointer;}
 .uploadfile .progressbar{width:250px; height:30px; border:1px solid #ffd800; margin-left:20px;}
@@ -121,8 +123,14 @@ a.btn{border: 0;
 .addedques input{width:50px; height:20px;}
 .popcontent .addedques .chk{margin-left: 20px;}
 
-.main-content .zyquery{text-align:center;}
+.main-content .zyquery{text-align:center; padding: 20px 0;}
+.main-content .zyquery b{font-size:20px;}
+.main-content .zyquery input{height:25px; font-size:20px; font-weight:bold;}
+.main-content .zyquery a{margin-left:10px;}
 .main-content .zyopen{display:block; text-align:center; }
+
+.write{cursor:pointer;}
+.answercard{background:#82f7da;}
 
 .foot-wrap{width: 100%;min-width: 1000px;padding: 30px 0;overflow: hidden;background: #333;}
 .foot{text-align:center; color:#e4e6ed;}

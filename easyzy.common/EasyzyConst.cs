@@ -34,7 +34,8 @@ namespace easyzy.common
         public enum CacheCatalog
         {
             User,
-            Zy
+            Zy,
+            ZyStruct
         }
     }
 }
