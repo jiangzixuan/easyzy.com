@@ -52,7 +52,7 @@ namespace easyzy.bll
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public static T_ZyStruct GetZyStruct(int Id)
+        public static List<T_ZyStruct> GetZyStruct(int Id)
         {
             Dictionary<string, string> tempresult = null;
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.ZyStruct, Id.ToString());
@@ -63,21 +63,21 @@ namespace easyzy.bll
                     tempresult = client.GetAllEntriesFromHash(key);
                 }
             }
-            T_ZyStruct result = null;
+            List<T_ZyStruct> result = null;
             if (tempresult.Count != 0)
             {
-                result = RedisHelper.ConvertDicToEntitySingle<T_ZyStruct>(tempresult);
+                result = RedisHelper.ConvertDicToEntitySingle<List<T_ZyStruct>>(tempresult);
             }
             else
             {
                 result = B_Zy.GetZyStruct(Id);
                 if (result != null)
                 {
-                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.ZyStruct.ToString()))
-                    {
-                        if (cl != null)
-                            cl.SetRangeInHash(key, GetZyStructKeyValuePairs(result));
-                    }
+                    //using (var cl = RedisHelper.GetRedisClient(CacheCatalog.ZyStruct.ToString()))
+                    //{
+                    //    if (cl != null)
+                    //        cl.SetRangeInHash(key, GetZyStructKeyValuePairs(result));
+                    //}
                 }
             }
             return result;

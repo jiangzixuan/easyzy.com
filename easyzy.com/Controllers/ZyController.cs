@@ -93,7 +93,7 @@ namespace easyzy.com.Controllers
         {
             int zyId = EasyzyConst.GetZyId(zyNum);
             T_Zy zy = B_ZyRedis.GetZy(zyId);
-            T_ZyStruct zys = null;
+            List<T_ZyStruct> zys = null;
             if (zy.Structed)
             {
                 zys = B_ZyRedis.GetZyStruct(zyId);

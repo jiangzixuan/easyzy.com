@@ -8,16 +8,27 @@
 }
 else
 {
-    foreach (var q in list)
+    foreach(var q in list)
     {
-        
+        <b>第@(q.BqNum)大题</b>
+        if (q.SqNum != 0)
+        {
+            <b>第@(q.SqNum)小题</b>
+        }
         if (q.QuesType == 0)
         {
-
+            if (q.QuesAnswer.Length == 1)
+            {
+                <span><a href="javascript:void(0);" class="rdo">A</a><a href="javascript:void(0);" class="rdo">B</a><a href="javascript:void(0);" class="rdo">C</a><a href="javascript:void(0);" class="rdo">D</a></span>
+            }
+            else
+            {
+                <span><a href="javascript:void(0);" class="chk">A</a><a href="javascript:void(0);" class="chk">B</a><a href="javascript:void(0);" class="chk">C</a><a href="javascript:void(0);" class="chk">D</a></span>
+            }
         }
         else
         {
-
+            <div class="answerbtn"><a href="javascript:void(0);" class="btn">上传答案</a></div>
         }
     }
 }

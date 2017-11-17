@@ -90,16 +90,16 @@ namespace easyzy.bll
         /// </summary>
         /// <param name="zyId"></param>
         /// <returns></returns>
-        public static T_ZyStruct GetZyStruct(int zyId)
+        public static List<T_ZyStruct> GetZyStruct(int zyId)
         {
-            T_ZyStruct model = null;
+            List<T_ZyStruct> model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString("EasyZy_Home"),
                 "select Id, ZyId, BqNum, SqNum, QuesType, QuesAnswer, CreateDate from T_ZyStruct where ZyId = @ZyId",
                 "@ZyId".ToInt32InPara(zyId)))
             {
                 if (dr != null && dr.HasRows)
                 {
-                    model = MySqlDBHelper.ConvertDataReaderToEntitySingle<T_ZyStruct>(dr);
+                    model = MySqlDBHelper.ConvertDataReaderToEntityList<T_ZyStruct>(dr);
                 }
             }
             return model;

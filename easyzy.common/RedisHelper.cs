@@ -84,6 +84,20 @@ namespace easyzy.common
             return dic.ToJson().FromJson<T>();
 
         }
+
+        public static List<T> ConvertDicToEntitySingle<T>(List<Dictionary<string, string>> dic) where T : new()
+        {
+            if (dic == null)
+            {
+                return new List<T>();
+            }
+            List<T> result = new List<T>();
+            foreach (var d in dic)
+            {
+                result.Add(ConvertDicToEntitySingle<T>(d));
+            }
+            return result;
+        }
     }
 
     public class RedisModel
