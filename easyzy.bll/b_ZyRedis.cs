@@ -1,5 +1,6 @@
 ﻿using easyzy.common;
 using easyzy.model.entity;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,7 +77,8 @@ namespace easyzy.bll
                     //using (var cl = RedisHelper.GetRedisClient(CacheCatalog.ZyStruct.ToString()))
                     //{
                     //    if (cl != null)
-                    //        cl.SetRangeInHash(key, GetZyStructKeyValuePairs(result));
+                    //        cl.Set<byte[]>(key, JsonConvert.SerializeObject(result).ToString());
+                    //    //cl.SetRangeInHash(key, GetZyStructKeyValuePairs(result));
                     //}
                 }
             }
