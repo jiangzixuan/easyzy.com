@@ -137,7 +137,8 @@ a.btn{border: 0;
 .answercard span{height:30px; line-height:30px;}
 .answercard .ques span a{margin-left:10px;}
 .answercard .ques .left{padding:5px 10px;}
-.answercard .anspic{padding:5px 10px; clear:both;}
+.answercard .anspic, .answercard .anspiclist{padding:5px 10px; clear:both;}
+.answercard .anspiclist img{margin-left:10px;}
 .answercard .func{padding:5px 10px;}
 
 .foot-wrap{width: 100%;min-width: 1000px;padding: 30px 0;overflow: hidden;background: #333;}

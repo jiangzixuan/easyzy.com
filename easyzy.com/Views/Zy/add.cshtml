@@ -98,7 +98,8 @@
         body_word: '',
         body_html: '',
         answer_word: '',
-        answer_html:''
+        answer_html: '',
+        UploadUrl:'@ViewBag.UploadUrl'
     }
 
     $(".choosebody").on("click", function () {
@@ -115,7 +116,7 @@
     var uploader = new plupload.Uploader({
         runtimes: 'html5,flash,silverlight,html4',//
         browse_button: 'file', //触发文件选择对话框的按钮，为那个元素id
-        url: 'http://upload.easyzy.com/api/word', //服务器端的上传页面地址
+        url: cur_data.UploadUrl + '/api/word', //服务器端的上传页面地址
         //url: 'http://localhost:63428/api/word',
         flash_swf_url: '/plupload/Moxie.swf', //swf文件，当需要使用swf方式进行上传时需要配置该参数
         silverlight_xap_url: '/plupload/Moxie.xap', //silverlight文件，当需要使用silverlight方式进行上传时需要配置该参数

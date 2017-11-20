@@ -44,43 +44,47 @@ namespace upload.easyzy.com.Controllers
             {
                 imgPathList = new List<string>();
                 int imgFunc = Convert.ToInt32(HttpContext.Current.Request.Form["func"]);
-                foreach (HttpPostedFile file in files)
+                string msg = "";
+                for (int i = 0; i < files.Count; i++)
                 {
                     try
                     {
-                        string FileName = file.FileName;
+                        HttpPostedFile f = files[i];
+                        string FileName = f.FileName;
                         string Pattern = FileName.Substring(FileName.LastIndexOf(".") + 1);
                         if (!EasyzyConst.ImgPattern.Contains(Pattern))
                         {
                             imgPathList.Add("上传文件类型错误");
+                            msg = "有文件上传失败！";
                             continue;
                         }
                         //根据word类型决定存放word的相对路径
                         string path = "";
-                        
-                        path = "\\word\\" + imgFunc;
+
+                        path = "\\img\\" + imgFunc;
                         string saveName = UniqueObjectID.GenerateStrNewId();
-                        filePath = FileHelper.SaveFile(file, path, saveName);
+                        filePath = FileHelper.SaveFile(f, path, saveName);
 
                         imgPathList.Add(filePath.Replace("\\", "/"));
                     }
                     catch (Exception ex)
                     {
                         imgPathList.Add(ex.Message);
+                        msg = "有文件上传失败！";
                     }
                 }
 
                 result.Code = (int)ResponseCode.Success;
                 result.BussCode = (int)ResponseBussCode.Success;
                 result.Data = imgPathList;
-                result.Message = "";
+                result.Message = msg;
             }
             else
             {
                 result.Code = (int)ResponseCode.DataNotExist;
                 result.BussCode = (int)ResponseBussCode.Error;
                 result.Data = null;
-                result.Message = "找不到上传文件";
+                result.Message = "找不到任何上传的文件";
             }
             return result;
         }

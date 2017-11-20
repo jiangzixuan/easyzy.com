@@ -63,15 +63,16 @@
                 else
                 {
                     var data = JSON.parse(json);
-                    $("#ifraBody").attr("src", data.BodyHtmlPath);
-                    $("#ifraAnswer").attr("src", data.AnswerHtmlPath);
+                    $("#ifraBody").attr("src", cur_data.UploadUrl + data.BodyHtmlPath);
+                    $("#ifraAnswer").attr("src", cur_data.UploadUrl + data.AnswerHtmlPath);
                 }
             })
     }
 
     var cur_data = {
         QAsnwerCard: false,
-        UploadQuesId:0
+        UploadQuesId: 0,
+        UploadUrl: '@ViewBag.UploadUrl'
     }
 
     $(".write").on("click", function () {
@@ -134,7 +135,7 @@
     var uploader = new plupload.Uploader({
         runtimes: 'html5,flash,silverlight,html4',//
         browse_button: 'file', //触发文件选择对话框的按钮，为那个元素id
-        url: 'http://upload.easyzy.com/api/img', //服务器端的上传页面地址
+        url: cur_data.UploadUrl + '/api/img', //服务器端的上传页面地址
         //url: 'http://localhost:63428/api/img',
         flash_swf_url: '/plupload/Moxie.swf', //swf文件，当需要使用swf方式进行上传时需要配置该参数
         silverlight_xap_url: '/plupload/Moxie.xap', //silverlight文件，当需要使用silverlight方式进行上传时需要配置该参数
@@ -159,20 +160,6 @@
     //每个事件监听函数都会传入一些很有用的参数，
     //我们可以利用这些参数提供的信息来做比如更新UI，提示上传进度等操作
     uploader.bind('FilesAdded', function (uploader, files) {
-        //var fileid = files[0].id;
-
-        //var filename = files[0].name;
-        //cur_data.bodyid = fileid;
-        ////去除其他
-        //for (var i = 0; i < uploader.files.length; i++) {
-        //    if (uploader.files[i].id != fileid && uploader.files[i].id != cur_data.answerid) {
-        //        uploader.removeFile(uploader.files[i]);
-        //    }
-        //}
-
-        //$(".uploadbodypath").html(filename);
-        
-        
         jQuery.support.cors = true; //支持跨域访问
         uploader.start();
     })
@@ -181,7 +168,7 @@
     uploader.bind('BeforeUpload', function (uploader, file) {
         uploader.setOption({
             'multipart_params': {
-                func: @ViewBag.PicFunc
+                func: @ViewBag.PicFunc,
             }
         });
     })
@@ -192,19 +179,20 @@
         if (json.Code != 1200 || json.BussCode != 1000) {
             dialogAlert(json.Message);
         }
-        else
-        {
-            if (file.id == cur_data.bodyid) {
-                cur_data.body_word = json.Data.WordPath;
-                cur_data.body_html = json.Data.HtmlPath;
-            }
-            else {
-                cur_data.answer_word = json.Data.WordPath;
-                cur_data.answer_html = json.Data.HtmlPath;
+        else {
+            for (var i = 0; i < json.Data.length; i++) {
+                $(".anspiclist").append("<img src='" + cur_data.UploadUrl + json.Data[i] + "' width='80' height='80' />");
             }
         }
     })
 
+    //所有文件上传完成
+    uploader.bind('UploadComplete', function (uploader, files) {
+        for (var i = 0; i < uploader.files.length; i++) {
+            uploader.removeFile(uploader.files[i]);
+        }
+
+    });
     
 </script>
 

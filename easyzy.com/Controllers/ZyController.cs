@@ -26,6 +26,7 @@ namespace easyzy.com.Controllers
             //var zy = b_Zy.GetZy(1000000);
 
             ViewBag.WordFunc = (int)EasyzyConst.WordFunc.CreateZY;
+            ViewBag.UploadUrl = Util.GetAppSetting("UploadUrlPrefix");
             return View();
         }
 
@@ -72,6 +73,7 @@ namespace easyzy.com.Controllers
 
         public ActionResult Open()
         {
+            ViewBag.UploadUrl = Util.GetAppSetting("UploadUrlPrefix");
             ViewBag.PicFunc = (int)EasyzyConst.ImgFunc.SubmitAnswer;
             return View();
         }
@@ -82,9 +84,8 @@ namespace easyzy.com.Controllers
             T_Zy zy = B_ZyRedis.GetZy(zyId);
             if (zy != null)
             {
-                string uploadurl = Util.GetAppSetting("UploadUrlPrefix");
-                zy.BodyHtmlPath = uploadurl + zy.BodyHtmlPath;
-                zy.AnswerHtmlPath = uploadurl + zy.AnswerHtmlPath;
+                zy.BodyHtmlPath = zy.BodyHtmlPath;
+                zy.AnswerHtmlPath = zy.AnswerHtmlPath;
             }
 
             return JsonConvert.SerializeObject(zy);

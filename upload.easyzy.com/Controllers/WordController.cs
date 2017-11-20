@@ -110,7 +110,7 @@ namespace upload.easyzy.com.Controllers
                 result.Code = (int)ResponseCode.DataNotExist;
                 result.BussCode = (int)ResponseBussCode.Error;
                 result.Data = null;
-                result.Message = "找不到上传文件";
+                result.Message = "找不到任何上传的文件";
             }
             return result;
         }
