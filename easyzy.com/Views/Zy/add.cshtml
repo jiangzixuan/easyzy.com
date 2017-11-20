@@ -40,7 +40,7 @@
                 如果您未登录系统，请记住此编号，因为它将是完成此作业的唯一识别码。<br />
                 如果您已登录，可以在个人中心找到此作业相关信息。<br />
                 您还可以<a href="javascript:void(0)" class="btn" onclick="preview();">预览</a> 或者 <a class="btn" href="javascript:void(0)" onclick="setanswer();">设置答题卡</a><br />
-                设置答题卡后，系统将能自动批改客观题，同时为每道主观题提供单独上传答案的入口，否则学生将只能以作业为单位上传答案，并且不能自动批改客观题。
+                设置答题卡后，系统将能自动批改客观题。
             </div>
         </div>
         
@@ -235,7 +235,7 @@
             dialogAlert("尚未选择任何文档！");
         }
         else {
-            jQuery.support.cors = true;
+            jQuery.support.cors = true;  //支持跨域访问
             uploader.start();
         }
     })

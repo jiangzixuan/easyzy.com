@@ -72,6 +72,7 @@ namespace easyzy.com.Controllers
 
         public ActionResult Open()
         {
+            ViewBag.PicFunc = (int)EasyzyConst.ImgFunc.SubmitAnswer;
             return View();
         }
 

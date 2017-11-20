@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "易作业-做作业";
-    ViewBag.Keywords = "做作业-图片上传主观题答案";
+    ViewBag.Keywords = "做作业-通过图片上传主观题答案";
     ViewBag.Description = "做作业";
 }
 <div class="slider">
@@ -21,16 +21,28 @@
         </div>
     </div>
 </div>
-<div class="fixed">
+<div class="fixed writetip">
     <a title="打开答题卡" class="write"><img src="/Images/write.png" width="70" height="70" /></a>
 </div>
+
+<input id="file" class="fl upload-file" type="file" style="z-index: 1;" />
 <div class="fixed answercard">
 
 </div>
+
+<script src="/Scripts/plupload/moxie.js"></script>
+<script src="/Scripts/plupload/plupload.dev.js"></script>
 <script type="text/javascript">
+
+    $("body").bind("keyup", function (event) {
+        if (event.keyCode == 13) {
+            query();
+        }
+    });
+
     var query = function () {
-        var mao = $("#mao"); //获得锚点   
-        if (mao.length > 0) {//判断对象是否存在   
+        var mao = $("#mao"); //获得锚点
+        if (mao.length > 0) {//判断对象是否存在
             var pos = mao.offset().top;
             var poshigh = mao.height();
             var p = -1 * (pos - poshigh - 15) + "px";
@@ -43,6 +55,7 @@
             { zyNum: zyNum },
             function (json) {
                 $("#zyNumQueried").val(zyNum);
+                cur_data.QAsnwerCard = false;
                 if (json == "null") {
                     dialogAlert("此作业编码不存在！");
                     $("#zyNum").focus();
@@ -56,19 +69,142 @@
             })
     }
 
+    var cur_data = {
+        QAsnwerCard: false,
+        UploadQuesId:0
+    }
+
     $(".write").on("click", function () {
-        var zyNum = $("#zyNumQueried").val();
-        if (zyNum == "") return false;
-        //查询答题卡
-        $.post("GetZyStruct",
-            { zyNum: zyNum },
-            function (json) {
-                $(".answercard").html(json);
-                $(".answercard").show();
-                $(this).hide();
-            })
-        
+        if (!cur_data.QAsnwerCard) {
+            var zyNum = $("#zyNumQueried").val();
+            if (zyNum == "") return false;
+            //查询答题卡
+            $.post("GetZyStruct",
+                { zyNum: zyNum },
+                function (json) {
+                    cur_data.QAsnwerCard = true;
+                    $(".answercard").html(json);
+                    $(".answercard").show();
+                    $(this).hide();
+                    initRdo();
+                    initCheckbox();
+                    initPic();
+                })
+        }
+        else
+        {
+            $(".answercard").show();
+            $(this).hide();
+        }
+
     })
 
+    var closepop = function () {
+        $(".answercard").hide();
+        $(".write").show();
+    }
+
+    var initRdo = function () {
+        $(".answercard .ques").on("click", ".rdo", function () {
+            if ($(this).hasClass("unchoose")) {
+                $(this).removeClass("unchoose").addClass("choose").siblings(".rdo").removeClass("choose").addClass("unchoose");
+            }
+        })
+    }
+
+    var initCheckbox = function () {
+        $(".answercard .ques").on("click", ".chk", function () {
+            if ($(this).hasClass("unchoose")) {
+                $(this).removeClass("unchoose").addClass("choose");
+            }
+            else {
+                $(this).removeClass("choose").addClass("unchoose");
+            }
+        })
+    }
+
+    var initPic = function () {
+        $(".uploadpic").on("click", function () {
+            $("#file").click();
+        })
+    }
+
+    //上传答案图片
+    //实例化一个plupload上传对象
+    var uploader = new plupload.Uploader({
+        runtimes: 'html5,flash,silverlight,html4',//
+        browse_button: 'file', //触发文件选择对话框的按钮，为那个元素id
+        url: 'http://upload.easyzy.com/api/img', //服务器端的上传页面地址
+        //url: 'http://localhost:63428/api/img',
+        flash_swf_url: '/plupload/Moxie.swf', //swf文件，当需要使用swf方式进行上传时需要配置该参数
+        silverlight_xap_url: '/plupload/Moxie.xap', //silverlight文件，当需要使用silverlight方式进行上传时需要配置该参数
+        fileUploadContainer: "fileupload",//上传控件的dom元素ID
+        filters: {
+            mime_types: [ //只允许上传img文件
+                { title: "img files", extensions: "jpg,jpeg,png,bmp" }
+            ],
+            max_file_size: '2mb', //最大只能上传400kb的文件
+            prevent_duplicates: true //不允许选取重复文件
+        },
+        multi_selection: true,
+        max_file_size: '2mb',//文件最大限制
+        chunk_size: '0'
+        //chunk_size: '1mb'//分片上传文件时，每片文件被切割成的大小，为数字时单位为字节
+    });
+
+    //在实例对象上调用init()方法进行初始化
+    uploader.init();
+
+    //绑定各种事件，并在事件监听函数中做你想做的事
+    //每个事件监听函数都会传入一些很有用的参数，
+    //我们可以利用这些参数提供的信息来做比如更新UI，提示上传进度等操作
+    uploader.bind('FilesAdded', function (uploader, files) {
+        //var fileid = files[0].id;
+
+        //var filename = files[0].name;
+        //cur_data.bodyid = fileid;
+        ////去除其他
+        //for (var i = 0; i < uploader.files.length; i++) {
+        //    if (uploader.files[i].id != fileid && uploader.files[i].id != cur_data.answerid) {
+        //        uploader.removeFile(uploader.files[i]);
+        //    }
+        //}
+
+        //$(".uploadbodypath").html(filename);
+        
+        
+        jQuery.support.cors = true; //支持跨域访问
+        uploader.start();
+    })
+
+    //上传前
+    uploader.bind('BeforeUpload', function (uploader, file) {
+        uploader.setOption({
+            'multipart_params': {
+                func: @ViewBag.PicFunc
+            }
+        });
+    })
+
+    //单个文件上传完成
+    uploader.bind('FileUploaded', function (uploader, file, data) {
+        var json = JSON.parse(data.response);
+        if (json.Code != 1200 || json.BussCode != 1000) {
+            dialogAlert(json.Message);
+        }
+        else
+        {
+            if (file.id == cur_data.bodyid) {
+                cur_data.body_word = json.Data.WordPath;
+                cur_data.body_html = json.Data.HtmlPath;
+            }
+            else {
+                cur_data.answer_word = json.Data.WordPath;
+                cur_data.answer_html = json.Data.HtmlPath;
+            }
+        }
+    })
+
+    
 </script>
 

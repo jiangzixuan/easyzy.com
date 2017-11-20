@@ -53,33 +53,35 @@ namespace easyzy.bll
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public static List<T_ZyStruct> GetZyStruct(int Id)
+        public static List<T_ZyStruct> GetZyStruct(int ZyId)
         {
-            Dictionary<string, string> tempresult = null;
-            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.ZyStruct, Id.ToString());
+            string tempresult = null;
+
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.ZyStruct, ZyId.ToString());
             using (var client = RedisHelper.GetRedisClient(CacheCatalog.ZyStruct.ToString()))
             {
                 if (client != null)
                 {
-                    tempresult = client.GetAllEntriesFromHash(key);
+                    tempresult = client.Get<string>(key);
                 }
             }
             List<T_ZyStruct> result = null;
-            if (tempresult.Count != 0)
+            if (!string.IsNullOrEmpty(tempresult))
             {
-                result = RedisHelper.ConvertDicToEntitySingle<List<T_ZyStruct>>(tempresult);
+                result = JsonConvert.DeserializeObject<List<T_ZyStruct>>(tempresult);
             }
             else
             {
-                result = B_Zy.GetZyStruct(Id);
+                result = B_Zy.GetZyStruct(ZyId);
                 if (result != null)
                 {
-                    //using (var cl = RedisHelper.GetRedisClient(CacheCatalog.ZyStruct.ToString()))
-                    //{
-                    //    if (cl != null)
-                    //        cl.Set<byte[]>(key, JsonConvert.SerializeObject(result).ToString());
-                    //    //cl.SetRangeInHash(key, GetZyStructKeyValuePairs(result));
-                    //}
+                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.ZyStruct.ToString()))
+                    {
+                        if (cl != null)
+                        {
+                            cl.Set<string>(key, JsonConvert.SerializeObject(result));
+                        }
+                    }
                 }
             }
             return result;

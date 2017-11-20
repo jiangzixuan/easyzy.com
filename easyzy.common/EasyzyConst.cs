@@ -16,6 +16,11 @@ namespace easyzy.common
             CreateZY = 0
         }
 
+        public enum ImgFunc
+        {
+            SubmitAnswer = 0
+        }
+
         public static string GetZyNum(int id)
         {
             return "Zy" + id;
@@ -37,5 +42,7 @@ namespace easyzy.common
             Zy,
             ZyStruct
         }
+
+        public static string[] ImgPattern = new string[] { "jpg", "jpeg", "png", "bmp" };
     }
 }

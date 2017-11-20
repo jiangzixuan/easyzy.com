@@ -1,34 +1,56 @@
 ﻿@using easyzy.model.entity;
 @{var list = Model as List<T_ZyStruct>; }
 
-@if (list == null)
-{
-    <div class="answerpic"></div>
-    <div class="answerbtn"><a href="javascript:void(0);" class="btn">上传答案</a></div>
-}
-else
-{
-    foreach(var q in list)
+<div class="ques">
+    <div class="cardtitle">答题卡，点击关闭按钮可以暂存并收起答题卡<img src="/Images/close.png" class="popclose" onclick="closepop();" /></div>
+    @{ bool b = false;}
+    @if (list != null)
     {
-        <b>第@(q.BqNum)大题</b>
-        if (q.SqNum != 0)
+        foreach (var q in list)
         {
-            <b>第@(q.SqNum)小题</b>
-        }
-        if (q.QuesType == 0)
-        {
-            if (q.QuesAnswer.Length == 1)
+            if (q.QuesType == 0)
             {
-                <span><a href="javascript:void(0);" class="rdo">A</a><a href="javascript:void(0);" class="rdo">B</a><a href="javascript:void(0);" class="rdo">C</a><a href="javascript:void(0);" class="rdo">D</a></span>
+                <div class="left">
+                    <b>@q.BqNum</b>
+                    @if (q.SqNum != 0)
+                    {
+                        <b>-@(q.SqNum)</b>
+                    }
+                
+                    @if (q.QuesAnswer.Length == 1)
+                    {
+                        <span data-bind="@q.Id"><a href="javascript:void(0);" class="rdo unchoose">A</a><a href="javascript:void(0);" class="rdo unchoose">B</a><a href="javascript:void(0);" class="rdo unchoose">C</a><a href="javascript:void(0);" class="rdo unchoose">D</a></span>
+                    }
+                    else
+                    {
+                        <span data-bind="@q.Id"><a href="javascript:void(0);" class="chk unchoose">A</a><a href="javascript:void(0);" class="chk unchoose">B</a><a href="javascript:void(0);" class="chk unchoose">C</a><a href="javascript:void(0);" class="chk unchoose">D</a></span>
+                    }
+                </div>
             }
             else
             {
-                <span><a href="javascript:void(0);" class="chk">A</a><a href="javascript:void(0);" class="chk">B</a><a href="javascript:void(0);" class="chk">C</a><a href="javascript:void(0);" class="chk">D</a></span>
+                b = true;
             }
         }
-        else
-        {
-            <div class="answerbtn"><a href="javascript:void(0);" class="btn">上传答案</a></div>
-        }
     }
-}
+    
+    @if (b)
+    {
+        <div class="anspic">
+            <label>上传主观题图片。可多道题答案上传在一张图片上</label><br/>
+            <a href="javascript:void(0);" class="uploadpic"><img src="/Images/addpic.jpg" width="80" height="80" /></a>
+        </div>
+    }
+    
+    @if (list == null)
+    {
+        <div class="anspic">
+            <label>未设置答题卡，请通过上传图片作答。可多道题答案上传在一张图片上</label><br />
+            <a href="javascript:void(0);" class="uploadpic"><img src="/Images/addpic.jpg" width="80" height="80" /></a>
+        </div>
+    }
+</div>
+<div class="func">
+    姓名：<input placeholder="署上大名" id="truename" />
+    <a class="btn">提交</a>
+</div>
