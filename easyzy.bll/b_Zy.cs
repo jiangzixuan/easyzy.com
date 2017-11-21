@@ -78,7 +78,7 @@ namespace easyzy.bll
         /// <returns></returns>
         public static int UpdateZyStructed(int zyId)
         {
-            object o = MySqlHelper.ExecuteScalar(Util.GetConnectString("EasyZy_Home"),
+            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString("EasyZy_Home"),
                 "update T_Zy set Structed = 1 where Id = @Id",
                 "@Id".ToInt32InPara(zyId)
                 );
@@ -103,6 +103,45 @@ namespace easyzy.bll
                 }
             }
             return model;
+        }
+
+        /// <summary>
+        /// 提交答案
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public static int AddZyAnswer(T_Answer a)
+        {
+            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString("EasyZy_Home"),
+                "insert into T_Answer(Id, ZyId, StudentId, TrueName, AnswerJson, AnswerImg, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser) values (null, @ZyId, @StudentId, @TrueName, @AnswerJson, @AnswerImg, @CreateDate, @Ip, @IMEI, @MobileBrand, @SystemType, @Browser);",
+                "@ZyId".ToInt32InPara(a.ZyId),
+                "@StudentId".ToInt32InPara(a.StudentId),
+                "@TrueName".ToVarCharInPara(a.TrueName),
+                "@AnswerJson".ToVarCharInPara(a.AnswerJson),
+                "@AnswerImg".ToVarCharInPara(a.AnswerImg),
+                "@CreateDate".ToDateTimeInPara(a.CreateDate),
+                "@Ip".ToVarCharInPara(a.Ip),
+                "@IMEI".ToVarCharInPara(a.IMEI),
+                "@MobileBrand".ToVarCharInPara(a.MobileBrand),
+                "@SystemType".ToVarCharInPara(a.SystemType),
+                "@Browser".ToVarCharInPara(a.Browser)
+                );
+            return o == null ? 0 : int.Parse(o.ToString());
+        }
+
+        /// <summary>
+        /// 根据真实姓名判断作业是否提交过
+        /// </summary>
+        /// <param name="zyId"></param>
+        /// <param name="trueName"></param>
+        /// <returns></returns>
+        public static bool IsZySubmited(int zyId, string trueName)
+        {
+            object o = MySqlHelper.ExecuteScalar(Util.GetConnectString("EasyZy_Home"),
+                "select 1 from T_Answer where ZyId = @ZyId and TrueName = @TrueName limit 1",
+                "@ZyId".ToInt32InPara(zyId),
+                "@TrueName".ToVarCharInPara(trueName));
+            return o == null ? false : true;
         }
     }
 }

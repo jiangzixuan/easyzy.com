@@ -56,32 +56,6 @@ namespace easyzy.common
         }
 
         /// <summary>
-        /// 获取IP
-        /// </summary>
-        /// <returns></returns>
-        public static string GetUserIP()
-        {
-            string User_IP;
-            try
-            {
-                if (HttpContext.Current.Request.ServerVariables["HTTP_VIA"] != null)
-                {
-                    User_IP = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].ToString();
-                }
-                else
-                {
-                    User_IP = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"].ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error("获取用户ID异常：" + ex.Message);
-                return "127.0.0.1";
-            }
-            return User_IP;
-        }
-
-        /// <summary>
         /// 时间戳转时间
         /// </summary>
         /// <param name="timestamp"></param>

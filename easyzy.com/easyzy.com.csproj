@@ -211,6 +211,7 @@
     <Content Include="Scripts\plupload\Moxie.xap" />
     <Content Include="Views\Zy\open.cshtml" />
     <Content Include="Views\Zy\getzystruct.cshtml" />
+    <Content Include="Views\Zy\query.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

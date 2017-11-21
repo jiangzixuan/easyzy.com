@@ -17,7 +17,6 @@
         <div class="zyopen">
             <input id="zyNumQueried" type="hidden" />
             <iframe name="ifraRight" id="ifraBody" style="width:100%;" src="" frameborder="0" onLoad="this.height=500"></iframe>
-            <iframe name="ifraRight" id="ifraAnswer" style="width:100%;" src="" frameborder="0" onLoad="this.height=500"></iframe>
         </div>
     </div>
 </div>
@@ -33,13 +32,14 @@
 <script src="/Scripts/plupload/moxie.js"></script>
 <script src="/Scripts/plupload/plupload.dev.js"></script>
 <script type="text/javascript">
-
+    //回车
     $("body").bind("keyup", function (event) {
         if (event.keyCode == 13) {
             query();
         }
     });
 
+    //查询作业内容
     var query = function () {
         var mao = $("#mao"); //获得锚点
         if (mao.length > 0) {//判断对象是否存在
@@ -60,11 +60,9 @@
                     dialogAlert("此作业编码不存在！");
                     $("#zyNum").focus();
                 }
-                else
-                {
+                else {
                     var data = JSON.parse(json);
                     $("#ifraBody").attr("src", cur_data.UploadUrl + data.BodyHtmlPath);
-                    $("#ifraAnswer").attr("src", cur_data.UploadUrl + data.AnswerHtmlPath);
                 }
             })
     }
@@ -75,6 +73,7 @@
         UploadUrl: '@ViewBag.UploadUrl'
     }
 
+    //打开弹窗
     $(".write").on("click", function () {
         if (!cur_data.QAsnwerCard) {
             var zyNum = $("#zyNumQueried").val();
@@ -100,11 +99,13 @@
 
     })
 
+    //弹窗关闭
     var closepop = function () {
         $(".answercard").hide();
         $(".write").show();
     }
 
+    //弹窗单选框初始化
     var initRdo = function () {
         $(".answercard .ques").on("click", ".rdo", function () {
             if ($(this).hasClass("unchoose")) {
@@ -113,6 +114,7 @@
         })
     }
 
+    //弹窗复选框初始化
     var initCheckbox = function () {
         $(".answercard .ques").on("click", ".chk", function () {
             if ($(this).hasClass("unchoose")) {
@@ -124,10 +126,71 @@
         })
     }
 
+    //弹窗图片上传按钮初始化
     var initPic = function () {
         $(".uploadpic").on("click", function () {
             $("#file").click();
         })
+    }
+
+    //提交作业
+    var submitzy = function () {
+        var zynum = $("#zyNumQueried").val();
+        var truename = $("#truename").val();
+        if (trim(truename) == "")
+        {
+            dialogAlert("同学，你得写上你的大号才能提交啊！你不写的话老师怎么知道是谁提交的作业呢？<br />虽然你作业完成的堪称一流，可是你还是不能不写名字哦。<br />难道你真的不想写名字吗？如果是真的，那么...你还是要写！");
+            $("#truename").focus();
+            return false;
+        }
+        var obj = [], objlist = [], a = [];
+        var b = false; //是否有客观题没传答案
+        $(".ques .objective span").each(function () {
+            obj = [];
+            a = [];
+            obj.push($(this).attr("data-bind"));
+            var i = $(this).find(".choose").length;
+            if (i == 0) {
+                b = true;
+            }
+            else
+            {
+                $(this).find(".choose").each(function () {
+                    a.push($(this).html());
+                })
+            }
+            obj.push(a.join(""));
+            objlist.push(obj.join(","));
+        })
+        var objectivestr = objlist.join("|");
+        if (b)
+        {
+            dialogAlert("还有客观题未选答案，不能提交！");
+            return false;
+        }
+        var imglist = [];
+        var imgstr = "";
+        var j = $(".anspiclist img").length;
+        if (j != 0)
+        {
+            $(".anspiclist img").each(function () {
+                imglist.push($(this).attr("data-bind"));
+            })
+            imgstr = imglist.join(",");
+        }
+
+        $.post("SubmitAnswer",
+            { zyNum: zynum, trueName: truename, objecttiveAnswer: objectivestr, imgAnswer: imgstr },
+            function (data) {
+                if (data.substring(0, 1) == "0") {
+                    //提交成功则显示老师上传的答案
+                    window.location.href = "check?zynum=" + zynum + "&truename=" + truename;
+                }
+                else {
+                    dialogAlert(data.substring(2));
+                }
+            })
+
     }
 
     //上传答案图片
@@ -181,7 +244,7 @@
         }
         else {
             for (var i = 0; i < json.Data.length; i++) {
-                $(".anspiclist").append("<img src='" + cur_data.UploadUrl + json.Data[i] + "' width='80' height='80' />");
+                $(".anspiclist").append("<img data-bind='" + json.Data[i] + "' src='" + cur_data.UploadUrl + json.Data[i] + "' width='80' height='80' />");
             }
         }
     })
