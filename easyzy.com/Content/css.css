@@ -24,7 +24,7 @@ a.btn{border: 0;
 .fixed{position:fixed; top:500px; right:250px;}
 
 /*Table 样式*/
-.tab-default{line-height:40px;background:#d7d7d7; font-size:14px;}
+.tab-default{line-height:40px;background:#d7d7d7; font-size:14px; width:100%}
 .tab-default th{background:#f4f4f4;}
 .tab-default tr{background:#FFF;}
 .tab-default tr td{ background:#FFF; text-align:center;}
@@ -80,19 +80,23 @@ a.btn{border: 0;
 .reg .info input{line-height:35px; height:35px; width:200px; }
 
 .header-wrap .head .logo{ width:180px; height:60px;}
+.head .right a{padding:0 10px;}
+.head .right a:hover{color:#15b0f5;}
 .slider{ background:#82f7da;}
 .slider .pic-field{padding:50px 0;width:1200px;}
 
-.content {padding-bottom:40px; background:#f4f4f4;}
+.content-wrap {background:#f4f4f4;}
+.content-nav{width:1200px; padding:20px 0; color:#999;}
+.content-nav a:hover{color:#15b0f5;}
 .content .func-field{ padding:50px 50px; height:250px; }
 .content .func-field .func{width:300px; margin-left:30px;}
 .content .func-field .func img{width:300px;}
 .content .func-field .func p{padding:5px 0; text-align:center;}
 .content .func-field .func p.funcname{font-size:18px;}
 
-.content .main-content{width:1200px; background:#fff; padding:20px;}
+.content .main-content{width:1160px; background:#fff; padding:20px; min-height:750px;}
 
-.file{font-size:16px; border:1px dashed #15b0f5;padding:20px 0; margin-top:20px;}
+.file{font-size:16px; border:1px dashed #15b0f5;padding:20px 0; }
 
 .fileupload .uploadline{clear:both; padding:10px 0 0 65px; line-height:30px;}
 .fileupload .uploadline .uploadname{width:200px; text-align:right;}

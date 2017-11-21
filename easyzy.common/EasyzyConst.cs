@@ -40,7 +40,8 @@ namespace easyzy.common
         {
             User,
             Zy,
-            ZyStruct
+            ZyStruct,
+            ZyAnswer
         }
 
         public static string[] ImgPattern = new string[] { "jpg", "jpeg", "png", "bmp" };

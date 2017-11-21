@@ -1,7 +1,72 @@
 ﻿
 @{
-    ViewBag.Title = "query";
+    ViewBag.Title = "易作业-查询作业";
+    ViewBag.Keywords = "查询作业，查看已完成作业学生名单";
+    ViewBag.Description = "查询作业，查看已完成作业学生名单";
 }
 
-<h2>query</h2>
+<div class="content-nav">当前位置：<a href="/home/index">首页</a> > 查看作业</div>
+<div class="content">
+    <div class="main-content">
+        <div class="zyquery">
+            <b>作业编号：</b><input id="zyNum" /><a class="btn" onclick="query();">查询</a>
+        </div>
+        <div class="table">
+            <table border="0" cellspacing="1" cellpadding="0" class="tab-default">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>姓名</th>
+                        <th>提交时间</th>
+                        <th>查看答题卡</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="fixed answercard">
 
+</div>
+
+<script type="text/javascript">
+    //回车
+    $("body").bind("keyup", function (event) {
+        if (event.keyCode == 13) {
+            query();
+        }
+    });
+
+    var cur_data = {
+        UploadUrl: '@ViewBag.UploadUrl',
+        ZyNumQueried:0
+    }
+
+    //查询
+    var query = function () {
+        var zyNum = $("#zyNum").val();
+        if (zyNum == "") return false;
+        $.post("querysubmitedstudents",
+            { zyNum: zyNum },
+            function (data) {
+                cur_data.ZyNumQueried = zyNum;
+                $("#tbody").html(data);
+            })
+    }
+
+    var check = function (truename) {
+        var zyNum = cur_data.ZyNumQueried;
+        $.post("GetStudentAnswerCard",
+            { zyNum: zyNum, trueName: truename },
+            function (data) {
+                $(".answercard").html(data);
+                $(".answercard").show();
+            })
+    }
+
+    //弹窗关闭
+    var closepop = function () {
+        $(".answercard").hide();
+    }
+</script>

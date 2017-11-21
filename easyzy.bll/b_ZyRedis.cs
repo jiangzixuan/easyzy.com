@@ -1,4 +1,5 @@
 ﻿using easyzy.common;
+using easyzy.model.dto;
 using easyzy.model.entity;
 using Newtonsoft.Json;
 using System;
@@ -87,6 +88,37 @@ namespace easyzy.bll
             return result;
         }
 
+        public static T_Answer GetZyAnswer(int zyId, string trueName)
+        {
+            Dictionary<string, string> tempresult = null;
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.ZyAnswer, zyId.ToString() + trueName);
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.ZyAnswer.ToString()))
+            {
+                if (client != null)
+                {
+                    tempresult = client.GetAllEntriesFromHash(key);
+                }
+            }
+            T_Answer result = null;
+            if (tempresult.Count != 0)
+            {
+                result = RedisHelper.ConvertDicToEntitySingle<T_Answer>(tempresult);
+            }
+            else
+            {
+                result = B_Zy.GetZyAnswer(zyId, trueName);
+                if (result != null)
+                {
+                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.ZyAnswer.ToString()))
+                    {
+                        if (cl != null)
+                            cl.SetRangeInHash(key, GetZyAnswerKeyValuePairs(result));
+                    }
+                }
+            }
+            return result;
+        }
+
         /// <summary>
         /// 删除作业缓存
         /// </summary>
@@ -118,7 +150,7 @@ namespace easyzy.bll
                             new KeyValuePair<string, string>("SystemType",m.SystemType.ToString()),
                             new KeyValuePair<string, string>("Browser",m.Browser.ToString()),
                             new KeyValuePair<string, string>("CreateDate",m.CreateDate.ToString()),
-                            new KeyValuePair<string, string>("Structed",m.Structed.ToString()),
+                            new KeyValuePair<string, string>("Structed",m.Structed.ToString())
                         };
             return result;
         }
@@ -132,6 +164,25 @@ namespace easyzy.bll
                             new KeyValuePair<string, string>("SqNum",m.SqNum.ToString()),
                             new KeyValuePair<string, string>("QuesType",m.QuesType.ToString()),
                             new KeyValuePair<string, string>("QuesAnswer",m.QuesAnswer.ToString()),
+                            new KeyValuePair<string, string>("CreateDate",m.CreateDate.ToString())
+                        };
+            return result;
+        }
+
+        static List<KeyValuePair<string, string>> GetZyAnswerKeyValuePairs(T_Answer m)
+        {
+            var result = new List<KeyValuePair<string, string>>() {
+                            new KeyValuePair<string, string>("Id",m.Id.ToString()),
+                            new KeyValuePair<string, string>("ZyId",m.ZyId.ToString()),
+                            new KeyValuePair<string, string>("StudentId",m.StudentId.ToString()),
+                            new KeyValuePair<string, string>("TrueName",m.TrueName.ToString()),
+                            new KeyValuePair<string, string>("AnswerJson",m.AnswerJson.ToString()),
+                            new KeyValuePair<string, string>("AnswerImg",m.AnswerImg.ToString()),
+                            new KeyValuePair<string, string>("Ip",m.Ip.ToString()),
+                            new KeyValuePair<string, string>("IMEI",m.IMEI.ToString()),
+                            new KeyValuePair<string, string>("MobileBrand",m.MobileBrand.ToString()),
+                            new KeyValuePair<string, string>("SystemType",m.SystemType.ToString()),
+                            new KeyValuePair<string, string>("Browser",m.Browser.ToString()),
                             new KeyValuePair<string, string>("CreateDate",m.CreateDate.ToString())
                         };
             return result;

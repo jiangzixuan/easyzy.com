@@ -3,19 +3,18 @@
     ViewBag.Keywords = "做作业-通过图片上传主观题答案";
     ViewBag.Description = "做作业";
 }
-<div class="slider">
+@*<div class="slider">
     <div class="pic-field">
         <img src="/Images/boshimao.png" width="400" />
     </div>
-</div>
-
+</div>*@
+<div class="content-nav">当前位置：<a href="/home/index">首页</a> > 做作业</div>
 <div class="content" id="mao">
     <div class="main-content">
         <div class="zyquery">
             <b>作业编号：</b><input id="zyNum" /><a class="btn" onclick="query();">查询</a>
         </div>
         <div class="zyopen">
-            <input id="zyNumQueried" type="hidden" />
             <iframe name="ifraRight" id="ifraBody" style="width:100%;" src="" frameborder="0" onLoad="this.height=500"></iframe>
         </div>
     </div>
@@ -41,20 +40,20 @@
 
     //查询作业内容
     var query = function () {
-        var mao = $("#mao"); //获得锚点
-        if (mao.length > 0) {//判断对象是否存在
-            var pos = mao.offset().top;
-            var poshigh = mao.height();
-            var p = -1 * (pos - poshigh - 15) + "px";
-            $("html,body").animate({ scrollTop: p }, 800);
-        }
+        //var mao = $("#mao"); //获得锚点
+        //if (mao.length > 0) {//判断对象是否存在
+        //    var pos = mao.offset().top;
+        //    var poshigh = mao.height();
+        //    var p = -1 * (pos - poshigh - 15) + "px";
+        //    $("html,body").animate({ scrollTop: p }, 800);
+        //}
 
         var zyNum = $("#zyNum").val();
         if (zyNum == "") return false;
         $.post("QueryZy",
             { zyNum: zyNum },
             function (json) {
-                $("#zyNumQueried").val(zyNum);
+                cur_data.ZyNumQueried = zyNum;
                 cur_data.QAsnwerCard = false;
                 if (json == "null") {
                     dialogAlert("此作业编码不存在！");
@@ -70,13 +69,14 @@
     var cur_data = {
         QAsnwerCard: false,
         UploadQuesId: 0,
-        UploadUrl: '@ViewBag.UploadUrl'
+        UploadUrl: '@ViewBag.UploadUrl',
+        ZyNumQueried:0
     }
 
     //打开弹窗
     $(".write").on("click", function () {
         if (!cur_data.QAsnwerCard) {
-            var zyNum = $("#zyNumQueried").val();
+            var zyNum = cur_data.ZyNumQueried;
             if (zyNum == "") return false;
             //查询答题卡
             $.post("GetZyStruct",
@@ -135,7 +135,7 @@
 
     //提交作业
     var submitzy = function () {
-        var zynum = $("#zyNumQueried").val();
+        var zynum = cur_data.ZyNumQueried;
         var truename = $("#truename").val();
         if (trim(truename) == "")
         {

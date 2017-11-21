@@ -1,4 +1,5 @@
 ﻿using easyzy.common;
+using easyzy.model.dto;
 using easyzy.model.entity;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
@@ -142,6 +143,42 @@ namespace easyzy.bll
                 "@ZyId".ToInt32InPara(zyId),
                 "@TrueName".ToVarCharInPara(trueName));
             return o == null ? false : true;
+        }
+
+        /// <summary>
+        /// 获取学生提交的作业答案
+        /// </summary>
+        /// <param name="zyId"></param>
+        /// <returns></returns>
+        public static List<T_Answer> GetZyAnswers(int zyId)
+        {
+            List<T_Answer> model = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString("EasyZy_Home"),
+                "select Id, ZyId, StudentId, TrueName, AnswerJson, AnswerImg, CreateDate from T_Answer where ZyId = @ZyId order by CreateDate",
+                "@ZyId".ToInt32InPara(zyId)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    model = MySqlDBHelper.ConvertDataReaderToEntityList<T_Answer>(dr);
+                }
+            }
+            return model;
+        }
+
+        public static T_Answer GetZyAnswer(int zyId, string trueName)
+        {
+            T_Answer model = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString("EasyZy_Home"),
+                "select Id, ZyId, StudentId, TrueName, AnswerJson, AnswerImg, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser from T_Answer where ZyId = @ZyId and TrueName = @TrueName",
+                "@ZyId".ToInt32InPara(zyId),
+                "@TrueName".ToVarCharInPara(trueName)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    model = MySqlDBHelper.ConvertDataReaderToEntitySingle<T_Answer>(dr);
+                }
+            }
+            return model;
         }
     }
 }

@@ -3,11 +3,12 @@
     ViewBag.Keywords = "Word上传作业，自传作业，新建作业，方便的新建作业";
     ViewBag.Description = "通过Word文档新建作业";
 }
-<div class="slider">
+@*<div class="slider">
     <div class="pic-field">
         <img src="/Images/boshimao.png" width="400" />
     </div>
-</div>
+</div>*@
+<div class="content-nav">当前位置：<a href="/home/index">首页</a> > 新建作业</div>
 <div class="content">
     <div class="main-content">
         <div class="fileupload file">
@@ -60,7 +61,7 @@
     </div>
     <div class="popcontent">
         <div class="addedques">
-            <table id="tabques" width="100%" border="0" cellspacing="1" cellpadding="0" class="tab-default">
+            <table id="tabques" border="0" cellspacing="1" cellpadding="0" class="tab-default">
                 <thead>
                     <tr>
                         <th>No.</th>
@@ -252,8 +253,8 @@
                 }
                 else
                 {
-                    $("#ifraBody").attr("src", "http://upload.easyzy.com" + cur_data.body_html);
-                    $("#ifraAnswer").attr("src", "http://upload.easyzy.com" + cur_data.answer_html);
+                    $("#ifraBody").attr("src", cur_data.UploadUrl + cur_data.body_html);
+                    $("#ifraAnswer").attr("src", cur_data.UploadUrl + cur_data.answer_html);
                     $(".uploadedinfo .zyno").html("作业编号：" + data);
                     $(".uploadedinfo").show();
                     cur_data.body_word = "";

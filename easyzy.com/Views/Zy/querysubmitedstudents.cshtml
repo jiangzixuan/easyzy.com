@@ -1,0 +1,21 @@
+﻿@using easyzy.model.entity;
+@{var list = Model as List<T_Answer>; }
+
+@if (list != null)
+{
+    for (int i = 0; i < list.Count; i++)
+    {
+        <tr>
+            <td>@(i+1)</td>
+            <td>@list[i].TrueName</td>
+            <td>@list[i].CreateDate.ToString("yyyy-MM-dd hh:mm:ss")</td>
+            <td><a href="javascript:void(0);" onclick="check('@list[i].TrueName');"><img src="/Images/fangdajing.jpg" width="100" height="100" /></a></td>
+        </tr>
+    }
+}
+else
+{
+    <tr><td colspan="4">暂无任何人提交此作业！</td></tr>
+}
+
+

@@ -16,4 +16,12 @@ namespace easyzy.model.dto
 
         public string Answer { get; set; }
     }
+
+    public class dto_Answer2 : dto_Answer
+    {
+        /// <summary>
+        /// 正确答案
+        /// </summary>
+        public string QuesAnswer { get; set; }
+    }
 }
