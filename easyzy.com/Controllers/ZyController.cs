@@ -166,8 +166,9 @@ namespace easyzy.com.Controllers
             return i > 0 ? ("0|" + B_ZyRedis.GetZy(zyId).AnswerHtmlPath) : "1|提交入库失败！";
         }
 
-        public ActionResult Query()
+        public ActionResult Query(string ZyNum = "")
         {
+            ViewBag.ZyNum = ZyNum;
             ViewBag.UploadUrl = Util.GetAppSetting("UploadUrlPrefix");
             return View();
         }
@@ -202,6 +203,7 @@ namespace easyzy.com.Controllers
                 });
                 ViewBag.AnswerImg = a.AnswerImg;
             }
+            ViewBag.TrueName = trueName;
             ViewBag.UploadUrl = Util.GetAppSetting("UploadUrlPrefix");
             return PartialView(result);
         }

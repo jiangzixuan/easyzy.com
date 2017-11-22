@@ -9,7 +9,7 @@
 <div class="content">
     <div class="main-content">
         <div class="zyquery">
-            <b>作业编号：</b><input id="zyNum" /><a class="btn" onclick="query();">查询</a>
+            <b>作业编号：</b><input id="zyNum" value="@ViewBag.ZyNum" /><a class="btn" onclick="query();">查询</a>
         </div>
         <div class="table">
             <table border="0" cellspacing="1" cellpadding="0" class="tab-default">
@@ -31,6 +31,12 @@
 </div>
 
 <script type="text/javascript">
+    $(function () {
+        if (cur_data.DefaultZyNum != "") {
+            query();
+        }
+    })
+
     //回车
     $("body").bind("keyup", function (event) {
         if (event.keyCode == 13) {
@@ -39,6 +45,7 @@
     });
 
     var cur_data = {
+        DefaultZyNum: '@ViewBag.ZyNum',
         UploadUrl: '@ViewBag.UploadUrl',
         ZyNumQueried:0
     }

@@ -184,7 +184,7 @@
             function (data) {
                 if (data.substring(0, 1) == "0") {
                     //提交成功则显示老师上传的答案
-                    window.location.href = "check?zynum=" + zynum + "&truename=" + truename;
+                    window.location.href = "query?zynum=" + zynum;
                 }
                 else {
                     dialogAlert(data.substring(2));
