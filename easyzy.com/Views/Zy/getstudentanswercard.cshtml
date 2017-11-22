@@ -30,11 +30,13 @@
     <div class="anspiclist">
         @if (ViewBag.AnswerImg != "")
         {
-            string[] imgl = ViewBag.AnswerImg.Split(',');
-            foreach (string s in imgl)
-            {
-                <img src=@(ViewBag.UploadUrl)@(s) width='80' height='80' />
-            }
+            <ul id="imglistul">
+                @{string[] imgl = ViewBag.AnswerImg.Split(',');}
+                @foreach (string s in imgl)
+                {
+                <li class="left"><img src=@(ViewBag.UploadUrl)@(s) width='80' height='80' alt="" style="cursor:pointer;" /></li>
+                }
+            </ul>
         }
     </div>
     

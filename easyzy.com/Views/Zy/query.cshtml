@@ -59,6 +59,7 @@
             function (data) {
                 cur_data.ZyNumQueried = zyNum;
                 $("#tbody").html(data);
+                
             })
     }
 
@@ -68,6 +69,9 @@
             { zyNum: zyNum, trueName: truename },
             function (data) {
                 $(".answercard").html(data);
+                $("#imglistul").viewer({
+                    url: 'data-original'
+                });
                 $(".answercard").show();
             })
     }

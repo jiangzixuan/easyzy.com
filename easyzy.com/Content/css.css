@@ -5,6 +5,7 @@
 }
 a{color:#000;text-decoration:none}
 a:focus{outline:none}
+li{list-style-type:none;}
 .left{float:left;}
 .right{float:right;}
 .f1{float:left; margin-left:20px;}

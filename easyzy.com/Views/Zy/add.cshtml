@@ -14,7 +14,7 @@
         <div class="fileupload file">
             
             <div class="uploadline body">
-                <span class="uploadname f1">选择作业内容文档：</span>
+                <span class="uploadname f1"><img src="/Images/redstar.png" width="15" height="15" /> 上传作业内容文档：</span>
                 <div class="uploadpath f1 uploadbodypath"></div>
                 <div class="uploadfile left">
                     <input id="file" class="fl upload-file" type="file" style="z-index: 1;" />
@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="uploadline answer">
-                <span class="uploadname f1">选择作业答案/解析文档：</span>
+                <span class="uploadname f1">上传作业答案/解析文档：</span>
                 <div class="uploadpath f1 uploadanswerpath"></div>
                 <div class="uploadfile left">
                     <div class="left choose chooseanswer">浏览</div>
@@ -89,10 +89,11 @@
         </div>
     </div>
 </div>
-
+@section scripts
+{
 <script src="/Scripts/plupload/moxie.js"></script>
 <script src="/Scripts/plupload/plupload.dev.js"></script>
-
+}
 <script type="text/javascript">
     var cur_data = {
         type: 0,
@@ -233,12 +234,17 @@
 
     //开始上传
     $("#uploadbtn").on("click", function () {
-        if (uploader.files.length == 0) {
-            dialogAlert("尚未选择任何文档！");
+        if ($(".uploadbodypath").html() == "") {
+            dialogAlert("必须上传作业内容文档！");
         }
         else {
-            jQuery.support.cors = true;  //支持跨域访问
-            uploader.start();
+            if (uploader.files.length == 0) {
+                dialogAlert("尚未选择任何文档！");
+            }
+            else {
+                jQuery.support.cors = true;  //支持跨域访问
+                uploader.start();
+            }
         }
     })
 

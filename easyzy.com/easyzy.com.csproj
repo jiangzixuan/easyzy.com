@@ -153,6 +153,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css.css" />
+    <Content Include="Content\viewer.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -166,6 +167,7 @@
     <Content Include="Images\fangdajing.jpg" />
     <Content Include="Images\radio.png" />
     <Content Include="Images\addpic.jpg" />
+    <Content Include="Images\redstar.png" />
     <Content Include="Images\write.png" />
     <Content Include="RedisConfig.xml" />
     <Content Include="Scripts\artDialog\css\ui-dialog.css" />
@@ -193,6 +195,7 @@
     <Content Include="Scripts\plupload\plupload.full.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\viewer-jquery.min.js" />
     <Content Include="Sqls\master.sql" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
