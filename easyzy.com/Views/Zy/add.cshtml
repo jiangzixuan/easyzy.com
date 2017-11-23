@@ -3,6 +3,7 @@
     ViewBag.Keywords = "Word上传作业，自传作业，新建作业，方便的新建作业";
     ViewBag.Description = "通过Word文档新建作业";
 }
+
 @*<div class="slider">
     <div class="pic-field">
         <img src="/Images/boshimao.png" width="400" />
@@ -32,8 +33,7 @@
                     <div class="left uploadpercent">（0%）</div>
                 </div>
             </div>
-            <div class="uploadbtn"><a class="btn" href="javascript:void(0)" id="uploadbtn">上传</a></div>
-            
+            <div class="uploadbtn"><a class="btn" href="javascript:void(0)" id="uploadbtn">上传</a><a class="btn" href="javascript:void(0)" onclick="window.location.reload();">再传一份</a></div>
         </div>
         <div class="uploadedinfo file" style="display:none;">
             <div>
@@ -48,10 +48,14 @@
     </div>
 </div>
 
-<div class="preview st-roster" style="display:none;">
+<div class="preview st-roster" style="display:none; padding: 20px 10px;">
     <img src="/Images/close.png" class="popclose" />
-    <iframe name="ifraRight" id="ifraBody" style="width:100%;" src="" frameborder="0" onLoad="this.height=500"></iframe>
-    <iframe name="ifraRight" id="ifraAnswer" style="width:100%;" src="" frameborder="0" onLoad="this.height=500"></iframe>
+    <ul>
+        <li class="left active body">题文</li>
+        <li class="f1 answer">答案/解析</li>
+    </ul>
+    <iframe name="ifraRight" id="ifraBody" width="100%" src="" frameborder="0" scrolling="yes" onLoad="this.height=500"></iframe>
+    <iframe name="ifraRight" id="ifraAnswer" width="100%" style="display:none;" src="" frameborder="0" scrolling="yes" onLoad="this.height=500"></iframe>
 </div>
 
 <div class="setanswer st-roster" style="display:none;">
@@ -89,19 +93,23 @@
         </div>
     </div>
 </div>
-@section scripts
+@section scriptfirst
 {
 <script src="/Scripts/plupload/moxie.js"></script>
 <script src="/Scripts/plupload/plupload.dev.js"></script>
 }
 <script type="text/javascript">
+    document.domain = "easyzy.com";
+
     var cur_data = {
         type: 0,
         body_word: '',
         body_html: '',
         answer_word: '',
         answer_html: '',
-        UploadUrl:'@ViewBag.UploadUrl'
+        UploadUrl: '@ViewBag.UploadUrl',
+        bodyid: 0,
+        answerid: 0
     }
 
     $(".choosebody").on("click", function () {
@@ -138,11 +146,6 @@
 
     //在实例对象上调用init()方法进行初始化
     uploader.init();
-
-    var cur_data = {
-        bodyid: 0,
-        answerid: 0
-    }
 
     //绑定各种事件，并在事件监听函数中做你想做的事
     //每个事件监听函数都会传入一些很有用的参数，
@@ -229,6 +232,8 @@
         for (var i = 0; i < uploader.files.length; i++) {
             uploader.removeFile(uploader.files[i]);
         }
+
+        $("#uploadbtn").hide();
         
     });
 
@@ -252,6 +257,12 @@
     var CreateZY = function () {
         if (cur_data.body_word != "" && cur_data.body_html != "")
         {
+            if (!cur_data.answer_word)
+            {
+                cur_data.answer_word = "";
+                cur_data.answer_html = "";
+                $("#ifraAnswer").hide();
+            }
             $.post("CreateZy", { bodyWordPath: cur_data.body_word, bodyHtmlPath: cur_data.body_html, answerWordPath: cur_data.answer_word, answerHtmlPath: cur_data.answer_html }, function (data) {
                 if (data == "")
                 {
@@ -260,7 +271,15 @@
                 else
                 {
                     $("#ifraBody").attr("src", cur_data.UploadUrl + cur_data.body_html);
-                    $("#ifraAnswer").attr("src", cur_data.UploadUrl + cur_data.answer_html);
+                    if (cur_data.answer_html != "") {
+                        $(".preview li.answer").show();
+                        $("#ifraAnswer").attr("src", cur_data.UploadUrl + cur_data.answer_html);
+                    }
+                    else
+                    {
+                        $(".preview li.answer").hide();
+                    }
+                    
                     $(".uploadedinfo .zyno").html("作业编号：" + data);
                     $(".uploadedinfo").show();
                     cur_data.body_word = "";
@@ -272,10 +291,30 @@
         }
     }
 
+    //$("#ifraBody").load(function () {
+    //    var h = $(this).contents().find("#myhight").val();
+    //    $(this).height(h);
+    //})
+
     var preview = function () {
         $(".preview").show();
         $('body').prepend('<div class="shade fixed1"></div>');
     }
+
+    $(".preview li").on("click", function () {
+        if (!$(this).hasClass("active"))
+        {
+            $(this).addClass("active").siblings().removeClass("active");
+            if ($(this).hasClass("body")) {
+                $(".preview #ifraBody").show();
+                $(".preview #ifraAnswer").hide();
+            }
+            else {
+                $(".preview #ifraBody").hide();
+                $(".preview #ifraAnswer").show();
+            }
+        }
+    })
 
     var setanswer = function () {
         $(".setanswer").show();

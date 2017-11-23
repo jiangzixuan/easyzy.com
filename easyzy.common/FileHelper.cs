@@ -54,6 +54,7 @@ namespace easyzy.common
                 }
                 Aspose.Words.Document awd = new Aspose.Words.Document(wordPath);
                 awd.Save(htmlPath, Aspose.Words.SaveFormat.Html);
+                UpdateHtmlForIframe(htmlPath);
                 return true;
             }
             catch (Exception ex)
@@ -62,6 +63,21 @@ namespace easyzy.common
                 
             }
             return false;
+        }
+
+        private static void UpdateHtmlForIframe(string path)
+        {
+            FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+            StreamReader sr = new StreamReader(fs);
+            string con = sr.ReadToEnd();
+            con = con.Replace("<title></title>", "<title></title><script type=\"text/javascript\">document.domain=\"easyzy.com\"; window.onload=function() {var h=document.body.scrollHeight; document.getElementById(\"myhight\").value=h;}</script>").Replace("<body>", "<body><input value=\"0\" style=\"display:none;\" id=\"myhight\" />");
+            sr.Close();
+            fs.Close();
+            FileStream fs2 = new FileStream(path, FileMode.Open, FileAccess.Write);
+            StreamWriter sw = new StreamWriter(fs2);
+            sw.WriteLine(con);
+            sw.Close();
+            fs2.Close();
         }
     }
 }

@@ -161,10 +161,12 @@
     <Content Include="Images\boshimao.png" />
     <Content Include="Images\checkbox.png" />
     <Content Include="Images\close.png" />
-    <Content Include="Images\createzy.jpg" />
     <Content Include="Images\easy.png" />
     <Content Include="Images\easyzy.png" />
     <Content Include="Images\fangdajing.jpg" />
+    <Content Include="Images\index1.png" />
+    <Content Include="Images\index2.png" />
+    <Content Include="Images\index3.png" />
     <Content Include="Images\radio.png" />
     <Content Include="Images\addpic.jpg" />
     <Content Include="Images\redstar.png" />
@@ -218,6 +220,7 @@
     <Content Include="Views\Zy\query.cshtml" />
     <Content Include="Views\Zy\querysubmitedstudents.cshtml" />
     <Content Include="Views\Zy\getstudentanswercard.cshtml" />
+    <Content Include="Views\Zy\check.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

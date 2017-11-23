@@ -83,11 +83,6 @@ namespace easyzy.com.Controllers
         {
             int zyId = EasyzyConst.GetZyId(zyNum);
             T_Zy zy = B_ZyRedis.GetZy(zyId);
-            if (zy != null)
-            {
-                zy.BodyHtmlPath = zy.BodyHtmlPath;
-                zy.AnswerHtmlPath = zy.AnswerHtmlPath;
-            }
 
             return JsonConvert.SerializeObject(zy);
         }
@@ -206,6 +201,33 @@ namespace easyzy.com.Controllers
             ViewBag.TrueName = trueName;
             ViewBag.UploadUrl = Util.GetAppSetting("UploadUrlPrefix");
             return PartialView(result);
+        }
+
+        public ActionResult Check(string zyNum, string trueName)
+        {
+            int zyId = EasyzyConst.GetZyId(zyNum);
+            T_Zy zy = B_ZyRedis.GetZy(zyId);
+
+            List<dto_Answer2> result = null;
+            T_Answer a = B_ZyRedis.GetZyAnswer(zyId, trueName);   //获取学生提交的答案
+            List<T_ZyStruct> zysl = B_ZyRedis.GetZyStruct(zyId);  //作业结构中可以获取正确答案
+            if (a != null)
+            {
+                List<dto_Answer> ansl = JsonConvert.DeserializeObject<List<dto_Answer>>(a.AnswerJson);
+                result = new List<dto_Answer2>();
+                ansl.ForEach(s =>
+                {
+                    result.Add(new dto_Answer2() { StructId = s.StructId, BqNum = s.BqNum, SqNum = s.SqNum, Answer = s.Answer, QuesAnswer = zysl.FirstOrDefault(t => t.Id == s.StructId).QuesAnswer });
+                });
+                ViewBag.AnswerImg = a.AnswerImg;
+                ViewBag.AnswerCard = ansl;
+            }
+            ViewBag.ZyNum = zyNum;
+            ViewBag.TrueName = trueName;
+            ViewBag.UploadUrl = Util.GetAppSetting("UploadUrlPrefix");
+            ViewBag.BodyHtml = zy.BodyHtmlPath;
+            ViewBag.AnswerHtml = zy.AnswerHtmlPath;
+            return View();
         }
     }
 }

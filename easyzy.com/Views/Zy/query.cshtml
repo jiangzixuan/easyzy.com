@@ -16,7 +16,7 @@
                 <thead>
                     <tr>
                         <th>序号</th>
-                        <th>姓名</th>
+                        <th>姓名（点击可查看答案解析（如果有））</th>
                         <th>提交时间</th>
                         <th>查看答题卡</th>
                     </tr>
@@ -28,6 +28,16 @@
 </div>
 <div class="fixed answercard">
 
+</div>
+
+<div class="preview st-roster" style="display:none; padding: 20px 10px;">
+    <img src="/Images/close.png" class="popclose" />
+    <ul>
+        <li class="left active body">题文</li>
+        <li class="f1 answer">答案/解析</li>
+    </ul>
+    <iframe name="ifraRight" id="ifraBody" width="100%" src="" frameborder="0" scrolling="yes" onLoad="this.height=500"></iframe>
+    <iframe name="ifraRight" id="ifraAnswer" width="100%" style="display:none;" src="" frameborder="0" scrolling="yes" onLoad="this.height=500"></iframe>
 </div>
 
 <script type="text/javascript">
@@ -47,7 +57,9 @@
     var cur_data = {
         DefaultZyNum: '@ViewBag.ZyNum',
         UploadUrl: '@ViewBag.UploadUrl',
-        ZyNumQueried:0
+        ZyNumQueried: 0,
+        BodyHtml: "",
+        AnswerHtml: ""
     }
 
     //查询
@@ -64,9 +76,8 @@
     }
 
     var check = function (truename) {
-        var zyNum = cur_data.ZyNumQueried;
         $.post("GetStudentAnswerCard",
-            { zyNum: zyNum, trueName: truename },
+            { zyNum: cur_data.ZyNumQueried, trueName: truename },
             function (data) {
                 $(".answercard").html(data);
                 $("#imglistul").viewer({
@@ -76,7 +87,13 @@
             })
     }
 
-    //弹窗关闭
+    var ViewStudentZy = function (truename) {
+        window.location.href = "check?zynum=" + cur_data.ZyNumQueried + "&truename=" + truename;
+    }
+
+    
+
+    //关闭答题卡弹层
     var closepop = function () {
         $(".answercard").hide();
     }

@@ -15,7 +15,7 @@
             <b>作业编号：</b><input id="zyNum" /><a class="btn" onclick="query();">查询</a>
         </div>
         <div class="zyopen">
-            <iframe name="ifraRight" id="ifraBody" style="width:100%;" src="" frameborder="0" onLoad="this.height=500"></iframe>
+            <iframe name="ifraRight" id="ifraBody" style="width:100%;" src="" frameborder="0"></iframe>
         </div>
     </div>
 </div>
@@ -27,12 +27,13 @@
 <div class="fixed answercard">
 
 </div>
-@section scripts
+@section scriptfirst
 {
 <script src="/Scripts/plupload/moxie.js"></script>
 <script src="/Scripts/plupload/plupload.dev.js"></script>
 }
 <script type="text/javascript">
+    document.domain = "easyzy.com";  //必须加上才能读到iframe内控件，因为跨域
     //回车
     $("body").bind("keyup", function (event) {
         if (event.keyCode == 13) {
@@ -67,6 +68,11 @@
                 }
             })
     }
+
+    $("#ifraBody").load(function () {
+        var h = $(this).contents().find("#myhight").val();
+        $(this).height(h);
+    })
 
     var cur_data = {
         QAsnwerCard: false,

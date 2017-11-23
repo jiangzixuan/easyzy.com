@@ -53,10 +53,9 @@ a.btn{border: 0;
 
 .st-roster {
     width: 1000px;
-    
     position: fixed;
     top: 50%;
-    left: 50%;
+    left: 43%;
     background: #fff;
     margin-top: -308px;
     margin-left: -377px;
@@ -107,6 +106,9 @@ a.btn{border: 0;
 .uploadfile .choose{padding:0 10px; border:1px solid #808080; background:#e4e6ed; cursor:pointer;}
 .uploadfile .progressbar{width:250px; height:30px; border:1px solid #ffd800; margin-left:20px;}
 .uploadfile .curprogress{background:#ffd800; height:30px;}
+.preview ul, .zyopen ul{padding-bottom:20px;}
+.preview li, .zyopen li{border:1px solid #15b0f5; padding:5px 20px;font-size:18px; font-weight:bold; cursor:pointer;}
+.preview li.active, .zyopen li.active{background:#0094ff; color:#fff;  }
 
 .main-content .uploadbtn{clear:both; text-align:center; padding:40px; font-size:18px;}
 .main-content .uploadbtn a, .main-content .uploadedinfo.file a{ margin-left:10px; }
@@ -114,7 +116,7 @@ a.btn{border: 0;
 .uploadedinfo.file{display:none; padding: 10px 20px; line-height:30px;}
 .uploadedinfo.file .zyno{font-size:20px; color:#ff0000; text-align:center;}
 
-.popclose{position:relative; top: -13px; right: -11px; float:right; cursor:pointer;}
+.popclose{position:relative; top: -35px; right: -22px; float:right; cursor:pointer;}
 .setanswer .popcontent{padding: 10px 20px; background:#f4f4f4;border-radius:0 0 10px 10px;width:auto; height:500px;}
 .setanswer .poptitle{background:#15b0f5; font-size:18px; height:50px; color:#fff; line-height:50px;width:auto;border-radius:10px 10px 0 0; padding-left:20px;}
 .setanswer .popcontent .addedques{height:450px; overflow-y:scroll;}
