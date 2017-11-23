@@ -65,19 +65,35 @@ namespace easyzy.common
             return false;
         }
 
+        /// <summary>
+        /// 为了解决iframe高度自适应，给html增加一个input存放页面高度，同时为了跨域访问，设置document.domain = easyzy.com
+        /// </summary>
+        /// <param name="path">html路径</param>
         private static void UpdateHtmlForIframe(string path)
         {
-            FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
-            StreamReader sr = new StreamReader(fs);
-            string con = sr.ReadToEnd();
-            con = con.Replace("<title></title>", "<title></title><script type=\"text/javascript\">document.domain=\"easyzy.com\"; window.onload=function() {var h=document.body.scrollHeight; document.getElementsByName(\"myhight\")[0].value=h;}</script>").Replace("<body>", "<body><input value=\"0\" style=\"display:none;\" name=\"myhight\" />");
-            sr.Close();
-            fs.Close();
-            FileStream fs2 = new FileStream(path, FileMode.Open, FileAccess.Write);
-            StreamWriter sw = new StreamWriter(fs2);
-            sw.WriteLine(con);
-            sw.Close();
-            fs2.Close();
+            FileStream fs = null;
+            StreamReader sr = null;
+            FileStream fs2 = null;
+            StreamWriter sw = null;
+            try
+            {
+                fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+                sr = new StreamReader(fs);
+                string con = sr.ReadToEnd();
+                con = con.Replace("<title></title>", "<title></title><script type=\"text/javascript\">document.domain=\"easyzy.com\"; window.onload=function() {var h=document.body.scrollHeight; document.getElementsByName(\"myhight\")[0].value=h;}</script>").Replace("<body>", "<body><input value=\"0\" style=\"display:none;\" name=\"myhight\" />");
+                
+                fs2 = new FileStream(path, FileMode.Open, FileAccess.Write);
+                sw = new StreamWriter(fs2);
+                sw.WriteLine(con);
+                
+            }
+            catch { }
+            finally {
+                sr.Close();
+                fs.Close();
+                sw.Close();
+                fs2.Close();
+            }
         }
     }
 }
