@@ -220,7 +220,7 @@ namespace easyzy.com.Controllers
                     result.Add(new dto_Answer2() { StructId = s.StructId, BqNum = s.BqNum, SqNum = s.SqNum, Answer = s.Answer, QuesAnswer = zysl.FirstOrDefault(t => t.Id == s.StructId).QuesAnswer });
                 });
                 ViewBag.AnswerImg = a.AnswerImg;
-                ViewBag.AnswerCard = ansl;
+                ViewBag.AnswerCard = result;
             }
             ViewBag.ZyNum = zyNum;
             ViewBag.TrueName = trueName;

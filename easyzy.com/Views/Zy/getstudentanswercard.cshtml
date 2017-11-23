@@ -2,7 +2,7 @@
 @{var list = Model as List<dto_Answer2>; }
 
 <div class="ques">
-    <div class="cardtitle">@ViewBag.TrueName<img src="/Images/close.png" class="popclose"  style="top:-14px; right:-11px;" onclick="closepop();" /></div>
+    <div class="cardtitle">@ViewBag.TrueName<img src="/Images/close.png" class="popclose" style="top:-14px; right:-11px;" onclick="closepop();" /></div>
     @if (list != null)
     {
         foreach (var q in list)

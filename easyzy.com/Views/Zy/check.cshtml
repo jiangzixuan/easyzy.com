@@ -8,7 +8,7 @@
             <img src="/Images/boshimao.png" width="400" />
         </div>
     </div>*@
-<div class="content-nav">当前位置：<a href="/home/index">首页</a> > <a href="/home/query">查看作业</a> > 详情</div>
+<div class="content-nav">当前位置：<a href="/home/index">首页</a> > <a href="/zy/query">查看作业</a> > 详情</div>
 <div class="content">
     <div class="main-content">
         <div class="zyquery">
@@ -22,10 +22,10 @@
                 <li class="f1 answer">答案/解析</li>
                 }
             </ul>
-            <iframe name="ifraRight" id="ifraBody" style="width:100%;" src="@(ViewBag.UploadUrl)@(ViewBag.BodyHtml)" frameborder="0"></iframe>
+            <iframe name="ifraRight" id="ifraBody" style="width:100%;" src="@(ViewBag.UploadUrl)@(ViewBag.BodyHtml)" frameborder="0" scrolling="no"></iframe>
             @if (ViewBag.AnswerHtml != "")
             {
-            <iframe name="ifraRight" id="ifraAnswer" style="width:100%;" src="@(ViewBag.UploadUrl)@(ViewBag.AnswerHtml)" frameborder="0"></iframe>
+            <iframe name="ifraRight" id="ifraAnswer" style="width:100%;" src="@(ViewBag.UploadUrl)@(ViewBag.AnswerHtml)" frameborder="0" scrolling="no"></iframe>
             }
         </div>
     </div>
@@ -34,7 +34,6 @@
     <a title="打开答题卡" class="write"><img src="/Images/write.png" width="70" height="70" /></a>
 </div>
 
-<input id="file" class="fl upload-file" type="file" style="z-index: 1;" />
 <div class="fixed answercard">
     <div class="ques">
         <div class="cardtitle">@ViewBag.TrueName<img src="/Images/close.png" class="popclose" style="top:-14px; right:-11px;" onclick="closepop();" /></div>
@@ -80,6 +79,11 @@
 
 <script type="text/javascript">
     document.domain = "easyzy.com";  //必须加上才能读到iframe内控件，因为跨域
+
+    $("#imglistul").viewer({
+        url: 'data-original'
+    });
+
     //打开弹窗
     $(".write").on("click", function () {
         $(".answercard").show();
@@ -112,12 +116,12 @@
     })
 
     $("#ifraBody").load(function () {
-        var h = $(this).contents().find("#myhight").val();
+        var h = $(this).contents().find("input[name='myhight']").val();
         $(this).height(h);
     })
 
     $("#ifraAnswer").load(function () {
-        var h = $(this).contents().find("#myhight").val();
+        var h = $(this).contents().find("input[name='myhight']").val();
         $(this).height(h);
     })
 </script>

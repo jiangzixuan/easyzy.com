@@ -70,7 +70,7 @@ namespace easyzy.common
             FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
             StreamReader sr = new StreamReader(fs);
             string con = sr.ReadToEnd();
-            con = con.Replace("<title></title>", "<title></title><script type=\"text/javascript\">document.domain=\"easyzy.com\"; window.onload=function() {var h=document.body.scrollHeight; document.getElementById(\"myhight\").value=h;}</script>").Replace("<body>", "<body><input value=\"0\" style=\"display:none;\" id=\"myhight\" />");
+            con = con.Replace("<title></title>", "<title></title><script type=\"text/javascript\">document.domain=\"easyzy.com\"; window.onload=function() {var h=document.body.scrollHeight; document.getElementsByName(\"myhight\")[0].value=h;}</script>").Replace("<body>", "<body><input value=\"0\" style=\"display:none;\" name=\"myhight\" />");
             sr.Close();
             fs.Close();
             FileStream fs2 = new FileStream(path, FileMode.Open, FileAccess.Write);
