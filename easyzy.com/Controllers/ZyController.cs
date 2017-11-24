@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace easyzy.com.Controllers
 {
-    public class ZyController : Controller
+    public class ZyController : CommonController
     {
         public int UserId = 0;
         public ZyController()

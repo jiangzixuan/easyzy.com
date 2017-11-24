@@ -142,6 +142,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ZyController.cs" />
     <Compile Include="Global.asax.cs">
@@ -152,6 +153,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\tool.css" />
     <Content Include="Content\css.css" />
     <Content Include="Content\viewer.min.css" />
     <Content Include="favicon.ico" />
@@ -164,9 +166,11 @@
     <Content Include="Images\easy.png" />
     <Content Include="Images\easyzy.png" />
     <Content Include="Images\fangdajing.jpg" />
+    <Content Include="Images\icon_bg.png" />
     <Content Include="Images\index1.png" />
     <Content Include="Images\index2.png" />
     <Content Include="Images\index3.png" />
+    <Content Include="Images\qqimg.png" />
     <Content Include="Images\radio.png" />
     <Content Include="Images\addpic.jpg" />
     <Content Include="Images\redstar.png" />
@@ -224,7 +228,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\banner\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Common\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>

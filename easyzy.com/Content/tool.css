@@ -1,0 +1,64 @@
+﻿/*此处放一些第三方插件上需要覆盖的样式*/
+*{box-sizing : content-box;} /*这一句必须在引入bootstrap.min.css之后*/
+
+.carousel {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+.carousel-control {
+  position: absolute;
+  top: 48%;
+  left: 25px;
+  width: 40px;
+  height: 40px;
+  font-size: 60px;
+  font-weight: 100;
+  line-height: 25px;
+  color: #ffffff;
+  text-align: center;
+  background: #222222;
+  border: 3px solid #ffffff;
+  -webkit-border-radius: 23px;
+  -moz-border-radius: 23px;
+  border-radius: 23px;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+  background-color: transparent;
+  border: none;
+}
+.carousel-control.right {
+  right: 25px;
+  background-image: none;
+  filter: none;
+}
+.carousel-control.left {
+  filter: none;
+  background-image: none;
+}
+.carousel-indicators {
+  *left: 45%;
+  *margin-left: 0;
+}
+.carousel-indicators li {
+  width: 36px;
+  border-radius: 0;
+  height: 4px;
+  vertical-align: middle;
+  border-color: #adb8de;
+  background-color: #adb8de;
+  background-color: #adb8de\9;
+  border: none;
+  *display: inline;
+  *zoom: 1;
+}
+.carousel-indicators .active {
+  height: 8px;
+  width: 36px;
+  border: none;
+  background-color: #fff\9;
+}
+.carousel-inner .item img {
+  width: 100%;
+  max-height:500px;
+}

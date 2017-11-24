@@ -10,11 +10,48 @@
     <link rel="stylesheet" href="/Content/viewer.min.css" />
     <link href="/Scripts/artDialog/css/ui-dialog.css" rel="stylesheet" />
     @RenderSection("css", required: false)
+    
     <script type="text/javascript" src="/Scripts/jquery-1.10.2.min.js"></script>
     <script src="/Scripts/artDialog/dialog.js"></script>
     <script type="text/javascript" src="/Scripts/viewer-jquery.min.js"></script>
     <script src="/Scripts/easyzy.common.js"></script>
     @RenderSection("scriptfirst", false)
+    <script type="text/javascript">
+        function letDivCenter(divName) {
+            var top = ($(window).height() - $(divName).height()) / 2;
+            var left = ($(window).width() - $(divName).width()) / 2;
+            var scrollTop = $(document).scrollTop();
+            var scrollLeft = $(document).scrollLeft();
+            $(divName).css({ position: 'absolute', 'top': top + scrollTop, left: left + scrollLeft }).show();
+        }
+
+        var suggest = function () {
+            letDivCenter(".prop-suggest");
+            $(".prop-suggest .thanks").hide();
+            $(".prop-suggest").show();
+        }
+
+        var closesuggest = function () {
+            $(".prop-suggest").hide();
+        }
+
+        var savesuggest = function () {
+            var content = $("#cs_txt_content").val();
+            if (trim(content) == "")
+            {
+                $("#cs_txt_content").focus();
+                return false;
+            }
+            var name = $("#cs_UserName").val();
+            var phone = $("#cs_Phone").val();
+            $.post("SaveSuggest",
+                {content: content, name: name, phone: phone},
+                function (data) {
+                    $(".prop-suggest .thanks").show();
+                    window.setTimeout('closesuggest();', 3000); 
+                })
+        }
+    </script>
 </head>
 <body>
     <div class="content-container">
@@ -51,6 +88,30 @@
                     
                 </div>
             </div>
+        </div>
+        <div class="topfixed">
+            <ul>
+                <li>
+                    <span class="text"><a href="javascript:void(0);" onclick="suggest();">意见建议</a></span>
+                    <span class="icon icon-suggest"></span>
+                </li>
+                <li>
+                    <span class="text">
+                        <a target="blank" href="tencent://message/?uin=260031297&amp;Menu=yes">QQ联系</a>
+                    </span>
+                    <span class="icon icon-qq"></span>
+                </li>
+            </ul>
+        </div>
+        <div class="prop-suggest" style="display:none; width:350px;">
+            <img src="/Images/close.png" class="closesuggest" style="right:-32px;" onclick="closesuggest();" />
+            <div class="ptop-logo"></div>
+
+            <textarea id="cs_txt_content" name="" cols="" rows="5" class="view" placeholder="请输入建议内容（必填）"></textarea>
+            <input id="cs_UserName" type="text" name="" placeholder="联系人（选填）">
+            <input id="cs_Phone" type="text" name="" placeholder="联系方式（建议填写，以便于我们跟您联系）">
+            <button id="cs_Submit" type="button" onclick="savesuggest();">提 交</button>
+            <div class="thanks">谢谢您的建议，我们会认真考虑并尽快处理的！<br/>3秒后自动关闭弹窗</div>
         </div>
     </div>
 </body>

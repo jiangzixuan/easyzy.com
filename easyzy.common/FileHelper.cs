@@ -80,6 +80,7 @@ namespace easyzy.common
                 fs = new FileStream(path, FileMode.Open, FileAccess.Read);
                 sr = new StreamReader(fs);
                 string con = sr.ReadToEnd();
+                //input name=myhight，此处不用id是因为可能同一个页面多个iframe
                 con = con.Replace("<title></title>", "<title></title><script type=\"text/javascript\">document.domain=\"easyzy.com\"; window.onload=function() {var h=document.body.scrollHeight; document.getElementsByName(\"myhight\")[0].value=h;}</script>").Replace("<body>", "<body><input value=\"0\" style=\"display:none;\" name=\"myhight\" />");
                 
                 fs2 = new FileStream(path, FileMode.Open, FileAccess.Write);

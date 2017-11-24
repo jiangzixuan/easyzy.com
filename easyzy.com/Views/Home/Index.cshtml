@@ -3,10 +3,32 @@
     ViewBag.Keywords = "作业工具，好用的作业工具，随用随走的作业助手";
     ViewBag.Description = "易作业；简单、易用、随用随走的作业助手；简单的作业工具；好用的作业工具";
 }
-
+@section css
+{ 
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/tool.css" />
+}
 <div class="slider">
-    <div class="pic-field">
+    @*<div class="pic-field">
         <img src="/Images/boshimao.png" width="400" />
+    </div>*@
+    <div id="myCarousel" class="carousel slide">
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+            <li data-target="#myCarousel" data-slide-to="3"></li>
+        </ol>
+        <!-- Carousel items -->
+        <div class="carousel-inner">
+            <a class="active item" href="javascript:void(0);"><img src="/Images/banner/banner1.png" alt="" /></a>
+            <a class="item" href="javascript:void(0);"><img src="/Images/banner/banner2.png" alt="" /></a>
+            <a class="item" href="javascript:void(0);"><img src="/Images/banner/banner3.png" alt="" /></a>
+            <a class="item" href="javascript:void(0);"><img src="/Images/banner/banner4.png" alt="" /></a>
+        </div>
+        <!-- Carousel nav -->
+        <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+        <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
     </div>
 </div>
 <div class="content">
@@ -31,4 +53,16 @@
     </div>
 </div>
 
-
+@section scriptfirst
+{
+    <script src="~/Scripts/bootstrap.min.js"></script>
+}
+<script type="text/javascript">
+    //banner轮播图
+    $(function () {
+        $('.carousel').carousel({
+            interval: 3000
+        });
+    })
+    
+</script>

@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="dto\dto_Answer.cs" />
     <Compile Include="entity\T_Answer.cs" />
+    <Compile Include="entity\T_Suggestion.cs" />
     <Compile Include="entity\T_Zy.cs" />
     <Compile Include="entity\T_ZyStruct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="B_Common.cs" />
     <Compile Include="B_Zy.cs" />
     <Compile Include="B_ZyRedis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

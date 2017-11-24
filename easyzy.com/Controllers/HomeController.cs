@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace easyzy.com.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : CommonController
     {
         public ActionResult Index()
         {
