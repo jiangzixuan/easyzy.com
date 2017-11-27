@@ -160,16 +160,18 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\banner\banner1.jpg" />
+    <Content Include="Images\banner\banner2.jpg" />
+    <Content Include="Images\banner\banner3.jpg" />
     <Content Include="Images\boshimao.png" />
     <Content Include="Images\checkbox.png" />
     <Content Include="Images\close.png" />
-    <Content Include="Images\easy.png" />
-    <Content Include="Images\easyzy.png" />
     <Content Include="Images\fangdajing.jpg" />
     <Content Include="Images\icon_bg.png" />
-    <Content Include="Images\index1.png" />
-    <Content Include="Images\index2.png" />
-    <Content Include="Images\index3.png" />
+    <Content Include="Images\index1.jpg" />
+    <Content Include="Images\index2.jpg" />
+    <Content Include="Images\index3.jpg" />
+    <Content Include="Images\logo.jpg" />
     <Content Include="Images\qqimg.png" />
     <Content Include="Images\radio.png" />
     <Content Include="Images\addpic.jpg" />
@@ -228,7 +230,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\banner\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Common\" />
     <Folder Include="Views\User\" />

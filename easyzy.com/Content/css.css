@@ -42,9 +42,9 @@ a.btn{border: 0;
     display: none;
 }
 .prop-suggest .ptop-logo {
-    width: 188px;
-    height: 31px;
-    background: url(/images/easy.png);
+    width: 70px;
+    height: 70px;
+    background: url(/images/logo.jpg);
     margin: 30px auto;
 }
 
@@ -132,20 +132,22 @@ a.btn{border: 0;
 }
 
 .header-wrap {
-    margin:0 auto; padding:10px 50px;
+    margin:0 auto; 
 }
 .header-wrap .head {
-    height: 60px;
-    line-height: 60px;
+    height: 70px;
+    line-height: 70px;
+    width:1200px;
 }
-.reg{background:rgba(0,0,0,.3); padding:30px 50px;}
+.reg{background:rgba(0,0,0,.3);}
 .reg .title{font-size:18px; color:#fff;}
 .reg .info input{line-height:35px; height:35px; width:200px; }
 
-.header-wrap .head .logo{ width:180px; height:60px;}
+.header-wrap .head .logo{ width:50px; height:50px;}
+.head .left label{font-size:20px; color:#e91a53;}
 .head .right a{padding:0 10px;}
 .head .right a:hover{color:#15b0f5;}
-.slider{ background:#82f7da; height:500px;}
+.slider{ height:500px;}
 .slider .pic-field{padding:50px 0;width:1200px;}
 
 .content-wrap {background:#f4f4f4; min-height:800px;}
