@@ -80,16 +80,21 @@ namespace easyzy.common
                 fs = new FileStream(path, FileMode.Open, FileAccess.Read);
                 sr = new StreamReader(fs);
                 string con = sr.ReadToEnd();
+                sr.Close();
+                fs.Close();
                 //input name=myhight，此处不用id是因为可能同一个页面多个iframe
                 con = con.Replace("<title></title>", "<title></title><script type=\"text/javascript\">document.domain=\"easyzy.com\"; window.onload=function() {var h=document.body.scrollHeight; document.getElementsByName(\"myhight\")[0].value=h;}</script>").Replace("<body>", "<body><input value=\"0\" style=\"display:none;\" name=\"myhight\" />");
-                
+
                 fs2 = new FileStream(path, FileMode.Open, FileAccess.Write);
                 sw = new StreamWriter(fs2);
                 sw.WriteLine(con);
-                
             }
-            catch { }
-            finally {
+            catch(Exception ex)
+            {
+                LogHelper.Error("UpdateHtmlForIframe 修改html增加页面高度控件失败，原因是：" + ex.Message);
+            }
+            finally
+            {
                 sr.Close();
                 fs.Close();
                 sw.Close();
