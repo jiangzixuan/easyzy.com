@@ -143,7 +143,8 @@ a.btn{border: 0;
 .reg .title{font-size:18px; color:#fff;}
 .reg .info input{line-height:35px; height:35px; width:200px; }
 
-.header-wrap .head .logo{ width:50px; height:50px;}
+.header-wrap .head .logo{ width:50px; height:50px; margin-top:10px;}
+.head .left{ height:70px; line-height:70px;}
 .head .left label{font-size:20px; color:#e91a53;}
 .head .right a{padding:0 10px;}
 .head .right a:hover{color:#15b0f5;}
