@@ -15,7 +15,7 @@ namespace user.easyzy.com
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
+                url: "{action}/{id}",  //路由规则拿掉Controller， 只定位homecontrol下的action
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
         }

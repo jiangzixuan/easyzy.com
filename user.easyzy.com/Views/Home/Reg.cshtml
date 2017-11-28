@@ -1,19 +1,56 @@
 ﻿
 @{
     ViewBag.Title = "易作业-注册";
-    ViewBag.Keywords = "Word上传作业，自传作业，新建作业，方便的新建作业";
-    ViewBag.Description = "通过Word文档新建作业";
+    ViewBag.Keywords = "易作业-注册";
+    ViewBag.Description = "注册";
+    Layout = "/Views/Shared/_RegLayOut.cshtml";
 }
 
-<div class="reg">
-    <div class="title">注册</div>
-    <div class="info">
-        <input type="text" placeholder="请输入用户名" /><br/>
-        <input type="text" placeholder="请输入密码" /><br />
-        <input type="text" placeholder="确认密码" />
-    </div>
-    <div class="btn">
+<script type="text/javascript">
+    $("input").click(function(){
+        $(this).css("border", "0");
+    })
+</script>
 
+<div style="padding-top:100px;">
+    <div class="reg">
+        <div><img src="/Images/logo.jpg" width="80" height="80" /></div>
+        <div class="line">
+            <div class="title left">用户名：</div>
+            <div class="left">
+                <input type="text" class="text1" placeholder="请输入用户名" />
+            </div>
+        </div>
+        <div class="line">
+            <div class="title left">密码：</div>
+            <div class="left">
+                <input type="text" class="text1" placeholder="请输入密码" />
+            </div>
+        </div>
+        <div class="line">
+            <div class="title left">确认密码：</div>
+            <div class="left">
+                <input type="text" class="text1" placeholder="确认密码" />
+            </div>
+        </div>
+        <div class="line">
+            <div class="title left">验证码：</div>
+            <div class="regcode left">
+                <input type="text" class="text2" placeholder="验证码" /><img src="ShowCheckCode" style="" onclick="refresh();" title="点击刷新验证码" alt="点击刷新验证码" />
+            </div>
+        </div>
+        <div class="line">
+            <a href="javascript:void(0)" class="submit">提 交</a>
+        </div>
     </div>
 </div>
 
+<script type="text/javascript">
+    
+    var i = 0;
+    var refresh = function ()
+    {
+        i += 1;
+        $(".regcode img").attr("src", "ShowCheckCode?" + i);
+    }
+</script>
