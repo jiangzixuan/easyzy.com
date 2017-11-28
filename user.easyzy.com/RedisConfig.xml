@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <redis catelog="User" ip="127.0.0.1" port="6379" pwd="260031297" db="0"></redis>
+  <redis catelog="Zy" ip="127.0.0.1" port="6379" pwd="260031297" db="1"></redis>
+  <redis catelog="ZyStruct" ip="127.0.0.1" port="6379" pwd="260031297" db="1"></redis>
+  <redis catelog="ZyAnswer" ip="127.0.0.1" port="6379" pwd="260031297" db="1"></redis>
+</root>
