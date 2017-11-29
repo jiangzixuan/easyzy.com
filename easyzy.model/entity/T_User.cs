@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace easyzy.model.entity
+{
+    public class T_User
+    {
+        public int Id { get; set; }
+
+        public string UserName { get; set; }
+
+        public string TrueName { get; set; }
+
+        public string Psd { get; set; }
+
+        public string Mobile { get; set; }
+
+        public DateTime FirstLoginDate { get; set; }
+
+        public DateTime CreateDate { get; set; }
+
+        public string Extend1 { get; set; }
+    }
+}

@@ -41,9 +41,12 @@ namespace easyzy.common
             User,
             Zy,
             ZyStruct,
-            ZyAnswer
+            ZyAnswer,
+            CheckCode //验证码
         }
 
         public static string[] ImgPattern = new string[] { "jpg", "jpeg", "png", "bmp" };
+
+        public static string[] UserNameFilter = new string[] { "system", "admin", "sysadmin", "administrator" };
     }
 }

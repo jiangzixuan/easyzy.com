@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "易作业-登录";
+    ViewBag.Keywords = "易作业-登录";
+    ViewBag.Description = "登录";
+    Layout = "/Views/Shared/_RegLayOut.cshtml";
+}
+
+<script type="text/javascript">
+    $("input").click(function(){
+        $(this).css("border", "0");
+    })
+</script>
+
+<div style="padding-top:100px;">
+    <div class="reg">
+        <div><img src="/Images/logo.jpg" width="80" height="80" /></div>
+        <div class="line">
+            <div class="regtip"><label>注册</label></div>
+            <div class="logintip">已有帐号?<a href="login">立即登录</a></div>
+        </div>
+        <div class="line" style="margin-top:30px;">
+            <div class="title left">用户名：</div>
+            <div class="left">
+                <label class="msg u1">用户名不规范</label>
+                <label class="msg u2">用户名已存在</label>
+                <input type="text" class="text1 username" placeholder="长度5-16，仅支持字母、数字和下划线" />
+            </div>
+        </div>
+        <div class="line">
+            <div class="title left">密码：</div>
+            <div class="left">
+                <label class="msg p1">密码不规范</label>
+                <input type="password" class="text1 password" placeholder="长度6~18，仅支持字母、数字和下划线" />
+            </div>
+        </div>
+        <div class="line">
+            <div class="title left">确认密码：</div>
+            <div class="left">
+                <label class="msg c1">密码不一致</label>
+                <input type="password" class="text1 cpassword" placeholder="确认密码" />
+            </div>
+        </div>
+        <div class="line">
+            <div class="title left">验证码：</div>
+            <div class="regcode left">
+                <label class="msg c2">验证码不正确</label>
+                <input type="text" class="text2 checkcode" placeholder="验证码" /><img src="ShowCheckCode?token=@ViewBag.Token" style="" onclick="refresh();" title="点击刷新验证码" alt="点击刷新验证码" />
+            </div>
+        </div>
+        <div class="line">
+            <a href="javascript:void(0)" class="submit">提 交</a>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    
+    
+</script>

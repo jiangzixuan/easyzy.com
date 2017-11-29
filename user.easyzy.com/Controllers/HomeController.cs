@@ -1,4 +1,7 @@
-﻿using System;
+﻿using easyzy.bll;
+using easyzy.common;
+using easyzy.model.entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,16 +22,82 @@ namespace user.easyzy.com.Controllers
         /// <returns></returns>
         public ActionResult Reg()
         {
+            //打开获取一个token，作为redis存放验证码的key
+            string Token = UniqueObjectID.GenerateStrNewId();
+            ViewBag.Token = Token;
             return View();
         }
 
-        public void ShowCheckCode()
+        /// <summary>
+        /// 显示验证码，并记录redis
+        /// </summary>
+        /// <param name="token"></param>
+        public void ShowCheckCode(string token)
         {
             string checkCode = GenerateCheckCode();
-            Session["CheckCode"] = checkCode;
             CreateCheckCodeImage(checkCode);
+            B_CheckCodeRedis.SetCheckCode(token, checkCode);
         }
 
+        /// <summary>
+        /// 用户名是否存在
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public string IsUserNameExists(string userName)
+        {
+            if (EasyzyConst.UserNameFilter.Contains(userName)) return "1";
+            T_User u = B_User.GetUser(userName);
+            if (u == null)
+            {
+                return "0";
+            }
+            else
+            {
+                return "1";
+            }
+        }
+
+        /// <summary>
+        /// 验证码是否正确
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="checkCode"></param>
+        /// <returns></returns>
+        public string IsCheckCodeCorrect(string token, string checkCode)
+        {
+            string CorrectCode = B_CheckCodeRedis.GetCheckCode(token);
+            return CorrectCode == checkCode.ToUpper() ? "0" : "1";
+        }
+
+        /// <summary>
+        /// 注册
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="passWord"></param>
+        /// <returns></returns>
+        public string RegistUser(string userName, string passWord)
+        {
+            T_User u = new T_User()
+            {
+                UserName = userName,
+                TrueName = "",
+                Psd = Util.MD5(passWord),
+                Mobile = "",
+                FirstLoginDate = DateTime.Parse("2000-01-01 00:00:00"),
+                CreateDate = DateTime.Now,
+                Extend1 = passWord
+            };
+            return B_User.Create(u) > 0 ? "0" : "1";
+        }
+
+        public ActionResult Login()
+        {
+
+            return View();
+        }
+
+        #region 验证码相关
         /// <summary>
         /// 生成长度为4的验证码
         /// </summary>
@@ -115,5 +184,6 @@ namespace user.easyzy.com.Controllers
                 image.Dispose();
             }
         }
+        #endregion
     }
 }

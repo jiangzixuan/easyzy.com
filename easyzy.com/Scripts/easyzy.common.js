@@ -26,11 +26,6 @@ function dialogConfirm(content, okfunction, cancelfunction) {
 	return d;
 }
 
-function reguser()
-{
-    $(".reg").slideDown();
-}
-
 function trim(str) {   //删除左右两端的空格
     return str.replace(/(^\s*)|(\s*$)/g, "");
 }

@@ -156,9 +156,14 @@ a.btn{border: 0;
 .content .main-content{width:1160px; background:#fff; padding:20px; min-height:600px;}
 
 
-.reg{width:800px; height:500px; background:#fff; margin-top:100px; text-align:center; padding:10px;}
-.reg .line{width:410px; height:45px; line-height:45px; }
-.reg .title{font-size:16px; width:100px; text-align:right;}
+.reg{width:800px; height:500px; background:#fff; text-align:center; padding:50px 10px;}
+.reg .line{width:393px; height:45px; line-height:55px; clear:both;}
+.reg .line .msg{color:red; font-size:8px;line-height:0; display:none; text-align:left;}
+.reg .regtip{border-bottom:2px solid #288ff2; color:#288ff2; float:left; width:142px;}
+.reg .regtip label{background:url("/Images/icon-reg.png") no-repeat; width:100px; padding-left:27px;}
+.reg .logintip{float:right; width:250px; border-bottom:1px solid #dfdfdf;font-size:14px;text-align:right; }
+.reg .logintip a{color:#288ff2; }
+.reg .title{font-size:16px; width:85px; text-align:right;}
 .reg .text1{line-height:35px; height:35px; width:300px; border:1px solid rgb(169, 212, 253); padding-left:5px;}
 .reg .text1:focus,.reg .text2:focus{  
     border-style:solid;  
@@ -167,7 +172,7 @@ a.btn{border: 0;
 }
 .reg .text2{line-height:35px; height:35px; width:146px; border:1px solid rgb(169, 212, 253); padding-left:5px;}
 .reg .regcode img{cursor:pointer; vertical-align:middle; width:150px; height:37px; margin-left:5px;}
-.reg .line .submit{background:#f75e12; color:#fff; width:100%;height:35px; line-height:35px; display:inline-block;}
+.reg .line .submit{background:#f75e12; color:#fff; width:310px;height:35px; line-height:35px; display:inline-block; float:right; margin-top:10px; }
 
 .foot-wrap{width: 100%;min-width: 1000px;padding: 30px 0;overflow: hidden;background: #333;}
 .foot{text-align:center; color:#e4e6ed;}

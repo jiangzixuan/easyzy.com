@@ -16,27 +16,36 @@
     <div class="reg">
         <div><img src="/Images/logo.jpg" width="80" height="80" /></div>
         <div class="line">
+            <div class="regtip"><label>注册</label></div>
+            <div class="logintip">已有帐号?<a href="login">立即登录</a></div>
+        </div>
+        <div class="line" style="margin-top:30px;">
             <div class="title left">用户名：</div>
             <div class="left">
-                <input type="text" class="text1" placeholder="请输入用户名" />
+                <label class="msg u1">用户名不规范</label>
+                <label class="msg u2">用户名已存在</label>
+                <input type="text" class="text1 username" placeholder="长度5-16，仅支持字母、数字和下划线" />
             </div>
         </div>
         <div class="line">
             <div class="title left">密码：</div>
             <div class="left">
-                <input type="text" class="text1" placeholder="请输入密码" />
+                <label class="msg p1">密码不规范</label>
+                <input type="password" class="text1 password" placeholder="长度6~18，仅支持字母、数字和下划线" />
             </div>
         </div>
         <div class="line">
             <div class="title left">确认密码：</div>
             <div class="left">
-                <input type="text" class="text1" placeholder="确认密码" />
+                <label class="msg c1">密码不一致</label>
+                <input type="password" class="text1 cpassword" placeholder="确认密码" />
             </div>
         </div>
         <div class="line">
             <div class="title left">验证码：</div>
             <div class="regcode left">
-                <input type="text" class="text2" placeholder="验证码" /><img src="ShowCheckCode" style="" onclick="refresh();" title="点击刷新验证码" alt="点击刷新验证码" />
+                <label class="msg c2">验证码不正确</label>
+                <input type="text" class="text2 checkcode" placeholder="验证码" /><img src="ShowCheckCode?token=@ViewBag.Token" style="" onclick="refresh();" title="点击刷新验证码" alt="点击刷新验证码" />
             </div>
         </div>
         <div class="line">
@@ -48,9 +57,154 @@
 <script type="text/javascript">
     
     var i = 0;
+    var token = '@ViewBag.Token';
     var refresh = function ()
     {
         i += 1;
-        $(".regcode img").attr("src", "ShowCheckCode?" + i);
+        $(".regcode img").attr("src", "ShowCheckCode?token=" + token + "&" + i);
     }
+
+    //用户名检查
+    $(".username").on("focus", function () {
+        $(".line .msg.u1").hide();
+        $(".line .msg.u2").hide();
+        $(this).css("border", "1px solid rgb(169, 212, 253)");
+    }).on("blur", function () {
+        CheckUserName();
+        });
+
+    var CheckUserName = function () {
+        var username = $(".username").val();
+        if (username == "") return false;
+        if (!isUserName(username)) {
+            $(".line .msg.u1").css("display", "block");
+            $(".username").css("border", "1px solid red");
+            return false;
+        }
+        if (IsUserNameExists(username)) {
+            $(".line .msg.u2").css("display", "block");
+            $(".username").css("border", "1px solid red");
+            return false;
+        }
+        return true;
+    }
+
+    var IsUserNameExists = function (username) {
+        var result = false;
+        $.ajax({
+            type: "post",
+            url: "IsUserNameExists",
+            data: "userName=" + username,
+            async: false,
+            success: function (data) {
+                if (data) {
+                    if (data == "1") {
+                        result = true;
+                    }
+                }
+            },
+            error: function (data) {
+
+            }
+        });
+        return result;
+    }
+    //密码检查
+    $(".password").on("focus", function () {
+        $(".line .msg.p1").hide();
+        $(this).css("border", "1px solid rgb(169, 212, 253)");
+    }).on("blur", function () {
+        CheckPsd();
+        });
+
+    var CheckPsd = function () {
+        var psd = $(".password").val();
+        if (psd == "") return false;
+        if (!isPassword(psd)) {
+            $(".line .msg.p1").css("display", "block");
+            $(".password").css("border", "1px solid red");
+            return false;
+        }
+        return true;
+    }
+
+    //确认密码检查
+    $(".cpassword").on("focus", function () {
+        $(".line .msg.c1").hide();
+        $(this).css("border", "1px solid rgb(169, 212, 253)");
+    }).on("blur", function () {
+        CheckCPsd();
+    });
+
+    var CheckCPsd = function () {
+        var cpsd = $(".cpassword").val();
+        var psd = $(".password").val();
+        if (cpsd != psd) {
+            $(".line .msg.c1").css("display", "block");
+            $(".cpassword").css("border", "1px solid red");
+            return false;
+        }
+        return true;
+    }
+
+    //验证码检查
+    $(".checkcode").on("focus", function () {
+        $(".line .msg.c2").hide();
+        $(this).css("border", "1px solid rgb(169, 212, 253)");
+    }).on("blur", function () {
+        CheckCheckCode();
+        });
+
+    var CheckCheckCode = function () {
+        var checkcode = $(".checkcode").val();
+        if (checkcode == "") return false;
+        if (!IsCheckCodeCorrect()) {
+            $(".line .msg.c2").css("display", "block");
+            $(".checkcode").css("border", "1px solid red");
+            return false;
+        }
+        return true;
+    }
+
+    var IsCheckCodeCorrect = function () {
+        var checkcode = $(".checkcode").val();
+
+        var result = false;
+        $.ajax({
+            type: "post",
+            url: "IsCheckCodeCorrect",
+            data: "token=" + token + "&checkCode=" + checkcode,
+            async: false,
+            success: function (data) {
+                if (data) {
+                    if (data == "0") {
+                        result = true;
+                    }
+                }
+            },
+            error: function (data) {
+
+            }
+        });
+        return result;
+    }
+
+    $(".submit").on("click", function () {
+        if (!CheckUserName()) return false;
+        if (!CheckPsd()) return false;
+        if (!CheckCPsd()) return false;
+        if (!CheckCheckCode()) return false;
+        $.post("RegistUser",
+            { userName: $(".username").val(), passWord: $(".password").val()},
+            function (data) {
+                if (data == "0") {
+                    dialogAlert("注册成功，3秒后自动跳转到登录页！");
+                    setInterval("", 3000);
+                    window.location.href = "login";
+                }
+                else {
+                    dialogAlert("注册失败！");
+                }
+            })
+    })
 </script>

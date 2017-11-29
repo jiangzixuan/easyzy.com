@@ -13,6 +13,9 @@ namespace easyzy.bll
 {
     public class B_ZyRedis
     {
+        //缓存有效期(7天）
+        private static TimeSpan ts = new TimeSpan(7, 0, 0, 0);
+
         /// <summary>
         /// 获取作业信息
         /// </summary>
@@ -42,7 +45,10 @@ namespace easyzy.bll
                     using (var cl = RedisHelper.GetRedisClient(CacheCatalog.Zy.ToString()))
                     {
                         if (cl != null)
+                        {
                             cl.SetRangeInHash(key, GetZyKeyValuePairs(result));
+                            cl.ExpireEntryIn(key, ts);
+                        }
                     }
                 }
             }
@@ -80,7 +86,7 @@ namespace easyzy.bll
                     {
                         if (cl != null)
                         {
-                            cl.Set<string>(key, JsonConvert.SerializeObject(result));
+                            cl.Set<string>(key, JsonConvert.SerializeObject(result), ts);
                         }
                     }
                 }
@@ -112,7 +118,10 @@ namespace easyzy.bll
                     using (var cl = RedisHelper.GetRedisClient(CacheCatalog.ZyAnswer.ToString()))
                     {
                         if (cl != null)
+                        {
                             cl.SetRangeInHash(key, GetZyAnswerKeyValuePairs(result));
+                            cl.ExpireEntryIn(key, ts);
+                        }
                     }
                 }
             }
