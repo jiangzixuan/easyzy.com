@@ -13,13 +13,13 @@ namespace easyzy.com.Controllers
 {
     public class ZyController : CommonController
     {
-        public int UserId = 0;
+        public T_User User = null;
         public ZyController()
         {
-            string u = Util.GetCookie("easyzy", "UserID");
+            string u = Util.GetCookie(EasyzyConst.CookieName_User, EasyzyConst.CookieVluew_UserId);
             if (!string.IsNullOrEmpty(u))
             {
-                UserId = int.Parse(u);
+                User = B_UserRedis.GetUser(int.Parse(u));
             }
         }
         public ActionResult Add()

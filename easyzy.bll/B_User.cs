@@ -14,7 +14,7 @@ namespace easyzy.bll
         public static T_User GetUser(int Id)
         {
             T_User model = null;
-            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString("EasyZy_Home"),
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.UserConnectStringName),
                 "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1 from T_User where Id = @Id",
                 "@Id".ToInt32InPara(Id)))
             {
@@ -29,7 +29,7 @@ namespace easyzy.bll
         public static T_User GetUser(string userName)
         {
             T_User model = null;
-            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString("EasyZy_Home"),
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.UserConnectStringName),
                 "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1 from T_User where UserName = @UserName",
                 "@UserName".ToVarCharInPara(userName)))
             {
@@ -48,7 +48,7 @@ namespace easyzy.bll
         /// <returns></returns>
         public static int Create(T_User zy)
         {
-            object o = MySqlHelper.ExecuteScalar(Util.GetConnectString("EasyZy_Home"),
+            object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(EasyzyConst.UserConnectStringName),
                 "insert into T_User(Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1) values (null, @UserName, @TrueName, @Psd, @Mobile, @FirstLoginDate, @CreateDate, @Extend1); select last_insert_id();",
                 "@UserName".ToVarCharInPara(zy.UserName),
                 "@TrueName".ToVarCharInPara(zy.TrueName),

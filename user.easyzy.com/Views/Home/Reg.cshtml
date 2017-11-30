@@ -199,8 +199,8 @@
             function (data) {
                 if (data == "0") {
                     dialogAlert("注册成功，3秒后自动跳转到登录页！");
-                    setInterval("", 3000);
-                    window.location.href = "login";
+                    setTimeout("window.location.href = 'login'", 3000);
+                    
                 }
                 else {
                     dialogAlert("注册失败！");

@@ -7,6 +7,9 @@ using System.Web;
 
 namespace easyzy.common
 {
+    /// <summary>
+    /// 跟客户端相关的公共方法
+    /// </summary>
     public class ClientUtil
     {
         public static string Ip

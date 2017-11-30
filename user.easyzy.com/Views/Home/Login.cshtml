@@ -16,45 +16,62 @@
     <div class="reg">
         <div><img src="/Images/logo.jpg" width="80" height="80" /></div>
         <div class="line">
-            <div class="regtip"><label>注册</label></div>
-            <div class="logintip">已有帐号?<a href="login">立即登录</a></div>
+            <div class="regtip"><label>登录</label></div>
+            <div class="logintip">没有帐号?<a href="reg">注册一个</a></div>
         </div>
         <div class="line" style="margin-top:30px;">
             <div class="title left">用户名：</div>
             <div class="left">
-                <label class="msg u1">用户名不规范</label>
-                <label class="msg u2">用户名已存在</label>
-                <input type="text" class="text1 username" placeholder="长度5-16，仅支持字母、数字和下划线" />
+                <input type="text" class="text1 username" placeholder="用户名" />
             </div>
         </div>
         <div class="line">
             <div class="title left">密码：</div>
             <div class="left">
-                <label class="msg p1">密码不规范</label>
-                <input type="password" class="text1 password" placeholder="长度6~18，仅支持字母、数字和下划线" />
+                <input type="password" class="text1 password" placeholder="密码" />
             </div>
         </div>
         <div class="line">
-            <div class="title left">确认密码：</div>
-            <div class="left">
-                <label class="msg c1">密码不一致</label>
-                <input type="password" class="text1 cpassword" placeholder="确认密码" />
-            </div>
+            <a href="javascript:void(0)" class="help rempsd unchoose">记住密码</a>
+            <a href="javascript:void(0)" class="help right forpsd">忘记密码？</a>
         </div>
         <div class="line">
-            <div class="title left">验证码：</div>
-            <div class="regcode left">
-                <label class="msg c2">验证码不正确</label>
-                <input type="text" class="text2 checkcode" placeholder="验证码" /><img src="ShowCheckCode?token=@ViewBag.Token" style="" onclick="refresh();" title="点击刷新验证码" alt="点击刷新验证码" />
-            </div>
-        </div>
-        <div class="line">
-            <a href="javascript:void(0)" class="submit">提 交</a>
+            <a href="javascript:void(0)" class="submit">登 录</a>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
-    
-    
+    $(".rempsd").on("click", function(){
+        if ($(this).hasClass("unchoose")) {
+            $(this).removeClass("unchoose").addClass("choose");
+        }
+        else {
+            $(this).removeClass("choose").addClass("unchoose");
+        }
+    })
+
+    $(".line .forpsd").on("click", function () {
+        dialogAlert("暂未开放找回密码功能，请返回首页（<a style='color:red; border-bottom:1px solid red;' href='http://easyzy.com'>http://easyzy.com</a>）与我们联系重置密码！");
+    })
+
+    $(".submit").on("click", function () {
+        var username = $(".username").val();
+        var psd = $(".password").val();
+        var isauto = "0";
+        if ($(".line .rempsd").hasClass("choose")) {
+            isauto = "1";
+        }
+
+        $.post("UserLogin",
+            { userName: username, passWord: psd, isAutoLogin: isauto},
+            function (data) {
+                if (data == "0") {
+                    window.location.href = "http://easyzy.com";
+                }
+                else {
+                    dialogAlert("用户名或密码错误！");
+                }
+            })
+    })
 </script>

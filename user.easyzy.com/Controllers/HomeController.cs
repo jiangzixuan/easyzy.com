@@ -47,7 +47,7 @@ namespace user.easyzy.com.Controllers
         public string IsUserNameExists(string userName)
         {
             if (EasyzyConst.UserNameFilter.Contains(userName)) return "1";
-            T_User u = B_User.GetUser(userName);
+            T_User u = B_UserRedis.GetUser(userName);
             if (u == null)
             {
                 return "0";
@@ -93,8 +93,27 @@ namespace user.easyzy.com.Controllers
 
         public ActionResult Login()
         {
-
             return View();
+        }
+
+        public string UserLogin(string userName, string passWord, string isAutoLogin)
+        {
+            T_User u = B_UserRedis.GetUser(userName);
+            if (u == null) return "1";
+            if (u.Psd == Util.MD5(passWord))
+            {
+                DateTime dt = DateTime.MinValue;
+                if (isAutoLogin == "1")
+                {
+                    dt = DateTime.Now.AddDays(30);
+                }
+                Util.SetCookie(EasyzyConst.CookieName_User, EasyzyConst.CookieVluew_UserId, u.Id.ToString(), dt);
+                return "0";
+            }
+            else
+            {
+                return "1";
+            }
         }
 
         #region 验证码相关

@@ -155,6 +155,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\checkbox.png" />
     <Content Include="Images\icon-reg.png" />
     <Content Include="Images\logo.jpg" />
     <Content Include="RedisConfig.xml" />

@@ -92,6 +92,7 @@ namespace easyzy.common
                     cookie.Expires = expiry;
                 }
                 cookie.Path = "/";
+                cookie.Domain = "easyzy.com";
                 HttpContext.Current.Response.AppendCookie(cookie);
             }
             else
@@ -103,6 +104,7 @@ namespace easyzy.common
                     cookie.Expires = expiry;
                 }
                 cookie.Path = "/";
+                cookie.Domain = "easyzy.com";
                 HttpContext.Current.Response.AppendCookie(cookie);
             }
         }
@@ -113,6 +115,7 @@ namespace easyzy.common
             cookie.Values.Add(valueName, "");
             cookie.Expires = DateTime.Now.AddMonths(-1);
             cookie.Path = "/";
+            cookie.Domain = "easyzy.com";
             HttpContext.Current.Response.Cookies.Add(cookie);
             
         }
