@@ -4,7 +4,8 @@
     font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", SimHei, sans-serif;
 }
 a{color:#000;text-decoration:none}
-a:focus{outline:none}
+a:focus{outline:none;}
+a:hover{text-decoration:none;}
 li{list-style-type:none;}
 .left{float:left;}
 .right{float:right;}
@@ -141,10 +142,28 @@ a.btn{border: 0;
 }
 
 .header-wrap .head .logo{ width:50px; height:50px; margin-top:10px;}
-.head .left{ height:70px; line-height:70px;}
-.head .left label{font-size:20px; color:#e91a53;}
+.head .logoarea{ height:70px; line-height:70px;}
+.head .logoarea label{font-size:20px; color:#e91a53;}
 .head .right a{padding:0 10px;}
 .head .right a:hover{color:#15b0f5;}
+.head .right .facepic{background:url("/Images/ico.png");display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-position: 0 -93px;
+    margin: 10px;}
+.head .right .uinfo{
+    width: 110px;
+    height: 20px;
+    margin-top: 30px;
+    cursor: pointer;}
+.head .uinfo b{width:90px; height:20px; line-height:20px; font-size:16px;}
+.head .uinfo i{background: url(/Images/arrow.png)no-repeat; background-position: 0 -2px; width:20px; height:20px;}
+.head .uprop{position:absolute; z-index:99; display:none; }
+.head .uprop ul{margin-bottom:0;}
+.head .uprop li{border-bottom:1px dashed #ccc; padding:10px 26px; height:20px; line-height:20px;background:#00aeff; cursor:pointer;}
+.head .uprop li a{color:#fff;}
+
+
 .slider{ height:500px;}
 .slider .pic-field{padding:50px 0;width:1200px;}
 
@@ -173,7 +192,8 @@ a.btn{border: 0;
 .preview li, .zyopen li{border:1px solid #15b0f5; padding:5px 20px;font-size:18px; font-weight:bold; cursor:pointer;}
 .preview li.active, .zyopen li.active{background:#0094ff; color:#fff;  }
 
-.main-content .uploadbtn{clear:both; text-align:center; padding:40px; font-size:18px;}
+.main-content .uploadbtn{clear:both; text-align:center; padding-top:40px; font-size:18px;}
+.main-content .uploadtip{text-align:center; color:red; padding-top:20px; display:none;}
 .main-content .uploadbtn a, .main-content .uploadedinfo.file a{ margin-left:10px; }
 
 .uploadedinfo.file{display:none; padding: 10px 20px; line-height:30px;}

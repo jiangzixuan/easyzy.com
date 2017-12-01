@@ -34,6 +34,7 @@
                 </div>
             </div>
             <div class="uploadbtn"><a class="btn" href="javascript:void(0)" id="uploadbtn">上传</a><a class="btn" href="javascript:void(0)" onclick="window.location.reload();">再传一份</a></div>
+            <div class="uploadtip">文档正在上传中，请稍侯...</div>
         </div>
         <div class="uploadedinfo file" style="display:none;">
             <div>
@@ -231,9 +232,7 @@
         for (var i = 0; i < uploader.files.length; i++) {
             uploader.removeFile(uploader.files[i]);
         }
-
-        $("#uploadbtn").hide();
-        
+        $(".uploadtip").hide();
     });
 
     //开始上传
@@ -247,6 +246,8 @@
             }
             else {
                 jQuery.support.cors = true;  //支持跨域访问
+                $("#uploadbtn").hide();
+                $(".uploadtip").show();
                 uploader.start();
             }
         }

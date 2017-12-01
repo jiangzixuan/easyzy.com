@@ -13,19 +13,8 @@ namespace easyzy.com.Controllers
 {
     public class ZyController : CommonController
     {
-        public T_User User = null;
-        public ZyController()
-        {
-            string u = Util.GetCookie(EasyzyConst.CookieName_User, EasyzyConst.CookieVluew_UserId);
-            if (!string.IsNullOrEmpty(u))
-            {
-                User = B_UserRedis.GetUser(int.Parse(u));
-            }
-        }
         public ActionResult Add()
         {
-            //var zy = b_Zy.GetZy(1000000);
-
             ViewBag.WordFunc = (int)EasyzyConst.WordFunc.CreateZY;
             ViewBag.UploadUrl = Util.GetAppSetting("UploadUrlPrefix");
             return View();

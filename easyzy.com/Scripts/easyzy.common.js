@@ -37,3 +37,57 @@ function ltrim(str) { //删除左边的空格
 function rtrim(str) { //删除右边的空格
     return str.replace(/(\s*$)/g, "");
 }
+
+//Div居中
+function letDivCenter(divName) {
+    var top = ($(window).height() - $(divName).height()) / 2;
+    var left = ($(window).width() - $(divName).width()) / 2;
+    var scrollTop = $(document).scrollTop();
+    var scrollLeft = $(document).scrollLeft();
+    $(divName).css({ position: 'absolute', 'top': top + scrollTop, left: left + scrollLeft }).show();
+}
+
+
+/****************** 以下是模板页直接调用方法 ****************************/
+var suggest = function () {
+    letDivCenter(".prop-suggest");
+    $(".prop-suggest .thanks").hide();
+    $(".prop-suggest").show();
+}
+
+var closesuggest = function () {
+    $(".prop-suggest").hide();
+}
+
+var savesuggest = function () {
+    var content = $("#cs_txt_content").val();
+    if (trim(content) == "") {
+        $("#cs_txt_content").focus();
+        return false;
+    }
+    var name = $("#cs_UserName").val();
+    var phone = $("#cs_Phone").val();
+    $.post("SaveSuggest",
+        { content: content, name: name, phone: phone },
+        function (data) {
+            $(".prop-suggest .thanks").show();
+            window.setTimeout('closesuggest();', 3000);
+        })
+}
+$(function () {
+    $(".head .udiv").mouseover(function () {
+        $(".head .uinfo i").css("background-position", "0 -22px");
+        $(".head .uprop").show();
+    }).mouseout(function () {
+        $(".head .uinfo i").css("background-position", "0 -2px");
+        $(".head .uprop").hide();
+        })
+
+    $(".exit").on("click", function () {
+        $.post("Exit",
+            { },
+            function () {
+                window.location.reload();
+            });
+    })
+})
