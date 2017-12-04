@@ -60,5 +60,21 @@ namespace easyzy.bll
                 );
             return o == null ? 0 : int.Parse(o.ToString());
         }
+
+        /// <summary>
+        /// 修改真实姓名
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="trueName"></param>
+        /// <returns></returns>
+        public static int UpdateTrueName(int userId, string trueName)
+        {
+            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(EasyzyConst.UserConnectStringName),
+                "update T_User set TrueName = @TrueName where Id = @UserId",
+                "@UserId".ToInt32InPara(userId),
+                "@TrueName".ToVarCharInPara(trueName)
+                );
+            return o == null ? 0 : int.Parse(o.ToString());
+        }
     }
 }

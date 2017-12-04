@@ -141,6 +141,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -155,8 +156,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\arrow.png" />
     <Content Include="Images\checkbox.png" />
+    <Content Include="Images\close.png" />
+    <Content Include="Images\ico.png" />
     <Content Include="Images\icon-reg.png" />
+    <Content Include="Images\icon_bg.png" />
     <Content Include="Images\logo.jpg" />
     <Content Include="RedisConfig.xml" />
     <Content Include="Scripts\artDialog\css\ui-dialog.css" />
@@ -197,10 +202,15 @@
     <Content Include="Views\Shared\_RegLayOut.cshtml" />
     <Content Include="Scripts\user.easyzy.common.js" />
     <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\Personal.cshtml" />
+    <Content Include="Views\Home\GetUserInfo.cshtml" />
+    <Content Include="Views\Home\GetCreatedZy.cshtml" />
+    <Content Include="Views\Home\GetSubmitedZy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Common\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

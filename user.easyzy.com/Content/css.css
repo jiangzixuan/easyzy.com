@@ -4,7 +4,8 @@
     font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", SimHei, sans-serif;
 }
 a{color:#000;text-decoration:none}
-a:focus{outline:none}
+a:focus{outline:none;}
+a:hover{text-decoration:none;}
 li{list-style-type:none;}
 .left{float:left;}
 .right{float:right;}
@@ -17,7 +18,7 @@ li{list-style-type:none;}
 a.btn{border: 0;
     border-radius: 5px;
     cursor: pointer;
-    background:#15b0f5;
+    background:royalblue;
     padding: 5px 20px;
     color:#fff;
 }
@@ -85,7 +86,7 @@ a.btn{border: 0;
     -moz-border-radius: 2px;
     cursor: pointer;
 }
-.prop-suggest .thanks{font-size:14px; color:red; margin-top:20px; display:none; border:1px solid #15b0f5; padding:5px;}
+.prop-suggest .thanks{font-size:14px; color:red; margin-top:20px; display:none; border:1px solid royalblue; padding:5px;}
 
 /*Table 样式*/
 .tab-default{line-height:40px;background:#d7d7d7; font-size:14px; width:100%}
@@ -140,18 +141,40 @@ a.btn{border: 0;
     width:1200px;
 }
 
-
 .header-wrap .head .logo{ width:50px; height:50px; margin-top:10px;}
-.head .left{ height:70px; line-height:70px;}
-.head .left label{font-size:20px; color:#e91a53;}
+.head .logoarea{ height:70px; line-height:70px;}
+.head .logoarea label{font-size:20px; color:#e91a53;}
 .head .right a{padding:0 10px;}
-.head .right a:hover{color:#15b0f5;}
+.head .right a:hover{color:red;}
+.head .right .facepic{background:url("/Images/ico.png");display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-position: 0 -93px;
+    margin: 10px;}
+.head .right .uinfo{
+    width: 110px;
+    height: 20px;
+    margin-top: 30px;
+    cursor: pointer;}
+.head .uinfo b{width:90px; height:20px; line-height:20px; font-size:16px;}
+.head .uinfo i{background: url(/Images/arrow.png)no-repeat; background-position: 0 -2px; width:20px; height:20px;}
+.head .uprop{position:absolute; z-index:99; display:none; }
+.head .uprop ul{margin-bottom:0;}
+.head .uprop li{border-bottom:1px dashed #ccc;  height:40px; line-height:40px;background:#00aeff; cursor:pointer;}
+.head .uprop li a{color:#fff;padding:10px 26px;}
+.popclose, .closesuggest{position:relative; top: -35px; right: -22px; float:right; cursor:pointer;}
+
 .slider{ height:500px;}
 .slider .pic-field{padding:50px 0;width:1200px;}
 
 .content-wrap {background:#f4f4f4; min-height:800px;}
 .content-nav{width:1200px; padding:20px 0; color:#999;}
-.content-nav a:hover{color:#15b0f5;}
+.content-nav a:hover{color:royalblue;}
+.content .func-field{ padding:50px 50px; height:250px; }
+.content .func-field .func{width:300px; margin-left:30px;}
+.content .func-field .func img{width:300px;}
+.content .func-field .func p{padding:5px 0; text-align:center;}
+.content .func-field .func p.funcname{font-size:18px;}
 
 .content .main-content{width:1160px; background:#fff; padding:20px; min-height:600px;}
 
@@ -177,5 +200,19 @@ a.btn{border: 0;
 .reg .line .help.rempsd{margin-left:84px; background:url("/Images/checkbox.png") no-repeat; padding-left:22px; float:left;}
 .reg .line .help.unchoose{background-position: 1px 19px; }
 .reg .line .help.choose{background-position: 1px -49px; }
+
+
+.personal-funcs{width:18%; float:left; background:#f4f4f4; border:1px solid #e7e7e7}
+.personal-funcs li a{display:inline-block; text-align:center; width:100%; padding:20px 0; border-bottom:1px dashed #a19999; font-size:16px;}
+.personal-funcs li a:hover{color:royalblue;}
+.personal-funcs .active{color:royalblue;}
+.personal-info{width:75%; float:left; margin-left:10px;}
+
+
+
+
+
+
+
 .foot-wrap{width: 100%;min-width: 1000px;padding: 30px 0;overflow: hidden;background: #333;}
 .foot{text-align:center; color:#e4e6ed;}

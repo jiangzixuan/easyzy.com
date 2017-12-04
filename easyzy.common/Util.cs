@@ -120,10 +120,12 @@ namespace easyzy.common
             
         }
 
-        public static void ClearCookies(string CookieName)
+        public static void ClearCookies(string cookieName)
         {
-            HttpCookie Cookie = new HttpCookie(CookieName);
+            HttpCookie Cookie = new HttpCookie(cookieName);
             Cookie.Expires = DateTime.Now.AddDays(-1);
+            Cookie.Path = "/";
+            Cookie.Domain = "easyzy.com";
             HttpContext.Current.Response.Cookies.Add(Cookie);
         }
 

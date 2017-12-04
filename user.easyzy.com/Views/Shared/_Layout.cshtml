@@ -1,22 +1,86 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>易作业-用户体系首页</title>
+    <title>@ViewBag.Title</title>
+    <meta name="keywords" content="@ViewBag.Keywords">
+    <meta name="description" content="@ViewBag.Description">
+    @RenderSection("css", required: false)
     <link rel="stylesheet" href="/Content/css.css?v=20171107" />
+    <link href="/Scripts/artDialog/css/ui-dialog.css" rel="stylesheet" />
+    <script type="text/javascript" src="/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="/Scripts/artDialog/dialog.js"></script>
+    <script src="/Scripts/user.easyzy.common.js"></script>
+    @RenderSection("scriptfirst", false)
+    <script type="text/javascript">
+
+    </script>
 </head>
 <body>
-    <div class="content">
-        <div class="content-wrap">
-            <div class="main-content">易作业用户体系首页</div>
-        </div>
-        <div class="foot-wrap">
-            <div class="foot">
-                <p>&copy; @DateTime.Now.Year - 易作业 | 简单、易用、随用随走</p>
+    <div class="content-container">
+        <div class="wrap">
+            <div class="header-wrap">
+                <div class="head">
+                    <div class="left logoarea">
+                        <img src="~/Images/logo.jpg" class="logo left" />
+                        <label class="f1">易作业-简单、易用的作业工具</label>
+                    </div>
+                    <div class="right">
+                        @*| <a href="javascript:void(0);" onclick="">使用帮助</a> | <a href="javascript:void(0);">更新日志</a>*@
+                        
+                        <div class="udiv right">
+                            <div class="uinfo">
+                                <b class="left">@ViewBag.UserInfo.UserName</b>
+                                <i class="right"></i>
+                            </div>
 
+                            <div class="uprop">
+                                <div style="border: 5px solid transparent;border-bottom: 8px solid #00aeff;width: 0;height: 0px;"></div>
+                                <ul>
+                                    <li><a href="http://user.easyzy.com/personal">个人中心</a></li>
+                                    <li style="border-bottom:0;"><a href="javascript:void(0);" class="exit">退出登录</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <i class="facepic right"></i>
+                    </div>
+                </div>
             </div>
+            <div class="content-wrap">
+                @RenderBody()
+                @RenderSection("scripts", false)
+            </div>
+            <div class="foot-wrap">
+                <div class="foot">
+                    <p>&copy; @DateTime.Now.Year - 易作业 | 简单、易用、随用随走</p>
+
+                </div>
+            </div>
+        </div>
+        <div class="topfixed">
+            <ul>
+                <li>
+                    <span class="text"><a href="javascript:void(0);" onclick="suggest();">意见建议</a></span>
+                    <span class="icon icon-suggest"></span>
+                </li>
+                <li>
+                    <span class="text">
+                        <a target="blank" href="tencent://message/?uin=260031297&amp;Menu=yes">QQ联系</a>
+                    </span>
+                    <span class="icon icon-qq"></span>
+                </li>
+            </ul>
+        </div>
+        <div class="prop-suggest" style="display:none; width:350px;">
+            <img src="/Images/close.png" class="closesuggest" style="right:-32px;" onclick="closesuggest();" />
+            <div class="ptop-logo"></div>
+
+            <textarea id="cs_txt_content" name="" cols="" rows="5" class="view" placeholder="请输入建议内容（必填）"></textarea>
+            <input id="cs_UserName" type="text" name="" placeholder="联系人（选填）">
+            <input id="cs_Phone" type="text" name="" placeholder="联系方式（建议填写，以便于我们跟您联系）">
+            <button id="cs_Submit" type="button" onclick="savesuggest();">提 交</button>
+            <div class="thanks">谢谢您的建议，我们会认真考虑并尽快处理的！<br />3秒后自动关闭弹窗</div>
         </div>
     </div>
 </body>

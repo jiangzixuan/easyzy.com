@@ -1,4 +1,54 @@
-﻿
+﻿/****************** 以下是业务相关公共方法 ****************************/
+var suggest = function () {
+    letDivCenter(".prop-suggest");
+    $(".prop-suggest .thanks").hide();
+    $(".prop-suggest").show();
+}
+
+var closesuggest = function () {
+    $(".prop-suggest").hide();
+}
+
+var savesuggest = function () {
+    var content = $("#cs_txt_content").val();
+    if (trim(content) == "") {
+        $("#cs_txt_content").focus();
+        return false;
+    }
+    var name = $("#cs_UserName").val();
+    var phone = $("#cs_Phone").val();
+    $.post("SaveSuggest",
+        { content: content, name: name, phone: phone },
+        function (data) {
+            $(".prop-suggest .thanks").show();
+            window.setTimeout('closesuggest();', 3000);
+        })
+}
+
+
+$(function () {
+
+    $(".head .udiv").mouseover(function () {
+        $(".head .uinfo i").css("background-position", "0 -22px");
+        $(".head .uprop").show();
+    }).mouseout(function () {
+        $(".head .uinfo i").css("background-position", "0 -2px");
+        $(".head .uprop").hide();
+    })
+
+    //退出
+    $(".exit").on("click", function () {
+        $.post("Exit",
+            {},
+            function () {
+                window.location.reload();
+            });
+    })
+})
+
+
+
+/* 以下是一些公共方法 */
 function dialogAlert(content) {
     dialog({
         title: '系统提示',
@@ -48,46 +98,3 @@ function letDivCenter(divName) {
 }
 
 
-/****************** 以下是模板页直接调用方法 ****************************/
-var suggest = function () {
-    letDivCenter(".prop-suggest");
-    $(".prop-suggest .thanks").hide();
-    $(".prop-suggest").show();
-}
-
-var closesuggest = function () {
-    $(".prop-suggest").hide();
-}
-
-var savesuggest = function () {
-    var content = $("#cs_txt_content").val();
-    if (trim(content) == "") {
-        $("#cs_txt_content").focus();
-        return false;
-    }
-    var name = $("#cs_UserName").val();
-    var phone = $("#cs_Phone").val();
-    $.post("SaveSuggest",
-        { content: content, name: name, phone: phone },
-        function (data) {
-            $(".prop-suggest .thanks").show();
-            window.setTimeout('closesuggest();', 3000);
-        })
-}
-$(function () {
-    $(".head .udiv").mouseover(function () {
-        $(".head .uinfo i").css("background-position", "0 -22px");
-        $(".head .uprop").show();
-    }).mouseout(function () {
-        $(".head .uinfo i").css("background-position", "0 -2px");
-        $(".head .uprop").hide();
-        })
-
-    $(".exit").on("click", function () {
-        $.post("Exit",
-            { },
-            function () {
-                window.location.reload();
-            });
-    })
-})

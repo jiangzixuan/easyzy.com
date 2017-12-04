@@ -56,8 +56,10 @@ namespace easyzy.com.Controllers
                 zysl.Add(zys);
             }
             int i = B_Zy.AddZyStruct(zysl);
-            B_Zy.UpdateZyStructed(zyId);
-            B_ZyRedis.DeleteZyCache(zyId);
+            if (B_Zy.UpdateZyStructed(zyId) > 0)
+            {
+                B_ZyRedis.UpdateZyStructed(zyId);
+            }
             return i > 0 ? "" : "Error";
         }
 

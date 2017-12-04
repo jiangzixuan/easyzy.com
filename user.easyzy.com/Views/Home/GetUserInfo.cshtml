@@ -1,0 +1,47 @@
+﻿
+<div style="font-size:16px; padding-left:20px;">
+    <label>用户名：@ViewBag.UserInfo.UserName</label><br/><br />
+    <label>真实姓名：<b id="TrueNameB">@ViewBag.UserInfo.TrueName</b></label><input type="text" id="TrueNameInput" value="" style="display:none" /><a class="btn truenamebtn" style="margin-left:20px;">修改</a><label style="font-size:14px; color:red;">（修改后，提交作业时将会默认使用此处设置）</label><br /><br />
+    关注了谁：暂未开放<br /><br />
+    被谁关注：暂未开放<br /><br />
+</div>
+
+<script type="text/javascript">
+    $(".truenamebtn").on("click", function () {
+        if ($(this).hasClass("save")) {
+            SaveTrueName();
+        }
+        else {
+            ShowTrueNameInput();
+        }
+    })
+
+    var ShowTrueNameInput = function () {
+        $(".truenamebtn").addClass("save");
+        $(".truenamebtn").html("保存");
+        $("#TrueNameInput").show();
+    }
+
+    var SaveTrueName = function () {
+        var truename = $("#TrueNameInput").val();
+        if (truename.length > 5) {
+            dialogAlert("真实姓名长度不能大于5！");
+            return;
+        }
+
+        $.post("UpdateTrueName",
+            { trueName: truename },
+            function (data) {
+                if (data == "0") {
+                    $("#TrueNameB").html(truename);
+                    $(".truenamebtn").removeClass("save");
+                    $(".truenamebtn").html("修改");
+                    $("#TrueNameInput").val("");
+                    $("#TrueNameInput").hide();
+                }
+                else {
+                    dialogAlert("修改失败！");
+                }
+            })
+    }
+</script>

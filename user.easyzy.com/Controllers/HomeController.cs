@@ -1,5 +1,6 @@
 ﻿using easyzy.bll;
 using easyzy.common;
+using easyzy.model.dto;
 using easyzy.model.entity;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Web.Mvc;
 
 namespace user.easyzy.com.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : CommonController
     {
         public ActionResult Index()
         {
@@ -114,6 +115,55 @@ namespace user.easyzy.com.Controllers
             {
                 return "1";
             }
+        }
+
+        public ActionResult Personal()
+        {
+            if (UserId == 0)
+            {
+                return View("login");
+            }
+            return View();
+        }
+
+        public ActionResult GetUserInfo()
+        {
+            return PartialView();
+        }
+
+        public string UpdateTrueName(string trueName)
+        {
+            string result = "0";
+            if (B_User.UpdateTrueName(UserId, trueName) > 0)
+            {
+                B_UserRedis.UpdateTrueName(UserId, trueName);
+            }
+            else
+            {
+                result = "1";
+            }
+
+            return result;
+        }
+
+        public ActionResult GetCreatedZy()
+        {
+            List<dto_UserZy> list = B_UserZy.GetUserZy(UserId);
+            if (list != null)
+            {
+                list.ForEach(a => a.ZyNum = EasyzyConst.GetZyNum(a.ZyId));
+            }
+            return PartialView(list);
+        }
+
+        public ActionResult GetSubmitedZy()
+        {
+            List<dto_UserZy> list = B_UserZy.GetSubmitedZy(UserId);
+            if (list != null)
+            {
+                list.ForEach(a => a.ZyNum = EasyzyConst.GetZyNum(a.ZyId));
+            }
+            return PartialView(list);
         }
 
         #region 验证码相关

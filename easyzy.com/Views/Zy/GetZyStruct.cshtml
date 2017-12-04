@@ -51,6 +51,6 @@
     }
 </div>
 <div class="func">
-    姓名：<input placeholder="署上大名" id="truename" />
+    姓名：<input placeholder="署上大名" id="truename" value="@(ViewBag.UserInfo == null?"":ViewBag.UserInfo.TrueName)" />
     <a class="btn" onclick="submitzy();">提交</a>
 </div>

@@ -129,6 +129,37 @@ namespace easyzy.bll
         }
 
         /// <summary>
+        /// 修改作业为已建答题卡
+        /// </summary>
+        /// <param name="zyId"></param>
+        public static void UpdateZyStructed(int zyId)
+        {
+            Dictionary<string, string> tempresult = null;
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Zy, zyId.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.Zy.ToString()))
+            {
+                if (client != null)
+                {
+                    tempresult = client.GetAllEntriesFromHash(key);
+                }
+            }
+            T_Zy result = null;
+            if (tempresult.Count != 0)
+            {
+                result = RedisHelper.ConvertDicToEntitySingle<T_Zy>(tempresult);
+                result.Structed = true;
+                using (var cl = RedisHelper.GetRedisClient(CacheCatalog.Zy.ToString()))
+                {
+                    if (cl != null)
+                    {
+                        cl.SetRangeInHash(key, GetZyKeyValuePairs(result));
+                        cl.ExpireEntryIn(key, ts);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// 删除作业缓存
         /// </summary>
         /// <param name="zyId"></param>

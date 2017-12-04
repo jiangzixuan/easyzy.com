@@ -18,7 +18,7 @@ li{list-style-type:none;}
 a.btn{border: 0;
     border-radius: 5px;
     cursor: pointer;
-    background:#15b0f5;
+    background:royalblue;
     padding: 5px 20px;
     color:#fff;
 }
@@ -86,7 +86,7 @@ a.btn{border: 0;
     -moz-border-radius: 2px;
     cursor: pointer;
 }
-.prop-suggest .thanks{font-size:14px; color:red; margin-top:20px; display:none; border:1px solid #15b0f5; padding:5px;}
+.prop-suggest .thanks{font-size:14px; color:red; margin-top:20px; display:none; border:1px solid royalblue; padding:5px;}
 
 /*Table 样式*/
 .tab-default{line-height:40px;background:#d7d7d7; font-size:14px; width:100%}
@@ -145,7 +145,7 @@ a.btn{border: 0;
 .head .logoarea{ height:70px; line-height:70px;}
 .head .logoarea label{font-size:20px; color:#e91a53;}
 .head .right a{padding:0 10px;}
-.head .right a:hover{color:#15b0f5;}
+.head .right a:hover{color:red;}
 .head .right .facepic{background:url("/Images/ico.png");display: inline-block;
     width: 50px;
     height: 50px;
@@ -160,16 +160,16 @@ a.btn{border: 0;
 .head .uinfo i{background: url(/Images/arrow.png)no-repeat; background-position: 0 -2px; width:20px; height:20px;}
 .head .uprop{position:absolute; z-index:99; display:none; }
 .head .uprop ul{margin-bottom:0;}
-.head .uprop li{border-bottom:1px dashed #ccc; padding:10px 26px; height:20px; line-height:20px;background:#00aeff; cursor:pointer;}
-.head .uprop li a{color:#fff;}
-
+.head .uprop li{border-bottom:1px dashed #ccc;  height:40px; line-height:40px;background:#00aeff; cursor:pointer;}
+.head .uprop li a{color:#fff;padding:10px 26px;}
+.popclose, .closesuggest{position:relative; top: -35px; right: -22px; float:right; cursor:pointer;}
 
 .slider{ height:500px;}
 .slider .pic-field{padding:50px 0;width:1200px;}
 
 .content-wrap {background:#f4f4f4; min-height:800px;}
 .content-nav{width:1200px; padding:20px 0; color:#999;}
-.content-nav a:hover{color:#15b0f5;}
+.content-nav a:hover{color:royalblue;}
 .content .func-field{ padding:50px 50px; height:250px; }
 .content .func-field .func{width:300px; margin-left:30px;}
 .content .func-field .func img{width:300px;}
@@ -178,7 +178,7 @@ a.btn{border: 0;
 
 .content .main-content{width:1160px; background:#fff; padding:20px; min-height:600px;}
 
-.file{font-size:16px; border:1px dashed #15b0f5;padding:20px 0; }
+.file{font-size:16px; border:1px dashed royalblue;padding:20px 0; }
 
 .fileupload .uploadline{clear:both; padding:10px 0 0 65px; line-height:30px;}
 .fileupload .uploadline .uploadname{width:200px; text-align:right;}
@@ -189,7 +189,7 @@ a.btn{border: 0;
 .uploadfile .progressbar{width:250px; height:30px; border:1px solid #ffd800; margin-left:20px;}
 .uploadfile .curprogress{background:#ffd800; height:30px;}
 .preview ul, .zyopen ul{padding-bottom:20px;}
-.preview li, .zyopen li{border:1px solid #15b0f5; padding:5px 20px;font-size:18px; font-weight:bold; cursor:pointer;}
+.preview li, .zyopen li{border:1px solid royalblue; padding:5px 20px;font-size:18px; font-weight:bold; cursor:pointer;}
 .preview li.active, .zyopen li.active{background:#0094ff; color:#fff;  }
 
 .main-content .uploadbtn{clear:both; text-align:center; padding-top:40px; font-size:18px;}
@@ -199,9 +199,9 @@ a.btn{border: 0;
 .uploadedinfo.file{display:none; padding: 10px 20px; line-height:30px;}
 .uploadedinfo.file .zyno{font-size:20px; color:#ff0000; text-align:center;}
 
-.popclose, .closesuggest{position:relative; top: -35px; right: -22px; float:right; cursor:pointer;}
+
 .setanswer .popcontent{padding: 10px 20px; background:#f4f4f4;border-radius:0 0 10px 10px;width:auto; height:500px;}
-.setanswer .poptitle{background:#15b0f5; font-size:18px; height:50px; color:#fff; line-height:50px;width:auto;border-radius:10px 10px 0 0; padding-left:20px;}
+.setanswer .poptitle{background:royalblue; font-size:18px; height:50px; color:#fff; line-height:50px;width:auto;border-radius:10px 10px 0 0; padding-left:20px;}
 .setanswer .popcontent .addedques{height:450px; overflow-y:scroll;}
 .setanswer .addbtn{background:#d7d7d7; padding:15px 20px;}
 .rdo{background:url("/Images/radio.png") no-repeat; padding-left:18px; cursor:pointer;}
@@ -222,7 +222,7 @@ a.btn{border: 0;
 .fixed.writetip{top:250px;}
 .write{cursor:pointer;}
 .answercard{background:#d7d7d7; color:#eb2020; width:500px; height:500px; display:none; top:250px;}
-.answercard .cardtitle{height:40px; background:#00aeff;line-height:40px; font-size:16px; font-weight:bold; padding-left:10px;}
+.answercard .cardtitle{height:40px; background:royalblue;line-height:40px; font-size:16px; font-weight:bold; padding-left:10px;}
 .answercard .ques{height:450px; }
 .answercard span{height:30px; line-height:30px;}
 .answercard .ques span a{margin-left:10px;}
