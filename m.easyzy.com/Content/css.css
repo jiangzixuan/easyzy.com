@@ -17,3 +17,12 @@ a:hover{text-decoration:none;}
 .content-wrap{padding:30px 10px; clear:both;}
 .content-wrap .gn{text-align:center; padding:45px 0; cursor:pointer;}
 .content-wrap .gn a{color:#ffffff;}
+a.btn{border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    background:royalblue;
+    padding: 5px 20px;
+    color:#fff;
+    margin-left:10px;
+}
+.tcenter{text-align:center;}

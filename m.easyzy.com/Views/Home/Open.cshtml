@@ -3,5 +3,48 @@
     ViewBag.Title = "易作业移动端-做作业";
 }
 
-<h2>Open</h2>
+<div class="content-wrap">
+    <div class="tcenter">
+        <input type="text" id="zyNum" style="width:200px; height:20px;" /><a class="btn" onclick="query();">查询</a>
+    </div>
+    <div class="zyopen">
+        <iframe name="ifraRight" id="ifraBody" style="width:100%;" src="" frameborder="0" scrolling="no"></iframe>
+    </div>
+</div>
 
+<script type="text/javascript">
+    document.domain = "easyzy.com";  //必须加上才能读到iframe内控件，因为跨域
+
+    var cur_data = {
+        QAsnwerCard: false,
+        UploadQuesId: 0,
+        UploadUrl: '@ViewBag.UploadUrl',
+        ZyNumQueried:0
+    }
+
+    //查询作业内容
+    var query = function () {
+
+        var zyNum = $("#zyNum").val();
+        if (zyNum == "") return false;
+        $.post("QueryZy",
+            { zyNum: zyNum },
+            function (json) {
+                cur_data.ZyNumQueried = zyNum;
+                cur_data.QAsnwerCard = false;
+                if (json == "null") {
+                    
+                    $("#zyNum").focus();
+                }
+                else {
+                    var data = JSON.parse(json);
+                    $("#ifraBody").attr("src", cur_data.UploadUrl + data.BodyHtmlPath);
+                }
+            })
+    }
+
+    $("#ifraBody").load(function () {
+        var h = $(this).contents().find("input[name='myhight']").val();
+        $(this).height(h);
+    })
+</script>
