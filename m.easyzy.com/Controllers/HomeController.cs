@@ -31,5 +31,18 @@ namespace m.easyzy.com.Controllers
 
             return JsonConvert.SerializeObject(zy);
         }
+
+        public ActionResult GetZyStruct(string zyNum)
+        {
+            int zyId = EasyzyConst.GetZyId(zyNum);
+            T_Zy zy = B_ZyRedis.GetZy(zyId);
+            List<T_ZyStruct> zys = null;
+            if (zy.Structed)
+            {
+                zys = B_ZyRedis.GetZyStruct(zyId);
+            }
+
+            return PartialView(zys);
+        }
     }
 }

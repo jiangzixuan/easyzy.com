@@ -5,10 +5,33 @@
 
 <div class="content-wrap">
     <div class="tcenter">
+        
         <input type="text" id="zyNum" style="width:200px; height:20px;" /><a class="btn" onclick="query();">查询</a>
     </div>
     <div class="zyopen">
         <iframe name="ifraRight" id="ifraBody" style="width:100%;" src="" frameborder="0" scrolling="no"></iframe>
+    </div>
+</div>
+<div class="bottom-shard write ">
+    <div class="left sacard tcenter">点击显示答题卡</div>
+    <div class="left sapic tcenter">点击添加图片</div>
+    <div class="right subzy tcenter" style="border:none;">提交</div>
+</div>
+
+<div class="bottom-shard answercard"></div>
+
+<div class="bottom-shard piccard">
+    <div class="anspiclist"></div>
+    <div class="anspic">
+        <label>上传主观题图片。可多道题答案上传在一张图片上</label><br />
+        <a href="javascript:void(0);" class="uploadpic"><img src="/Images/addpic.jpg" width="50" height="50" /></a>
+    </div>
+</div>
+
+<div class="bottom-shard submit">
+    <div class="func">
+        姓名：<input placeholder="署上大名" id="truename" value="@(ViewBag.UserInfo == null?"":ViewBag.UserInfo.TrueName)" />
+        <a class="btn" onclick="submitzy();">提交</a>
     </div>
 </div>
 
@@ -17,6 +40,7 @@
 
     var cur_data = {
         QAsnwerCard: false,
+        QPicCard:false,
         UploadQuesId: 0,
         UploadUrl: '@ViewBag.UploadUrl',
         ZyNumQueried:0
@@ -33,7 +57,7 @@
                 cur_data.ZyNumQueried = zyNum;
                 cur_data.QAsnwerCard = false;
                 if (json == "null") {
-                    
+                    alert("作业编码不存在！");
                     $("#zyNum").focus();
                 }
                 else {
@@ -47,4 +71,75 @@
         var h = $(this).contents().find("input[name='myhight']").val();
         $(this).height(h);
     })
+
+    //打开答题卡窗
+    $(".sacard").on("click", function () {
+        if (!cur_data.QAsnwerCard) {
+            var zyNum = cur_data.ZyNumQueried;
+            if (zyNum == "") return false;
+            //查询答题卡
+            $.post("GetZyStruct",
+                { zyNum: zyNum },
+                function (json) {
+                    cur_data.QAsnwerCard = true;
+                    $(".answercard").html(json);
+                    $(".answercard").show();
+                    $(".write").hide();
+                    initRdo();
+                    initCheckbox();
+                })
+        }
+        else {
+            $(".answercard").show();
+            $(".write").hide();
+        }
+
+    })
+
+    //打开上传图片窗
+    $(".sapic").on("click", function () {
+        var zyNum = cur_data.ZyNumQueried;
+        if (zyNum == "") return false;
+       
+        $(".piccard").show();
+        $(".write").hide();
+        initPic();
+    })
+
+    //打开提交窗
+    $(".subzy").on("click", function () {
+        var zyNum = cur_data.ZyNumQueried;
+        if (zyNum == "") return false;
+
+        $(".submit").show();
+        $(".write").hide();
+    })
+
+    //弹窗单选框初始化
+    var initRdo = function () {
+        $(".answercard .ques").on("click", ".rdo", function () {
+            if ($(this).hasClass("unchoose")) {
+                $(this).removeClass("unchoose").addClass("choose").siblings(".rdo").removeClass("choose").addClass("unchoose");
+            }
+        })
+    }
+
+    //弹窗复选框初始化
+    var initCheckbox = function () {
+        $(".answercard .ques").on("click", ".chk", function () {
+            if ($(this).hasClass("unchoose")) {
+                $(this).removeClass("unchoose").addClass("choose");
+            }
+            else {
+                $(this).removeClass("choose").addClass("unchoose");
+            }
+        })
+    }
+
+    //弹窗图片上传按钮初始化
+    var initPic = function () {
+        $(".uploadpic").on("click", function () {
+            $("#file").click();
+        })
+    }
 </script>
