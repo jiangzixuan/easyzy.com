@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <meta name="keywords" content="@ViewBag.Keywords">
+    <meta name="description" content="@ViewBag.Description">
+    <link rel="stylesheet" href="/Content/css.css?v=20171107" />
+    <script src="/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".top-funcs-pic").on("click", function () {
+                if ($(".top-funcs").hasClass("active"))
+                {
+                    $(".top-funcs").removeClass("active");
+                }
+                else {
+                    $(".top-funcs").addClass("active");
+                }
+            })
+        })
+        
+    </script>
+</head>
+<body>
+    <div class="content-container">
+        <div class="head">
+            <div class="left">
+                <img src="~/Images/logo.jpg" class="logo left" />
+            </div>
+            <div class="head-title">易作业（@(ViewBag.UserInfo == null?"未登录":ViewBag.UserInfo.UserName)）</div>
+            <div class="right">
+                <div class="top-funcs-pic">
+                    <div class="white-line"></div>
+                    <div class="white-line"></div>
+                    <div class="white-line"></div>
+                </div>
+                @if (ViewBag.UserInfo != null)
+                {
+                    <div class="top-funcs">
+                        <div class="func"><a href="javascript:void(0);" onclick="OpenPCVersion();">电脑版</a></div>
+                        <div><a href="javascript:void(0);" onclick="Exit();">退出</a></div>
+                    </div>
+                }
+                else
+                {
+                    <div class="top-funcs">
+                        <div class="func"><a href="javascript:void(0);" onclick="OpenPCVersion();">电脑版</a><br /></div>
+                        <div><a href="javascript:void(0);" onclick="Login();">登录</a></div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="content">
+            @RenderBody()
+            @RenderSection("scripts", false)
+        </div>
+    </div>
+</body>
+</html>

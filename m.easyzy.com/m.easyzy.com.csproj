@@ -9,12 +9,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{84964260-A23A-4289-BC42-C19BA8ABC75C}</ProjectGuid>
+    <ProjectGuid>{41BED67D-02E0-4590-9697-5C3676DE3C92}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>easyzy.com</RootNamespace>
-    <AssemblyName>easyzy.com</AssemblyName>
+    <RootNamespace>m.easyzy.com</RootNamespace>
+    <AssemblyName>m.easyzy.com</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -25,7 +25,6 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,9 +49,6 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -116,6 +112,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ApplicationInsights">
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
     </Reference>
@@ -144,7 +143,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ZyController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -153,44 +151,19 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\tool.css" />
     <Content Include="Content\css.css" />
-    <Content Include="Content\viewer.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\arrow.png" />
-    <Content Include="Images\banner\banner1.jpg" />
-    <Content Include="Images\banner\banner2.jpg" />
-    <Content Include="Images\banner\banner3.jpg" />
-    <Content Include="Images\boshimao.png" />
-    <Content Include="Images\checkbox.png" />
-    <Content Include="Images\close.png" />
-    <Content Include="Images\fangdajing.jpg" />
     <Content Include="Images\ico.png" />
-    <Content Include="Images\icon_bg.png" />
-    <Content Include="Images\index1.jpg" />
-    <Content Include="Images\index2.jpg" />
-    <Content Include="Images\index3.jpg" />
     <Content Include="Images\logo.jpg" />
-    <Content Include="Images\qqimg.png" />
-    <Content Include="Images\radio.png" />
-    <Content Include="Images\addpic.jpg" />
-    <Content Include="Images\redstar.png" />
-    <Content Include="Images\write.png" />
-    <Content Include="RedisConfig.xml" />
-    <Content Include="Scripts\artDialog\css\ui-dialog.css" />
-    <Content Include="Scripts\artDialog\dialog-plus-min.js" />
-    <Content Include="Scripts\artDialog\dialog.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Log4Net.config" />
-    <Content Include="Scripts\easyzy.common.js" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -200,14 +173,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\plupload\moxie.js" />
-    <Content Include="Scripts\plupload\Moxie.swf" />
-    <Content Include="Scripts\plupload\plupload.dev.js" />
-    <Content Include="Scripts\plupload\plupload.full.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\viewer-jquery.min.js" />
-    <Content Include="Sqls\master.sql" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -220,20 +187,11 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Zy\add.cshtml" />
-    <Content Include="Scripts\plupload\Moxie.xap" />
-    <Content Include="Views\Zy\open.cshtml" />
-    <Content Include="Views\Zy\getzystruct.cshtml" />
-    <Content Include="Views\Zy\query.cshtml" />
-    <Content Include="Views\Zy\querysubmitedstudents.cshtml" />
-    <Content Include="Views\Zy\getstudentanswercard.cshtml" />
-    <Content Include="Views\Zy\check.cshtml" />
+    <Content Include="Views\Home\Open.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Common\" />
-    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -256,7 +214,7 @@
       <Name>easyzy.bll</Name>
     </ProjectReference>
     <ProjectReference Include="..\easyzy.common\easyzy.common.csproj">
-      <Project>{499AB9D5-722B-4EB2-843E-4CE9F0C3080F}</Project>
+      <Project>{499ab9d5-722b-4eb2-843e-4ce9f0c3080f}</Project>
       <Name>easyzy.common</Name>
     </ProjectReference>
     <ProjectReference Include="..\easyzy.model\easyzy.model.csproj">
@@ -280,9 +238,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>62223</DevelopmentServerPort>
+          <DevelopmentServerPort>60987</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:62223/</IISUrl>
+          <IISUrl>http://localhost:60987/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
