@@ -163,6 +163,9 @@
     <Content Include="Images\logo.jpg" />
     <Content Include="Images\radio.png" />
     <Content Include="RedisConfig.xml" />
+    <Content Include="Scripts\artDialog\css\ui-dialog.css" />
+    <Content Include="Scripts\artDialog\dialog-plus-min.js" />
+    <Content Include="Scripts\artDialog\dialog.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -177,7 +180,12 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\m.easyzy.common.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\plupload\moxie.js" />
+    <Content Include="Scripts\plupload\Moxie.swf" />
+    <Content Include="Scripts\plupload\plupload.dev.js" />
+    <Content Include="Scripts\plupload\plupload.full.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Web.config" />
@@ -194,6 +202,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Open.cshtml" />
     <Content Include="Views\Home\getzystruct.cshtml" />
+    <Content Include="Scripts\plupload\Moxie.xap" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

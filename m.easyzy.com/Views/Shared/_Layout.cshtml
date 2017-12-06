@@ -8,7 +8,11 @@
     <meta name="keywords" content="@ViewBag.Keywords">
     <meta name="description" content="@ViewBag.Description">
     <link rel="stylesheet" href="/Content/css.css?v=20171107" />
+    <link href="/Scripts/artDialog/css/ui-dialog.css" rel="stylesheet" />
     <script src="/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="/Scripts/artDialog/dialog.js"></script>
+    <script src="/Scripts/m.easyzy.common.js"></script>
+    @RenderSection("scriptfirst", false)
     <script type="text/javascript">
         $(function () {
             $(".top-funcs-pic").on("click", function () {

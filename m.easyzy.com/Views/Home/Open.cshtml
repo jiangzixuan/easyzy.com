@@ -5,7 +5,6 @@
 
 <div class="content-wrap">
     <div class="tcenter">
-        
         <input type="text" id="zyNum" style="width:200px; height:20px;" /><a class="btn" onclick="query();">查询</a>
     </div>
     <div class="zyopen">
@@ -21,6 +20,7 @@
 <div class="bottom-shard answercard"></div>
 
 <div class="bottom-shard piccard">
+    <input id="file" type="file" style="display:none;" />
     <div class="anspiclist"></div>
     <div class="anspic">
         <label>上传主观题图片。可多道题答案上传在一张图片上</label><br />
@@ -34,13 +34,17 @@
         <a class="btn" onclick="submitzy();">提交</a>
     </div>
 </div>
-
+@section scriptfirst
+{
+    <script src="/Scripts/plupload/moxie.js"></script>
+    <script src="/Scripts/plupload/plupload.dev.js"></script>
+}
 <script type="text/javascript">
     document.domain = "easyzy.com";  //必须加上才能读到iframe内控件，因为跨域
 
     var cur_data = {
         QAsnwerCard: false,
-        QPicCard:false,
+        QPicCard: false,
         UploadQuesId: 0,
         UploadUrl: '@ViewBag.UploadUrl',
         ZyNumQueried:0
@@ -63,6 +67,7 @@
                 else {
                     var data = JSON.parse(json);
                     $("#ifraBody").attr("src", cur_data.UploadUrl + data.BodyHtmlPath);
+                    loadAnswerCard();
                 }
             })
     }
@@ -70,37 +75,55 @@
     $("#ifraBody").load(function () {
         var h = $(this).contents().find("input[name='myhight']").val();
         $(this).height(h);
+        initIframeContentClick();
     })
+
+    //点击Iframe内容区域，关闭下面的答题卡弹层
+    var initIframeContentClick = function () {
+        document.getElementById("ifraBody").contentDocument.onclick = function () {
+            $(".submit").hide();
+            $(".answercard").hide();
+            $(".piccard").hide();
+            $('#ifraBody').css('pointer-events', 'none');   //处理点击穿透问题
+            $(".write").show();
+        }
+    }
+    //点击Iframe内容之外的区域，关闭下面的答题卡弹层
+    $(".content-wrap").on("click", function () {
+        $(".submit").hide();
+        $(".answercard").hide();
+        $(".piccard").hide();
+        $('#ifraBody').css('pointer-events', 'none');  //处理点击穿透问题
+        $(".write").show();
+    })
+
+    //加载答题卡
+    var loadAnswerCard = function () {
+        var zyNum = cur_data.ZyNumQueried;
+        if (zyNum == "") return false;
+        $.post("GetZyStruct",
+            { zyNum: zyNum },
+            function (json) {
+                cur_data.QAsnwerCard = true;
+                $(".answercard").html(json);
+                initRdo();
+                initCheckbox();
+            })
+    }
 
     //打开答题卡窗
     $(".sacard").on("click", function () {
-        if (!cur_data.QAsnwerCard) {
-            var zyNum = cur_data.ZyNumQueried;
-            if (zyNum == "") return false;
-            //查询答题卡
-            $.post("GetZyStruct",
-                { zyNum: zyNum },
-                function (json) {
-                    cur_data.QAsnwerCard = true;
-                    $(".answercard").html(json);
-                    $(".answercard").show();
-                    $(".write").hide();
-                    initRdo();
-                    initCheckbox();
-                })
-        }
-        else {
-            $(".answercard").show();
-            $(".write").hide();
-        }
-
+        var zyNum = cur_data.ZyNumQueried;
+        if (zyNum == "") return false;
+        $(".answercard").show();
+        $(".write").hide();
     })
 
     //打开上传图片窗
     $(".sapic").on("click", function () {
         var zyNum = cur_data.ZyNumQueried;
         if (zyNum == "") return false;
-       
+
         $(".piccard").show();
         $(".write").hide();
         initPic();
@@ -117,7 +140,7 @@
 
     //弹窗单选框初始化
     var initRdo = function () {
-        $(".answercard .ques").on("click", ".rdo", function () {
+        $(".answercard").on("click", ".rdo", function () {
             if ($(this).hasClass("unchoose")) {
                 $(this).removeClass("unchoose").addClass("choose").siblings(".rdo").removeClass("choose").addClass("unchoose");
             }
@@ -126,7 +149,7 @@
 
     //弹窗复选框初始化
     var initCheckbox = function () {
-        $(".answercard .ques").on("click", ".chk", function () {
+        $(".answercard").on("click", ".chk", function () {
             if ($(this).hasClass("unchoose")) {
                 $(this).removeClass("unchoose").addClass("choose");
             }
@@ -142,4 +165,128 @@
             $("#file").click();
         })
     }
+
+    //提交作业
+    var submitzy = function () {
+        var zynum = cur_data.ZyNumQueried;
+        var truename = $("#truename").val();
+        if (trim(truename) == "") {
+            dialogAlert("请写上您的真实姓名！");
+            $("#truename").focus();
+            return false;
+        }
+        var obj = [], objlist = [], a = [];
+        var b = false; //是否有客观题没传答案
+        $(".objective span").each(function () {
+            obj = [];
+            a = [];
+            obj.push($(this).attr("data-bind"));
+            var i = $(this).find(".choose").length;
+            if (i == 0) {
+                b = true;
+            }
+            else {
+                $(this).find(".choose").each(function () {
+                    a.push($(this).html());
+                })
+            }
+            obj.push(a.join(""));
+            objlist.push(obj.join(","));
+        })
+        var objectivestr = objlist.join("|");
+        if (b) {
+            dialogAlert("还有客观题未选答案，不能提交！");
+            return false;
+        }
+        var imglist = [];
+        var imgstr = "";
+        var j = $(".anspiclist img").length;
+        if (j != 0) {
+            $(".anspiclist img").each(function () {
+                imglist.push($(this).attr("data-bind"));
+            })
+            imgstr = imglist.join(",");
+        }
+
+        $.post("SubmitAnswer",
+            { zyNum: zynum, trueName: truename, objecttiveAnswer: objectivestr, imgAnswer: imgstr },
+            function (data) {
+                if (data.substring(0, 1) == "0") {
+                    //提交成功则显示老师上传的答案
+                    window.location.href = "query?zynum=" + zynum;
+                }
+                else {
+                    dialogAlert(data.substring(2));
+                }
+            })
+
+    }
+
+    //上传答案图片
+    //实例化一个plupload上传对象
+    var uploader = new plupload.Uploader({
+        runtimes: 'html5,flash,silverlight,html4',//
+        browse_button: 'file', //触发文件选择对话框的按钮，为那个元素id
+        url: cur_data.UploadUrl + '/api/img', //服务器端的上传页面地址
+        //url: 'http://localhost:63428/api/img',
+        flash_swf_url: '/plupload/Moxie.swf', //swf文件，当需要使用swf方式进行上传时需要配置该参数
+        silverlight_xap_url: '/plupload/Moxie.xap', //silverlight文件，当需要使用silverlight方式进行上传时需要配置该参数
+        fileUploadContainer: "fileupload",//上传控件的dom元素ID
+        filters: {
+            mime_types: [ //只允许上传img文件
+                { title: "img files", extensions: "jpg,jpeg,png,bmp" }
+            ],
+            //max_file_size: '3mb', //最大只能上传400kb的文件
+            prevent_duplicates: true //不允许选取重复文件
+        },
+        multi_selection: true,
+        //max_file_size: '3mb',//文件最大限制
+        chunk_size: '0',
+        //chunk_size: '1mb'//分片上传文件时，每片文件被切割成的大小，为数字时单位为字节
+        resize: {
+            quality: 50,
+            preserve_headers: false
+        }
+    });
+
+    //在实例对象上调用init()方法进行初始化
+    uploader.init();
+
+    //绑定各种事件，并在事件监听函数中做你想做的事
+    //每个事件监听函数都会传入一些很有用的参数，
+    //我们可以利用这些参数提供的信息来做比如更新UI，提示上传进度等操作
+    uploader.bind('FilesAdded', function (uploader, files) {
+        jQuery.support.cors = true; //支持跨域访问
+        uploader.start();
+    })
+
+    //上传前
+    uploader.bind('BeforeUpload', function (uploader, file) {
+        uploader.setOption({
+            'multipart_params': {
+                func: @ViewBag.PicFunc,
+            }
+        });
+    })
+
+    //单个文件上传完成
+    uploader.bind('FileUploaded', function (uploader, file, data) {
+        var json = JSON.parse(data.response);
+        if (json.Code == 1200 && json.BussCode == 1000) {
+            for (var i = 0; i < json.Data.length; i++) {
+                $(".anspiclist").append("<img data-bind='" + json.Data[i] + "' src='" + cur_data.UploadUrl + json.Data[i] + "' width='50' height='50' />");
+            }
+        }
+        else {
+            dialogAlert("上传失败！");
+        }
+    })
+
+    //所有文件上传完成
+    uploader.bind('UploadComplete', function (uploader, files) {
+        for (var i = 0; i < uploader.files.length; i++) {
+            uploader.removeFile(uploader.files[i]);
+        }
+
+    });
 </script>

@@ -46,3 +46,12 @@ a.btn{border: 0;
     color:#ffffff;
 }
 .bottom-shard.write .tcenter{width:33%; border-right:1px solid #ffffff;}
+.rdo{background:url("/Images/radio.png") no-repeat; padding-left:18px; cursor:pointer;}
+.rdo.choose{ background-position: 3px -28px;}
+.rdo.unchoose{ background-position: 3px 3px;}
+.chk{background:url("/Images/checkbox.png") no-repeat; padding-left:23px; cursor:pointer;}
+.chk.choose{background-position: 0 -68px;}
+.chk.unchoose{background-position: 0 1px;}
+.objective{padding-right:6px;}
+.objective b{color:red;}
+.bottom-shard.submit .func{margin-top:30px; text-align:center;}

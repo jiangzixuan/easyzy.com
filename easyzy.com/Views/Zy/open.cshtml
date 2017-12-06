@@ -215,13 +215,17 @@
             mime_types: [ //只允许上传img文件
                 { title: "img files", extensions: "jpg,jpeg,png,bmp" }
             ],
-            max_file_size: '2mb', //最大只能上传400kb的文件
+            //max_file_size: '3mb', //最大只能上传400kb的文件
             prevent_duplicates: true //不允许选取重复文件
         },
         multi_selection: true,
-        max_file_size: '2mb',//文件最大限制
-        chunk_size: '0'
+        //max_file_size: '3mb',//文件最大限制
+        chunk_size: '0',
         //chunk_size: '1mb'//分片上传文件时，每片文件被切割成的大小，为数字时单位为字节
+        resize: {
+            quality: 50,
+            preserve_headers: false
+        }
     });
 
     //在实例对象上调用init()方法进行初始化
