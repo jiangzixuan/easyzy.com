@@ -8,25 +8,13 @@
     <meta name="keywords" content="@ViewBag.Keywords">
     <meta name="description" content="@ViewBag.Description">
     <link rel="stylesheet" href="/Content/css.css?v=20171107" />
+    <link rel="stylesheet" href="/Content/viewer.min.css" />
     <link href="/Scripts/artDialog/css/ui-dialog.css" rel="stylesheet" />
     <script src="/Scripts/jquery-1.10.2.min.js"></script>
     <script src="/Scripts/artDialog/dialog.js"></script>
+    <script type="text/javascript" src="/Scripts/viewer-jquery.min.js"></script>
     <script src="/Scripts/m.easyzy.common.js"></script>
     @RenderSection("scriptfirst", false)
-    <script type="text/javascript">
-        $(function () {
-            $(".top-funcs-pic").on("click", function () {
-                if ($(".top-funcs").hasClass("active"))
-                {
-                    $(".top-funcs").removeClass("active");
-                }
-                else {
-                    $(".top-funcs").addClass("active");
-                }
-            })
-        })
-        
-    </script>
 </head>
 <body>
     <div class="content-container">
@@ -45,19 +33,24 @@
                 {
                     <div class="top-funcs">
                         <div class="func"><a href="javascript:void(0);" onclick="OpenPCVersion();">电脑版</a></div>
-                        <div><a href="javascript:void(0);" onclick="Exit();">退出</a></div>
+                        <div><a href="javascript:void(0);" class="exit">退出</a></div>
                     </div>
                 }
                 else
                 {
                     <div class="top-funcs">
                         <div class="func"><a href="javascript:void(0);" onclick="OpenPCVersion();">电脑版</a><br /></div>
-                        <div><a href="javascript:void(0);" onclick="Login();">登录</a></div>
+                        <div><a href="login">登录</a></div>
                     </div>
                 }
             </div>
         </div>
-
+        <div class="neck">
+            <div class="neckcontent">
+                <a href="javascript:history.back(-1)" class="f1"><img src="/Images/run-back.png" width="30" height="30" /></a>
+                <label class="funcname"></label>
+            </div>
+        </div>
         <div class="content">
             @RenderBody()
             @RenderSection("scripts", false)

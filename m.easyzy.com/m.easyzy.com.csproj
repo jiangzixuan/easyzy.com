@@ -152,6 +152,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css.css" />
+    <Content Include="Content\viewer.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -162,6 +163,7 @@
     <Content Include="Images\ico.png" />
     <Content Include="Images\logo.jpg" />
     <Content Include="Images\radio.png" />
+    <Content Include="Images\run-back.png" />
     <Content Include="RedisConfig.xml" />
     <Content Include="Scripts\artDialog\css\ui-dialog.css" />
     <Content Include="Scripts\artDialog\dialog-plus-min.js" />
@@ -188,6 +190,7 @@
     <Content Include="Scripts\plupload\plupload.full.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\viewer-jquery.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -199,10 +202,16 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Open.cshtml" />
+    <Content Include="Views\Home\index.cshtml" />
+    <Content Include="Views\Home\open.cshtml" />
     <Content Include="Views\Home\getzystruct.cshtml" />
     <Content Include="Scripts\plupload\Moxie.xap" />
+    <Content Include="Views\Home\query.cshtml" />
+    <Content Include="Views\Home\querysubmitedstudents.cshtml" />
+    <Content Include="Views\Home\getstudentanswercard.cshtml" />
+    <Content Include="Views\Home\down.cshtml" />
+    <Content Include="Views\Home\login.cshtml" />
+    <Content Include="Views\Home\created.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

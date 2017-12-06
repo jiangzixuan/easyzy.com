@@ -1,0 +1,94 @@
+﻿
+@{
+    ViewBag.Title = "易作业移动端-查看作业";
+}
+
+<div class="content-wrap">
+    <div class="tcenter">
+        <input type="text" id="zyNum" style="width:200px; height:20px;" value="@ViewBag.ZyNum" /><a class="btn" onclick="query();">查询</a>
+    </div>
+    <div class="table">
+        <table border="0" cellspacing="1" cellpadding="0" class="tab-default">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>姓名</th>
+                    <th>提交时间</th>
+                    <th>查看</th>
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+    </div>
+</div>
+
+<div class="bottom"></div>
+
+<script type="text/javascript">
+    $(function () {
+        if (cur_data.DefaultZyNum != "") {
+            query();
+        }
+        $(".neckcontent .funcname").html("查看作业");
+    })
+
+    var cur_data = {
+        DefaultZyNum: '@ViewBag.ZyNum',
+        UploadUrl: '@ViewBag.UploadUrl',
+        ZyNumQueried: 0,
+        BodyHtml: "",
+        AnswerHtml: "",
+        TrueName:''
+    }
+
+    $(".content-wrap").on("click", function (e) {
+        var tagobj = e.srcElement ? e.srcElement.nodeName : e.target.tagName;
+        if (tagobj != "A") {
+            $(".bottom").hide();
+        }
+    })
+
+    //查询
+    var query = function () {
+        var zyNum = $("#zyNum").val();
+        if (zyNum == "") return false;
+        $.post("querysubmitedstudents",
+            { zyNum: zyNum },
+            function (data) {
+                cur_data.ZyNumQueried = zyNum;
+                $("#tbody").html(data);
+            })
+    }
+
+    var check = function (truename, type) {
+        $(".bottom").show();
+        if (cur_data.TrueName == truename)
+        {
+            showsmt(type);
+        }
+        else
+        {
+            $.post("GetStudentAnswerCard",
+                { zyNum: cur_data.ZyNumQueried, trueName: truename },
+                function (data) {
+                    cur_data.TrueName = truename;
+                    $(".bottom").html(data);
+                    showsmt(type);
+                })
+        }
+    }
+
+    var showsmt = function (type) {
+        if (type == 0) {
+            $(".answercard").show();
+            $(".piccard").hide();
+        }
+        else {
+            $(".answercard").hide();
+            $(".piccard").show();
+            $("#imglistul").viewer({
+                url: 'data-original'
+            });
+        }
+    }
+</script>

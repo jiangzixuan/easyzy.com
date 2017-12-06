@@ -18,6 +18,28 @@ namespace m.easyzy.com.Controllers
             return View();
         }
 
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        public string UserLogin(string userName, string passWord)
+        {
+            T_User u = B_UserRedis.GetUser(userName);
+            if (u == null) return "1";
+            if (u.Psd == Util.MD5(passWord))
+            {
+                DateTime dt = DateTime.Now.AddDays(30);
+                
+                Util.SetCookie(EasyzyConst.CookieName_User, EasyzyConst.CookieVluew_UserId, u.Id.ToString(), dt);
+                return "0";
+            }
+            else
+            {
+                return "1";
+            }
+        }
+
         public ActionResult Open()
         {
             ViewBag.UploadUrl = Util.GetAppSetting("UploadUrlPrefix");
@@ -105,6 +127,76 @@ namespace m.easyzy.com.Controllers
             int i = B_Zy.AddZyAnswer(t);
 
             return i > 0 ? ("0|" + B_ZyRedis.GetZy(zyId).AnswerHtmlPath) : "1|提交入库失败！";
+        }
+
+        public ActionResult Query(string ZyNum = "")
+        {
+            ViewBag.ZyNum = ZyNum;
+            ViewBag.UploadUrl = Util.GetAppSetting("UploadUrlPrefix");
+            return View();
+        }
+
+        public ActionResult QuerySubmitedStudents(string zyNum)
+        {
+            int zyId = EasyzyConst.GetZyId(zyNum);
+            List<T_Answer> al = B_Zy.GetZyAnswers(zyId);
+            return PartialView(al);
+        }
+
+        /// <summary>
+        /// 获取学生答题卡
+        /// </summary>
+        /// <param name="zyNum"></param>
+        /// <param name="studentId"></param>
+        /// <param name="trueName"></param>
+        /// <returns></returns>
+        public ActionResult GetStudentAnswerCard(string zyNum, string trueName)
+        {
+            int zyId = EasyzyConst.GetZyId(zyNum);
+            List<dto_Answer2> result = null;
+            T_Answer a = B_ZyRedis.GetZyAnswer(zyId, trueName);   //获取学生提交的答案
+            List<T_ZyStruct> zysl = B_ZyRedis.GetZyStruct(zyId);  //作业结构中可以获取正确答案
+            if (a != null)
+            {
+                List<dto_Answer> ansl = JsonConvert.DeserializeObject<List<dto_Answer>>(a.AnswerJson);
+                result = new List<dto_Answer2>();
+                ansl.ForEach(s =>
+                {
+                    result.Add(new dto_Answer2() { StructId = s.StructId, BqNum = s.BqNum, SqNum = s.SqNum, Answer = s.Answer, QuesAnswer = zysl.FirstOrDefault(t => t.Id == s.StructId).QuesAnswer });
+                });
+                ViewBag.AnswerImg = a.AnswerImg;
+            }
+            ViewBag.TrueName = trueName;
+            ViewBag.UploadUrl = Util.GetAppSetting("UploadUrlPrefix");
+            return PartialView(result);
+        }
+
+        public ActionResult Down()
+        {
+            if (UserId == 0)
+            {
+                return View("login");
+            }
+            List<dto_UserZy> list = B_UserZy.GetSubmitedZy(UserId);
+            if (list != null)
+            {
+                list.ForEach(a => a.ZyNum = EasyzyConst.GetZyNum(a.ZyId));
+            }
+            return View(list);
+        }
+
+        public ActionResult Created()
+        {
+            if (UserId == 0)
+            {
+                return View("login");
+            }
+            List<dto_UserZy> list = B_UserZy.GetUserZy(UserId);
+            if (list != null)
+            {
+                list.ForEach(a => a.ZyNum = EasyzyConst.GetZyNum(a.ZyId));
+            }
+            return View(list);
         }
     }
 }

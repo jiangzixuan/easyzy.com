@@ -1,4 +1,29 @@
-﻿/* 以下是一些公共方法 */
+﻿/* 以下是业务相关公共方法 */
+$(function () {
+    $(".top-funcs-pic").on("click", function () {
+        if ($(".top-funcs").hasClass("active")) {
+            $(".top-funcs").removeClass("active");
+        }
+        else {
+            $(".top-funcs").addClass("active");
+        }
+    })
+
+    $(".head .logo").click(function () {
+        window.location.href = "/";
+    })
+
+    //退出
+    $(".exit").on("click", function () {
+        $.post("Exit",
+            {},
+            function () {
+                window.location.href = "/";
+            });
+    })
+})
+
+/* 以下是一些公共方法 */
 function dialogAlert(content) {
     dialog({
         title: '系统提示',
