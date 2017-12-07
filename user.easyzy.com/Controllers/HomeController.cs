@@ -146,6 +146,26 @@ namespace user.easyzy.com.Controllers
             return result;
         }
 
+        /// <summary>
+        /// 修改默认作业密码
+        /// </summary>
+        /// <param name="zyPsd"></param>
+        /// <returns></returns>
+        public string UpdateZyPsd(string zyPsd)
+        {
+            string result = "0";
+            if (B_User.UpdateZyPsd(UserId, zyPsd) > 0)
+            {
+                B_UserRedis.UpdateZyPsd(UserId, zyPsd);
+            }
+            else
+            {
+                result = "1";
+            }
+
+            return result;
+        }
+
         public ActionResult GetCreatedZy()
         {
             List<dto_UserZy> list = B_UserZy.GetUserZy(UserId);

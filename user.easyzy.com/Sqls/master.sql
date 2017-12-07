@@ -7,8 +7,10 @@ CREATE TABLE `t_user` (
   `FirstLoginDate` datetime NOT NULL,
   `CreateDate` datetime NOT NULL,
   `Extend1` varchar(20) NOT NULL COMMENT '扩展1，存放明文密码',
+  `ZyPsd` varchar(6) NOT NULL,
+  `ZyPrice` int(11) NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id_UNIQUE` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1000000 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1000011 DEFAULT CHARSET=utf8;
 
 alter table easyzy_home.t_user auto_increment=1000000;

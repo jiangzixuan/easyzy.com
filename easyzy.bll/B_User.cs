@@ -15,7 +15,7 @@ namespace easyzy.bll
         {
             T_User model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.UserConnectStringName),
-                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1 from T_User where Id = @Id",
+                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice from T_User where Id = @Id",
                 "@Id".ToInt32InPara(Id)))
             {
                 if (dr != null && dr.HasRows)
@@ -30,7 +30,7 @@ namespace easyzy.bll
         {
             T_User model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.UserConnectStringName),
-                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1 from T_User where UserName = @UserName",
+                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice from T_User where UserName = @UserName",
                 "@UserName".ToVarCharInPara(userName)))
             {
                 if (dr != null && dr.HasRows)
@@ -49,14 +49,16 @@ namespace easyzy.bll
         public static int Create(T_User zy)
         {
             object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(EasyzyConst.UserConnectStringName),
-                "insert into T_User(Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1) values (null, @UserName, @TrueName, @Psd, @Mobile, @FirstLoginDate, @CreateDate, @Extend1); select last_insert_id();",
+                "insert into T_User(Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice) values (null, @UserName, @TrueName, @Psd, @Mobile, @FirstLoginDate, @CreateDate, @Extend1, @ZyPsd, @ZyPrice); select last_insert_id();",
                 "@UserName".ToVarCharInPara(zy.UserName),
                 "@TrueName".ToVarCharInPara(zy.TrueName),
                 "@Psd".ToVarCharInPara(zy.Psd),
                 "@Mobile".ToVarCharInPara(zy.Mobile),
                 "@FirstLoginDate".ToDateTimeInPara(zy.FirstLoginDate),
                 "@CreateDate".ToDateTimeInPara(zy.CreateDate),
-                "@Extend1".ToVarCharInPara(zy.Extend1)
+                "@Extend1".ToVarCharInPara(zy.Extend1),
+                "@ZyPsd".ToVarCharInPara(zy.ZyPsd),
+                "@ZyPrice".ToInt32InPara(zy.ZyPrice)
                 );
             return o == null ? 0 : int.Parse(o.ToString());
         }
@@ -73,6 +75,22 @@ namespace easyzy.bll
                 "update T_User set TrueName = @TrueName where Id = @UserId",
                 "@UserId".ToInt32InPara(userId),
                 "@TrueName".ToVarCharInPara(trueName)
+                );
+            return o == null ? 0 : int.Parse(o.ToString());
+        }
+
+        /// <summary>
+        /// 修改作业默认密码
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="zyPsd"></param>
+        /// <returns></returns>
+        public static int UpdateZyPsd(int userId, string zyPsd)
+        {
+            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(EasyzyConst.UserConnectStringName),
+                "update T_User set ZyPsd = @ZyPsd where Id = @UserId",
+                "@UserId".ToInt32InPara(userId),
+                "@ZyPsd".ToVarCharInPara(zyPsd)
                 );
             return o == null ? 0 : int.Parse(o.ToString());
         }

@@ -159,10 +159,12 @@
     <Content Include="Images\arrow.png" />
     <Content Include="Images\checkbox.png" />
     <Content Include="Images\close.png" />
+    <Content Include="Images\edit.png" />
     <Content Include="Images\ico.png" />
     <Content Include="Images\icon-reg.png" />
     <Content Include="Images\icon_bg.png" />
     <Content Include="Images\logo.jpg" />
+    <Content Include="Images\v3-bg.png" />
     <Content Include="RedisConfig.xml" />
     <Content Include="Scripts\artDialog\css\ui-dialog.css" />
     <Content Include="Scripts\artDialog\dialog-plus-min.js" />

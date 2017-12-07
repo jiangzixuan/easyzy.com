@@ -23,5 +23,15 @@ namespace easyzy.model.entity
         public DateTime CreateDate { get; set; }
 
         public string Extend1 { get; set; }
+
+        /// <summary>
+        /// 作业默认密码
+        /// </summary>
+        public string ZyPsd { get; set; }
+
+        /// <summary>
+        /// 作业收费
+        /// </summary>
+        public int ZyPrice { get; set; }
     }
 }

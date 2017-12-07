@@ -1,9 +1,38 @@
 ﻿
 <div style="font-size:16px; padding-left:20px;">
-    <label>用户名：@ViewBag.UserInfo.UserName</label><br/><br />
-    <label>真实姓名：<b id="TrueNameB">@ViewBag.UserInfo.TrueName</b></label><input type="text" id="TrueNameInput" value="" style="display:none" /><a class="btn truenamebtn" style="margin-left:20px;">修改</a><label style="font-size:14px; color:red;">（修改后，提交作业时将会默认使用此处设置）</label><br /><br />
-    关注了谁：暂未开放<br /><br />
-    被谁关注：暂未开放<br /><br />
+    <table class="tab-default">
+        <tr>
+            <td class="tright">用户名：</td>
+            <td class="tleft">@ViewBag.UserInfo.UserName</td>
+            <td class="tleft"></td>
+        </tr>
+        <tr>
+            <td class="tright">真实姓名：</td>
+            <td class="tleft"><b id="TrueNameB">@ViewBag.UserInfo.TrueName</b><input type="text" id="TrueNameInput" value="" style="display:none" /></td>
+            <td class="tleft"><a href="javascript:void(0);" class="truenamebtn icoedit"></a><label class="cedit">（5位以内。修改后，您提交作业时将会默认使用此姓名）</label></td>
+        </tr>
+        <tr>
+            <td class="tright">作业密码：</td>
+            <td class="tleft"><b id="ZyPsdB">@ViewBag.UserInfo.ZyPsd</b><input type="text" id="ZyPsdInput" value="" style="display:none" /></td>
+            <td class="tleft"><a href="javascript:void(0);" class="zypsdbtn icoedit"></a><label class="cedit">（6位数字。修改后，只有知道此密码的人才能打开/查看您新建的作业）</label></td>
+        </tr>
+        <tr>
+            <td class="tright">作业收费：</td>
+            <td class="tleft">0元</td>
+            <td class="tleft">暂未开放（作为对您提供优质内容的回馈，学生只有付款后才能打开/查看您新建的作业）</td>
+        </tr>
+        <tr>
+            <td class="tright">关注了谁：</td>
+            <td class="tleft"></td>
+            <td class="tleft">暂未开放（您将能够更便捷的找到您关注的老师新建的作业）</td>
+        </tr>
+        <tr>
+            <td class="tright">被谁关注：</td>
+            <td class="tleft"></td>
+            <td class="tleft">暂未开放（关注您的人将能够更便捷的找到您新建的作业）</td>
+        </tr>
+    </table>
+    
 </div>
 
 <script type="text/javascript">
@@ -18,8 +47,9 @@
 
     var ShowTrueNameInput = function () {
         $(".truenamebtn").addClass("save");
-        $(".truenamebtn").html("保存");
+        $("#TrueNameInput").val($("#TrueNameB").html());
         $("#TrueNameInput").show();
+        $("#TrueNameB").hide();
     }
 
     var SaveTrueName = function () {
@@ -34,10 +64,53 @@
             function (data) {
                 if (data == "0") {
                     $("#TrueNameB").html(truename);
+                    $("#TrueNameB").show();
                     $(".truenamebtn").removeClass("save");
-                    $(".truenamebtn").html("修改");
-                    $("#TrueNameInput").val("");
                     $("#TrueNameInput").hide();
+                }
+                else {
+                    dialogAlert("修改失败！");
+                }
+            })
+    }
+
+    $(".zypsdbtn").on("click", function () {
+        if ($(this).hasClass("save")) {
+            SaveZyPsd();
+        }
+        else {
+            ShowZyPsdInput();
+        }
+    })
+
+    var ShowZyPsdInput = function () {
+        $(".zypsdbtn").addClass("save");
+        $("#ZyPsdInput").val($("#ZyPsdB").html());
+        $("#ZyPsdInput").show();
+        $("#ZyPsdB").hide();
+    }
+
+    var SaveZyPsd = function () {
+        var zypsd = trim($("#ZyPsdInput").val());
+        if (zypsd != "") {
+            if (zypsd.length != 6) {
+                dialogAlert("作业密码长度必须等于6！");
+                return;
+            }
+            if (!isNumber(zypsd)) {
+                dialogAlert("作业密码必须全部为数字！");
+                return;
+            }
+        }
+
+        $.post("UpdateZyPsd",
+            { zyPsd: zypsd },
+            function (data) {
+                if (data == "0") {
+                    $("#ZyPsdB").html(zypsd);
+                    $("#ZyPsdB").show();
+                    $(".zypsdbtn").removeClass("save");
+                    $("#ZyPsdInput").hide();
                 }
                 else {
                     dialogAlert("修改失败！");

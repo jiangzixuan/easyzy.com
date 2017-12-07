@@ -10,6 +10,8 @@ li{list-style-type:none;}
 .left{float:left;}
 .right{float:right;}
 .f1{float:left; margin-left:20px;}
+.tleft{text-align:left;}
+.tright{text-align:right;}
 
 .font-yahei {
     font-family: "Microsoft YaHei"
@@ -22,6 +24,21 @@ a.btn{border: 0;
     padding: 5px 20px;
     color:#fff;
 }
+
+/*Table 样式*/
+.tab-default{line-height:40px;background:#d7d7d7; font-size:14px; width:100%}
+.tab-default th{background:#f4f4f4;}
+.tab-default tr{background:#FFF;}
+.tab-default tr td{ background:#FFF; padding:5px 10px; text-align:center;}
+.tab-default tr td.tleft{text-align:left;}
+.tab-default tr td.tright{text-align:right;}
+.tab-default tr td a{color:#00aeff;}
+.tab-default tr td a:hover{color:#333;}
+.tab-default tr td select {width:90px; height:24px;border: solid 1px #dfdfdf; padding-left: 14px;}
+.tab-default select, .tab-default input{width: 70px;
+    height: 22px;
+    border: 1px solid #dfdfdf;
+    background: #f4f4f4; }
 
 .fixed{position:fixed; top:500px; right:250px;}
 .topfixed{position:fixed; right:20px; bottom:200px; width:50px;}
@@ -87,20 +104,6 @@ a.btn{border: 0;
     cursor: pointer;
 }
 .prop-suggest .thanks{font-size:14px; color:red; margin-top:20px; display:none; border:1px solid royalblue; padding:5px;}
-
-/*Table 样式*/
-.tab-default{line-height:40px;background:#d7d7d7; font-size:14px; width:100%}
-.tab-default th{background:#f4f4f4;}
-.tab-default tr{background:#FFF;}
-.tab-default tr td{ background:#FFF; text-align:center;}
-.tab-default tr td a{color:#00aeff;}
-.tab-default tr td a:hover{color:#333;}
-.tab-default tr td select {width:90px; height:24px;border: solid 1px #dfdfdf; padding-left: 14px;}
-.tab-default select, .tab-default input{    width: 70px;
-    height: 22px;
-    border: 1px solid #dfdfdf;
-    background: #f4f4f4;
-    text-align: center;}
 
 
 .shade {
@@ -209,8 +212,9 @@ a.btn{border: 0;
 .personal-info{width:75%; float:left; margin-left:10px;}
 
 
-
-
+.tab-default .icoedit{width:30px; height:30px; background:url("/Images/v3-bg.png") no-repeat 0 -8px; padding-left:20px;}
+.tab-default .icoedit.save{background-position:-31px -8px; }
+.tab-default td .cedit{font-size:14px; color:red;}
 
 
 
