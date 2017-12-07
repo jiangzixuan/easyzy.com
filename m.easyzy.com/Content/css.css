@@ -6,7 +6,7 @@ li{list-style-type:none;}
 .left{float:left;}
 .right{float:right;}
 .f1{float:left; margin-left:10px;}
-
+.r1{float:right; margin-right:10px;}
 /*Table 样式*/
 .tab-default{line-height:40px;background:#d7d7d7; font-size:14px; width:100%}
 .tab-default th{background:#f4f4f4;}
@@ -73,8 +73,7 @@ a.btn{border: 0;
 .bottom-shard.submit .func{margin-top:30px; text-align:center;}
 .table{margin-top:10px;}
 .neck{height:30px; line-height:30px;background:#f4f4f4;padding-bottom:10px; }
-.neckcontent{text-align:center; background:#FFF;}
-.neckcontent .funcname{padding-right:40px;}
+.neckcontent{text-align:center; background:#FFF; height:30px; font-size:14px;}
 .ulogin{border-bottom:1px solid #ff6a00; width:80%; height:30px; margin:0 auto;}
 .uinput{border:none;width:100%; height:25px;outline: 0; padding-left:20px;}
 .ubtn{width:80%; height:30px; line-height:30px; margin:0 auto; margin-top:40px;background:#ff6a00; color:#ffffff;text-align:center; border-radius: 5px; -webkit-border-radius: 5px;-moz-border-radius: 5px;cursor: pointer;}
