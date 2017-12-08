@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "易作业-查询作业";
+}
+
+<div class="content-nav">当前位置：<a href="/home/index">首页</a> > <a href="query">查看作业</a> > 作业分析</div>
+<div class="content">
+    <div class="main-content">
+        <div id="zychart" style="width:50%; height:600px; float:left;"></div>
+        <div style="width:45%; float:left;"></div>
+    </div>
+</div>
+@section scriptfirst
+{
+    <script src="/Scripts/echarts.simple.min.js"></script>
+}
+
+<script type="text/javascript">
+    var zychart = echarts.init(document.getElementById("zychart"));
+    var option = {
+        title: {
+            text: '世界人口总量',
+            subtext: '数据来自网络'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        legend: {
+            data: ['2011年', '2012年']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'value',
+            boundaryGap: [0, 0.01]
+        },
+        yAxis: {
+            type: 'category',
+            data: ['巴西', '印尼', '美国', '印度', '中国', '世界人口(万)']
+        },
+        series: [
+            {
+                name: '2011年',
+                type: 'bar',
+                data: [18203, 23489, 29034, 104970, 131744, 630230]
+            },
+            {
+                name: '2012年',
+                type: 'bar',
+                data: [19325, 23438, 31000, 121594, 134141, 681807]
+            }
+        ]
+    };
+
+    zychart.setOption(option);
+</script>

@@ -15,13 +15,14 @@ li{list-style-type:none;}
     font-family: "Microsoft YaHei"
 }
 
-a.btn{border: 0;
+a.btn{
     border-radius: 5px;
     cursor: pointer;
     background:royalblue;
     padding: 5px 20px;
     color:#fff;
 }
+a.chart{color:#e91a53; font-weight:bold; width:30px; height:30px; line-height:30px; background:url("/Images/ico_chart.png") no-repeat 0 0; padding-left:30px;}
 
 .fixed{position:fixed; top:500px; right:250px;}
 .topfixed{position:fixed; right:20px; bottom:200px; width:50px;}

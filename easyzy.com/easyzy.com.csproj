@@ -168,6 +168,7 @@
     <Content Include="Images\checkbox.png" />
     <Content Include="Images\close.png" />
     <Content Include="Images\fangdajing.jpg" />
+    <Content Include="Images\ico_chart.png" />
     <Content Include="Images\ico.png" />
     <Content Include="Images\icon_bg.png" />
     <Content Include="Images\index1.jpg" />
@@ -192,6 +193,7 @@
     <Content Include="Scripts\easyzy.common.js" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\echarts.simple.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -229,6 +231,7 @@
     <Content Include="Views\Zy\querysubmitedstudents.cshtml" />
     <Content Include="Views\Zy\getstudentanswercard.cshtml" />
     <Content Include="Views\Zy\check.cshtml" />
+    <Content Include="Views\Zy\zychart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

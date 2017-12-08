@@ -365,5 +365,10 @@ namespace easyzy.com.Controllers
             }
             return "0";
         }
+
+        public ActionResult ZyChart()
+        {
+            return View();
+        }
     }
 }
