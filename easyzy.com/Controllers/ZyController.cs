@@ -73,9 +73,85 @@ namespace easyzy.com.Controllers
         public string QueryZy(string zyNum)
         {
             int zyId = EasyzyConst.GetZyId(zyNum);
+            string hasPsd = "";
             T_Zy zy = B_ZyRedis.GetZy(zyId);
+            if (zy != null)
+            {
+                if (zy.UserId != 0)
+                {
+                    T_User u = B_UserRedis.GetUser(zy.UserId);
+                    if (u.ZyPsd != "")
+                    {
+                        hasPsd = "1|";
+                    }
+                    else
+                    {
+                        hasPsd = "0|";
+                    }
+                }
+                else
+                {
+                    hasPsd = "0|";
+                }
+            }
 
-            return JsonConvert.SerializeObject(zy);
+            return hasPsd + JsonConvert.SerializeObject(zy);
+        }
+
+        /// <summary>
+        /// 判断作业是否有密码
+        /// </summary>
+        /// <param name="zyNum"></param>
+        /// <returns></returns>
+        public string HasZyPsd(string zyNum)
+        {
+            string result = "0";
+            int zyId = EasyzyConst.GetZyId(zyNum);
+            T_Zy zy = B_ZyRedis.GetZy(zyId);
+            if (zy != null)
+            {
+                if (zy.UserId != 0)
+                {
+                    T_User u = B_UserRedis.GetUser(zy.UserId);
+                    if (u.ZyPsd != "")
+                    {
+                        result = "1";
+                    }
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 验证作业密码，返回作业信息
+        /// </summary>
+        /// <param name="zyNum"></param>
+        /// <param name="zyPsd"></param>
+        /// <returns></returns>
+        public string CheckZyPsd(string zyNum, string zyPsd)
+        {
+            int zyId = EasyzyConst.GetZyId(zyNum);
+            string result = "1";
+            T_Zy zy = B_ZyRedis.GetZy(zyId);
+            if (zy != null)
+            {
+                if (zy.UserId != 0)
+                {
+                    T_User u = B_UserRedis.GetUser(zy.UserId);
+                    if (u.ZyPsd == zyPsd)
+                    {
+                        result = "0";
+                    }
+                }
+            }
+            if (result == "0")
+            {
+                return result + "|" + JsonConvert.SerializeObject(zy);
+            }
+            else
+            {
+                return result + "|";
+            }
         }
 
         public ActionResult GetZyStruct(string zyNum)

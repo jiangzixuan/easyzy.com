@@ -66,13 +66,64 @@
     var query = function () {
         var zyNum = $("#zyNum").val();
         if (zyNum == "") return false;
-        $.post("querysubmitedstudents",
-            { zyNum: zyNum },
-            function (data) {
-                cur_data.ZyNumQueried = zyNum;
-                $("#tbody").html(data);
-                
-            })
+        $("#tbody").html("");
+        //检查是否有密码
+        $.ajax({
+            url: "HasZyPsd",
+            type: "post",
+            async: false,
+            data: { zyNum: zyNum },
+            success: function (json) {
+                if (json == "0") {
+                    $.post("querysubmitedstudents",
+                        { zyNum: zyNum },
+                        function (data) {
+                            cur_data.ZyNumQueried = zyNum;
+                            $("#tbody").html(data);
+                        })
+                }
+                else
+                {
+                    var d = dialog({
+                        title: '提示',
+                        content: '需要提供密码来查询作业：<input id="zyPsd" />',
+                        okValue: '确定',
+                        ok: function () {
+                            var zypsd = trim($("#zyPsd").val());
+                            if (zypsd == "") return false;
+                            var b = false;
+                            $.ajax({
+                                url: "CheckZyPsd",
+                                type: "post",
+                                async: false,
+                                data: { zyNum: zyNum, zyPsd: zypsd },
+                                success: function (json) {
+                                    if (json.substring(0, 1) == "0") {
+                                        b = true;
+                                    }
+                                }
+                            })
+                            if (!b) {
+                                this.title('密码错误！');
+                                return false;
+                            }
+                            else
+                            {
+                                $.post("querysubmitedstudents",
+                                    { zyNum: zyNum },
+                                    function (data) {
+                                        cur_data.ZyNumQueried = zyNum;
+                                        $("#tbody").html(data);
+                                    })
+                            }
+                        },
+                        cancelValue: '取消',
+                        cancel: function () { }
+                    });
+                    d.showModal();
+                }
+            }
+        })
     }
 
     var check = function (truename) {
