@@ -65,8 +65,10 @@
                     $("#zyNum").focus();
                 }
                 else {
-                    var hasPsd = json.substring(0, 1);
-                    if (hasPsd == 1) {
+                    if (json.substring(0, 1) == "2") {
+                        dialogAlert(json.substring(2));
+                    }
+                    else if (json.substring(0, 1) == "1") {
                         var d = dialog({
                             title: '提示',
                             content: '需要提供密码来打开作业：<input id="zyPsd" />',

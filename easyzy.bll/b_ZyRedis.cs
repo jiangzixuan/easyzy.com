@@ -128,6 +128,40 @@ namespace easyzy.bll
             return result;
         }
 
+        public static T_Answer GetZyAnswer(int zyId, int studentId)
+        {
+            Dictionary<string, string> tempresult = null;
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.ZyAnswer, zyId.ToString() + studentId.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.ZyAnswer.ToString()))
+            {
+                if (client != null)
+                {
+                    tempresult = client.GetAllEntriesFromHash(key);
+                }
+            }
+            T_Answer result = null;
+            if (tempresult.Count != 0)
+            {
+                result = RedisHelper.ConvertDicToEntitySingle<T_Answer>(tempresult);
+            }
+            else
+            {
+                result = B_Zy.GetZyAnswer(zyId, studentId);
+                if (result != null)
+                {
+                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.ZyAnswer.ToString()))
+                    {
+                        if (cl != null)
+                        {
+                            cl.SetRangeInHash(key, GetZyAnswerKeyValuePairs(result));
+                            cl.ExpireEntryIn(key, ts);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
         /// <summary>
         /// 修改作业为已建答题卡
         /// </summary>

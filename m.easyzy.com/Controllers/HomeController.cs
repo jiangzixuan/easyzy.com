@@ -50,29 +50,57 @@ namespace m.easyzy.com.Controllers
         public string QueryZy(string zyNum)
         {
             int zyId = EasyzyConst.GetZyId(zyNum);
-            string hasPsd = "";
+            string hasPsd = "0";
             T_Zy zy = B_ZyRedis.GetZy(zyId);
-            if (zy != null)
+            //作业不存在
+            if (zy == null) return "null";
+            //判断打开权限
+            string msg = "";
+            if (!OpenAccess(zy, ref msg))
             {
-                if (zy.UserId != 0)
+                return "2|" + msg;
+            }
+            if (zy.UserId != 0)
+            {
+                T_User u = B_UserRedis.GetUser(zy.UserId);
+                if (u.ZyPsd != "")
                 {
-                    T_User u = B_UserRedis.GetUser(zy.UserId);
-                    if (u.ZyPsd != "")
-                    {
-                        hasPsd = "1|";
-                    }
-                    else
-                    {
-                        hasPsd = "0|";
-                    }
-                }
-                else
-                {
-                    hasPsd = "0|";
+                    hasPsd = "1|";
                 }
             }
+            //需要密码，则不返回作业html地址
+            if (hasPsd == "0")
+            {
+                hasPsd = hasPsd + "|" + JsonConvert.SerializeObject(zy);
+            }
 
-            return hasPsd + JsonConvert.SerializeObject(zy);
+            return hasPsd;
+        }
+
+        /// <summary>
+        /// 判断打开权限
+        /// 如果建作业的老师并未登录，那么认为是试用账号，其作业可以随便打开
+        /// 如果建作业的老师是登录过的，那么要想打开作业，需满足条件：
+        /// 1、已登录状态
+        /// 2、没有提交过此作业
+        /// </summary>
+        /// <param name="zy"></param>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        private bool OpenAccess(T_Zy zy, ref string msg)
+        {
+            if (zy.UserId == 0) return true;
+            if (UserId == 0)
+            {
+                msg = "您必须登录才能打开此作业！";
+                return false;
+            }
+            if (B_ZyRedis.GetZyAnswer(zy.Id, UserId) != null)
+            {
+                msg = "您已提交过此作业，不能重复提交！";
+                return false;
+            }
+            return true;
         }
 
         /// <summary>
@@ -80,17 +108,17 @@ namespace m.easyzy.com.Controllers
         /// </summary>
         /// <param name="zyNum"></param>
         /// <returns></returns>
-        public string HasZyPsd(string zyNum)
+        public string NeedZyPsd(string zyNum)
         {
             string result = "0";
             int zyId = EasyzyConst.GetZyId(zyNum);
             T_Zy zy = B_ZyRedis.GetZy(zyId);
             if (zy != null)
             {
-                if (zy.UserId != 0)
+                if (zy.UserId != 0 && zy.UserId != UserId)
                 {
                     T_User u = B_UserRedis.GetUser(zy.UserId);
-                    if (u.ZyPsd != "")
+                    if (u.ZyPsd != "" && B_ZyRedis.GetZyAnswer(zyId, UserId) == null)
                     {
                         result = "1";
                     }
@@ -273,6 +301,32 @@ namespace m.easyzy.com.Controllers
                 list.ForEach(a => a.ZyNum = EasyzyConst.GetZyNum(a.ZyId));
             }
             return View(list);
+        }
+
+        /// <summary>
+        /// 如果建作业的老师并未登录，那么认为是试用账号，其作业可以随便查看
+        /// 如果建作业的老师是登录过的，那么要想查看作业，需满足条件之一：
+        /// 1、查看人是新建人自己
+        /// 2、查看人已经登录并且完成了此作业
+        /// </summary>
+        /// <param name="zy"></param>
+        /// <param name=""></param>
+        /// <returns></returns>
+        public string QueryAccess(string zyNum)
+        {
+            int zyId = EasyzyConst.GetZyId(zyNum);
+            T_Zy zy = B_ZyRedis.GetZy(zyId);
+            if (zy.UserId == 0) return "0";
+            if (zy.UserId == UserId) return "0";
+            if (UserId == 0)
+            {
+                return "1|您尚未登录，不能查看此作业！";
+            }
+            if (B_ZyRedis.GetZyAnswer(zy.Id, UserId) == null)
+            {
+                return "1您尚未完成此作业，不能查看！";
+            }
+            return "0";
         }
     }
 }

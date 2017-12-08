@@ -42,7 +42,7 @@ $(function () {
         $.post("Exit",
             {},
             function () {
-                window.location.reload();
+                window.location.href = "/";
             });
     })
 })

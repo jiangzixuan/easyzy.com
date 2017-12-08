@@ -27,7 +27,7 @@ li{list-style-type:none;}
 .head .white-line{border-bottom:1px solid #ffffff; width:30px; height:10px;}
 .head .top-funcs-pic{padding:5px 10px; height:40px;}
 .head .top-funcs{display:none; background:#b61924; line-height:40px;position:absolute; font-size:14px;text-align:center;}
-.head .top-funcs a{color:#ffffff; padding:5px 4px; }
+.head .top-funcs a{color:#ffffff; padding:5px 11px; }
 .head .top-funcs.active{display:block;}
 .head .top-funcs .func{border-bottom:1px dashed #ffffff;}
 .content-wrap{padding:10px 10px; clear:both;}

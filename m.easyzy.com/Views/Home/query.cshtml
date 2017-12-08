@@ -38,7 +38,9 @@
         ZyNumQueried: 0,
         BodyHtml: "",
         AnswerHtml: "",
-        TrueName:''
+        TrueName: '',
+        QueryAccess: "",
+        QueryMsg: ""
     }
 
     $(".content-wrap").on("click", function (e) {
@@ -55,7 +57,7 @@
         $("#tbody").html("");
         //检查是否有密码
         $.ajax({
-            url: "HasZyPsd",
+            url: "NeedZyPsd",
             type: "post",
             async: false,
             data: { zyNum: zyNum },
@@ -65,6 +67,7 @@
                         { zyNum: zyNum },
                         function (data) {
                             cur_data.ZyNumQueried = zyNum;
+                            cur_data.QueryAccess = "";
                             $("#tbody").html(data);
                         })
                 }
@@ -97,6 +100,7 @@
                                     { zyNum: zyNum },
                                     function (data) {
                                         cur_data.ZyNumQueried = zyNum;
+                                        cur_data.QueryAccess = "";
                                         $("#tbody").html(data);
                                     })
                             }
@@ -111,6 +115,11 @@
     }
 
     var check = function (truename, type) {
+        QueryAccess();
+        if (cur_data.QueryAccess != 0) {
+            dialogAlert(cur_data.QueryMsg);
+            return false;
+        }
         $(".bottom").show();
         if (cur_data.TrueName == truename)
         {
@@ -125,6 +134,23 @@
                     $(".bottom").html(data);
                     showsmt(type);
                 })
+        }
+    }
+
+    var QueryAccess = function () {
+        if (cur_data.QueryAccess == "") {
+            $.ajax({
+                url: "QueryAccess",
+                type: "post",
+                async: false,
+                data: { zyNum: cur_data.ZyNumQueried },
+                success: function (json) {
+                    cur_data.QueryAccess = json.substring(0, 1);
+                    if (json.substring(0, 1) == "1") {
+                        cur_data.QueryMsg = json.substring(2);
+                    }
+                }
+            })
         }
     }
 

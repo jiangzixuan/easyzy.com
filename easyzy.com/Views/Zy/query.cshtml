@@ -59,7 +59,9 @@
         UploadUrl: '@ViewBag.UploadUrl',
         ZyNumQueried: 0,
         BodyHtml: "",
-        AnswerHtml: ""
+        AnswerHtml: "",
+        QueryAccess: "",
+        QueryMsg:""
     }
 
     //查询
@@ -69,7 +71,7 @@
         $("#tbody").html("");
         //检查是否有密码
         $.ajax({
-            url: "HasZyPsd",
+            url: "NeedZyPsd",
             type: "post",
             async: false,
             data: { zyNum: zyNum },
@@ -79,11 +81,11 @@
                         { zyNum: zyNum },
                         function (data) {
                             cur_data.ZyNumQueried = zyNum;
+                            cur_data.QueryAccess = "";
                             $("#tbody").html(data);
                         })
                 }
-                else
-                {
+                else{
                     var d = dialog({
                         title: '提示',
                         content: '需要提供密码来查询作业：<input id="zyPsd" />',
@@ -107,12 +109,12 @@
                                 this.title('密码错误！');
                                 return false;
                             }
-                            else
-                            {
+                            else{
                                 $.post("querysubmitedstudents",
                                     { zyNum: zyNum },
                                     function (data) {
                                         cur_data.ZyNumQueried = zyNum;
+                                        cur_data.QueryAccess = "";
                                         $("#tbody").html(data);
                                     })
                             }
@@ -127,6 +129,12 @@
     }
 
     var check = function (truename) {
+        QueryAccess();
+        if (cur_data.QueryAccess != 0)
+        {
+            dialogAlert(cur_data.QueryMsg);
+            return false;
+        }
         $.post("GetStudentAnswerCard",
             { zyNum: cur_data.ZyNumQueried, trueName: truename },
             function (data) {
@@ -138,7 +146,30 @@
             })
     }
 
+    var QueryAccess = function ()
+    {
+        if (cur_data.QueryAccess == "") {
+            $.ajax({
+                url: "QueryAccess",
+                type: "post",
+                async: false,
+                data: { zyNum: cur_data.ZyNumQueried },
+                success: function (json) {
+                    cur_data.QueryAccess = json.substring(0, 1);
+                    if (json.substring(0, 1) == "1") {
+                        cur_data.QueryMsg = json.substring(2);
+                    }
+                }
+            })
+        }
+    }
+
     var ViewStudentZy = function (truename) {
+        QueryAccess();
+        if (cur_data.QueryAccess != 0) {
+            dialogAlert(cur_data.QueryMsg);
+            return false;
+        }
         window.location.href = "check?zynum=" + cur_data.ZyNumQueried + "&truename=" + truename;
     }
 

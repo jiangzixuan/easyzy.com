@@ -180,5 +180,21 @@ namespace easyzy.bll
             }
             return model;
         }
+
+        public static T_Answer GetZyAnswer(int zyId, int studentId)
+        {
+            T_Answer model = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+                "select Id, ZyId, StudentId, TrueName, AnswerJson, AnswerImg, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser from T_Answer where ZyId = @ZyId and StudentId = @StudentId",
+                "@ZyId".ToInt32InPara(zyId),
+                "@StudentId".ToInt32InPara(studentId)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    model = MySqlDBHelper.ConvertDataReaderToEntitySingle<T_Answer>(dr);
+                }
+            }
+            return model;
+        }
     }
 }

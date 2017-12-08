@@ -135,11 +135,11 @@
             mime_types: [ //只允许上传Word文件
                 { title: "Word files", extensions: "doc,docx" }
             ],
-            max_file_size: '50mb', //最大只能上传400kb的文件
+            max_file_size: '20mb', //最大只能上传400kb的文件
             prevent_duplicates: true //不允许选取重复文件
         },
         multi_selection: false,
-        max_file_size: '50mb',//文件最大限制
+        max_file_size: '20mb',//文件最大限制
         chunk_size: '0'
         //chunk_size: '1mb'//分片上传文件时，每片文件被切割成的大小，为数字时单位为字节
     });

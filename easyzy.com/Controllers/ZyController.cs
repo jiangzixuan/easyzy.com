@@ -70,50 +70,85 @@ namespace easyzy.com.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 查看作业
+        /// </summary>
+        /// <param name="zyNum"></param>
+        /// <returns>"null" 代表不存在，2|开头代表无权访问，"1|"代表需要密码，0|开头代表可以访问</returns>
         public string QueryZy(string zyNum)
         {
             int zyId = EasyzyConst.GetZyId(zyNum);
-            string hasPsd = "";
+            string hasPsd = "0";
             T_Zy zy = B_ZyRedis.GetZy(zyId);
-            if (zy != null)
+            //作业不存在
+            if (zy == null) return "null";
+            //判断打开权限
+            string msg = "";
+            if (!OpenAccess(zy, ref msg))
             {
-                if (zy.UserId != 0)
+                return "2|" + msg;
+            }
+            if (zy.UserId != 0)
+            {
+                T_User u = B_UserRedis.GetUser(zy.UserId);
+                if (u.ZyPsd != "")
                 {
-                    T_User u = B_UserRedis.GetUser(zy.UserId);
-                    if (u.ZyPsd != "")
-                    {
-                        hasPsd = "1|";
-                    }
-                    else
-                    {
-                        hasPsd = "0|";
-                    }
-                }
-                else
-                {
-                    hasPsd = "0|";
+                    hasPsd = "1|";
                 }
             }
+            //需要密码，则不返回作业html地址
+            if(hasPsd == "0")
+            {
+                hasPsd = hasPsd + "|" + JsonConvert.SerializeObject(zy);
+            }
 
-            return hasPsd + JsonConvert.SerializeObject(zy);
+            return hasPsd;
         }
 
         /// <summary>
-        /// 判断作业是否有密码
+        /// 判断打开权限
+        /// 如果建作业的老师并未登录，那么认为是试用账号，其作业可以随便打开
+        /// 如果建作业的老师是登录过的，那么要想打开作业，需满足条件：
+        /// 1、已登录状态
+        /// 2、没有提交过此作业
+        /// </summary>
+        /// <param name="zy"></param>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        private bool OpenAccess(T_Zy zy, ref string msg)
+        {
+            if (zy.UserId == 0) return true;
+            if (UserId == 0)
+            {
+                msg = "您必须登录才能打开此作业！";
+                return false;
+            }
+            if (B_ZyRedis.GetZyAnswer(zy.Id, UserId) != null)
+            {
+                msg = "您已提交过此作业，不能重复提交！";
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 判断作业是否需要密码
+        /// 如果作业创建人是当前登录人，不需要密码
+        /// 已完成此作业，也不需要密码
         /// </summary>
         /// <param name="zyNum"></param>
         /// <returns></returns>
-        public string HasZyPsd(string zyNum)
+        public string NeedZyPsd(string zyNum)
         {
             string result = "0";
             int zyId = EasyzyConst.GetZyId(zyNum);
             T_Zy zy = B_ZyRedis.GetZy(zyId);
             if (zy != null)
             {
-                if (zy.UserId != 0)
+                if (zy.UserId != 0 && zy.UserId != UserId)
                 {
                     T_User u = B_UserRedis.GetUser(zy.UserId);
-                    if (u.ZyPsd != "")
+                    if (u.ZyPsd != "" && B_ZyRedis.GetZyAnswer(zyId, UserId) == null)
                     {
                         result = "1";
                     }
@@ -227,14 +262,14 @@ namespace easyzy.com.Controllers
             
             return i > 0 ? ("0|" + B_ZyRedis.GetZy(zyId).AnswerHtmlPath) : "1|提交入库失败！";
         }
-
+        
         public ActionResult Query(string ZyNum = "")
         {
             ViewBag.ZyNum = ZyNum;
             ViewBag.UploadUrl = Util.GetAppSetting("UploadUrlPrefix");
             return View();
         }
-
+        
         public ActionResult QuerySubmitedStudents(string zyNum)
         {
             int zyId = EasyzyConst.GetZyId(zyNum);
@@ -253,6 +288,7 @@ namespace easyzy.com.Controllers
         {
             int zyId = EasyzyConst.GetZyId(zyNum);
             List<dto_Answer2> result = null;
+            
             T_Answer a = B_ZyRedis.GetZyAnswer(zyId, trueName);   //获取学生提交的答案
             List<T_ZyStruct> zysl = B_ZyRedis.GetZyStruct(zyId);  //作业结构中可以获取正确答案
             if (a != null)
@@ -267,14 +303,20 @@ namespace easyzy.com.Controllers
             }
             ViewBag.TrueName = trueName;
             ViewBag.UploadUrl = Util.GetAppSetting("UploadUrlPrefix");
+            
             return PartialView(result);
         }
 
+        /// <summary>
+        /// 查看作业
+        /// </summary>
+        /// <param name="zyNum"></param>
+        /// <returns></returns>
         public ActionResult Check(string zyNum, string trueName)
         {
             int zyId = EasyzyConst.GetZyId(zyNum);
             T_Zy zy = B_ZyRedis.GetZy(zyId);
-
+            
             List<dto_Answer2> result = null;
             T_Answer a = B_ZyRedis.GetZyAnswer(zyId, trueName);   //获取学生提交的答案
             List<T_ZyStruct> zysl = B_ZyRedis.GetZyStruct(zyId);  //作业结构中可以获取正确答案
@@ -294,7 +336,34 @@ namespace easyzy.com.Controllers
             ViewBag.UploadUrl = Util.GetAppSetting("UploadUrlPrefix");
             ViewBag.BodyHtml = zy.BodyHtmlPath;
             ViewBag.AnswerHtml = zy.AnswerHtmlPath;
+            
             return View();
+        }
+
+        /// <summary>
+        /// 如果建作业的老师并未登录，那么认为是试用账号，其作业可以随便查看
+        /// 如果建作业的老师是登录过的，那么要想查看作业，需满足条件之一：
+        /// 1、查看人是新建人自己
+        /// 2、查看人已经登录并且完成了此作业
+        /// </summary>
+        /// <param name="zy"></param>
+        /// <param name=""></param>
+        /// <returns></returns>
+        public string QueryAccess(string zyNum)
+        {
+            int zyId = EasyzyConst.GetZyId(zyNum);
+            T_Zy zy = B_ZyRedis.GetZy(zyId);
+            if (zy.UserId == 0) return "0";
+            if (zy.UserId == UserId) return "0";
+            if (UserId == 0)
+            {
+                return "1|您尚未登录，不能查看此作业！";
+            }
+            if (B_ZyRedis.GetZyAnswer(zy.Id, UserId) == null)
+            {
+                return "1您尚未完成此作业，不能查看！";
+            }
+            return "0";
         }
     }
 }
