@@ -1,5 +1,5 @@
-﻿@using easyzy.model.entity;
-@{var list = Model as List<T_Answer>; }
+﻿@using easyzy.model.dto;
+@{var list = Model as List<dto_Answer3>; }
 
 @if (list != null)
 {
@@ -9,7 +9,8 @@
             <td>@(i+1)</td>
             <td><a href="javascript:void(0);" onclick="ViewStudentZy('@list[i].TrueName');">@list[i].TrueName</a></td>
             <td>@list[i].CreateDate.ToString("yyyy-MM-dd hh:mm:ss")</td>
-            <td><img src="/Images/fangdajing.jpg" width="50" height="50" style="padding-top:20px; cursor:pointer;" onclick="check('@list[i].TrueName');" /></td>
+            <td>@list[i].ObjectiveQuesCorrectCount / @list[i].ObjectiveQuesCount</td>
+            <td><img src="/Images/fangdajing.jpg" width="30" height="30" style="padding-top:20px; cursor:pointer;" onclick="check('@list[i].TrueName');" /></td>
         </tr>
     }
 }

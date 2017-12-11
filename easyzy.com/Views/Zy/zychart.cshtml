@@ -11,15 +11,15 @@
 </div>
 @section scriptfirst
 {
-    <script src="/Scripts/echarts.simple.min.js"></script>
+    <script src="~/Scripts/echarts/echarts.common.min.js"></script>
 }
 
 <script type="text/javascript">
     var zychart = echarts.init(document.getElementById("zychart"));
     var option = {
         title: {
-            text: '世界人口总量',
-            subtext: '数据来自网络'
+            text: '客观题正确率',
+            subtext: ''
         },
         tooltip: {
             trigger: 'axis',
@@ -28,7 +28,7 @@
             }
         },
         legend: {
-            data: ['2011年', '2012年']
+            data: ['Zy1000051']
         },
         grid: {
             left: '3%',
@@ -42,18 +42,13 @@
         },
         yAxis: {
             type: 'category',
-            data: ['巴西', '印尼', '美国', '印度', '中国', '世界人口(万)']
+            data: ['1.1', '1.2', '2', '3', '4', '5', '3', '4', '5']
         },
         series: [
             {
-                name: '2011年',
+                name: 'Zy1000051',
                 type: 'bar',
-                data: [18203, 23489, 29034, 104970, 131744, 630230]
-            },
-            {
-                name: '2012年',
-                type: 'bar',
-                data: [19325, 23438, 31000, 121594, 134141, 681807]
+                data: [25, 30, 15, 20, 80, 100, 20, 80, 100]
             }
         ]
     };
