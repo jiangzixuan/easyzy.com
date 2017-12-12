@@ -244,7 +244,41 @@ namespace m.easyzy.com.Controllers
         {
             int zyId = EasyzyConst.GetZyId(zyNum);
             List<T_Answer> al = B_Zy.GetZyAnswers(zyId);
-            return PartialView(al);
+            List<dto_Answer3> dal = new List<dto_Answer3>();
+            if (al != null && al.Count > 0)
+            {
+                List<T_ZyStruct> zysl = B_ZyRedis.GetZyStruct(zyId);
+                int ObjectiveQuesCount = zysl.Count(a => a.QuesType == 0);
+                int ObjectiveQuesCorrectCount = 0;
+
+                foreach (var a in al)
+                {
+                    //计算客观题正确数量
+                    List<dto_Answer> xx = JsonConvert.DeserializeObject<List<dto_Answer>>(a.AnswerJson);
+                    ObjectiveQuesCorrectCount = 0;
+                    zysl.ForEach(s =>
+                    {
+                        if (s.QuesType == 0)
+                        {
+                            ObjectiveQuesCorrectCount += xx.FirstOrDefault(t => t.StructId == s.Id).Answer == s.QuesAnswer ? 1 : 0;
+                        }
+                    });
+                    dto_Answer3 da = new dto_Answer3()
+                    {
+                        Id = a.Id,
+                        ZyId = a.ZyId,
+                        StudentId = a.StudentId,
+                        TrueName = a.TrueName,
+                        AnswerImg = a.AnswerImg,
+                        AnswerJson = a.AnswerJson,
+                        CreateDate = a.CreateDate,
+                        ObjectiveQuesCount = ObjectiveQuesCount,
+                        ObjectiveQuesCorrectCount = ObjectiveQuesCorrectCount
+                    };
+                    dal.Add(da);
+                }
+            }
+            return PartialView(dal);
         }
 
         /// <summary>
@@ -275,6 +309,10 @@ namespace m.easyzy.com.Controllers
             return PartialView(result);
         }
 
+        /// <summary>
+        /// 已完成作业
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Down()
         {
             if (UserId == 0)
@@ -289,6 +327,10 @@ namespace m.easyzy.com.Controllers
             return View(list);
         }
 
+        /// <summary>
+        /// 已建作业
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Created()
         {
             if (UserId == 0)
@@ -327,6 +369,86 @@ namespace m.easyzy.com.Controllers
                 return "1您尚未完成此作业，不能查看！";
             }
             return "0";
+        }
+
+        public ActionResult ZyChart(string zyNum)
+        {
+            int zyId = EasyzyConst.GetZyId(zyNum);
+            List<T_ZyStruct> zysl = B_ZyRedis.GetZyStruct(zyId);
+            List<T_Answer> al = B_Zy.GetZyAnswers(zyId);
+            int totalCount = 0;
+            int totalCorrectCount = 0;
+            string qno = "", cp = "";
+            zysl.ForEach(a =>
+            {
+                if (a.QuesType == 0)
+                {
+                    qno += "," + a.BqNum + (a.SqNum == 0 ? "" : ("." + a.SqNum));
+
+                    if (al != null)
+                    {
+                        totalCount = al.Count;
+                        totalCorrectCount = 0;
+                        al.ForEach(b =>
+                        {
+                            List<dto_Answer> ansl = JsonConvert.DeserializeObject<List<dto_Answer>>(b.AnswerJson);
+                            totalCorrectCount += (ansl.FirstOrDefault(c => c.StructId == a.Id).Answer == a.QuesAnswer ? 1 : 0);
+                        });
+                    }
+                    cp += "," + Math.Round((totalCorrectCount * 1.0 / totalCount * 1.0), 2) * 100;
+                }
+            });
+            if (qno.Length > 0)
+            {
+                qno = qno.Substring(1);
+                cp = cp.Substring(1);
+            }
+            ViewBag.TotalCount = totalCount;
+            ViewBag.ZyNum = zyNum;
+            ViewBag.qno = qno;
+            ViewBag.cp = cp;
+            return View();
+        }
+
+        /// <summary>
+        /// 获取客观题选项选择率
+        /// </summary>
+        /// <param name="zyNum"></param>
+        /// <param name="bqNum"></param>
+        /// <param name="sqNum"></param>
+        /// <returns></returns>
+        public JsonResult GetOptionPercent(string zyNum, int bqNum, int sqNum)
+        {
+            int zyId = EasyzyConst.GetZyId(zyNum);
+            List<T_Answer> al = B_Zy.GetZyAnswers(zyId);
+            List<T_ZyStruct> zysl = B_ZyRedis.GetZyStruct(zyId);
+            string qa = zysl.FirstOrDefault(a => a.BqNum == bqNum && a.SqNum == sqNum).QuesAnswer;
+
+            int AC = 0, BC = 0, CC = 0, DC = 0;
+            if (al != null)
+            {
+                al.ForEach(a =>
+                {
+                    List<dto_Answer> ansl = JsonConvert.DeserializeObject<List<dto_Answer>>(a.AnswerJson);
+                    string answer = ansl.FirstOrDefault(b => b.BqNum == bqNum && b.SqNum == sqNum).Answer;
+                    switch (answer)
+                    {
+                        case "A": AC += 1; break;
+                        case "B": BC += 1; break;
+                        case "C": CC += 1; break;
+                        case "D": DC += 1; break;
+                    }
+                });
+            }
+            dto_Echart_pie_simple[] el = new dto_Echart_pie_simple[4];
+
+            el[0] = new dto_Echart_pie_simple() { value = AC, name = "A" + (qa == "A" ? " 正确答案" : "") };
+            el[1] = new dto_Echart_pie_simple() { value = BC, name = "B" + (qa == "B" ? " 正确答案" : "") };
+            el[2] = new dto_Echart_pie_simple() { value = CC, name = "C" + (qa == "C" ? " 正确答案" : "") };
+            el[3] = new dto_Echart_pie_simple() { value = DC, name = "D" + (qa == "D" ? " 正确答案" : "") };
+            //string result = "{value:" + AC + ", name:'A'}|{value:" + BC + ", name:'B'}|{value:" + CC + ", name:'C'}|{value:" + DC + ", name:'D'}";
+
+            return Json(el);
         }
     }
 }

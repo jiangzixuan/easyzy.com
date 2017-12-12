@@ -5,7 +5,7 @@
 
 <div class="content-wrap">
     <div class="tcenter">
-        <input type="text" id="zyNum" style="width:200px; height:20px;" value="@ViewBag.ZyNum" /><a class="btn" onclick="query();">查询</a>
+        <input type="text" id="zyNum" style="width:200px; height:20px;" value="@ViewBag.ZyNum" /><a class="btn" onclick="query();">查询</a><a class="chart" style="margin-left:20px;" href="javascript:void(0);">作业分析</a>
     </div>
     <div class="table">
         <table border="0" cellspacing="1" cellpadding="0" class="tab-default">
@@ -14,6 +14,7 @@
                     <th>序号</th>
                     <th>姓名</th>
                     <th>提交时间</th>
+                    <th>客观题正确率</th>
                     <th>查看</th>
                 </tr>
             </thead>
@@ -167,4 +168,14 @@
             });
         }
     }
+
+    $(".chart").on("click", function () {
+        if (cur_data.ZyNumQueried == 0) return false;
+        QueryAccess();
+        if (cur_data.QueryAccess != 0) {
+            dialogAlert(cur_data.QueryMsg);
+            return false;
+        }
+        window.location.href = "zychart?zynum=" + cur_data.ZyNumQueried;
+    })
 </script>

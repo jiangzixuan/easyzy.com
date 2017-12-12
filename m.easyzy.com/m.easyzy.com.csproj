@@ -161,6 +161,7 @@
     <Content Include="Images\arrow.png" />
     <Content Include="Images\checkbox.png" />
     <Content Include="Images\ico.png" />
+    <Content Include="Images\ico_chart.png" />
     <Content Include="Images\logo.jpg" />
     <Content Include="Images\radio.png" />
     <Content Include="Images\run-back.png" />
@@ -175,6 +176,9 @@
     </Content>
     <Content Include="Log4Net.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\echarts\echarts.common.min.js" />
+    <Content Include="Scripts\echarts\echarts.min.js" />
+    <Content Include="Scripts\echarts\echarts.simple.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -212,6 +216,7 @@
     <Content Include="Views\Home\down.cshtml" />
     <Content Include="Views\Home\login.cshtml" />
     <Content Include="Views\Home\created.cshtml" />
+    <Content Include="Views\Home\zychart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

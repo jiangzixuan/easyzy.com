@@ -41,6 +41,7 @@ a.btn{border: 0;
     color:#fff;
     margin-left:10px;
 }
+a.chart{color:#e91a53; font-weight:bold; width:30px; height:30px; line-height:30px; background:url("/Images/ico_chart.png") no-repeat 0 0; padding-left:30px; font-size:14px;}
 .tcenter{text-align:center;}
 .zyopen{margin-top:20px;}
 .bottom-shard{width:100%; position: fixed;

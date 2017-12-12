@@ -178,6 +178,12 @@
     }
 
     $(".chart").on("click", function () {
+        if (cur_data.ZyNumQueried == 0) return false;
+        QueryAccess();
+        if (cur_data.QueryAccess != 0) {
+            dialogAlert(cur_data.QueryMsg);
+            return false;
+        }
         window.location.href = "zychart?zynum=" + cur_data.ZyNumQueried;
     })
 </script>
