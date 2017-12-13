@@ -5,8 +5,15 @@
 <div class="content-nav">当前位置：<a href="/home/index">首页</a> > <a href="query">查看作业</a> > 作业分析</div>
 <div class="content">
     <div class="main-content">
+        @if (ViewBag.ErrorMsg != null)
+        {
+            <div style="padding-top:20px;">@ViewBag.ErrorMsg</div>
+        }
+        else
+        {
         <div id="zychart" style="width:50%; height:600px; float:left;"></div>
         <div id="queschart" style="width:45%; height:600px; float:left; "></div>
+        }
     </div>
 </div>
 @section scriptfirst

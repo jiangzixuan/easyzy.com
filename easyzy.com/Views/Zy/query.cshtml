@@ -59,7 +59,6 @@
         ZyNumQueried: 0,
         BodyHtml: "",
         AnswerHtml: "",
-        QueryAccess: "",
         QueryMsg:""
     }
 
@@ -80,7 +79,6 @@
                         { zyNum: zyNum },
                         function (data) {
                             cur_data.ZyNumQueried = zyNum;
-                            cur_data.QueryAccess = "";
                             $("#tbody").html(data);
                         })
                 }
@@ -113,7 +111,6 @@
                                     { zyNum: zyNum },
                                     function (data) {
                                         cur_data.ZyNumQueried = zyNum;
-                                        cur_data.QueryAccess = "";
                                         $("#tbody").html(data);
                                     })
                             }
@@ -128,12 +125,6 @@
     }
 
     var check = function (truename) {
-        QueryAccess();
-        if (cur_data.QueryAccess != 0)
-        {
-            dialogAlert(cur_data.QueryMsg);
-            return false;
-        }
         $.post("GetStudentAnswerCard",
             { zyNum: cur_data.ZyNumQueried, trueName: truename },
             function (data) {
@@ -144,31 +135,9 @@
                 $(".answercard").show();
             })
     }
-
-    var QueryAccess = function ()
-    {
-        if (cur_data.QueryAccess == "") {
-            $.ajax({
-                url: "QueryAccess",
-                type: "post",
-                async: false,
-                data: { zyNum: cur_data.ZyNumQueried },
-                success: function (json) {
-                    cur_data.QueryAccess = json.substring(0, 1);
-                    if (json.substring(0, 1) == "1") {
-                        cur_data.QueryMsg = json.substring(2);
-                    }
-                }
-            })
-        }
-    }
+    
 
     var ViewStudentZy = function (truename) {
-        QueryAccess();
-        if (cur_data.QueryAccess != 0) {
-            dialogAlert(cur_data.QueryMsg);
-            return false;
-        }
         window.location.href = "check?zynum=" + cur_data.ZyNumQueried + "&truename=" + truename;
     }
 
@@ -179,11 +148,6 @@
 
     $(".chart").on("click", function () {
         if (cur_data.ZyNumQueried == 0) return false;
-        QueryAccess();
-        if (cur_data.QueryAccess != 0) {
-            dialogAlert(cur_data.QueryMsg);
-            return false;
-        }
         window.location.href = "zychart?zynum=" + cur_data.ZyNumQueried;
     })
 </script>

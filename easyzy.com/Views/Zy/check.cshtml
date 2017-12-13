@@ -9,6 +9,12 @@
 <div class="content-nav">当前位置：<a href="/home/index">首页</a> > <a href="/zy/query">查看作业</a> > 详情</div>
 <div class="content">
     <div class="main-content">
+        @if (ViewBag.ErrorMsg != null)
+        {
+            <div style="padding-top:20px;">@ViewBag.ErrorMsg</div>
+        }
+        else
+        {
         <div class="zyquery">
             <b>作业编号：@ViewBag.ZyNum</b>
         </div>
@@ -26,52 +32,55 @@
             <iframe name="ifraRight" id="ifraAnswer" style="width:100%;" src="@(ViewBag.UploadUrl)@(ViewBag.AnswerHtml)" frameborder="0" scrolling="no"></iframe>
             }
         </div>
+        }
     </div>
 </div>
 <div class="fixed writetip">
     <a title="打开答题卡" class="write"><img src="/Images/write.png" width="70" height="70" /></a>
 </div>
-
-<div class="fixed answercard">
-    <div class="ques">
-        <div class="cardtitle">@ViewBag.TrueName<img src="/Images/close.png" class="popclose" style="top:-14px; right:-11px;" onclick="closepop();" /></div>
-        @if (ViewBag.AnswerCard != null)
-        {
-            foreach (var q in ViewBag.AnswerCard)
+@if (ViewBag.ErrorMsg == "")
+{
+    <div class="fixed answercard">
+        <div class="ques">
+            <div class="cardtitle">@ViewBag.TrueName<img src="/Images/close.png" class="popclose" style="top:-14px; right:-11px;" onclick="closepop();" /></div>
+            @if (ViewBag.AnswerCard != null)
             {
-                <div class="left objective">
-                    <b>@(q.BqNum)@if(q.SqNum != 0){<b>-@(q.SqNum)</b>}</b>
+                foreach (var q in ViewBag.AnswerCard)
+                {
+                    <div class="left objective">
+                        <b>@(q.BqNum)@if (q.SqNum != 0)
+                        {<b>-@(q.SqNum)</b>}</b>
                     
-                    <b>.（@q.QuesAnswer）</b>
-                    @if (q.QuesAnswer.Length == 1)
-                    {
-                        <span><a href="javascript:void(0);" class="rdo @(q.Answer == "A" ? "choose" : "unchoose")">A</a><a href="javascript:void(0);" class="rdo @(q.Answer == "B" ? "choose" : "unchoose")">B</a><a href="javascript:void(0);" class="rdo @(q.Answer == "C" ? "choose" : "unchoose")">C</a><a href="javascript:void(0);" class="rdo @(q.Answer == "D" ? "choose" : "unchoose")">D</a></span>
-                    }
-                    else
-                    {
-                        <span><a href="javascript:void(0);" class="chk @(q.Answer.Contains("A") ? "choose" : "unchoose")">A</a><a href="javascript:void(0);" class="chk @(q.Answer.Contains("B") ? "choose" : "unchoose")">B</a><a href="javascript:void(0);" class="chk @(q.Answer.Contains("C") ? "choose" : "unchoose")">C</a><a href="javascript:void(0);" class="chk @(q.Answer.Contains("D") ? "choose" : "unchoose")">D</a></span>
-                    }
-                </div>
+                        <b>.（@q.QuesAnswer）</b>
+                        @if (q.QuesAnswer.Length == 1)
+                        {
+                            <span><a href="javascript:void(0);" class="rdo @(q.Answer == "A" ? "choose" : "unchoose")">A</a><a href="javascript:void(0);" class="rdo @(q.Answer == "B" ? "choose" : "unchoose")">B</a><a href="javascript:void(0);" class="rdo @(q.Answer == "C" ? "choose" : "unchoose")">C</a><a href="javascript:void(0);" class="rdo @(q.Answer == "D" ? "choose" : "unchoose")">D</a></span>
+                        }
+                        else
+                        {
+                            <span><a href="javascript:void(0);" class="chk @(q.Answer.Contains("A") ? "choose" : "unchoose")">A</a><a href="javascript:void(0);" class="chk @(q.Answer.Contains("B") ? "choose" : "unchoose")">B</a><a href="javascript:void(0);" class="chk @(q.Answer.Contains("C") ? "choose" : "unchoose")">C</a><a href="javascript:void(0);" class="chk @(q.Answer.Contains("D") ? "choose" : "unchoose")">D</a></span>
+                        }
+                    </div>
 
+                }
             }
-        }
 
-        <div class="anspiclist">
-            @if (ViewBag.AnswerImg != "")
-            {
-                <ul id="imglistul">
-                    @{string[] imgl = ViewBag.AnswerImg.Split(',');}
-                    @foreach (string s in imgl)
-                    {
-                        <li class="left"><img src=@(ViewBag.UploadUrl)@(s) width='80' height='80' alt="" style="cursor:pointer;" /></li>
-                    }
-                </ul>
-            }
+            <div class="anspiclist">
+                @if (ViewBag.AnswerImg != "")
+                {
+                    <ul id="imglistul">
+                        @{string[] imgl = ViewBag.AnswerImg.Split(',');}
+                        @foreach (string s in imgl)
+                        {
+                            <li class="left"><img src=@(ViewBag.UploadUrl)@(s) width='80' height='80' alt="" style="cursor:pointer;" /></li>
+                        }
+                    </ul>
+                            }
+            </div>
+
         </div>
-
     </div>
-</div>
-
+}
 <script type="text/javascript">
     document.domain = "easyzy.com";  //必须加上才能读到iframe内控件，因为跨域
 

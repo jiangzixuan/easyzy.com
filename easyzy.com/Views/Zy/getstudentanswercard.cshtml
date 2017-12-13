@@ -2,29 +2,36 @@
 @{var list = Model as List<dto_Answer2>; }
 
 <div class="ques">
+    
     <div class="cardtitle">@ViewBag.TrueName<img src="/Images/close.png" class="popclose" style="top:-14px; right:-11px;" onclick="closepop();" /></div>
-    @if (list != null)
+    @if (ViewBag.ErrorMsg != null)
     {
-        foreach (var q in list)
-        {
-            <div class="left objective">
-                <b>@(q.BqNum)@if(q.SqNum != 0){<b>-@(q.SqNum)</b>}</b>
-                
-                <b>.（@q.QuesAnswer）</b>
-                @if (q.QuesAnswer.Length == 1)
-                {
-                    <span><a href="javascript:void(0);" class="rdo @(q.Answer == "A" ? "choose" : "unchoose")">A</a><a href="javascript:void(0);" class="rdo @(q.Answer == "B" ? "choose" : "unchoose")">B</a><a href="javascript:void(0);" class="rdo @(q.Answer == "C" ? "choose" : "unchoose")">C</a><a href="javascript:void(0);" class="rdo @(q.Answer == "D" ? "choose" : "unchoose")">D</a></span>
-                }
-                else
-                {
-                    <span><a href="javascript:void(0);" class="chk @(q.Answer.Contains("A") ? "choose" : "unchoose")">A</a><a href="javascript:void(0);" class="chk @(q.Answer.Contains("B") ? "choose" : "unchoose")">B</a><a href="javascript:void(0);" class="chk @(q.Answer.Contains("C") ? "choose" : "unchoose")">C</a><a href="javascript:void(0);" class="chk @(q.Answer.Contains("D") ? "choose" : "unchoose")">D</a></span>
-                }
-            </div>
-
-        }
+        <div style="padding-top:20px;">@ViewBag.ErrorMsg</div>
     }
+    else
+    {
+        if (list != null)
+        {
+            foreach (var q in list)
+            {
+                <div class="left objective">
+                    <b>@(q.BqNum)@if (q.SqNum != 0)
+                    {<b>-@(q.SqNum)</b>}</b>
+                
+                    <b>.（@q.QuesAnswer）</b>
+                    @if (q.QuesAnswer.Length == 1)
+                    {
+                        <span><a href="javascript:void(0);" class="rdo @(q.Answer == "A" ? "choose" : "unchoose")">A</a><a href="javascript:void(0);" class="rdo @(q.Answer == "B" ? "choose" : "unchoose")">B</a><a href="javascript:void(0);" class="rdo @(q.Answer == "C" ? "choose" : "unchoose")">C</a><a href="javascript:void(0);" class="rdo @(q.Answer == "D" ? "choose" : "unchoose")">D</a></span>
+                    }
+                    else
+                    {
+                        <span><a href="javascript:void(0);" class="chk @(q.Answer.Contains("A") ? "choose" : "unchoose")">A</a><a href="javascript:void(0);" class="chk @(q.Answer.Contains("B") ? "choose" : "unchoose")">B</a><a href="javascript:void(0);" class="chk @(q.Answer.Contains("C") ? "choose" : "unchoose")">C</a><a href="javascript:void(0);" class="chk @(q.Answer.Contains("D") ? "choose" : "unchoose")">D</a></span>
+                    }
+                </div>
+            }
+        }
 
-    <div class="anspiclist">
+        <div class="anspiclist">
         @if (ViewBag.AnswerImg != "")
         {
             <ul id="imglistul">
@@ -35,6 +42,6 @@
                 }
             </ul>
         }
-    </div>
-    
+        </div>
+    }
 </div>

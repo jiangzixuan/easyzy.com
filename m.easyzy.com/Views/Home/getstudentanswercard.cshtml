@@ -2,7 +2,13 @@
 @{var list = Model as List<dto_Answer2>; }
 
 <div class="bottom-shard answercard">
-    @if (list != null)
+@if (ViewBag.ErrorMsg != null)
+{
+    <div style="padding:20px;">@ViewBag.ErrorMsg</div>
+}
+else
+{
+    if (list != null)
     {
         foreach (var q in list)
         {
@@ -21,8 +27,15 @@
             </div>
         }
     }
+}
 </div>
 <div class="bottom-shard piccard">
+    @if (ViewBag.ErrorMsg != null)
+    {
+        <div style="padding:20px;">@ViewBag.ErrorMsg</div>
+    }
+    else
+    {
     <div class="anspiclist">
         @if (ViewBag.AnswerImg != "")
         {
@@ -35,4 +48,5 @@
             </ul>
         }
     </div>
+    }
 </div>

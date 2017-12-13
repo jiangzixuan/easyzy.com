@@ -291,7 +291,14 @@ namespace m.easyzy.com.Controllers
         public ActionResult GetStudentAnswerCard(string zyNum, string trueName)
         {
             int zyId = EasyzyConst.GetZyId(zyNum);
+            string errorMsg = "";
             List<dto_Answer2> result = null;
+            if (!QueryAccess(zyId, ref errorMsg))
+            {
+                ViewBag.ErrorMsg = errorMsg;
+                return PartialView(result);
+            }
+
             T_Answer a = B_ZyRedis.GetZyAnswer(zyId, trueName);   //获取学生提交的答案
             List<T_ZyStruct> zysl = B_ZyRedis.GetZyStruct(zyId);  //作业结构中可以获取正确答案
             if (a != null)
@@ -354,26 +361,34 @@ namespace m.easyzy.com.Controllers
         /// <param name="zy"></param>
         /// <param name=""></param>
         /// <returns></returns>
-        public string QueryAccess(string zyNum)
+        public bool QueryAccess(int zyId, ref string errorMsg)
         {
-            int zyId = EasyzyConst.GetZyId(zyNum);
             T_Zy zy = B_ZyRedis.GetZy(zyId);
-            if (zy.UserId == 0) return "0";
-            if (zy.UserId == UserId) return "0";
+            if (zy.UserId == 0) return true;
+            if (zy.UserId == UserId) return true;
             if (UserId == 0)
             {
-                return "1|您尚未登录，不能查看此作业！";
+                errorMsg = "您尚未登录，不能查看此作业！";
+                return false;
             }
             if (B_ZyRedis.GetZyAnswer(zy.Id, UserId) == null)
             {
-                return "1您尚未完成此作业，不能查看！";
+                errorMsg = "您尚未完成此作业，不能查看！";
+                return false;
             }
-            return "0";
+            return true;
         }
 
         public ActionResult ZyChart(string zyNum)
         {
             int zyId = EasyzyConst.GetZyId(zyNum);
+            string errorMsg = "";
+            if (!QueryAccess(zyId, ref errorMsg))
+            {
+                ViewBag.ErrorMsg = errorMsg;
+                return View();
+            }
+
             List<T_ZyStruct> zysl = B_ZyRedis.GetZyStruct(zyId);
             List<T_Answer> al = B_Zy.GetZyAnswers(zyId);
             int totalCount = 0;
