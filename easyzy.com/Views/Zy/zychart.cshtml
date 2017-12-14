@@ -102,6 +102,7 @@
 
     //显示饼图
     var ShowQuesChart = function (bqnum, sqnum) {
+        $("#queschart").html("<div class='loading' style='text-align:center; padding-top:50px;'><img style='vertical-align: middle;' src='/images/loader.gif'><b>各选项选择率正在查询中……</b></div>");
         var title = "第" + bqnum;
         if (sqnum == "0") {
             title = "第" + bqnum + "题各选项选择率";

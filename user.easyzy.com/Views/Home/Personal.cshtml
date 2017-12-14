@@ -32,7 +32,7 @@
     })
 
     var GetUserInfo = function () {
-        $(".personal-info").html();
+        $(".personal-info").html("<div class='loading' style='text-align:center; padding-top:50px;'><img style='vertical-align: middle;' src='/images/loader.gif'><b>正在查询中……</b></div>");
         $.post("GetUserInfo",
             {},
             function (data) {
@@ -42,7 +42,7 @@
 
     $(".created").on("click", function () {
         $(this).addClass("active").parent("li").siblings().find("a").removeClass("active");
-        $(".personal-info").html();
+        $(".personal-info").html("<div class='loading' style='text-align:center; padding-top:50px;'><img style='vertical-align: middle;' src='/images/loader.gif'><b>正在查询中……</b></div>");
         $.post("GetCreatedZy",
             {},
             function (data) {
@@ -52,7 +52,7 @@
 
     $(".submited").on("click", function () {
         $(this).addClass("active").parent("li").siblings().find("a").removeClass("active");
-        $(".personal-info").html();
+        $(".personal-info").html("<div class='loading' style='text-align:center; padding-top:50px;'><img style='vertical-align: middle;' src='/images/loader.gif'><b>正在查询中……</b></div>");
         $.post("GetSubmitedZy",
             {},
             function (data) {

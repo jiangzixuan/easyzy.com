@@ -30,6 +30,7 @@
         if (cur_data.DefaultZyNum != "") {
             query();
         }
+        $("#zyNum").focus();
         $(".neckcontent .funcname").html("查看作业");
     })
 
@@ -54,7 +55,7 @@
     var query = function () {
         var zyNum = $("#zyNum").val();
         if (zyNum == "") return false;
-        $("#tbody").html("");
+        $("#tbody").html("<div><img style='vertical-align: middle;' src='/images/loader.gif'><b>正在查询中……</b></div>");
         //检查是否有密码
         $.ajax({
             url: "NeedZyPsd",
@@ -104,7 +105,7 @@
                             }
                         },
                         cancelValue: '取消',
-                        cancel: function () { }
+                        cancel: function () {$("#tbody").html("");}
                     });
                     d.showModal();
                 }

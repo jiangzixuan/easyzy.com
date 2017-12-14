@@ -7,6 +7,7 @@
     <div class="tcenter">
         <input type="text" id="zyNum" style="width:200px; height:20px;" /><a class="btn" onclick="query();">查询</a>
     </div>
+    <div class="loading" style="text-align:center; padding-top:50px; display:none;"><img style='vertical-align: middle;' src='/images/loader.gif'><b>正在查询中……</b></div>
     <div class="zyopen">
         <iframe name="ifraRight" id="ifraBody" style="width:100%;" src="" frameborder="0" scrolling="no"></iframe>
     </div>
@@ -41,6 +42,7 @@
 }
 <script type="text/javascript">
     document.domain = "easyzy.com";  //必须加上才能读到iframe内控件，因为跨域
+    $("#zyNum").focus();
     $(".neckcontent .funcname").html("做作业");
 
     var cur_data = {
@@ -56,6 +58,7 @@
 
         var zyNum = $("#zyNum").val();
         if (zyNum == "") return false;
+        $(".loading").show();
         $("#ifraBody").attr("src", "");
         $.post("QueryZy",
             { zyNum: zyNum },
@@ -111,6 +114,7 @@
                         loadAnswerCard();
                     }
                 }
+                $(".loading").hide();
             })
     }
 

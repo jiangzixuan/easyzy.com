@@ -163,6 +163,7 @@
     <Content Include="Images\ico.png" />
     <Content Include="Images\icon-reg.png" />
     <Content Include="Images\icon_bg.png" />
+    <Content Include="Images\loader.gif" />
     <Content Include="Images\logo.jpg" />
     <Content Include="Images\v3-bg.png" />
     <Content Include="RedisConfig.xml" />
