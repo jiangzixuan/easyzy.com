@@ -4,36 +4,73 @@
         <tr>
             <td class="tright">用户名：</td>
             <td class="tleft">@ViewBag.UserInfo.UserName</td>
-            <td class="tleft"></td>
+            <td class=""></td>
         </tr>
         <tr>
             <td class="tright">真实姓名：</td>
             <td class="tleft"><b id="TrueNameB">@ViewBag.UserInfo.TrueName</b><input type="text" id="TrueNameInput" value="" style="display:none" /></td>
-            <td class="tleft"><a href="javascript:void(0);" class="truenamebtn icoedit"></a><label class="cedit">（5位以内。修改后，您提交作业时将会默认使用此姓名）</label></td>
+            <td class=""><a href="javascript:void(0);" class="truenamebtn icoedit" title="修改"></a>@*<label class="cedit">（5位以内。修改后，您提交作业时将会默认使用此姓名）</label>*@</td>
+        </tr>
+        <tr>
+            <td class="tright">班级信息：</td>
+            <td class="tleft"><b id="ClassB">@ViewBag.UserInfo.Class</b><input class="classinfo" type="text" id="ClassInput" value="" style="display:none" /></td>
+            <td class=""><a href="javascript:void(0);" class="classbtn icoedit" title="修改"></a>@*<label class="cedit">（30位以内。建议格式：XX学校XX年级XX班级）</label>*@</td>
         </tr>
         <tr>
             <td class="tright">作业密码：</td>
             <td class="tleft"><b id="ZyPsdB">@ViewBag.UserInfo.ZyPsd</b><input type="text" id="ZyPsdInput" value="" style="display:none" /></td>
-            <td class="tleft"><a href="javascript:void(0);" class="zypsdbtn icoedit"></a><label class="cedit">（6位数字。修改后，只有知道此密码的人才能打开/查看您新建的作业）</label></td>
+            <td class=""><a href="javascript:void(0);" class="zypsdbtn icoedit" title="修改"></a>@*<label class="cedit">（6位数字。修改后，只有知道此密码的人才能打开/查看您新建的作业）</label>*@</td>
         </tr>
         <tr>
             <td class="tright">作业收费：</td>
             <td class="tleft">0元</td>
-            <td class="tleft">暂未开放（作为对您提供优质内容的回馈，学生只有付款后才能打开/查看您新建的作业）</td>
+            <td class="">暂未开放<br/>@*（作为对您提供优质内容的回馈，学生只有付款后才能打开/查看您新建的作业）*@</td>
         </tr>
         <tr>
             <td class="tright">关注了谁：</td>
-            <td class="tleft"></td>
-            <td class="tleft">暂未开放（您将能够更便捷的找到您关注的老师新建的作业）</td>
+            <td class="tleft relate">
+                @if (ViewBag.RelateUser != null)
+                {
+                    foreach (var u in ViewBag.RelateUser)
+                    {
+                        <a href="javascript:void(0);">@(u.RUserName)@(u.RTrueName == ""?"":(u.RTrueName))</a>
+                    }
+                }
+            </td>
+            <td><a href="javascript:void(0);" class="icoadd" title="添加" onclick="AddRelate();"></a></td>
         </tr>
         <tr>
             <td class="tright">被谁关注：</td>
             <td class="tleft"></td>
-            <td class="tleft">暂未开放（关注您的人将能够更便捷的找到您新建的作业）</td>
+            <td class=""></td>
         </tr>
     </table>
-    
 </div>
+<div class="Relate st-roster" style="display:none; padding: 20px 10px;">
+    <img src="/Images/close.png" class="popclose" />
+    <div class="queryrelate">
+        <input id="keywords" placeholder="模糊搜索（用户名/真实姓名/班级）" /><a class="btn" onclick="query();">查询</a>
+    </div>
+    <div class="chooserelate">
+        <table border="0" cellspacing="1" cellpadding="0" class="tab-default">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>用户名</th>
+                    <th>真实姓名</th>
+                    <th>班级</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+    </div>
+</div>
+
+@section scriptfirst
+{
+    <script type="text/javascript" src="/Scripts/jquery.placeholder.min.js"></script>
+}
 
 <script type="text/javascript">
     $(".truenamebtn").on("click", function () {
@@ -50,6 +87,12 @@
         $("#TrueNameInput").val($("#TrueNameB").html());
         $("#TrueNameInput").show();
         $("#TrueNameB").hide();
+
+        $(".tab-default .icoedit.save").hover(function () {
+            $(this).attr("title", "保存");
+        }, function () {
+            $(this).attr("title", "修改");
+        })
     }
 
     var SaveTrueName = function () {
@@ -74,6 +117,7 @@
             })
     }
 
+    //作业密码修改
     $(".zypsdbtn").on("click", function () {
         if ($(this).hasClass("save")) {
             SaveZyPsd();
@@ -88,6 +132,12 @@
         $("#ZyPsdInput").val($("#ZyPsdB").html());
         $("#ZyPsdInput").show();
         $("#ZyPsdB").hide();
+
+        $(".tab-default .icoedit.save").hover(function () {
+            $(this).attr("title", "保存");
+        }, function () {
+            $(this).attr("title", "修改");
+        })
     }
 
     var SaveZyPsd = function () {
@@ -117,4 +167,82 @@
                 }
             })
     }
+
+    //班级修改
+    $(".classbtn").on("click", function () {
+        if ($(this).hasClass("save")) {
+            SaveClass();
+        }
+        else {
+            ShowClassInput();
+        }
+    })
+
+    var ShowClassInput = function () {
+        $(".classbtn").addClass("save");
+        $("#ClassInput").val($("#ClassB").html());
+        $("#ClassInput").show();
+        $("#ClassB").hide();
+
+        $(".tab-default .icoedit.save").hover(function () {
+            $(this).attr("title", "保存");
+        }, function () {
+            $(this).attr("title", "修改");
+        })
+    }
+
+    var SaveClass = function () {
+        var userClass = trim($("#ClassInput").val());
+        if (userClass != "" && userClass.length > 30) {
+            dialogAlert("班级长度必须不能大于30！");
+            return;
+        }
+
+        $.post("UpdateUserClass",
+            { userClass: userClass },
+            function (data) {
+                if (data == "0") {
+                    $("#ClassB").html(userClass);
+                    $("#ClassB").show();
+                    $(".classbtn").removeClass("save");
+                    $("#ClassInput").hide();
+                }
+                else {
+                    dialogAlert("修改失败！");
+                }
+            })
+    }
+
+    //添加关注
+    var AddRelate = function () {
+        $(".Relate").show();
+        $('input').placeholder();
+        $('body').prepend('<div class="shade fixed1"></div>');
+    }
+
+    $(".st-roster .popclose").click(function () {
+        $(".Relate").hide();
+        $(".shade").hide();
+    })
+
+    var query = function () {
+        var html = "";
+        $("#tbody").html();
+        var keywords = $("#keywords").val();
+        $.post("SearchUser",
+            { keyWords: keywords },
+            function (json) {
+                if (json == "null")
+                { }
+                else
+                {
+                    for (var i = 0; i < json.length; i++)
+                    {
+
+                    }
+                    $("#tbody").html(html);
+                }
+            })
+    }
+    
 </script>

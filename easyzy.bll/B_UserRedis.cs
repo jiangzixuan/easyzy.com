@@ -150,6 +150,34 @@ namespace easyzy.bll
             }
         }
 
+        public static void UpdateClass(int userId, string userClass)
+        {
+            Dictionary<string, string> tempresult = null;
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.User, userId.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.User.ToString()))
+            {
+                if (client != null)
+                {
+                    tempresult = client.GetAllEntriesFromHash(key);
+                }
+            }
+
+            T_User result = null;
+            if (tempresult.Count != 0)
+            {
+                result = RedisHelper.ConvertDicToEntitySingle<T_User>(tempresult);
+                result.Class = userClass;
+                using (var cl = RedisHelper.GetRedisClient(CacheCatalog.User.ToString()))
+                {
+                    if (cl != null)
+                    {
+                        cl.SetRangeInHash(key, GetUserKeyValuePairs(result));
+                        cl.ExpireEntryIn(key, ts);
+                    }
+                }
+            }
+        }
+
         static List<KeyValuePair<string, string>> GetUserKeyValuePairs(T_User m)
         {
             var result = new List<KeyValuePair<string, string>>() {
@@ -162,7 +190,8 @@ namespace easyzy.bll
                             new KeyValuePair<string, string>("CreateDate",m.CreateDate.ToString()),
                             new KeyValuePair<string, string>("Extend1",m.Extend1.ToString()),
                             new KeyValuePair<string, string>("ZyPsd",m.ZyPsd.ToString()),
-                            new KeyValuePair<string, string>("ZyPrice",m.ZyPrice.ToString())
+                            new KeyValuePair<string, string>("ZyPrice",m.ZyPrice.ToString()),
+                            new KeyValuePair<string, string>("Class",m.Class.ToString())
                         };
             return result;
         }

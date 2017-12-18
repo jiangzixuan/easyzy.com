@@ -14,6 +14,8 @@ namespace easyzy.model.entity
 
         public string TrueName { get; set; }
 
+        public string Class { get; set; }
+
         public string Psd { get; set; }
 
         public string Mobile { get; set; }

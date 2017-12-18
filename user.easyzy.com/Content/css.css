@@ -215,8 +215,10 @@ a.btn{border: 0;
 .tab-default .icoedit{width:30px; height:30px; background:url("/Images/v3-bg.png") no-repeat 0 -8px; padding-left:20px;}
 .tab-default .icoedit.save{background-position:-31px -8px; }
 .tab-default td .cedit{font-size:14px; color:red;}
-
-
+.tab-default .classinfo{width: 180px;}
+.tab-default .relate{width:80%;}
+.tab-default .relate a{padding-left:17px; background:url("/Images/v3-bg.png") no-repeat -30px -71px; margin-left:10px;}
+.tab-default .icoadd{width:30px; height:30px; background:url("/Images/icon-reg.png") no-repeat; padding-left:20px;}
 
 .foot-wrap{width: 100%;min-width: 1000px;padding: 30px 0;overflow: hidden;background: #333;}
 .foot{text-align:center; color:#e4e6ed;}

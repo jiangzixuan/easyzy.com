@@ -128,6 +128,17 @@ namespace user.easyzy.com.Controllers
 
         public ActionResult GetUserInfo()
         {
+            List<dto_RelateUser> list = B_User.GetRelateUser(UserId);
+            if (list != null)
+            {
+                foreach (var l in list)
+                {
+                    T_User u = B_UserRedis.GetUser(l.RUserId);
+                    l.RUserName = u.UserName;
+                    l.RTrueName = u.TrueName;
+                }
+            }
+            ViewBag.RelateUser = list;
             return PartialView();
         }
 
@@ -166,6 +177,26 @@ namespace user.easyzy.com.Controllers
             return result;
         }
 
+        /// <summary>
+        /// 修改班级信息
+        /// </summary>
+        /// <param name="userClass"></param>
+        /// <returns></returns>
+        public string UpdateUserClass(string userClass)
+        {
+            string result = "0";
+            if (B_User.UpdateClass(UserId, userClass) > 0)
+            {
+                B_UserRedis.UpdateClass(UserId, userClass);
+            }
+            else
+            {
+                result = "1";
+            }
+
+            return result;
+        }
+
         public ActionResult GetCreatedZy()
         {
             List<dto_UserZy> list = B_UserZy.GetUserZy(UserId);
@@ -184,6 +215,13 @@ namespace user.easyzy.com.Controllers
                 list.ForEach(a => a.ZyNum = EasyzyConst.GetZyNum(a.ZyId));
             }
             return PartialView(list);
+        }
+
+        public JsonResult SearchUser(string keyWords)
+        {
+            List<T_User> list = B_User.SearchUser(keyWords);
+
+            return Json(list);
         }
 
         #region 验证码相关

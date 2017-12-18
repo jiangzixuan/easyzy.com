@@ -1,4 +1,5 @@
 ﻿using easyzy.common;
+using easyzy.model.dto;
 using easyzy.model.entity;
 using MySql.Data.MySqlClient;
 using System;
@@ -15,7 +16,7 @@ namespace easyzy.bll
         {
             T_User model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.UserConnectStringName),
-                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice from T_User where Id = @Id",
+                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice, Class from T_User where Id = @Id",
                 "@Id".ToInt32InPara(Id)))
             {
                 if (dr != null && dr.HasRows)
@@ -30,7 +31,7 @@ namespace easyzy.bll
         {
             T_User model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.UserConnectStringName),
-                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice from T_User where UserName = @UserName",
+                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice, Class from T_User where UserName = @UserName",
                 "@UserName".ToVarCharInPara(userName)))
             {
                 if (dr != null && dr.HasRows)
@@ -93,6 +94,61 @@ namespace easyzy.bll
                 "@ZyPsd".ToVarCharInPara(zyPsd)
                 );
             return o == null ? 0 : int.Parse(o.ToString());
+        }
+
+        /// <summary>
+        /// 修改班级
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="userClass"></param>
+        /// <returns></returns>
+        public static int UpdateClass(int userId, string userClass)
+        {
+            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(EasyzyConst.UserConnectStringName),
+                "update T_User set Class = @Class where Id = @UserId",
+                "@UserId".ToInt32InPara(userId),
+                "@Class".ToVarCharInPara(userClass)
+                );
+            return o == null ? 0 : int.Parse(o.ToString());
+        }
+
+        /// <summary>
+        /// 获取关注的用户
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public static List<dto_RelateUser> GetRelateUser(int userId)
+        {
+            List<dto_RelateUser> model = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+                "select Id, UserId, RUserId, CreateDate from T_UserRelate where UserId = @UserId",
+                "@UserId".ToInt32InPara(userId)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    model = MySqlDBHelper.ConvertDataReaderToEntityList<dto_RelateUser>(dr);
+                }
+            }
+            return model;
+        }
+
+        /// <summary>
+        /// 搜索用户，只返回前10个
+        /// </summary>
+        /// <param name="keyWords"></param>
+        /// <returns></returns>
+        public static List<T_User> SearchUser(string keyWords)
+        {
+            List<T_User> model = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+                "select top 20 Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice, Class from T_User where UserName + TrueName + Class like '%" + keyWords + "%'"))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    model = MySqlDBHelper.ConvertDataReaderToEntityList<T_User>(dr);
+                }
+            }
+            return model;
         }
     }
 }

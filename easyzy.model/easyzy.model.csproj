@@ -42,10 +42,12 @@
   <ItemGroup>
     <Compile Include="dto\dto_Answer.cs" />
     <Compile Include="dto\dto_Echart_pie-simple.cs" />
+    <Compile Include="dto\dto_RelateUser.cs" />
     <Compile Include="dto\dto_UserZy.cs" />
     <Compile Include="entity\T_Answer.cs" />
     <Compile Include="entity\T_Suggestion.cs" />
     <Compile Include="entity\T_User.cs" />
+    <Compile Include="entity\T_UserRelate.cs" />
     <Compile Include="entity\T_Zy.cs" />
     <Compile Include="entity\T_ZyStruct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
