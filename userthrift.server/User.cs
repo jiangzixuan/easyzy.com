@@ -7,7 +7,6 @@ using Thrift;
 using Thrift.Protocol;
 using Thrift.Transport;
 using userthrift.itf;
-using userthrift.itf.model;
 
 namespace userthrift.server
 {
@@ -17,30 +16,19 @@ namespace userthrift.server
         {
             return 123;
         }
+        
 
-        public string GetUser(int userId)
+        public itf.User GetUserInfo(int userId)
         {
-            //userthrift.itf.model.User user = new userthrift.itf.model.User();
-            //user.UserId = 100;
-            //user.UserName = "test";
-            //user.TrueName = "哈哈哈";
+            itf.User user = new itf.User();
+            user.UserId = 100;
+            user.UserName = "test";
+            user.TrueName = "哈哈哈";
+            return user;
+        }
 
-            //// 序列化  
-            //ByteArrayOutputStream out = new ByteArrayOutputStream();
-            //TTransport transport = new (out);
-            //TBinaryProtocol tp = new TBinaryProtocol(transport);//二进制编码格式进行数据传输  
-            //                                                    // TCompactProtocol tp = new TCompactProtocol (transport); 
-
-            //try
-            //{
-            //    user.Write(tp);
-            //}
-            //catch (TException e)
-            //{
-
-            //}
-            //byte[] buf = out.toByteArray();
-            //return buf.ToString();
+        public string GetUserName(int userId)
+        {
             return "name of user:" + userId;
         }
 

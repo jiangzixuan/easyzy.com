@@ -15,54 +15,40 @@ using System.Runtime.Serialization;
 using Thrift.Protocol;
 using Thrift.Transport;
 
-namespace userthrift.itf.model
+namespace userthrift.itf
 {
 
   #if !SILVERLIGHT
   [Serializable]
   #endif
-  public partial class Person : TBase
+  public partial class address : TBase
   {
-    private int _Id;
-    private string _Name;
-    private address _Address;
+    private string _Line1;
+    private string _Line2;
 
-    public int Id
+    public string Line1
     {
       get
       {
-        return _Id;
+        return _Line1;
       }
       set
       {
-        __isset.Id = true;
-        this._Id = value;
+        __isset.Line1 = true;
+        this._Line1 = value;
       }
     }
 
-    public string Name
+    public string Line2
     {
       get
       {
-        return _Name;
+        return _Line2;
       }
       set
       {
-        __isset.Name = true;
-        this._Name = value;
-      }
-    }
-
-    public address Address
-    {
-      get
-      {
-        return _Address;
-      }
-      set
-      {
-        __isset.Address = true;
-        this._Address = value;
+        __isset.Line2 = true;
+        this._Line2 = value;
       }
     }
 
@@ -72,12 +58,11 @@ namespace userthrift.itf.model
     [Serializable]
     #endif
     public struct Isset {
-      public bool Id;
-      public bool Name;
-      public bool Address;
+      public bool Line1;
+      public bool Line2;
     }
 
-    public Person() {
+    public address() {
     }
 
     public void Read (TProtocol iprot)
@@ -96,23 +81,15 @@ namespace userthrift.itf.model
           switch (field.ID)
           {
             case 1:
-              if (field.Type == TType.I32) {
-                Id = iprot.ReadI32();
+              if (field.Type == TType.String) {
+                Line1 = iprot.ReadString();
               } else { 
                 TProtocolUtil.Skip(iprot, field.Type);
               }
               break;
             case 2:
               if (field.Type == TType.String) {
-                Name = iprot.ReadString();
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 3:
-              if (field.Type == TType.Struct) {
-                Address = new address();
-                Address.Read(iprot);
+                Line2 = iprot.ReadString();
               } else { 
                 TProtocolUtil.Skip(iprot, field.Type);
               }
@@ -135,31 +112,23 @@ namespace userthrift.itf.model
       oprot.IncrementRecursionDepth();
       try
       {
-        TStruct struc = new TStruct("Person");
+        TStruct struc = new TStruct("address");
         oprot.WriteStructBegin(struc);
         TField field = new TField();
-        if (__isset.Id) {
-          field.Name = "Id";
-          field.Type = TType.I32;
+        if (Line1 != null && __isset.Line1) {
+          field.Name = "Line1";
+          field.Type = TType.String;
           field.ID = 1;
           oprot.WriteFieldBegin(field);
-          oprot.WriteI32(Id);
+          oprot.WriteString(Line1);
           oprot.WriteFieldEnd();
         }
-        if (Name != null && __isset.Name) {
-          field.Name = "Name";
+        if (Line2 != null && __isset.Line2) {
+          field.Name = "Line2";
           field.Type = TType.String;
           field.ID = 2;
           oprot.WriteFieldBegin(field);
-          oprot.WriteString(Name);
-          oprot.WriteFieldEnd();
-        }
-        if (Address != null && __isset.Address) {
-          field.Name = "Address";
-          field.Type = TType.Struct;
-          field.ID = 3;
-          oprot.WriteFieldBegin(field);
-          Address.Write(oprot);
+          oprot.WriteString(Line2);
           oprot.WriteFieldEnd();
         }
         oprot.WriteFieldStop();
@@ -172,25 +141,19 @@ namespace userthrift.itf.model
     }
 
     public override string ToString() {
-      StringBuilder __sb = new StringBuilder("Person(");
+      StringBuilder __sb = new StringBuilder("address(");
       bool __first = true;
-      if (__isset.Id) {
+      if (Line1 != null && __isset.Line1) {
         if(!__first) { __sb.Append(", "); }
         __first = false;
-        __sb.Append("Id: ");
-        __sb.Append(Id);
+        __sb.Append("Line1: ");
+        __sb.Append(Line1);
       }
-      if (Name != null && __isset.Name) {
+      if (Line2 != null && __isset.Line2) {
         if(!__first) { __sb.Append(", "); }
         __first = false;
-        __sb.Append("Name: ");
-        __sb.Append(Name);
-      }
-      if (Address != null && __isset.Address) {
-        if(!__first) { __sb.Append(", "); }
-        __first = false;
-        __sb.Append("Address: ");
-        __sb.Append(Address== null ? "<null>" : Address.ToString());
+        __sb.Append("Line2: ");
+        __sb.Append(Line2);
       }
       __sb.Append(")");
       return __sb.ToString();

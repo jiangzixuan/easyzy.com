@@ -15,7 +15,7 @@ using System.Runtime.Serialization;
 using Thrift.Protocol;
 using Thrift.Transport;
 
-namespace userthrift.itf.model
+namespace userthrift.itf
 {
 
   #if !SILVERLIGHT

@@ -35,16 +35,18 @@ namespace userthrift.client
 
                 //调用服务端的方法
 
-                Console.WriteLine(client.GetUser(11));
+                Console.WriteLine(client.GetUserName(11));
 
-
-
+                Console.WriteLine(client.GetUserInfo(11));
+                var c = client.GetUserInfo(11);
+                Console.WriteLine(c.UserId);
+                Console.WriteLine(c.UserName);
+                Console.WriteLine(c.TrueName);
                 Console.ReadKey();
 
             }
 
             catch (TTransportException e)
-
             {
 
                 Console.WriteLine(e.Message);
