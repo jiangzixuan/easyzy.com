@@ -197,23 +197,27 @@ namespace user.easyzy.com.Controllers
             return result;
         }
 
-        public ActionResult GetCreatedZy()
+        public ActionResult GetCreatedZy(int pageIndex, int pageSize)
         {
-            List<dto_UserZy> list = B_UserZy.GetUserZy(UserId);
+            int totalCount = 0;
+            List<dto_UserZy> list = B_UserZy.GetUserZy(UserId, pageIndex, pageSize, out totalCount);
             if (list != null)
             {
                 list.ForEach(a => a.ZyNum = EasyzyConst.GetZyNum(a.ZyId));
             }
+            ViewBag.PageCount = Util.GetTotalPageCount(totalCount, pageSize);
             return PartialView(list);
         }
 
-        public ActionResult GetSubmitedZy()
+        public ActionResult GetSubmitedZy(int pageIndex, int pageSize)
         {
-            List<dto_UserZy> list = B_UserZy.GetSubmitedZy(UserId);
+            int totalCount = 0;
+            List<dto_UserZy> list = B_UserZy.GetSubmitedZy(UserId, pageIndex, pageSize, out totalCount);
             if (list != null)
             {
                 list.ForEach(a => a.ZyNum = EasyzyConst.GetZyNum(a.ZyId));
             }
+            ViewBag.PageCount = Util.GetTotalPageCount(totalCount, pageSize);
             return PartialView(list);
         }
 
@@ -222,6 +226,37 @@ namespace user.easyzy.com.Controllers
             List<T_User> list = B_User.SearchUser(keyWords);
 
             return Json(list);
+        }
+
+        /// <summary>
+        /// 关注
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public string Relate(int userId)
+        {
+            if (UserId == userId) return "不能关注自己！";
+            //查询是否关注过
+            List<dto_RelateUser> list = B_User.GetRelateUser(UserId);
+            if (list != null && list.Exists(a => a.RUserId == userId)) return "已经关注过，不能重复关注！";
+            return B_User.AddRelate(UserId, userId, DateTime.Now) > 0 ? "" : "操作失败！";
+        }
+
+        public string CancelRelate(int userId)
+        {
+            return B_User.CancelRelate(UserId, userId) > 0 ? "" : "操作失败！";
+        }
+
+        public ActionResult QueryRZy(int userId, int pageIndex, int pageSize)
+        {
+            int totalCount = 0;
+            List<dto_UserZy> list = B_UserZy.GetUserZy(userId, pageIndex, pageSize, out totalCount);
+            if (list != null)
+            {
+                list.ForEach(a => a.ZyNum = EasyzyConst.GetZyNum(a.ZyId));
+            }
+            ViewBag.PageCount = Util.GetTotalPageCount(totalCount, pageSize);
+            return PartialView(list);
         }
 
         #region 验证码相关

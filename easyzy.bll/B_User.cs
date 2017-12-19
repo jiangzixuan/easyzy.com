@@ -132,6 +132,28 @@ namespace easyzy.bll
             return model;
         }
 
+        public static int AddRelate(int userId, int rUserId, DateTime createDate)
+        {
+            object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(EasyzyConst.UserConnectStringName),
+                "insert into T_UserRelate(Id, UserId, RUserId, CreateDate) values (null, @UserId, @RUserId, @CreateDate); select last_insert_id();",
+
+                "@UserId".ToInt32InPara(userId),
+                "@RUserId".ToInt32InPara(rUserId),
+                "@CreateDate".ToDateTimeInPara(createDate)
+                );
+            return o == null ? 0 : int.Parse(o.ToString());
+        }
+
+        public static int CancelRelate(int userId, int rUserId)
+        {
+            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(EasyzyConst.UserConnectStringName),
+                "delete from T_UserRelate where UserId = @UserId and RUserId = @RUserId",
+                "@UserId".ToInt32InPara(userId),
+                "@RUserId".ToInt32InPara(rUserId)
+                );
+            return o == null ? 0 : int.Parse(o.ToString());
+        }
+
         /// <summary>
         /// 搜索用户，只返回前10个
         /// </summary>
@@ -141,7 +163,7 @@ namespace easyzy.bll
         {
             List<T_User> model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
-                "select top 20 Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice, Class from T_User where UserName + TrueName + Class like '%" + keyWords + "%'"))
+                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice, Class from T_User where UserName + TrueName + Class like '%" + keyWords + "%' limit 20"))
             {
                 if (dr != null && dr.HasRows)
                 {

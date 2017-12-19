@@ -152,11 +152,13 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css.css" />
+    <Content Include="Content\pager.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\arrow.png" />
+    <Content Include="Images\arrow_left.png" />
     <Content Include="Images\checkbox.png" />
     <Content Include="Images\close.png" />
     <Content Include="Images\edit.png" />
@@ -178,6 +180,7 @@
     <Content Include="Log4Net.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery.pager.js" />
     <Content Include="Scripts\jquery.placeholder.min.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -209,6 +212,7 @@
     <Content Include="Views\Home\GetUserInfo.cshtml" />
     <Content Include="Views\Home\GetCreatedZy.cshtml" />
     <Content Include="Views\Home\GetSubmitedZy.cshtml" />
+    <Content Include="Views\Home\QueryRZy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

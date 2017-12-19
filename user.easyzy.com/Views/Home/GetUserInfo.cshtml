@@ -33,7 +33,8 @@
                 {
                     foreach (var u in ViewBag.RelateUser)
                     {
-                        <a href="javascript:void(0);">@(u.RUserName)@(u.RTrueName == ""?"":(u.RTrueName))</a>
+                        <a href="javascript:void(0);" data-bind="@u.RUserId" class="ql" onclick="QueryRZy(@u.RUserId);">@(u.RUserName)(@(u.RTrueName == "" ? "" : u.RTrueName))</a>
+                        <a href="javascript:void(0);" data-bind="@u.RUserId" class="del" onclick="CancelRelate(@u.RUserId);"></a>
                     }
                 }
             </td>
@@ -46,12 +47,13 @@
         </tr>
     </table>
 </div>
-<div class="Relate st-roster" style="display:none; padding: 20px 10px;">
+<div class="Relate st-roster" style="display:none; padding: 20px 10px; height:500px;">
     <img src="/Images/close.png" class="popclose" />
     <div class="queryrelate">
         <input id="keywords" placeholder="模糊搜索（用户名/真实姓名/班级）" /><a class="btn" onclick="query();">查询</a>
     </div>
     <div class="chooserelate">
+        <div style="color:red; padding-bottom:5px;">（最多返回20条记录）</div>
         <table border="0" cellspacing="1" cellpadding="0" class="tab-default">
             <thead>
                 <tr>
@@ -66,11 +68,6 @@
         </table>
     </div>
 </div>
-
-@section scriptfirst
-{
-    <script type="text/javascript" src="/Scripts/jquery.placeholder.min.js"></script>
-}
 
 <script type="text/javascript">
     $(".truenamebtn").on("click", function () {
@@ -215,6 +212,8 @@
 
     //添加关注
     var AddRelate = function () {
+        $("#keywords").val("");
+        $("#tbody").html("");
         $(".Relate").show();
         $('input').placeholder();
         $('body').prepend('<div class="shade fixed1"></div>');
@@ -227,22 +226,63 @@
 
     var query = function () {
         var html = "";
-        $("#tbody").html();
+        $("#tbody").html("<div><img style='vertical-align: middle;' src='/images/loader.gif'><b>正在查询中……</b></div>");
         var keywords = $("#keywords").val();
         $.post("SearchUser",
             { keyWords: keywords },
             function (json) {
-                if (json == "null")
-                { }
-                else
-                {
-                    for (var i = 0; i < json.length; i++)
-                    {
-
+                if (json != "null") {
+                    for (var i = 0; i < json.length; i++) {
+                        html += "<tr><td>" + (i + 1) + "</td><td>" + json[i].UserName + "</td><td>" + json[i].TrueName + "</td><td>" + json[i].Class + "</td><td><a href='javascript:void(0);' onclick=\"relate('" + json[i].Id + "','" + json[i].UserName + "','" + json[i].TrueName + "'); \">关注</a></td></tr>";
                     }
                     $("#tbody").html(html);
                 }
+                else {
+                    $("#tbody").html("<tr><td cols='5'>没有查询到任何信息！</td></tr>");
+                }
             })
     }
-    
+
+    var relate = function (userid, username, truename)
+    {
+        $.post("Relate",
+            { userId: userid },
+            function (data) {
+                if (data == "") {
+                    $("td.relate").prepend("<a href='javascript:void(0);' data-bind='" + userid + "' class='ql' onclick='QueryRZy(" + userid + ");'>" + username + "(" + truename + ")</a><a href='javascript:void(0);' data-bind='" + userid + "' class='del' onclick=\"CancelRelate(" + userid + ");\"></a>");
+                    $(".Relate").hide();
+                    $(".shade").hide();
+                }
+                else {
+                    alert(data);
+                }
+            })
+    }
+
+    var CancelRelate = function (userid)
+    {
+        Cancel_Data.UserId = userid;
+        dialogConfirm("确定要取消关注吗？", CancelRelateOK, "");
+    }
+
+    var Cancel_Data = {
+        UserId: 0
+    }
+
+    var CancelRelateOK = function () {
+        $.post("CancelRelate",
+            { userId: Cancel_Data.UserId },
+            function (data) {
+                if (data == "") {
+                    $(".relate a").each(function () {
+                        if ($(this).attr("data-bind") == Cancel_Data.UserId) {
+                            $(this).hide();
+                        }
+                    })
+                }
+                else {
+                    dialogAlert(data);
+                }
+            })
+    }
 </script>
