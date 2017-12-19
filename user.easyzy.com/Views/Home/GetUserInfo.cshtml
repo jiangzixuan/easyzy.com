@@ -42,7 +42,15 @@
         </tr>
         <tr>
             <td class="tright">被谁关注：</td>
-            <td class="tleft"></td>
+            <td class="tleft berelated">
+                @if (ViewBag.BeRelatedUser != null)
+                {
+                    foreach (var u in ViewBag.BeRelatedUser)
+                    {
+                        <label href="javascript:void(0);" class="ql">@(u.UserName)(@(u.TrueName == "" ? "" : u.TrueName))</label>
+                    }
+                }
+            </td>
             <td class=""></td>
         </tr>
     </table>

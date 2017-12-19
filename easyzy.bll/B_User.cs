@@ -132,6 +132,26 @@ namespace easyzy.bll
             return model;
         }
 
+        /// <summary>
+        /// 获取被关注用户列表
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public static List<dto_RelateUser> GetBeRelatedUser(int userId)
+        {
+            List<dto_RelateUser> model = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+                "select Id, UserId, RUserId, CreateDate from T_UserRelate where RUserId = @RUserId",
+                "@RUserId".ToInt32InPara(userId)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    model = MySqlDBHelper.ConvertDataReaderToEntityList<dto_RelateUser>(dr);
+                }
+            }
+            return model;
+        }
+
         public static int AddRelate(int userId, int rUserId, DateTime createDate)
         {
             object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(EasyzyConst.UserConnectStringName),

@@ -128,6 +128,7 @@ namespace user.easyzy.com.Controllers
 
         public ActionResult GetUserInfo()
         {
+            //关注列表
             List<dto_RelateUser> list = B_User.GetRelateUser(UserId);
             if (list != null)
             {
@@ -139,6 +140,18 @@ namespace user.easyzy.com.Controllers
                 }
             }
             ViewBag.RelateUser = list;
+            //被关注列表
+            List<dto_RelateUser> list2 = B_User.GetBeRelatedUser(UserId);
+            if (list2 != null)
+            {
+                foreach (var l in list2)
+                {
+                    T_User u = B_UserRedis.GetUser(l.UserId);
+                    l.UserName = u.UserName;
+                    l.TrueName = u.TrueName;
+                }
+            }
+            ViewBag.BeRelatedUser = list2;
             return PartialView();
         }
 
