@@ -11,7 +11,7 @@ var closesuggest = function () {
 
 var savesuggest = function () {
     var content = $("#cs_txt_content").val();
-    if (trim(content) == "") {
+    if (trim(content) === "") {
         $("#cs_txt_content").focus();
         return false;
     }
@@ -87,7 +87,7 @@ function dialogConfirm(content, okfunction, cancelfunction) {
         okValue: '确定',
         ok: okfunction,
         cancelValue: '取消',
-        cancel: (cancelfunction == '' ? 'function () {}' : cancelfunction)
+        cancel: (cancelfunction === '' ? 'function () {}' : cancelfunction)
     }).showModal();
 
     return d;

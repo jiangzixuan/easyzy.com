@@ -11,13 +11,13 @@ var closesuggest = function () {
 
 var savesuggest = function () {
     var content = $("#cs_txt_content").val();
-    if (trim(content) == "") {
+    if (trim(content) === "") {
         $("#cs_txt_content").focus();
         return false;
     }
     var name = $("#cs_UserName").val();
     var phone = $("#cs_Phone").val();
-    $.post("SaveSuggest",
+    $.post("/Common/SaveSuggest",
         { content: content, name: name, phone: phone },
         function (data) {
             $(".prop-suggest .thanks").show();
@@ -39,7 +39,7 @@ $(function () {
 
     //退出
     $(".exit").on("click", function () {
-        $.post("Exit",
+        $.post("/Common/Exit",
             {},
             function () {
                 window.location.href = "/";
@@ -71,7 +71,7 @@ function dialogConfirm(content, okfunction, cancelfunction) {
 		okValue: '确定',
 		ok: okfunction,
 		cancelValue: '取消',
-		cancel: (cancelfunction == '' ? 'function () {}' : cancelfunction)
+		cancel: (cancelfunction === '' ? 'function () {}' : cancelfunction)
 	}).showModal();
 
 	return d;

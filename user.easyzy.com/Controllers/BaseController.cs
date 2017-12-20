@@ -9,12 +9,12 @@ using System.Web.Mvc;
 
 namespace user.easyzy.com.Controllers
 {
-    public class CommonController : Controller
+    public class BaseController : Controller
     {
         protected int UserId = 0;
         protected T_User User = null;
 
-        public CommonController()
+        public BaseController()
         {
             string u = Util.GetCookie(EasyzyConst.CookieName_User, EasyzyConst.CookieVluew_UserId);
             if (!string.IsNullOrEmpty(u))
@@ -25,6 +25,7 @@ namespace user.easyzy.com.Controllers
             ViewBag.UserInfo = User;
         }
 
+        #region 因为路由规则问题未解决，暂将公共方法放这里
         public string SaveSuggest(string content, string name, string phone)
         {
             T_Suggestion t = new T_Suggestion() { Name = name, Phone = phone, Content = content, CreateDate = DateTime.Now, Processed = false };
@@ -41,5 +42,6 @@ namespace user.easyzy.com.Controllers
             catch
             { }
         }
+        #endregion
     }
 }

@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace easyzy.com.Controllers
 {
-    public class HomeController : CommonController
+    public class HomeController : BaseController
     {
         public ActionResult Index()
         {

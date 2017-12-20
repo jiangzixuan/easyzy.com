@@ -45,7 +45,7 @@ function dialogConfirm(content, okfunction, cancelfunction) {
         okValue: '确定',
         ok: okfunction,
         cancelValue: '取消',
-        cancel: (cancelfunction == '' ? 'function () {}' : cancelfunction)
+        cancel: (cancelfunction === '' ? 'function () {}' : cancelfunction)
     }).showModal();
 
     return d;

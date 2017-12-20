@@ -9,15 +9,12 @@ using System.Web.Mvc;
 
 namespace m.easyzy.com.Controllers
 {
-    /// <summary>
-    /// 公共功能
-    /// </summary>
-    public class CommonController : Controller
+    public class BaseController : Controller
     {
         protected int UserId = 0;
         protected T_User User = null;
 
-        public CommonController()
+        public BaseController()
         {
             string u = Util.GetCookie(EasyzyConst.CookieName_User, EasyzyConst.CookieVluew_UserId);
             if (!string.IsNullOrEmpty(u))
@@ -28,6 +25,7 @@ namespace m.easyzy.com.Controllers
             ViewBag.UserInfo = User;
         }
 
+        #region 因为路由规则问题未解决，暂将公共方法放这里
         public void Exit()
         {
             try
@@ -37,5 +35,6 @@ namespace m.easyzy.com.Controllers
             catch
             { }
         }
+        #endregion
     }
 }

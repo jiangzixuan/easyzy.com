@@ -13,21 +13,7 @@ namespace easyzy.com.Controllers
     /// 公共功能
     /// </summary>
     public class CommonController : Controller
-    {
-        protected int UserId = 0;
-        protected T_User User = null;
-
-        public CommonController()
-        {
-            string u = Util.GetCookie(EasyzyConst.CookieName_User, EasyzyConst.CookieVluew_UserId);
-            if (!string.IsNullOrEmpty(u))
-            {
-                UserId = int.Parse(u);
-                User = B_UserRedis.GetUser(UserId);
-            }
-            ViewBag.UserInfo = User;
-        }
-
+    {   
         public string SaveSuggest(string content, string name, string phone)
         {
             T_Suggestion t = new T_Suggestion() { Name = name, Phone = phone, Content = content, CreateDate = DateTime.Now, Processed = false };

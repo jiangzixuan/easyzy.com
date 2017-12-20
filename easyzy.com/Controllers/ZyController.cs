@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace easyzy.com.Controllers
 {
-    public class ZyController : CommonController
+    public class ZyController : BaseController
     {
         public ActionResult Add()
         {
