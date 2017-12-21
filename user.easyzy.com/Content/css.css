@@ -53,6 +53,13 @@ a.btn{border:0;border-radius:5px;cursor:pointer;background:royalblue;padding:5px
 .head .uprop ul{margin-bottom:0}
 .head .uprop li{border-bottom:1px dashed #ccc;height:40px;line-height:40px;background:#00aeff;cursor:pointer}
 .head .uprop li a{color:#fff;padding:10px 26px}
+.topnav{height:40px; background:#e91a53; line-height:40px;color:#fff; margin-top:10px;}
+.topnav-list{width:1200px; margin:auto;}
+.topnav .notice{float:left; }
+.topnav .notice img{width:20px; height:20px; vertical-align:middle;}
+.topnva ul{float:right;}
+.topnav ul li{float:right; margin-left:20px;}
+.topnav li a{color:#fff;}
 .popclose,.closesuggest{position:relative;top:-35px;right:-22px;float:right;cursor:pointer}
 .slider{height:500px}
 .slider .pic-field{padding:50px 0;width:1200px}

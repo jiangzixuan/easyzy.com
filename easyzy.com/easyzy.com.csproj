@@ -169,6 +169,7 @@
     <Content Include="Images\checkbox.png" />
     <Content Include="Images\close.png" />
     <Content Include="Images\fangdajing.jpg" />
+    <Content Include="Images\ico2.png" />
     <Content Include="Images\ico_chart.png" />
     <Content Include="Images\ico.png" />
     <Content Include="Images\icon_bg.png" />

@@ -163,6 +163,7 @@
     <Content Include="Images\close.png" />
     <Content Include="Images\edit.png" />
     <Content Include="Images\ico.png" />
+    <Content Include="Images\ico2.png" />
     <Content Include="Images\icon-reg.png" />
     <Content Include="Images\icon_bg.png" />
     <Content Include="Images\loader.gif" />

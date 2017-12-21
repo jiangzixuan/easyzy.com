@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <title>@ViewBag.Title</title>
     <meta name="keywords" content="易作业,easy作业,Word上传作业,文件作业,文件上传作业,自传作业,新建作业,线上作业,作业详情,收费作业,无需注册,免费,作业平台,上传作业图片">
-    <meta name="description" content="易作业，使用文档上传作业，线上布置，线上完成作业，简单、方便，无需登录即可体验，登录后更可解锁更多功能！">
+    <meta name="description" content="易作业，使用文档上传作业，线上布置，线上完成作业，简单、易用，无需登录即可体验，登录后更可解锁更多功能！">
     @RenderSection("css", required: false)
     <link rel="stylesheet" href="/Content/css.css?v=20171107" />
     <link rel="stylesheet" href="/Content/viewer.min.css" />
@@ -24,7 +24,7 @@
                 <div class="head">
                     <div class="left logoarea">
                         <img src="~/Images/logo.jpg" class="logo left" />
-                        <label class="f1">易作业-超级简单、方便的作业平台</label>
+                        <label class="f1">易作业-超级简单、易用的作业平台</label>
                     </div>
                     <div class="right">
                         @*| <a href="javascript:void(0);" onclick="">使用帮助</a> | <a href="javascript:void(0);">更新日志</a>*@
@@ -52,6 +52,18 @@
                         }
                     </div>
                 </div>
+                <div class="topnav">
+                    <div class="topnav-list">
+                        <label class="notice"><img src="/Images/ico2.png" />各位老师同学好，易作业致力于做全国最简单、易用的作业平台，无需登录即可体验，登录后更可解锁更多功能！快试试吧！</label>
+                        <ul>
+                            <li><a href="/zy/query">查看</a></li>
+                            <li><a href="/zy/open">答题</a></li>
+                            <li><a href="/zy/add">新建</a></li>
+                            <li><a href="/">首页</a></li>
+                            <li>功能导航：</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="content-wrap">
                 @RenderBody()
@@ -59,7 +71,7 @@
             </div>
             <div class="foot-wrap">
                 <div class="foot">
-                    <p>&copy; @DateTime.Now.Year - 易作业 | 超级简单、方便的作业平台</p>
+                    <p>&copy; @DateTime.Now.Year - 易作业 | 超级简单、易用的作业平台</p>
                     
                 </div>
             </div>
