@@ -8,7 +8,7 @@
         <tr>
             <td>@(i+1)</td>
             <td><a href="javascript:void(0);" onclick="ViewStudentZy('@list[i].TrueName');">@list[i].TrueName</a></td>
-            <td>@list[i].CreateDate.ToString("yyyy-MM-dd hh:mm:ss")</td>
+            <td>@list[i].CreateDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
             <td>@list[i].ObjectiveQuesCorrectCount / @list[i].ObjectiveQuesCount</td>
             <td><img src="/Images/fangdajing.jpg" width="30" height="30" style="padding-top:20px; cursor:pointer;" onclick="check('@list[i].TrueName');" /></td>
         </tr>

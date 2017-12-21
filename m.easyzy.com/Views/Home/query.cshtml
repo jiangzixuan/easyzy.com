@@ -8,13 +8,14 @@
         <input type="text" id="zyNum" style="width:200px; height:20px;" value="@ViewBag.ZyNum" /><a class="btn" onclick="query();">查询</a><a class="chart" style="margin-left:20px;" href="javascript:void(0);">作业分析</a>
     </div>
     <div class="table">
+        <div style="color:red; padding: 5px 0; font-size:14px;">（正确率只统计客观题）</div>
         <table border="0" cellspacing="1" cellpadding="0" class="tab-default">
             <thead>
                 <tr>
                     <th>序号</th>
                     <th>姓名</th>
-                    <th>提交时间</th>
-                    <th>客观题正确率</th>
+                    <th>提交时间<a href="#" data-bind="0" class="order odasc"></a></th>
+                    <th>正确率<a href="#" data-bind="1" class="order odasc"></a></th>
                     <th>查看</th>
                 </tr>
             </thead>
@@ -41,7 +42,9 @@
         BodyHtml: "",
         AnswerHtml: "",
         TrueName: '',
-        QueryMsg: ""
+        QueryMsg: "",
+        cdOrder: 1,
+        rateOrder: 0
     }
 
     $(".content-wrap").on("click", function (e) {
@@ -49,6 +52,33 @@
         if (tagobj != "A") {
             $(".bottom").hide();
         }
+    })
+
+    $(".order").on("click", function () {
+        if ($(this).hasClass("odasc")) {
+            $(this).removeClass("odasc").addClass("oddesc");
+            if ($(this).attr("data-bind") == "0") {
+                cur_data.cdOrder = 2;
+                cur_data.rateOrder = 0;
+            }
+            else {
+                cur_data.rateOrder = 2;
+                cur_data.cdOrder = 0;
+            }
+        }
+        else {
+            $(this).removeClass("oddesc").addClass("odasc");
+            if ($(this).attr("data-bind") == "0") {
+                cur_data.cdOrder = 1;
+                cur_data.rateOrder = 0;
+            }
+            else {
+                cur_data.rateOrder = 1;
+                cur_data.cdOrder = 0;
+            }
+        }
+
+        query();
     })
 
     //查询
@@ -65,7 +95,7 @@
             success: function (json) {
                 if (json == "0") {
                     $.post("querysubmitedstudents",
-                        { zyNum: zyNum },
+                        { zyNum: zyNum, cdOrder: cur_data.cdOrder, rateOrder: cur_data.rateOrder },
                         function (data) {
                             cur_data.ZyNumQueried = zyNum;
                             $("#tbody").html(data);
@@ -97,7 +127,7 @@
                             }
                             else {
                                 $.post("querysubmitedstudents",
-                                    { zyNum: zyNum },
+                                    { zyNum: zyNum, cdOrder: cur_data.cdOrder, rateOrder: cur_data.rateOrder },
                                     function (data) {
                                         cur_data.ZyNumQueried = zyNum;
                                         $("#tbody").html(data);

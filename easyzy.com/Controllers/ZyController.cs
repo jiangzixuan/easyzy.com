@@ -269,12 +269,21 @@ namespace easyzy.com.Controllers
             ViewBag.UploadUrl = Util.GetAppSetting("UploadUrlPrefix");
             return View();
         }
-        
-        public ActionResult QuerySubmitedStudents(string zyNum)
+
+        /// <summary>
+        /// 获取提交作业的学生列表并排序
+        /// cdOrder与rateOrder只能有一个不为0
+        /// </summary>
+        /// <param name="zyNum"></param>
+        /// <param name="cdOrder">提交时间排序方式 0：未选 1：升序 2：降序</param>
+        /// <param name="rateOrder">客观题正确率排序方式 0：未选 1：升序 2：降序</param>
+        /// <returns></returns>
+        public ActionResult QuerySubmitedStudents(string zyNum, int cdOrder, int rateOrder)
         {
             int zyId = EasyzyConst.GetZyId(zyNum);
             List<T_Answer> al = B_Zy.GetZyAnswers(zyId);
             List<dto_Answer3> dal = new List<dto_Answer3>();
+            
             if (al != null && al.Count > 0)
             {
                 List<T_ZyStruct> zysl = B_ZyRedis.GetZyStruct(zyId);
@@ -306,6 +315,23 @@ namespace easyzy.com.Controllers
                         ObjectiveQuesCorrectCount = ObjectiveQuesCorrectCount
                     };
                     dal.Add(da);
+                }
+
+                if (cdOrder == 1)
+                {
+                    dal = dal.OrderBy(a => a.CreateDate).ToList<dto_Answer3>();
+                }
+                else if (cdOrder == 2)
+                {
+                    dal = dal.OrderByDescending(a => a.CreateDate).ToList<dto_Answer3>();
+                }
+                else if (rateOrder == 1)
+                {
+                    dal = dal.OrderBy(a => a.ObjectiveQuesCorrectCount).ToList<dto_Answer3>();
+                }
+                else if (rateOrder == 2)
+                {
+                    dal = dal.OrderByDescending(a => a.ObjectiveQuesCorrectCount).ToList<dto_Answer3>();
                 }
             }
             

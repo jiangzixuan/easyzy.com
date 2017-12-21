@@ -15,8 +15,8 @@
                     <tr>
                         <th>序号</th>
                         <th>姓名（点击可查看答案解析（如果有））</th>
-                        <th>提交时间</th>
-                        <th>客观题正确率</th>
+                        <th>提交时间<a href="#" data-bind="0" class="order odasc"></a></th>
+                        <th>客观题正确率<a href="#" data-bind="1" class="order odasc"></a></th>
                         <th>查看答题卡</th>
                     </tr>
                 </thead>
@@ -60,8 +60,38 @@
         ZyNumQueried: 0,
         BodyHtml: "",
         AnswerHtml: "",
-        QueryMsg:""
+        QueryMsg: "",
+        cdOrder: 1,
+        rateOrder: 0
     }
+
+    $(".order").on("click", function () {
+        if ($(this).hasClass("odasc")) {
+            $(this).removeClass("odasc").addClass("oddesc");
+            if ($(this).attr("data-bind") == "0") {
+                cur_data.cdOrder = 2;
+                cur_data.rateOrder = 0;
+            }
+            else {
+                cur_data.rateOrder = 2;
+                cur_data.cdOrder = 0;
+            }
+        }
+        else
+        {
+            $(this).removeClass("oddesc").addClass("odasc");
+            if ($(this).attr("data-bind") == "0") {
+                cur_data.cdOrder = 1;
+                cur_data.rateOrder = 0;
+            }
+            else {
+                cur_data.rateOrder = 1;
+                cur_data.cdOrder = 0;
+            }
+        }
+
+        query();
+    })
 
     //查询
     var query = function () {
@@ -77,7 +107,7 @@
             success: function (json) {
                 if (json == "0") {
                     $.post("querysubmitedstudents",
-                        { zyNum: zyNum },
+                        { zyNum: zyNum, cdOrder: cur_data.cdOrder, rateOrder: cur_data.rateOrder },
                         function (data) {
                             cur_data.ZyNumQueried = zyNum;
                             $("#tbody").html(data);
@@ -109,7 +139,7 @@
                             }
                             else{
                                 $.post("querysubmitedstudents",
-                                    { zyNum: zyNum },
+                                    { zyNum: zyNum, cdOrder: cur_data.cdOrder, rateOrder: cur_data.rateOrder },
                                     function (data) {
                                         cur_data.ZyNumQueried = zyNum;
                                         $("#tbody").html(data);
