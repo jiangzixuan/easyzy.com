@@ -103,6 +103,15 @@ namespace user.easyzy.com.Controllers
             if (u == null) return "1";
             if (u.Psd == Util.MD5(passWord))
             {
+                //如果未登录过，则修改首次登陆时间
+                if (u.FirstLoginDate == DateTime.Parse("2000-01-01 00:00:00"))
+                {
+                    DateTime dtFLD = DateTime.Now;
+                    if (B_User.UpdateFirstLoginDate(u.Id, dtFLD) > 0)
+                    {
+                        B_UserRedis.UpdateFirstLoginDate(u.Id, dtFLD);
+                    }
+                }
                 DateTime dt = DateTime.MinValue;
                 if (isAutoLogin == "1")
                 {

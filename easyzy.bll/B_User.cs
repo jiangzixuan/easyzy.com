@@ -113,6 +113,22 @@ namespace easyzy.bll
         }
 
         /// <summary>
+        /// 修改首次登陆时间
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="firstLoginDate"></param>
+        /// <returns></returns>
+        public static int UpdateFirstLoginDate(int userId, DateTime firstLoginDate)
+        {
+            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(EasyzyConst.UserConnectStringName),
+                "update T_User set FirstLoginDate = @FirstLoginDate where Id = @UserId",
+                "@UserId".ToInt32InPara(userId),
+                "@FirstLoginDate".ToDateTimeInPara(firstLoginDate)
+                );
+            return o == null ? 0 : int.Parse(o.ToString());
+        }
+
+        /// <summary>
         /// 获取关注的用户
         /// </summary>
         /// <param name="userId"></param>
