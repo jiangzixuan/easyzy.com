@@ -179,7 +179,9 @@
     <Content Include="Images\index3.jpg" />
     <Content Include="Images\loader.gif" />
     <Content Include="Images\logo.jpg" />
+    <Content Include="Images\open-top.jpg" />
     <Content Include="Images\qqimg.png" />
+    <Content Include="Images\query-top.jpg" />
     <Content Include="Images\radio.png" />
     <Content Include="Images\addpic.jpg" />
     <Content Include="Images\redstar.png" />
