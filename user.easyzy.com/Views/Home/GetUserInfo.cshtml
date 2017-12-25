@@ -72,7 +72,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody id="tbody"></tbody>
+            <tbody id="tbody2"></tbody>
         </table>
     </div>
 </div>
@@ -221,7 +221,7 @@
     //添加关注
     var AddRelate = function () {
         $("#keywords").val("");
-        $("#tbody").html("");
+        $("#tbody2").html("");
         $(".Relate").show();
         $('input').placeholder();
         $('body').prepend('<div class="shade fixed1"></div>');
@@ -234,19 +234,19 @@
 
     var query = function () {
         var html = "";
-        $("#tbody").html("<div><img style='vertical-align: middle;' src='/images/loader.gif'><b>正在查询中……</b></div>");
+        $("#tbody2").html("<div><img style='vertical-align: middle;' src='/images/loader.gif'><b>正在查询中……</b></div>");
         var keywords = $("#keywords").val();
         $.post("SearchUser",
             { keyWords: keywords },
             function (json) {
-                if (json != "null") {
+                if (json.length != 0) {
                     for (var i = 0; i < json.length; i++) {
                         html += "<tr><td>" + (i + 1) + "</td><td>" + json[i].UserName + "</td><td>" + json[i].TrueName + "</td><td>" + json[i].Class + "</td><td><a href='javascript:void(0);' onclick=\"relate('" + json[i].Id + "','" + json[i].UserName + "','" + json[i].TrueName + "'); \">关注</a></td></tr>";
                     }
-                    $("#tbody").html(html);
+                    $("#tbody2").html(html);
                 }
                 else {
-                    $("#tbody").html("<tr><td cols='5'>没有查询到任何信息！</td></tr>");
+                    $("#tbody2").html("<tr><td colspan='4'>没有查询到任何信息！</td></tr>");
                 }
             })
     }

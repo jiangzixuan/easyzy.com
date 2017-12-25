@@ -249,7 +249,7 @@ namespace user.easyzy.com.Controllers
         public JsonResult SearchUser(string keyWords)
         {
             List<T_User> list = B_User.SearchUser(keyWords);
-
+            if (list == null) return Json(new List<T_User>());
             return Json(list);
         }
 
@@ -280,6 +280,8 @@ namespace user.easyzy.com.Controllers
             {
                 list.ForEach(a => a.ZyNum = EasyzyConst.GetZyNum(a.ZyId));
             }
+            T_User u = B_UserRedis.GetUser(userId);
+            ViewBag.RTrueName = u == null ? "" : (u.UserName + "(" + u.TrueName + ")");
             ViewBag.PageCount = Util.GetTotalPageCount(totalCount, pageSize);
             return PartialView(list);
         }

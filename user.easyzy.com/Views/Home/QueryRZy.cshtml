@@ -1,7 +1,10 @@
 ﻿@using easyzy.model.dto
 @{var list = Model as List<dto_UserZy>;}
 
-<div style="padding:5px 0;"><a href="javascript:void(0);" onclick="GetUserInfo();" title="返回"><img src="~/Images/arrow_left.png" width="40" height="30" /></a></div>
+<div style="padding:5px 0;">
+    @*<a href="javascript:void(0);" onclick="GetUserInfo();" title="返回"><img src="~/Images/arrow_left.png" width="40" height="30" /></a>*@
+    @ViewBag.RTrueName 新建的作业：
+</div>
 <table id="tabques" border="0" cellspacing="1" cellpadding="0" class="tab-default">
     <thead>
         <tr>
