@@ -161,6 +161,7 @@
             { zyNum: cur_data.ZyNumQueried, trueName: truename },
             function (data) {
                 $(".answercard").html(data);
+                $("#imglistul").viewer('update');
                 $("#imglistul").viewer({
                     url: 'data-original'
                 });
