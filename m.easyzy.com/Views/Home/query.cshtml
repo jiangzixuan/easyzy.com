@@ -169,9 +169,14 @@
         else {
             $(".answercard").hide();
             $(".piccard").show();
-            $("#imglistul").viewer({
+            //$("#imglistul").viewer({
+            //    url: 'data-original'
+            //});
+            $(".content").viewer('update');
+            $(".content").viewer({
                 url: 'data-original'
             });
+            
         }
     }
 

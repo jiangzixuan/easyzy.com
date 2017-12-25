@@ -51,7 +51,8 @@ namespace upload.easyzy.com.Controllers
                     {
                         HttpPostedFile f = files[i];
                         string FileName = f.FileName;
-                        string Pattern = FileName.Substring(FileName.LastIndexOf(".") + 1);
+                        string Pattern = FileName.Substring(FileName.LastIndexOf(".") + 1).ToLower();
+                        
                         if (!EasyzyConst.ImgPattern.Contains(Pattern))
                         {
                             imgPathList.Add("上传文件类型错误");

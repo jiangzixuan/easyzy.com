@@ -49,7 +49,7 @@ a.btn{border:0;border-radius:5px;cursor:pointer;background:royalblue;padding:5px
 .head .right a:hover{color:red}
 .head .right .facepic{background:url("/Images/ico.png");display:inline-block;width:50px;height:50px;background-position:0 -93px;margin:10px}
 .head .right .uinfo{width:110px;height:20px;margin-top:30px;cursor:pointer}
-.head .uinfo b{width:90px;height:20px;line-height:20px;font-size:16px}
+.head .uinfo b{width:90px;height:20px;line-height:20px;font-size:16px; text-overflow:ellipsis;white-space:nowrap;overflow:hidden}
 .head .uinfo i{background:url(/Images/arrow.png)no-repeat;background-position:0 -2px;width:20px;height:20px}
 .head .uprop{position:absolute;z-index:99;display:none}
 .head .uprop ul{margin-bottom:0}

@@ -137,7 +137,7 @@ namespace easyzy.bll
         public static List<dto_RelateUser> GetRelateUser(int userId)
         {
             List<dto_RelateUser> model = null;
-            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.UserConnectStringName),
                 "select Id, UserId, RUserId, CreateDate from T_UserRelate where UserId = @UserId",
                 "@UserId".ToInt32InPara(userId)))
             {
@@ -157,7 +157,7 @@ namespace easyzy.bll
         public static List<dto_RelateUser> GetBeRelatedUser(int userId)
         {
             List<dto_RelateUser> model = null;
-            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.UserConnectStringName),
                 "select Id, UserId, RUserId, CreateDate from T_UserRelate where RUserId = @RUserId",
                 "@RUserId".ToInt32InPara(userId)))
             {
@@ -199,7 +199,7 @@ namespace easyzy.bll
         public static List<T_User> SearchUser(string keyWords)
         {
             List<T_User> model = null;
-            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.UserConnectStringName),
                 "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice, Class from T_User where concat(UserName, TrueName, Class) like '%" + keyWords + "%' limit 20"))
             {
                 if (dr != null && dr.HasRows)
