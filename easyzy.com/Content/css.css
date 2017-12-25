@@ -2,6 +2,8 @@
 a{color:#000;text-decoration:none}
 a:focus{outline:none}
 a:hover{text-decoration:none}
+p{margin:0;}
+img{vertical-align:middle;}
 li{list-style-type:none}
 label {display: block; margin-bottom: 0; font-weight:normal;}
 .left{float:left}

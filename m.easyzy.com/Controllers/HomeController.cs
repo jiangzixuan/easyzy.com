@@ -256,7 +256,7 @@ namespace m.easyzy.com.Controllers
             if (al != null && al.Count > 0)
             {
                 List<T_ZyStruct> zysl = B_ZyRedis.GetZyStruct(zyId);
-                int ObjectiveQuesCount = zysl.Count(a => a.QuesType == 0);
+                int ObjectiveQuesCount = zysl == null ? 0 : zysl.Count(a => a.QuesType == 0);
                 int ObjectiveQuesCorrectCount = 0;
 
                 foreach (var a in al)
@@ -264,13 +264,16 @@ namespace m.easyzy.com.Controllers
                     //计算客观题正确数量
                     List<dto_Answer> xx = JsonConvert.DeserializeObject<List<dto_Answer>>(a.AnswerJson);
                     ObjectiveQuesCorrectCount = 0;
-                    zysl.ForEach(s =>
+                    if (zysl != null)
                     {
-                        if (s.QuesType == 0)
+                        zysl.ForEach(s =>
                         {
-                            ObjectiveQuesCorrectCount += xx.FirstOrDefault(t => t.StructId == s.Id).Answer == s.QuesAnswer ? 1 : 0;
-                        }
-                    });
+                            if (s.QuesType == 0)
+                            {
+                                ObjectiveQuesCorrectCount += xx.FirstOrDefault(t => t.StructId == s.Id).Answer == s.QuesAnswer ? 1 : 0;
+                            }
+                        });
+                    }
                     dto_Answer3 da = new dto_Answer3()
                     {
                         Id = a.Id,
@@ -331,7 +334,7 @@ namespace m.easyzy.com.Controllers
                 result = new List<dto_Answer2>();
                 ansl.ForEach(s =>
                 {
-                    result.Add(new dto_Answer2() { StructId = s.StructId, BqNum = s.BqNum, SqNum = s.SqNum, Answer = s.Answer, QuesAnswer = zysl.FirstOrDefault(t => t.Id == s.StructId).QuesAnswer });
+                    result.Add(new dto_Answer2() { StructId = s.StructId, BqNum = s.BqNum, SqNum = s.SqNum, Answer = s.Answer, QuesAnswer = (zysl == null ? "" : zysl.FirstOrDefault(t => t.Id == s.StructId).QuesAnswer) });
                 });
                 ViewBag.AnswerImg = a.AnswerImg;
             }
@@ -415,32 +418,39 @@ namespace m.easyzy.com.Controllers
 
             List<T_ZyStruct> zysl = B_ZyRedis.GetZyStruct(zyId);
             List<T_Answer> al = B_Zy.GetZyAnswers(zyId);
-            int totalCount = 0;
+            int totalCount = al == null ? 0 : al.Count;
             int totalCorrectCount = 0;
             string qno = "", cp = "";
-            zysl.ForEach(a =>
+            if (zysl != null)
             {
-                if (a.QuesType == 0)
+                zysl.ForEach(a =>
                 {
-                    qno += "," + a.BqNum + (a.SqNum == 0 ? "" : ("." + a.SqNum));
-
-                    if (al != null)
+                    if (a.QuesType == 0)
                     {
-                        totalCount = al.Count;
-                        totalCorrectCount = 0;
-                        al.ForEach(b =>
+                        qno += "," + a.BqNum + (a.SqNum == 0 ? "" : ("." + a.SqNum));
+
+                        if (al != null)
                         {
-                            List<dto_Answer> ansl = JsonConvert.DeserializeObject<List<dto_Answer>>(b.AnswerJson);
-                            totalCorrectCount += (ansl.FirstOrDefault(c => c.StructId == a.Id).Answer == a.QuesAnswer ? 1 : 0);
-                        });
+                            totalCorrectCount = 0;
+                            al.ForEach(b =>
+                            {
+                                List<dto_Answer> ansl = JsonConvert.DeserializeObject<List<dto_Answer>>(b.AnswerJson);
+                                totalCorrectCount += (ansl.FirstOrDefault(c => c.StructId == a.Id).Answer == a.QuesAnswer ? 1 : 0);
+                            });
+                        }
+                        cp += "," + (totalCount == 0 ? 0 : Math.Round((totalCorrectCount * 1.0 / totalCount * 1.0), 2) * 100);
                     }
-                    cp += "," + Math.Round((totalCorrectCount * 1.0 / totalCount * 1.0), 2) * 100;
+                });
+                if (qno.Length > 0)
+                {
+                    qno = qno.Substring(1);
+                    cp = cp.Substring(1);
                 }
-            });
-            if (qno.Length > 0)
+            }
+            else
             {
-                qno = qno.Substring(1);
-                cp = cp.Substring(1);
+                qno = "[]";
+                cp = "[]";
             }
             ViewBag.TotalCount = totalCount;
             ViewBag.ZyNum = zyNum;

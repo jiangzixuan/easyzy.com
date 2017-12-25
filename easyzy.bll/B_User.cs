@@ -50,7 +50,7 @@ namespace easyzy.bll
         public static int Create(T_User zy)
         {
             object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(EasyzyConst.UserConnectStringName),
-                "insert into T_User(Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice) values (null, @UserName, @TrueName, @Psd, @Mobile, @FirstLoginDate, @CreateDate, @Extend1, @ZyPsd, @ZyPrice); select last_insert_id();",
+                "insert into T_User(Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice, Class) values (null, @UserName, @TrueName, @Psd, @Mobile, @FirstLoginDate, @CreateDate, @Extend1, @ZyPsd, @ZyPrice, @Class); select last_insert_id();",
                 "@UserName".ToVarCharInPara(zy.UserName),
                 "@TrueName".ToVarCharInPara(zy.TrueName),
                 "@Psd".ToVarCharInPara(zy.Psd),
@@ -59,7 +59,8 @@ namespace easyzy.bll
                 "@CreateDate".ToDateTimeInPara(zy.CreateDate),
                 "@Extend1".ToVarCharInPara(zy.Extend1),
                 "@ZyPsd".ToVarCharInPara(zy.ZyPsd),
-                "@ZyPrice".ToInt32InPara(zy.ZyPrice)
+                "@ZyPrice".ToInt32InPara(zy.ZyPrice),
+                "@Class".ToVarCharInPara(zy.Class)
                 );
             return o == null ? 0 : int.Parse(o.ToString());
         }

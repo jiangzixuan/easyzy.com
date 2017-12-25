@@ -87,7 +87,10 @@ namespace user.easyzy.com.Controllers
                 Mobile = "",
                 FirstLoginDate = DateTime.Parse("2000-01-01 00:00:00"),
                 CreateDate = DateTime.Now,
-                Extend1 = passWord
+                Extend1 = passWord,
+                ZyPsd = "",
+                ZyPrice = 0,
+                Class = ""
             };
             return B_User.Create(u) > 0 ? "0" : "1";
         }

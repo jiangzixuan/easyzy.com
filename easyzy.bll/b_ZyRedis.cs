@@ -214,10 +214,10 @@ namespace easyzy.bll
             var result = new List<KeyValuePair<string, string>>() {
                             new KeyValuePair<string, string>("Id",m.Id.ToString()),
                             new KeyValuePair<string, string>("UserId",m.UserId.ToString()),
-                            new KeyValuePair<string, string>("TrueName",m.BodyWordPath.ToString()),
                             new KeyValuePair<string, string>("BodyWordPath",m.AnswerWordPath.ToString()),
                             new KeyValuePair<string, string>("BodyHtmlPath",m.BodyHtmlPath.ToString()),
-                            new KeyValuePair<string, string>("AnswerHtmlPath",m.AnswerHtmlPath.ToString()),//支持多班级
+                            new KeyValuePair<string, string>("AnswerWordPath",m.AnswerWordPath.ToString()),
+                            new KeyValuePair<string, string>("AnswerHtmlPath",m.AnswerHtmlPath.ToString()),
                             new KeyValuePair<string, string>("Ip",m.Ip.ToString()),
                             new KeyValuePair<string, string>("IMEI",m.IMEI.ToString()),
                             new KeyValuePair<string, string>("MobileBrand",m.MobileBrand.ToString()),
