@@ -157,6 +157,33 @@
     <Content Include="Content\tool.css" />
     <Content Include="Content\css.css" />
     <Content Include="Content\viewer.min.css" />
+    <Content Include="EduInfo\ei-1-4.html" />
+    <Content Include="EduInfo\ei-3-1.html" />
+    <Content Include="EduInfo\ei-3-2.html" />
+    <Content Include="EduInfo\ei-3-3.html" />
+    <Content Include="EduInfo\ei-4-1.html" />
+    <Content Include="EduInfo\ei-2-1.html" />
+    <Content Include="EduInfo\ei-4-2.html" />
+    <Content Include="EduInfo\ei-2-2.html" />
+    <Content Include="EduInfo\ei-4-3.html" />
+    <Content Include="EduInfo\ei-2-3.html" />
+    <Content Include="EduInfo\ei-1-3.html" />
+    <Content Include="EduInfo\ei-1-2.html" />
+    <Content Include="EduInfo\ei-1-1.html" />
+    <Content Include="EduInfo\img\3-1-1.png" />
+    <Content Include="EduInfo\img\3-1-2.png" />
+    <Content Include="EduInfo\img\3-1-3.png" />
+    <Content Include="EduInfo\img\3-1-4.png" />
+    <Content Include="EduInfo\img\3-3-1.png" />
+    <Content Include="EduInfo\img\3-3-2.png" />
+    <Content Include="EduInfo\img\3-3-3.png" />
+    <Content Include="EduInfo\img\3-3-4.png" />
+    <Content Include="EduInfo\img\3-3-5.png" />
+    <Content Include="EduInfo\img\3-3-6.png" />
+    <Content Include="EduInfo\img\4-2-1.png" />
+    <Content Include="EduInfo\img\4-2-2.png" />
+    <Content Include="EduInfo\img\4-2-3.png" />
+    <Content Include="EduInfo\img\4-2-4.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -244,6 +271,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Help\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Common\" />
