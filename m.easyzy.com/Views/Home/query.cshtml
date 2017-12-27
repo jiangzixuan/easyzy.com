@@ -47,13 +47,6 @@
         rateOrder: 0
     }
 
-    $(".content-wrap").on("click", function (e) {
-        var tagobj = e.srcElement ? e.srcElement.nodeName : e.target.tagName;
-        if (tagobj != "A") {
-            $(".bottom").hide();
-        }
-    })
-
     $(".order").on("click", function () {
         if ($(this).hasClass("odasc")) {
             $(this).removeClass("odasc").addClass("oddesc");
@@ -178,6 +171,12 @@
             });
             
         }
+        $(".bottom").on("click", function (e) {
+            var tagobj = e.srcElement ? e.srcElement.nodeName : e.target.tagName;
+            if (tagobj != "IMG") {
+                $(".bottom").hide();
+            }
+        })
     }
 
     $(".chart").on("click", function () {

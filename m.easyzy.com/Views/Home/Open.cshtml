@@ -9,7 +9,7 @@
     </div>
     <div class="loading" style="text-align:center; padding-top:50px; display:none;"><img style='vertical-align: middle;' src='/images/loader.gif'><b>正在查询中……</b></div>
     <div class="zyopen">
-        <iframe name="ifraRight" id="ifraBody" style="width:100%;" src="" frameborder="0" scrolling="no"></iframe>
+        <iframe name="ifraRight" id="ifraBody" style="width:100%; pointer-events:none;" src="" frameborder="0" scrolling="no"></iframe>
     </div>
 </div>
 <div class="bottom-shard write ">
@@ -50,7 +50,8 @@
         QPicCard: false,
         UploadQuesId: 0,
         UploadUrl: '@ViewBag.UploadUrl',
-        ZyNumQueried:0
+        ZyNumQueried: 0,
+        IsShowCard: 0
     }
 
     //查询作业内容
@@ -123,25 +124,21 @@
         $(this).height(h);
         initIframeContentClick();
     })
-
+    
     //点击Iframe内容区域，关闭下面的答题卡弹层
     var initIframeContentClick = function () {
-        document.getElementById("ifraBody").contentDocument.onclick = function () {
-            $(".submit").hide();
-            $(".answercard").hide();
-            $(".piccard").hide();
-            $('#ifraBody').css('pointer-events', 'none');   //处理点击穿透问题
-            $(".write").show();
+        document.onclick = function (e) {
+            var s = e.srcElement ? e.srcElement.className : e.target.className;
+            if ((s == "bottom-shard answercard" || s == "bottom-shard piccard" || s == "bottom-shard submit") && cur_data.IsShowCard == 1) {
+                $(".submit").hide();
+                $(".answercard").hide();
+                $(".piccard").hide();
+                $('#ifraBody').css('pointer-events', 'none');  //处理点击穿透问题
+                $(".write").show();
+                cur_data.IsShowCard = 0;
+            }
         }
     }
-    //点击Iframe内容之外的区域，关闭下面的答题卡弹层
-    $(".content-wrap").on("click", function () {
-        $(".submit").hide();
-        $(".answercard").hide();
-        $(".piccard").hide();
-        $('#ifraBody').css('pointer-events', 'none');  //处理点击穿透问题
-        $(".write").show();
-    })
 
     //加载答题卡
     var loadAnswerCard = function () {
@@ -163,6 +160,8 @@
         if (zyNum == "") return false;
         $(".answercard").show();
         $(".write").hide();
+        cur_data.IsShowCard = 1;
+
     })
 
     //打开上传图片窗
@@ -173,6 +172,7 @@
         $(".piccard").show();
         $(".write").hide();
         initPic();
+        cur_data.IsShowCard = 1;
     })
 
     //打开提交窗
@@ -182,6 +182,7 @@
 
         $(".submit").show();
         $(".write").hide();
+        cur_data.IsShowCard = 1;
     })
 
     //弹窗单选框初始化

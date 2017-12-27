@@ -33,16 +33,16 @@ a.chart{color:#e91a53;font-weight:bold;width:30px;height:30px;line-height:30px;b
 .zyopen{margin-top:20px}
 .bottom-shard{width:100%;position:fixed;background:#000;filter:alpha(opacity=20);-moz-opacity:0.2;-khtml-opacity:0.5;opacity:0.5;z-index:9;bottom:0;color:#ffffff}
 .bottom-shard a{color:#ffffff}
-.bottom-shard.answercard,.bottom-shard.piccard,.bottom-shard.submit{height:100px;overflow:auto;display:none}
+.bottom-shard.answercard,.bottom-shard.piccard,.bottom-shard.submit{height:200px;overflow:auto;display:none}
 .bottom-shard.write{width:100%;padding:5px;color:#ffffff}
-.bottom-shard.write .tcenter{width:33%;border-right:1px solid #ffffff}
+.bottom-shard.write .tcenter{width:33%;border-right:1px solid #ffffff; padding:10px 0;}
 .rdo{background:url("/Images/radio.png") no-repeat;padding-left:18px;cursor:pointer}
 .rdo.choose{background-position:3px -28px}
 .rdo.unchoose{background-position:3px 3px}
 .chk{background:url("/Images/checkbox.png") no-repeat;padding-left:23px;cursor:pointer}
 .chk.choose{background-position:0 -68px}
 .chk.unchoose{background-position:0 1px}
-.objective{padding-right:6px}
+.objective{padding:5px 15px 5px 0;}
 .objective b{color:red}
 .bottom-shard.submit .func{margin-top:30px;text-align:center}
 .table{margin-top:10px}
