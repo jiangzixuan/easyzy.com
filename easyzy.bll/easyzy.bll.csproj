@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="B_CheckCodeRedis.cs" />
     <Compile Include="B_Common.cs" />
+    <Compile Include="B_Test.cs" />
     <Compile Include="B_User.cs" />
     <Compile Include="B_UserRedis.cs" />
     <Compile Include="B_UserZy.cs" />
