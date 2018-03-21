@@ -35,7 +35,7 @@ namespace easyzy.common
         #region 私有方法
 
         /// <summary>
-        /// 获取IP
+        /// 获取公网IP，通过外网访问，无法获取内网地址
         /// </summary>
         /// <returns></returns>
         private static string GetUserIP()
