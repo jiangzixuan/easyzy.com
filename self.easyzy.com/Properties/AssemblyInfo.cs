@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
 [assembly: AssemblyProduct("easyzy.com")]
-[assembly: AssemblyCopyright("版权所有(C) Microsoft 2018")]
+[assembly: AssemblyCopyright("版权所有(C) Microsoft 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于 typelib 的 ID
-[assembly: Guid("91e84e3b-777a-4a5f-9daf-8769bf9215bf")]
+[assembly: Guid("5e96b362-9484-47cc-ace5-952ec3cdab74")]
 
 // 程序集的版本信息由下列四个值组成:
 //

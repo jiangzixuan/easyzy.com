@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "self.easyzy.com", "easyzy.com\self.easyzy.com.csproj", "{84964260-A23A-4289-BC42-C19BA8ABC75C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "self.easyzy.com", "self.easyzy.com\self.easyzy.com.csproj", "{84964260-A23A-4289-BC42-C19BA8ABC75C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easyzy.common", "easyzy.common\easyzy.common.csproj", "{499AB9D5-722B-4EB2-843E-4CE9F0C3080F}"
 EndProject
@@ -24,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "userthrift.server", "userthrift.server\userthrift.server.csproj", "{B67942B8-3184-47CC-82C6-30D9E42BD819}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "userthrift.client", "userthrift.client\userthrift.client.csproj", "{BC1DDB08-A362-4EEF-BD25-51D0F91DC132}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easyzy.com", "easyzy.com\easyzy.com.csproj", "{016F714D-01AD-450D-89D9-9C3FF757FB75}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{BC1DDB08-A362-4EEF-BD25-51D0F91DC132}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC1DDB08-A362-4EEF-BD25-51D0F91DC132}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC1DDB08-A362-4EEF-BD25-51D0F91DC132}.Release|Any CPU.Build.0 = Release|Any CPU
+		{016F714D-01AD-450D-89D9-9C3FF757FB75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{016F714D-01AD-450D-89D9-9C3FF757FB75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{016F714D-01AD-450D-89D9-9C3FF757FB75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{016F714D-01AD-450D-89D9-9C3FF757FB75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

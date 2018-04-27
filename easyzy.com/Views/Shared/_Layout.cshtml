@@ -1,106 +1,43 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
-    <title>@ViewBag.Title</title>
-    <meta name="keywords" content="易作业,easy作业,Word上传作业,文件作业,自传作业,简单,易用,免费,好用,作业平台,作业工具,文件上传作业,线上作业,作业详情,无需注册,上传作业图片">
-    <meta name="description" content="易作业，简单、易用、免费的作业工具，使用文档上传作业，线上布置，线上完成作业，无需登录即可体验，登录后更可解锁更多功能！">
-    @RenderSection("css", required: false)
-    <link rel="stylesheet" href="/Content/css.css?v=20171107" />
-    <link rel="stylesheet" href="/Content/viewer.min.css" />
-    <link href="/Scripts/artDialog/css/ui-dialog.css" rel="stylesheet" />
-    <script type="text/javascript" src="/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="/Scripts/artDialog/dialog.js"></script>
-    <script type="text/javascript" src="/Scripts/viewer-jquery.min.js"></script>
-    <script type="text/javascript" src="/Scripts/uaredirect.js"></script>
-    <script src="/Scripts/easyzy.common.js"></script>
-    @RenderSection("scriptfirst", false)
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="content-container">
-        <div class="wrap">
-            <div class="header-wrap">
-                <div class="head">
-                    <div class="left logoarea">
-                        <img src="~/Images/logo.jpg" class="logo left" />
-                        <label class="f1">易作业-超级简单、易用的作业平台</label>
-                    </div>
-                    <div class="right">
-                        @*| <a href="javascript:void(0);" onclick="">使用帮助</a> | <a href="javascript:void(0);">更新日志</a>*@
-                        @if (ViewBag.UserInfo != null)
-                        {
-                            <div class="udiv right">
-                                <div class="uinfo">
-                                    <b class="left">@ViewBag.UserInfo.UserName</b>
-                                    <i class="right"></i>
-                                </div>
-                                
-                                <div class="uprop">
-                                    <div style="border: 5px solid transparent;border-bottom: 8px solid #00aeff;width: 0;height: 0px;"></div>
-                                    <ul>
-                                        <li><a href="http://user.easyzy.com/personal">个人中心</a></li>
-                                        <li style="border-bottom:0;"><a href="javascript:void(0);" class="exit">退出登录</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <i class="facepic right"></i>
-                        }
-                        else
-                        {
-                            <a href="http://user.easyzy.com/login" class="utip" title="">登录</a><b> | </b><a href = "http://user.easyzy.com/reg" class="utip" title="">注册</a>
-                        }
-                    </div>
-                </div>
-                <div class="topnav">
-                    <div class="topnav-list">
-                        <label class="notice"><img src="/Images/ico2.png" />各位老师同学好，易作业致力于做全国最简单、易用的作业平台，无需登录即可体验，登录后更可解锁更多功能！快试试吧！</label>
-                        <ul>
-                            <li><a href="/zy/query">查看</a></li>
-                            <li><a href="/zy/open">答题</a></li>
-                            <li><a href="/zy/add">新建</a></li>
-                            <li><a href="/">首页</a></li>
-                            <li>基础功能导航：</li>
-                        </ul>
-                    </div>
-                </div>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("应用程序名称", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="content-wrap">
-                @RenderBody()
-                @RenderSection("scripts", false)
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("主页", "Index", "Home")</li>
+                    <li>@Html.ActionLink("关于", "About", "Home")</li>
+                    <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
+                </ul>
             </div>
-            <div class="foot-wrap">
-                <div class="foot">
-                    <p>&copy; @DateTime.Now.Year - 易作业 | 超级简单、易用的作业平台</p>
-                    <p>京ICP备17073793</p>
-                    <p>联系我们 QQ:260031297 | <script type="text/javascript" src="~/Scripts/umeng.js"></script></p>
-                </div>
-            </div>
-        </div>
-        <div class="topfixed">
-            <ul>
-                <li>
-                    <span class="text"><a href="javascript:void(0);" onclick="suggest();">意见建议</a></span>
-                    <span class="icon icon-suggest"></span>
-                </li>
-                <li>
-                    <span class="text">
-                        <a target="blank" href="tencent://message/?uin=260031297&amp;Menu=yes">QQ联系</a>
-                    </span>
-                    <span class="icon icon-qq"></span>
-                </li>
-            </ul>
-        </div>
-        <div class="prop-suggest" style="display:none; width:350px;">
-            <img src="/Images/close.png" class="closesuggest" style="right:-32px;" onclick="closesuggest();" />
-            <div class="ptop-logo"></div>
-
-            <textarea id="cs_txt_content" name="" cols="" rows="5" class="view" placeholder="请输入建议内容（必填）"></textarea>
-            <input id="cs_UserName" type="text" name="" placeholder="联系人（选填）">
-            <input id="cs_Phone" type="text" name="" placeholder="联系方式（建议填写，以便于我们跟您联系）">
-            <button id="cs_Submit" type="button" onclick="savesuggest();">提 交</button>
-            <div class="thanks">谢谢您的建议，我们会认真考虑并尽快处理的！<br/>3秒后自动关闭弹窗</div>
         </div>
     </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 应用程序</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 </body>
 </html>
