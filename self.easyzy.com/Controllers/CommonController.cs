@@ -7,7 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace easyzy.com.Controllers
+namespace self.easyzy.com.Controllers
 {
     /// <summary>
     /// 公共功能

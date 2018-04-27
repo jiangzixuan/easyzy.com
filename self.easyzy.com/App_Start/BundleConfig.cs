@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace easyzy.com
+namespace self.easyzy.com
 {
     public class BundleConfig
     {
