@@ -1,31 +1,228 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@{ 
+    Layout= null;
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>易作业-超级简单、方便的作业平台</title>
+    <meta name="keywords" content="易作业,easy作业,Word上传作业,文件作业,自传作业,简单,易用,免费,好用,作业平台,作业工具,文件上传作业,线上作业,作业详情,无需注册,上传作业图片">
+    <meta name="description" content="易作业，简单、易用、免费的作业工具，使用文档上传作业，线上布置，线上完成作业，无需登录即可体验，登录后更可解锁更多功能！">
+    
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/style.css">
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+</head>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+<body>
+    <div class="main-body">
+        <div class="container">
+            <div class="row">
+                <div class="main-page">
+
+                    <aside class="main-navigation">
+                        <div class="main-menu">
+                            <div class="menu-container">
+                                <div class="block-keep-ratio block-keep-ratio-2-1 block-width-full home">
+                                    <a href="index.html" class="block-keep-ratio__content  main-menu-link">
+                                        <span class="main-menu-link-text">
+                                            论坛
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="menu-container">
+                                <div class="block-keep-ratio  block-keep-ratio-1-1  block-width-half  pull-left  about-main">
+                                    <a href="http://local.user.easyzy.com/login" class="main-menu-link about block-keep-ratio__content flexbox-center">
+                                        <i class="fa fa-user fa-4x main-menu-link-icon"></i>
+                                        个人中心
+                                    </a>
+                                </div>
+
+                                <div class="block-keep-ratio  block-keep-ratio-1-1  block-width-half  pull-right  contact-main">
+                                    <a href="contact.html" class="main-menu-link contact block-keep-ratio__content flexbox-center">
+                                        <i class="fa fa-envelope-o fa-4x main-menu-link-icon"></i>
+                                        CONTACT
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="menu-container">
+                                <div class="block-keep-ratio block-keep-ratio-1-1 block-keep-ratio-md-2-1 block-width-full gallery">
+                                    <a href="gallery.html" class="main-menu-link  block-keep-ratio__content">
+                                        <span class="main-menu-link-text">
+                                            批改英雄榜
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- sidebar carousel -->
+                            <div class="menu-container">
+                                <div class="mauris">
+                                    <div id="carousel-menu" class="carousel slide" data-ride="carousel">
+                                        <!-- Wrapper for slides -->
+                                        <div class="carousel-inner" role="listbox">
+                                            <div class="item active">
+                                                <img src="images/slider-img-1.png" alt="slider">
+                                                <div class="carousel-caption menu-caption">
+                                                    mauris vita
+                                                </div>
+                                            </div>
+                                            <div class="item">
+                                                <img src="images/menu-bg-home.png" alt="slider">
+                                                <div class="carousel-caption menu-caption">
+                                                    lorem ipsum
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Controls -->
+                                        <a class="left carousel-control" href="#carousel-menu" role="button" data-slide="prev">
+                                            <span class="fa fa-caret-left" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="right carousel-control" href="#carousel-menu" role="button" data-slide="next">
+                                            <span class="fa fa-caret-right" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                </div> <!-- .mauris -->
+                            </div>
+                        </div> <!-- main-menu -->
+                    </aside> <!-- main-navigation -->
+
+                    @*<div class="copyrights">Collect from <a href="http://www.cssmoban.com/">企业网站模板</a></div>*@
+
+                    <div class="content-main">
+                        <div class="row margin-b-30">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="banner-main-home">
+                                    <div class="banner-main-home-text">
+                                        <div class="heading">
+                                            <h1>我的作业</h1>
+                                        </div>
+                                        <div class="desc">
+                                            <p>所有您参与（新建/完成）过的作业，都可以从这里找到.<br/>
+                                            您可以批改作业（是的，老师和学生都可以），也可以查看作业详情，包括完成情况、得分情况、客观题每个选项的选择率等。</p>
+                                        </div>
+                                        
+                                    </div>
+                                    <img src="images/home-img-1.png" alt="Image" class="img-responsive">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row margin-b-30">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="box london">
+                                    <div class="box-icon">
+                                        <img src="images/home-img-2.jpg" alt="Image" class="img-responsive">
+                                    </div>
+                                    <div class="info float-container">
+                                        <div class="col-sm-12 london-title">
+                                            <h3 class="text-uppercase">建作业</h3>
+                                        </div>
+                                        <div class="row" style="margin-top:0px; margin-bottom:0px;">
+                                            <div class="col-sm-6" style="cursor:pointer;">
+                                                <h3 class="text-uppercase" style="margin-top:0px;">题库作业</h3>
+                                                <p>200W优质试题 </p>
+                                            </div>
+                                            <div class="col-sm-6 cself" style="cursor:pointer;">
+                                                <h3 class="text-uppercase" style="margin-top:0px;">自传作业</h3>
+                                                <p>上传你自己的文档/图片作为作业 </p>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="col-sm-12 location-main">
+                                            <div class="pull-left location">
+                                                <i class="fa fa-map-marker fa-2x"></i><span>老师</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="box paris">
+                                    <div class="box-icon">
+                                        <img src="images/home-img-3.jpg" alt="Image" class="img-responsive">
+                                    </div>
+                                    <div class="info float-container">
+                                        <div class="col-sm-12 london-title paris-title">
+                                            <h3 class="text-uppercase">做作业</h3>
+                                        </div>
+                                        <p>输入老师给的作业码来打开作业，如果您关注了老师账号，那么无须作业码也可随时查看到最新的作业。 </p><hr />
+                                        <div class="col-sm-12 location-main">
+                                            <div class="pull-left location location2">
+                                                <i class="fa fa-map-marker fa-2x"></i><span>学生</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- row -->
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="box bottom-main">
+                                    <div class="info float-container">
+                                        <div class="col-sm-12 bottom-title">
+                                            <h3 class="text-uppercase">统计报告</h3>
+                                            <h4 class="text-uppercase">mauris vitae erat</h4>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xxs-12 col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                                                <div class="bottom-img">
+                                                    <img src="images/home-img-4.jpg" alt="Image">
+                                                    <p class="first">弱项分析</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-xxs-12 col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                                                <div class="bottom-img">
+                                                    <img src="images/home-img-5.jpg" alt="Image">
+                                                    <p class="second">duis sedio amiet</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-xxs-12 col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                                                <div class="bottom-img">
+                                                    <img src="images/home-img-6.jpg" alt="Image">
+                                                    <p class="third">Nec sagittis seim</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p class="bottom-desc">Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris in erat justo. </p><hr />
+                                        <div class="col-sm-12 location-main">
+                                            <div class="pull-right bottom-user">
+                                                <a href="#"><i class="fa fa-caret-right"></i><span>READ MORE</span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- row -->
+                    </div> <!-- .content-main -->
+                </div> <!-- .main-page -->
+            </div> <!-- .row -->
+            <footer class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 footer">
+                    <p class="copyright">
+                        &copy; @DateTime.Now.Year - 易作业 | 超级简单、易用的作业平台 | 京ICP备17073793 | 联系我们 QQ:260031297 | <script type="text/javascript" src="http://easyzy.com/scripts/umeng.js"></script>
+                    </p>
+                </div>
+            </footer>  <!-- .row -->
+        </div> <!-- .container -->
+    </div> <!-- .main-body -->
+    <!-- JavaScript -->
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(".cself").on("click", function () {
+            window.location.href = "http://self.local.easyzy.com";
+        })
+    </script>
+</body>
+</html>
