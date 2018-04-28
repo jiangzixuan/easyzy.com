@@ -14,14 +14,11 @@ namespace hw.easyzy.com.Areas.create.Controllers
         // GET: create/self
         public ActionResult Index()
         {
-            return View();
-        }
-        public ActionResult Add()
-        {
             ViewBag.WordFunc = (int)EasyzyConst.WordFunc.CreateZY;
             ViewBag.UploadUrl = Util.GetAppSetting("UploadUrlPrefix");
             return View();
         }
+        
 
         public string CreateZy(string bodyWordPath, string bodyHtmlPath, string answerWordPath, string answerHtmlPath)
         {

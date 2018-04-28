@@ -145,6 +145,12 @@
     <Compile Include="Areas\create\Controllers\baseController.cs" />
     <Compile Include="Areas\create\Controllers\selfController.cs" />
     <Compile Include="Areas\create\createAreaRegistration.cs" />
+    <Compile Include="Areas\list\Controllers\baseController.cs" />
+    <Compile Include="Areas\list\Controllers\selfController.cs" />
+    <Compile Include="Areas\list\listAreaRegistration.cs" />
+    <Compile Include="Areas\submit\Controllers\baseController.cs" />
+    <Compile Include="Areas\submit\Controllers\selfController.cs" />
+    <Compile Include="Areas\submit\submitAreaRegistration.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -228,6 +234,17 @@
     <Content Include="Log4Net.config" />
     <Content Include="Scripts\easyzy.common.js" />
     <Content Include="Areas\create\Views\web.config" />
+    <Content Include="Areas\submit\Views\web.config" />
+    <Content Include="Areas\list\Views\web.config" />
+    <Content Include="Areas\create\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\list\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\submit\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\create\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\create\Views\qdb\index.cshtml" />
+    <Content Include="Areas\list\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\list\Views\home\index.cshtml" />
+    <Content Include="Areas\submit\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\submit\Views\home\index.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\echarts\echarts.common.min.js" />
@@ -264,22 +281,24 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Areas\create\Views\self\index.cshtml" />
     <Content Include="Scripts\plupload\Moxie.xap" />
-    <Content Include="Views\Zy\open.cshtml" />
-    <Content Include="Views\Zy\getzystruct.cshtml" />
-    <Content Include="Views\Zy\query.cshtml" />
-    <Content Include="Views\Zy\querysubmitedstudents.cshtml" />
-    <Content Include="Views\Zy\getstudentanswercard.cshtml" />
-    <Content Include="Views\Zy\check.cshtml" />
-    <Content Include="Views\Zy\zychart.cshtml" />
+    <Content Include="Areas\submit\Views\self\open.cshtml" />
+    <Content Include="Areas\submit\Views\self\getzystruct.cshtml" />
+    <Content Include="Areas\list\Views\self\query.cshtml" />
+    <Content Include="Areas\list\Views\self\querysubmitedstudents.cshtml" />
+    <Content Include="Areas\list\Views\self\getstudentanswercard.cshtml" />
+    <Content Include="Areas\list\Views\self\check.cshtml" />
+    <Content Include="Areas\list\Views\self\zychart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\create\Models\" />
-    <Folder Include="Areas\create\Views\Shared\" />
+    <Folder Include="Areas\list\Models\" />
+    <Folder Include="Areas\submit\Models\" />
     <Folder Include="Help\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Common\" />
+    <Folder Include="Views\Zy\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
