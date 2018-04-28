@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-namespace self.easyzy.com
+namespace hw.easyzy.com
 {
     public class MvcApplication : System.Web.HttpApplication
     {

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "self.easyzy.com", "self.easyzy.com\self.easyzy.com.csproj", "{84964260-A23A-4289-BC42-C19BA8ABC75C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hw.easyzy.com", "hw.easyzy.com\hw.easyzy.com.csproj", "{84964260-A23A-4289-BC42-C19BA8ABC75C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easyzy.common", "easyzy.common\easyzy.common.csproj", "{499AB9D5-722B-4EB2-843E-4CE9F0C3080F}"
 EndProject

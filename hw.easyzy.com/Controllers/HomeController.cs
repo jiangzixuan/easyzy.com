@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace self.easyzy.com.Controllers
+namespace hw.easyzy.com.Controllers
 {
     public class HomeController : BaseController
     {

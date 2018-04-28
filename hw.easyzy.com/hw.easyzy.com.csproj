@@ -13,8 +13,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>self.easyzy.com</RootNamespace>
-    <AssemblyName>self.easyzy.com</AssemblyName>
+    <RootNamespace>hw.easyzy.com</RootNamespace>
+    <AssemblyName>hw.easyzy.com</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -142,6 +142,9 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\create\Controllers\baseController.cs" />
+    <Compile Include="Areas\create\Controllers\selfController.cs" />
+    <Compile Include="Areas\create\createAreaRegistration.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -224,6 +227,7 @@
     </Content>
     <Content Include="Log4Net.config" />
     <Content Include="Scripts\easyzy.common.js" />
+    <Content Include="Areas\create\Views\web.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\echarts\echarts.common.min.js" />
@@ -258,7 +262,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Zy\add.cshtml" />
+    <Content Include="Areas\create\Views\self\index.cshtml" />
     <Content Include="Scripts\plupload\Moxie.xap" />
     <Content Include="Views\Zy\open.cshtml" />
     <Content Include="Views\Zy\getzystruct.cshtml" />
@@ -270,6 +274,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\create\Models\" />
+    <Folder Include="Areas\create\Views\Shared\" />
     <Folder Include="Help\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Base\" />
