@@ -3,29 +3,59 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hw.easyzy.com", "hw.easyzy.com\hw.easyzy.com.csproj", "{84964260-A23A-4289-BC42-C19BA8ABC75C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hw.easyzy.com", "hw.easyzy.com.proj\hw.easyzy.com\hw.easyzy.com.csproj", "{84964260-A23A-4289-BC42-C19BA8ABC75C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easyzy.common", "easyzy.common\easyzy.common.csproj", "{499AB9D5-722B-4EB2-843E-4CE9F0C3080F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easyzy.common", "easyzy.com.proj\easyzy.common\easyzy.common.csproj", "{499AB9D5-722B-4EB2-843E-4CE9F0C3080F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easyzy.model", "easyzy.model\easyzy.model.csproj", "{BDAE15D5-7D3C-48A5-AB85-E7B8C855F66A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easyzy.model", "easyzy.com.proj\easyzy.model\easyzy.model.csproj", "{BDAE15D5-7D3C-48A5-AB85-E7B8C855F66A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easyzy.bll", "easyzy.bll\easyzy.bll.csproj", "{4503652C-3791-472E-B713-C5F6ED1BD3E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easyzy.bll", "easyzy.com.proj\easyzy.bll\easyzy.bll.csproj", "{4503652C-3791-472E-B713-C5F6ED1BD3E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "upload.easyzy.com", "upload.easyzy.com\upload.easyzy.com.csproj", "{D35BBB88-9DF4-48BC-8882-2C72A4AA32E6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "upload.easyzy.com", "upload.easyzy.com.proj\upload.easyzy.com\upload.easyzy.com.csproj", "{D35BBB88-9DF4-48BC-8882-2C72A4AA32E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "user.easyzy.com", "user.easyzy.com\user.easyzy.com.csproj", "{50D9BDE5-71CD-455D-B733-B7CDBAE65768}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "user.easyzy.com", "user.easyzy.com.proj\user.easyzy.com\user.easyzy.com.csproj", "{50D9BDE5-71CD-455D-B733-B7CDBAE65768}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "m.easyzy.com", "m.easyzy.com\m.easyzy.com.csproj", "{41BED67D-02E0-4590-9697-5C3676DE3C92}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "m.easyzy.com", "m.easyzy.com.proj\m.easyzy.com\m.easyzy.com.csproj", "{41BED67D-02E0-4590-9697-5C3676DE3C92}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "userthrift.itf", "userthrift.interface\userthrift.itf.csproj", "{FF39EFE8-4F7C-48A1-8952-15647FF9C371}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easyzy.unittest", "easyzy.unittest\easyzy.unittest.csproj", "{DCDA7F54-1090-45CF-BCBF-D3FB24E64297}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easyzy.unittest", "easyzy.com.proj\easyzy.unittest\easyzy.unittest.csproj", "{DCDA7F54-1090-45CF-BCBF-D3FB24E64297}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "userthrift.server", "userthrift.server\userthrift.server.csproj", "{B67942B8-3184-47CC-82C6-30D9E42BD819}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "userthrift.client", "userthrift.client\userthrift.client.csproj", "{BC1DDB08-A362-4EEF-BD25-51D0F91DC132}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easyzy.com", "easyzy.com\easyzy.com.csproj", "{016F714D-01AD-450D-89D9-9C3FF757FB75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easyzy.com", "easyzy.com.proj\easyzy.com\easyzy.com.csproj", "{016F714D-01AD-450D-89D9-9C3FF757FB75}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "hw.easyzy.com.proj", "hw.easyzy.com.proj", "{1B57531B-861C-4039-94B3-3BB92930EF12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hw.easyzy.common", "hw.easyzy.com.proj\hw.easyzy.common\hw.easyzy.common.csproj", "{B503673B-0B7C-4B59-88EF-8B1AB98A6F37}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hw.easyzy.bll", "hw.easyzy.com.proj\hw.easyzy.bll\hw.easyzy.bll.csproj", "{F91448B8-E86C-451E-9CEE-163F60198124}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hw.easyzy.model", "hw.easyzy.com.proj\hw.easyzy.model\hw.easyzy.model.csproj", "{FA74C9E4-B390-4CB3-8AFB-0D5F71AEE7A7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "upload.easyzy.com.proj", "upload.easyzy.com.proj", "{13670625-DC1A-4ECF-876F-E4ADC8AE447D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "upload.easyzy.common", "upload.easyzy.com.proj\upload.easyzy.common\upload.easyzy.common.csproj", "{1E95526E-CAF2-43A1-95F6-64345A672D4A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "user.easyzy.com.proj", "user.easyzy.com.proj", "{D03710A8-3DD4-4C68-B5BB-D05C63C3B467}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "user.easyzy.bll", "user.easyzy.com.proj\user.easyzy.bll\user.easyzy.bll.csproj", "{3EF2638A-9FCA-44A3-BC33-9D53D07670A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "user.easyzy.common", "user.easyzy.com.proj\user.easyzy.common\user.easyzy.common.csproj", "{3458BCC1-EB26-46ED-8645-5E44DB6417D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "user.easyzy.model", "user.easyzy.com.proj\user.easyzy.model\user.easyzy.model.csproj", "{CAD6A1D9-C09C-44A9-BD21-24196FBB83B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "m.easyzy.com.proj", "m.easyzy.com.proj", "{249E01F1-5388-4E59-BF92-FEA7B49674BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "m.easyzy.bll", "m.easyzy.com.proj\m.easyzy.bll\m.easyzy.bll.csproj", "{C6ED859E-89C2-4E3D-BE46-88F297C61F8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "m.easyzy.common", "m.easyzy.com.proj\m.easyzy.common\m.easyzy.common.csproj", "{0A64DE41-83D1-4AA9-978E-95C2829C0CF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "m.easyzy.model", "m.easyzy.com.proj\m.easyzy.model\m.easyzy.model.csproj", "{B65D63F3-F99E-46B2-A3CF-E562C1B33A54}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "easyzy.com.proj", "easyzy.com.proj", "{F07F4ECD-E507-431A-B39A-B3E479BCC89E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,9 +111,70 @@ Global
 		{016F714D-01AD-450D-89D9-9C3FF757FB75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{016F714D-01AD-450D-89D9-9C3FF757FB75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{016F714D-01AD-450D-89D9-9C3FF757FB75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B503673B-0B7C-4B59-88EF-8B1AB98A6F37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B503673B-0B7C-4B59-88EF-8B1AB98A6F37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B503673B-0B7C-4B59-88EF-8B1AB98A6F37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B503673B-0B7C-4B59-88EF-8B1AB98A6F37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F91448B8-E86C-451E-9CEE-163F60198124}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F91448B8-E86C-451E-9CEE-163F60198124}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F91448B8-E86C-451E-9CEE-163F60198124}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F91448B8-E86C-451E-9CEE-163F60198124}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA74C9E4-B390-4CB3-8AFB-0D5F71AEE7A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA74C9E4-B390-4CB3-8AFB-0D5F71AEE7A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA74C9E4-B390-4CB3-8AFB-0D5F71AEE7A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA74C9E4-B390-4CB3-8AFB-0D5F71AEE7A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E95526E-CAF2-43A1-95F6-64345A672D4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E95526E-CAF2-43A1-95F6-64345A672D4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E95526E-CAF2-43A1-95F6-64345A672D4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E95526E-CAF2-43A1-95F6-64345A672D4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EF2638A-9FCA-44A3-BC33-9D53D07670A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EF2638A-9FCA-44A3-BC33-9D53D07670A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EF2638A-9FCA-44A3-BC33-9D53D07670A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EF2638A-9FCA-44A3-BC33-9D53D07670A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3458BCC1-EB26-46ED-8645-5E44DB6417D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3458BCC1-EB26-46ED-8645-5E44DB6417D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3458BCC1-EB26-46ED-8645-5E44DB6417D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3458BCC1-EB26-46ED-8645-5E44DB6417D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAD6A1D9-C09C-44A9-BD21-24196FBB83B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAD6A1D9-C09C-44A9-BD21-24196FBB83B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAD6A1D9-C09C-44A9-BD21-24196FBB83B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAD6A1D9-C09C-44A9-BD21-24196FBB83B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6ED859E-89C2-4E3D-BE46-88F297C61F8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6ED859E-89C2-4E3D-BE46-88F297C61F8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6ED859E-89C2-4E3D-BE46-88F297C61F8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6ED859E-89C2-4E3D-BE46-88F297C61F8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A64DE41-83D1-4AA9-978E-95C2829C0CF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A64DE41-83D1-4AA9-978E-95C2829C0CF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A64DE41-83D1-4AA9-978E-95C2829C0CF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A64DE41-83D1-4AA9-978E-95C2829C0CF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B65D63F3-F99E-46B2-A3CF-E562C1B33A54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B65D63F3-F99E-46B2-A3CF-E562C1B33A54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B65D63F3-F99E-46B2-A3CF-E562C1B33A54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B65D63F3-F99E-46B2-A3CF-E562C1B33A54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{84964260-A23A-4289-BC42-C19BA8ABC75C} = {1B57531B-861C-4039-94B3-3BB92930EF12}
+		{499AB9D5-722B-4EB2-843E-4CE9F0C3080F} = {F07F4ECD-E507-431A-B39A-B3E479BCC89E}
+		{BDAE15D5-7D3C-48A5-AB85-E7B8C855F66A} = {F07F4ECD-E507-431A-B39A-B3E479BCC89E}
+		{4503652C-3791-472E-B713-C5F6ED1BD3E1} = {F07F4ECD-E507-431A-B39A-B3E479BCC89E}
+		{D35BBB88-9DF4-48BC-8882-2C72A4AA32E6} = {13670625-DC1A-4ECF-876F-E4ADC8AE447D}
+		{50D9BDE5-71CD-455D-B733-B7CDBAE65768} = {D03710A8-3DD4-4C68-B5BB-D05C63C3B467}
+		{41BED67D-02E0-4590-9697-5C3676DE3C92} = {249E01F1-5388-4E59-BF92-FEA7B49674BD}
+		{DCDA7F54-1090-45CF-BCBF-D3FB24E64297} = {F07F4ECD-E507-431A-B39A-B3E479BCC89E}
+		{016F714D-01AD-450D-89D9-9C3FF757FB75} = {F07F4ECD-E507-431A-B39A-B3E479BCC89E}
+		{B503673B-0B7C-4B59-88EF-8B1AB98A6F37} = {1B57531B-861C-4039-94B3-3BB92930EF12}
+		{F91448B8-E86C-451E-9CEE-163F60198124} = {1B57531B-861C-4039-94B3-3BB92930EF12}
+		{FA74C9E4-B390-4CB3-8AFB-0D5F71AEE7A7} = {1B57531B-861C-4039-94B3-3BB92930EF12}
+		{1E95526E-CAF2-43A1-95F6-64345A672D4A} = {13670625-DC1A-4ECF-876F-E4ADC8AE447D}
+		{3EF2638A-9FCA-44A3-BC33-9D53D07670A1} = {D03710A8-3DD4-4C68-B5BB-D05C63C3B467}
+		{3458BCC1-EB26-46ED-8645-5E44DB6417D3} = {D03710A8-3DD4-4C68-B5BB-D05C63C3B467}
+		{CAD6A1D9-C09C-44A9-BD21-24196FBB83B0} = {D03710A8-3DD4-4C68-B5BB-D05C63C3B467}
+		{C6ED859E-89C2-4E3D-BE46-88F297C61F8B} = {249E01F1-5388-4E59-BF92-FEA7B49674BD}
+		{0A64DE41-83D1-4AA9-978E-95C2829C0CF9} = {249E01F1-5388-4E59-BF92-FEA7B49674BD}
+		{B65D63F3-F99E-46B2-A3CF-E562C1B33A54} = {249E01F1-5388-4E59-BF92-FEA7B49674BD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A22F5292-B9C7-4639-9625-8D62EA929AFA}
