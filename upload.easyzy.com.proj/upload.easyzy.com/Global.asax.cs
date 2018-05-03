@@ -19,5 +19,16 @@ namespace upload.easyzy.com
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        /// <summary>
+        /// 处理跨域请求时，先发送的Options类型的预检请求
+        /// </summary>
+        protected void Application_BeginRequest()
+        {
+            if (Request.Headers.AllKeys.Contains("Origin") && Request.HttpMethod == "OPTIONS")
+            {
+                Response.End();
+            }
+        }
     }
 }

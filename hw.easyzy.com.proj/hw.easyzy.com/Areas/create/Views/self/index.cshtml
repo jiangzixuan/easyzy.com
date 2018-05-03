@@ -98,7 +98,7 @@
 <script src="/Scripts/plupload/plupload.dev.js"></script>
 }
 <script type="text/javascript">
-    document.domain = "easyzy.com";
+    document.domain = "easyzy.com"; //如果是Iframe，需要设置document.domain（父页和Iframe页都要），如果是ajax，需要在请求头加Access-Control-Allow-Origin
 
     var cur_data = {
         type: 0,
@@ -238,7 +238,7 @@
     //开始上传
     $("#uploadbtn").on("click", function () {
         if ($(".uploadbodypath").html() == "") {
-            dialogAlert("必须上传作业内容文档！");
+            dialogAlert("作业内容文档不能为空！");
         }
         else {
             if (uploader.files.length == 0) {
@@ -264,7 +264,7 @@
                 cur_data.answer_html = "";
                 $("#ifraAnswer").hide();
             }
-            $.post("CreateZy", { bodyWordPath: cur_data.body_word, bodyHtmlPath: cur_data.body_html, answerWordPath: cur_data.answer_word, answerHtmlPath: cur_data.answer_html }, function (data) {
+            $.post("self/CreateZy", { bodyWordPath: cur_data.body_word, bodyHtmlPath: cur_data.body_html, answerWordPath: cur_data.answer_word, answerHtmlPath: cur_data.answer_html }, function (data) {
                 if (data == "")
                 {
                     dialogAlert("生成作业失败！");
@@ -507,7 +507,7 @@
             queslist.push(singleques.join("-"));
         })
         structstring = queslist.join("|");
-        $.post("CreateZyStruct",
+        $.post("self/CreateZyStruct",
             { zyNum: zynum, structString: structstring},
             function (data) {
                 if (data == "") {

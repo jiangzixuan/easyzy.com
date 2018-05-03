@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using upload.easyzy.com.Models;
+using System.Web.Http.Cors;
 
 namespace upload.easyzy.com.Controllers
 {
@@ -33,6 +34,7 @@ namespace upload.easyzy.com.Controllers
             
         }
 
+        /*[EnableCors("*", "*", "*")]*/
         [HttpPost]
         public ResponseEntity<dtoWordUploadPath> Post()
         {
@@ -112,7 +114,9 @@ namespace upload.easyzy.com.Controllers
                 result.Data = null;
                 result.Message = "找不到任何上传的文件";
             }
+            
             return result;
         }
+        
     }
 }
