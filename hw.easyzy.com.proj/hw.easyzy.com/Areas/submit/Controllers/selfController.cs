@@ -1,4 +1,5 @@
-﻿using hw.easyzy.bll;
+﻿using easyzy.sdk;
+using hw.easyzy.bll;
 using hw.easyzy.common;
 using hw.easyzy.model.dto;
 using hw.easyzy.model.entity;
@@ -26,7 +27,7 @@ namespace hw.easyzy.com.Areas.submit.Controllers
         /// <returns>"null" 代表不存在，2|开头代表无权访问，"1|"代表需要密码，0|开头代表可以访问</returns>
         public string QueryZy(string zyNum)
         {
-            int zyId = EasyzyConst.GetZyId(zyNum);
+            int zyId = Const.GetZyId(zyNum);
             string hasPsd = "0";
             T_Zy zy = B_ZyRedis.GetZy(zyId);
             //作业不存在
@@ -62,7 +63,7 @@ namespace hw.easyzy.com.Areas.submit.Controllers
         /// <returns></returns>
         public string CheckZyPsd(string zyNum, string zyPsd)
         {
-            int zyId = EasyzyConst.GetZyId(zyNum);
+            int zyId = Const.GetZyId(zyNum);
             string result = "1";
             T_Zy zy = B_ZyRedis.GetZy(zyId);
             if (zy != null)
@@ -114,7 +115,7 @@ namespace hw.easyzy.com.Areas.submit.Controllers
 
         public ActionResult GetZyStruct(string zyNum)
         {
-            int zyId = EasyzyConst.GetZyId(zyNum);
+            int zyId = Const.GetZyId(zyNum);
             T_Zy zy = B_ZyRedis.GetZy(zyId);
             List<T_ZyStruct> zys = null;
             if (zy.Structed)
@@ -140,7 +141,7 @@ namespace hw.easyzy.com.Areas.submit.Controllers
                 return "1|真实姓名未填写！";
             }
 
-            int zyId = EasyzyConst.GetZyId(zyNum);
+            int zyId = Const.GetZyId(zyNum);
 
             if (B_Zy.IsZySubmited(zyId, trueName))
             {

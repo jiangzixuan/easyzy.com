@@ -1,4 +1,5 @@
-﻿using hw.easyzy.bll;
+﻿using easyzy.sdk;
+using hw.easyzy.bll;
 using hw.easyzy.common;
 using hw.easyzy.model.entity;
 using System;
@@ -14,7 +15,7 @@ namespace hw.easyzy.com.Areas.create.Controllers
         // GET: create/self
         public ActionResult Index()
         {
-            ViewBag.WordFunc = (int)EasyzyConst.WordFunc.CreateZY;
+            ViewBag.WordFunc = (int)Const.WordFunc.CreateZY;
             ViewBag.UploadUrl = Util.GetAppSetting("UploadUrlPrefix");
             return View();
         }
@@ -39,12 +40,12 @@ namespace hw.easyzy.com.Areas.create.Controllers
                 Structed = false
             };
             int Id = B_Zy.Create(zy);
-            return Id > 0 ? EasyzyConst.GetZyNum(Id) : "";
+            return Id > 0 ? Const.GetZyNum(Id) : "";
         }
 
         public string CreateZyStruct(string zyNum, string structString)
         {
-            int zyId = EasyzyConst.GetZyId(zyNum);
+            int zyId = Const.GetZyId(zyNum);
             string[] quesList = structString.Split('|');
             string[] quesCol;
             List<T_ZyStruct> zysl = new List<T_ZyStruct>();

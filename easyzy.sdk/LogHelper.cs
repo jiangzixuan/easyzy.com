@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace hw.easyzy.common
+namespace easyzy.sdk
 {
     public class LogHelper
     {

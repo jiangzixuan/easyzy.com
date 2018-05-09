@@ -1,4 +1,5 @@
-﻿using hw.easyzy.common;
+﻿using easyzy.sdk;
+using hw.easyzy.common;
 using hw.easyzy.model.dto;
 using hw.easyzy.model.entity;
 using MySql.Data.MySqlClient;
@@ -9,6 +10,11 @@ namespace hw.easyzy.bll
 {
     public class B_Zy
     {
+        private static string ZyConnString = "";
+        static B_Zy()
+        {
+            Const.DBConnStrNameDic.TryGetValue(Const.DBName.Zy, out ZyConnString);
+        }
         /// <summary>
         /// 查询作业
         /// </summary>
@@ -17,7 +23,7 @@ namespace hw.easyzy.bll
         public static T_Zy GetZy(int Id)
         {
             T_Zy model = null;
-            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
                 "select Id, UserId, BodyWordPath, BodyHtmlPath, AnswerWordPath, AnswerHtmlPath, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser, Structed from T_Zy where Id = @Id",
                 "@Id".ToInt32InPara(Id)))
             {
@@ -36,7 +42,7 @@ namespace hw.easyzy.bll
         /// <returns></returns>
         public static int Create(T_Zy zy)
         {
-            object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+            object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(ZyConnString),
                 "insert into T_Zy(Id, UserId, BodyWordPath, BodyHtmlPath, AnswerWordPath, AnswerHtmlPath, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser, Structed) values (null, @UserId, @BodyWordPath, @BodyHtmlPath, @AnswerWordPath, @AnswerHtmlPath, @CreateDate, @Ip, @IMEI, @MobileBrand, @SystemType, @Browser, @Structed); select last_insert_id();",
                 "@UserId".ToInt32InPara(zy.UserId),
                 "@BodyWordPath".ToVarCharInPara(zy.BodyWordPath),
@@ -69,7 +75,7 @@ namespace hw.easyzy.bll
             }
             sql = sb.ToString().Substring(1);
             sql = "insert into T_ZyStruct(Id, ZyId, BqNum, SqNum, QuesType, QuesAnswer, CreateDate) values" + sql;
-            return MySqlHelper.ExecuteNonQuery(Util.GetConnectString(EasyzyConst.ZyConnectStringName), sql);
+            return MySqlHelper.ExecuteNonQuery(Util.GetConnectString(ZyConnString), sql);
         }
 
         /// <summary>
@@ -79,7 +85,7 @@ namespace hw.easyzy.bll
         /// <returns></returns>
         public static int UpdateZyStructed(int zyId)
         {
-            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(ZyConnString),
                 "update T_Zy set Structed = 1 where Id = @Id",
                 "@Id".ToInt32InPara(zyId)
                 );
@@ -94,7 +100,7 @@ namespace hw.easyzy.bll
         public static List<T_ZyStruct> GetZyStruct(int zyId)
         {
             List<T_ZyStruct> model = null;
-            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
                 "select Id, ZyId, BqNum, SqNum, QuesType, QuesAnswer, CreateDate from T_ZyStruct where ZyId = @ZyId",
                 "@ZyId".ToInt32InPara(zyId)))
             {
@@ -113,7 +119,7 @@ namespace hw.easyzy.bll
         /// <returns></returns>
         public static int AddZyAnswer(T_Answer a)
         {
-            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(ZyConnString),
                 "insert into T_Answer(Id, ZyId, StudentId, TrueName, AnswerJson, AnswerImg, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser) values (null, @ZyId, @StudentId, @TrueName, @AnswerJson, @AnswerImg, @CreateDate, @Ip, @IMEI, @MobileBrand, @SystemType, @Browser);",
                 "@ZyId".ToInt32InPara(a.ZyId),
                 "@StudentId".ToInt32InPara(a.StudentId),
@@ -138,7 +144,7 @@ namespace hw.easyzy.bll
         /// <returns></returns>
         public static bool IsZySubmited(int zyId, string trueName)
         {
-            object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+            object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(ZyConnString),
                 "select 1 from T_Answer where ZyId = @ZyId and TrueName = @TrueName limit 1",
                 "@ZyId".ToInt32InPara(zyId),
                 "@TrueName".ToVarCharInPara(trueName));
@@ -153,7 +159,7 @@ namespace hw.easyzy.bll
         public static List<T_Answer> GetZyAnswers(int zyId)
         {
             List<T_Answer> model = null;
-            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
                 "select Id, ZyId, StudentId, TrueName, AnswerJson, AnswerImg, CreateDate from T_Answer where ZyId = @ZyId order by CreateDate",
                 "@ZyId".ToInt32InPara(zyId)))
             {
@@ -168,7 +174,7 @@ namespace hw.easyzy.bll
         public static T_Answer GetZyAnswer(int zyId, string trueName)
         {
             T_Answer model = null;
-            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
                 "select Id, ZyId, StudentId, TrueName, AnswerJson, AnswerImg, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser from T_Answer where ZyId = @ZyId and TrueName = @TrueName",
                 "@ZyId".ToInt32InPara(zyId),
                 "@TrueName".ToVarCharInPara(trueName)))
@@ -184,7 +190,7 @@ namespace hw.easyzy.bll
         public static T_Answer GetZyAnswer(int zyId, int studentId)
         {
             T_Answer model = null;
-            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
                 "select Id, ZyId, StudentId, TrueName, AnswerJson, AnswerImg, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser from T_Answer where ZyId = @ZyId and StudentId = @StudentId",
                 "@ZyId".ToInt32InPara(zyId),
                 "@StudentId".ToInt32InPara(studentId)))

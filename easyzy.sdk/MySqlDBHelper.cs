@@ -11,7 +11,7 @@ using MySql.Data.MySqlClient;
 using System.Data;
 using System.Collections;
 
-namespace hw.easyzy.common
+namespace easyzy.sdk
 {
     public static class MySqlDBHelper
     {

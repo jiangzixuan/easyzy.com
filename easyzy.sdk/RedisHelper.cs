@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using static hw.easyzy.common.EasyzyConst;
+using static easyzy.sdk.Const;
 
-namespace hw.easyzy.common
+namespace easyzy.sdk
 {
     public class RedisHelper
     {

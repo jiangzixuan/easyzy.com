@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace hw.easyzy.common
+namespace easyzy.sdk
 {
-    public class EasyzyConst
+    public class Const
     {
         /// <summary>
         /// 上传Word文件所在功能的枚举
@@ -64,15 +64,22 @@ namespace hw.easyzy.common
         public static string[] UserNameFilter = new string[] { "system", "admin", "sysadmin", "administrator" };
 
         #region  数据库连接字符串名称
-        /// <summary>
-        /// 作业库连接字符串名称
-        /// </summary>
-        public static string ZyConnectStringName = "EasyZy_Home";
+        public enum DBName
+        {
+            Home,
+            Base,
+            Ques,
+            Zy,
+            User
+        }
 
-        /// <summary>
-        /// 用户库连接字符串名称
-        /// </summary>
-        public static string UserConnectStringName = "EasyZy_Home";
+        public static Dictionary<DBName, string> DBConnStrNameDic = new Dictionary<DBName, string>()
+        {
+            { DBName.Base, "EasyZy_Base" },
+            { DBName.Ques, "EasyZy_Ques" },
+            { DBName.Home, "EasyZy_Home" },
+            { DBName.User, "EasyZy_User" }
+        };
 
         #endregion
 

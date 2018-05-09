@@ -1,4 +1,5 @@
-﻿using hw.easyzy.bll;
+﻿using easyzy.sdk;
+using hw.easyzy.bll;
 using hw.easyzy.common;
 using hw.easyzy.model.dto;
 using hw.easyzy.model.entity;
@@ -22,7 +23,7 @@ namespace hw.easyzy.com.Areas.list.Controllers
         public ActionResult Open()
         {
             ViewBag.UploadUrl = Util.GetAppSetting("UploadUrlPrefix");
-            ViewBag.PicFunc = (int)EasyzyConst.ImgFunc.SubmitAnswer;
+            ViewBag.PicFunc = (int)Const.ImgFunc.SubmitAnswer;
             return View();
         }
 
@@ -39,7 +40,7 @@ namespace hw.easyzy.com.Areas.list.Controllers
         public string NeedZyPsd(string zyNum)
         {
             string result = "0";
-            int zyId = EasyzyConst.GetZyId(zyNum);
+            int zyId = Const.GetZyId(zyNum);
             T_Zy zy = B_ZyRedis.GetZy(zyId);
             if (zy != null)
             {
@@ -78,7 +79,7 @@ namespace hw.easyzy.com.Areas.list.Controllers
         /// <returns></returns>
         public ActionResult QuerySubmitedStudents(string zyNum, int cdOrder, int rateOrder)
         {
-            int zyId = EasyzyConst.GetZyId(zyNum);
+            int zyId = Const.GetZyId(zyNum);
             List<T_Answer> al = B_Zy.GetZyAnswers(zyId);
             List<dto_Answer3> dal = new List<dto_Answer3>();
 
@@ -148,7 +149,7 @@ namespace hw.easyzy.com.Areas.list.Controllers
         /// <returns></returns>
         public ActionResult GetStudentAnswerCard(string zyNum, string trueName)
         {
-            int zyId = EasyzyConst.GetZyId(zyNum);
+            int zyId = Const.GetZyId(zyNum);
             string errorMsg = "";
             List<dto_Answer2> result = null;
             if (!QueryAccess(zyId, ref errorMsg))
@@ -182,7 +183,7 @@ namespace hw.easyzy.com.Areas.list.Controllers
         /// <returns></returns>
         public ActionResult Check(string zyNum, string trueName)
         {
-            int zyId = EasyzyConst.GetZyId(zyNum);
+            int zyId = Const.GetZyId(zyNum);
             string errorMsg = "";
             if (!QueryAccess(zyId, ref errorMsg))
             {
@@ -244,7 +245,7 @@ namespace hw.easyzy.com.Areas.list.Controllers
 
         public ActionResult ZyChart(string zyNum)
         {
-            int zyId = EasyzyConst.GetZyId(zyNum);
+            int zyId = Const.GetZyId(zyNum);
             string errorMsg = "";
             if (!QueryAccess(zyId, ref errorMsg))
             {
@@ -305,7 +306,7 @@ namespace hw.easyzy.com.Areas.list.Controllers
         /// <returns></returns>
         public JsonResult GetOptionPercent(string zyNum, int bqNum, int sqNum)
         {
-            int zyId = EasyzyConst.GetZyId(zyNum);
+            int zyId = Const.GetZyId(zyNum);
             List<T_Answer> al = B_Zy.GetZyAnswers(zyId);
             List<T_ZyStruct> zysl = B_ZyRedis.GetZyStruct(zyId);
             string qa = zysl.FirstOrDefault(a => a.BqNum == bqNum && a.SqNum == sqNum).QuesAnswer;

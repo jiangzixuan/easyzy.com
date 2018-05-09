@@ -74,6 +74,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\easyzy.sdk\easyzy.sdk.csproj">
+      <Project>{dffcd023-6630-48b0-909d-9996385f8716}</Project>
+      <Name>easyzy.sdk</Name>
+    </ProjectReference>
     <ProjectReference Include="..\hw.easyzy.common\hw.easyzy.common.csproj">
       <Project>{B503673B-0B7C-4B59-88EF-8B1AB98A6F37}</Project>
       <Name>hw.easyzy.common</Name>

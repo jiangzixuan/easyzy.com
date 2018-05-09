@@ -1,4 +1,5 @@
-﻿using hw.easyzy.common;
+﻿using easyzy.sdk;
+using hw.easyzy.common;
 using hw.easyzy.model.dto;
 using hw.easyzy.model.entity;
 using MySql.Data.MySqlClient;
@@ -12,10 +13,16 @@ namespace hw.easyzy.bll
 {
     public class B_User
     {
+        private static string UserConnString = "";
+        static B_User()
+        {
+            Const.DBConnStrNameDic.TryGetValue(Const.DBName.User, out UserConnString);
+        }
+
         public static T_User GetUser(int Id)
         {
             T_User model = null;
-            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.UserConnectStringName),
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(UserConnString),
                 "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice, Class from T_User where Id = @Id",
                 "@Id".ToInt32InPara(Id)))
             {
@@ -30,7 +37,7 @@ namespace hw.easyzy.bll
         public static T_User GetUser(string userName)
         {
             T_User model = null;
-            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.UserConnectStringName),
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(UserConnString),
                 "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice, Class from T_User where UserName = @UserName",
                 "@UserName".ToVarCharInPara(userName)))
             {
@@ -49,7 +56,7 @@ namespace hw.easyzy.bll
         /// <returns></returns>
         public static int Create(T_User zy)
         {
-            object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(EasyzyConst.UserConnectStringName),
+            object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(UserConnString),
                 "insert into T_User(Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice, Class) values (null, @UserName, @TrueName, @Psd, @Mobile, @FirstLoginDate, @CreateDate, @Extend1, @ZyPsd, @ZyPrice, @Class); select last_insert_id();",
                 "@UserName".ToVarCharInPara(zy.UserName),
                 "@TrueName".ToVarCharInPara(zy.TrueName),
@@ -73,7 +80,7 @@ namespace hw.easyzy.bll
         /// <returns></returns>
         public static int UpdateTrueName(int userId, string trueName)
         {
-            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(EasyzyConst.UserConnectStringName),
+            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString),
                 "update T_User set TrueName = @TrueName where Id = @UserId",
                 "@UserId".ToInt32InPara(userId),
                 "@TrueName".ToVarCharInPara(trueName)
@@ -89,7 +96,7 @@ namespace hw.easyzy.bll
         /// <returns></returns>
         public static int UpdateZyPsd(int userId, string zyPsd)
         {
-            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(EasyzyConst.UserConnectStringName),
+            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString),
                 "update T_User set ZyPsd = @ZyPsd where Id = @UserId",
                 "@UserId".ToInt32InPara(userId),
                 "@ZyPsd".ToVarCharInPara(zyPsd)
@@ -105,7 +112,7 @@ namespace hw.easyzy.bll
         /// <returns></returns>
         public static int UpdateClass(int userId, string userClass)
         {
-            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(EasyzyConst.UserConnectStringName),
+            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString),
                 "update T_User set Class = @Class where Id = @UserId",
                 "@UserId".ToInt32InPara(userId),
                 "@Class".ToVarCharInPara(userClass)
@@ -121,7 +128,7 @@ namespace hw.easyzy.bll
         /// <returns></returns>
         public static int UpdateFirstLoginDate(int userId, DateTime firstLoginDate)
         {
-            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(EasyzyConst.UserConnectStringName),
+            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString),
                 "update T_User set FirstLoginDate = @FirstLoginDate where Id = @UserId",
                 "@UserId".ToInt32InPara(userId),
                 "@FirstLoginDate".ToDateTimeInPara(firstLoginDate)
@@ -137,7 +144,7 @@ namespace hw.easyzy.bll
         public static List<dto_RelateUser> GetRelateUser(int userId)
         {
             List<dto_RelateUser> model = null;
-            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.UserConnectStringName),
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(UserConnString),
                 "select Id, UserId, RUserId, CreateDate from T_UserRelate where UserId = @UserId",
                 "@UserId".ToInt32InPara(userId)))
             {
@@ -157,7 +164,7 @@ namespace hw.easyzy.bll
         public static List<dto_RelateUser> GetBeRelatedUser(int userId)
         {
             List<dto_RelateUser> model = null;
-            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.UserConnectStringName),
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(UserConnString),
                 "select Id, UserId, RUserId, CreateDate from T_UserRelate where RUserId = @RUserId",
                 "@RUserId".ToInt32InPara(userId)))
             {
@@ -171,7 +178,7 @@ namespace hw.easyzy.bll
 
         public static int AddRelate(int userId, int rUserId, DateTime createDate)
         {
-            object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(EasyzyConst.UserConnectStringName),
+            object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(UserConnString),
                 "insert into T_UserRelate(Id, UserId, RUserId, CreateDate) values (null, @UserId, @RUserId, @CreateDate); select last_insert_id();",
 
                 "@UserId".ToInt32InPara(userId),
@@ -183,7 +190,7 @@ namespace hw.easyzy.bll
 
         public static int CancelRelate(int userId, int rUserId)
         {
-            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(EasyzyConst.UserConnectStringName),
+            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString),
                 "delete from T_UserRelate where UserId = @UserId and RUserId = @RUserId",
                 "@UserId".ToInt32InPara(userId),
                 "@RUserId".ToInt32InPara(rUserId)
@@ -199,7 +206,7 @@ namespace hw.easyzy.bll
         public static List<T_User> SearchUser(string keyWords)
         {
             List<T_User> model = null;
-            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.UserConnectStringName),
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(UserConnString),
                 "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice, Class from T_User where concat(UserName, TrueName, Class) like '%" + keyWords + "%' limit 20"))
             {
                 if (dr != null && dr.HasRows)

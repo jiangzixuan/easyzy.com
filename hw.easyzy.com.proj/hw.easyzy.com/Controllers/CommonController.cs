@@ -1,4 +1,5 @@
-﻿using hw.easyzy.bll;
+﻿using easyzy.sdk;
+using hw.easyzy.bll;
 using hw.easyzy.common;
 using hw.easyzy.model.entity;
 using System;
@@ -25,7 +26,7 @@ namespace hw.easyzy.com.Controllers
         {
             try
             {
-                Util.ClearCookies(EasyzyConst.CookieName_User);
+                Util.ClearCookies(Const.CookieName_User);
             }
             catch
             { }

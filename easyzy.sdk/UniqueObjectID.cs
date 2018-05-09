@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace hw.easyzy.common
+namespace easyzy.sdk
 {
     /// <summary>
     /// 生成唯一ID，由MongoDB.Bson.BsonObjectId提取而来

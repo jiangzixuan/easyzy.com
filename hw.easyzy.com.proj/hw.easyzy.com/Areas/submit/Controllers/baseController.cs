@@ -1,4 +1,5 @@
-﻿using hw.easyzy.bll;
+﻿using easyzy.sdk;
+using hw.easyzy.bll;
 using hw.easyzy.common;
 using hw.easyzy.model.entity;
 using System;
@@ -16,7 +17,7 @@ namespace hw.easyzy.com.Areas.submit.Controllers
 
         public baseController()
         {
-            string u = Util.GetCookie(EasyzyConst.CookieName_User, EasyzyConst.CookieVluew_UserId);
+            string u = Util.GetCookie(Const.CookieName_User, Const.CookieVluew_UserId);
             if (!string.IsNullOrEmpty(u))
             {
                 UserId = int.Parse(u);

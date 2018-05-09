@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace hw.easyzy.common
+namespace easyzy.sdk
 {
     /// <summary>
     /// 跟客户端相关的公共方法
