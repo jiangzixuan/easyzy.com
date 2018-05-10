@@ -56,11 +56,13 @@
     <Compile Include="B_User.cs" />
     <Compile Include="B_UserRedis.cs" />
     <Compile Include="B_UserZy.cs" />
-    <Compile Include="B_Zy.cs" />
-    <Compile Include="B_ZyRedis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\easyzy.sdk\easyzy.sdk.csproj">
+      <Project>{DFFCD023-6630-48B0-909D-9996385F8716}</Project>
+      <Name>easyzy.sdk</Name>
+    </ProjectReference>
     <ProjectReference Include="..\user.easyzy.common\user.easyzy.common.csproj">
       <Project>{3458BCC1-EB26-46ED-8645-5E44DB6417D3}</Project>
       <Name>user.easyzy.common</Name>

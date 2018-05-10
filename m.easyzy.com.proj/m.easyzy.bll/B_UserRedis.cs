@@ -1,11 +1,11 @@
-﻿using m.easyzy.common;
+﻿using easyzy.sdk;
 using m.easyzy.model.entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static m.easyzy.common.EasyzyConst;
+using static easyzy.sdk.Const;
 
 namespace m.easyzy.bll
 {

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using upload.easyzy.com.Models;
+using easyzy.sdk;
 
 namespace upload.easyzy.com.Controllers
 {
@@ -53,7 +54,7 @@ namespace upload.easyzy.com.Controllers
                         string FileName = f.FileName;
                         string Pattern = FileName.Substring(FileName.LastIndexOf(".") + 1).ToLower();
                         
-                        if (!EasyzyConst.ImgPattern.Contains(Pattern))
+                        if (!Const.ImgPattern.Contains(Pattern))
                         {
                             imgPathList.Add("上传文件类型错误");
                             msg = "有文件上传失败！";

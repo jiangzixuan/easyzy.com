@@ -1,5 +1,4 @@
 ﻿using user.easyzy.bll;
-using user.easyzy.common;
 using user.easyzy.model.dto;
 using user.easyzy.model.entity;
 using System;
@@ -7,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using easyzy.sdk;
 
 namespace user.easyzy.com.Controllers
 {
@@ -47,7 +47,7 @@ namespace user.easyzy.com.Controllers
         /// <returns></returns>
         public string IsUserNameExists(string userName)
         {
-            if (EasyzyConst.UserNameFilter.Contains(userName)) return "1";
+            if (Const.UserNameFilter.Contains(userName)) return "1";
             T_User u = B_UserRedis.GetUser(userName);
             if (u == null)
             {
@@ -120,7 +120,7 @@ namespace user.easyzy.com.Controllers
                 {
                     dt = DateTime.Now.AddDays(30);
                 }
-                Util.SetCookie(EasyzyConst.CookieName_User, EasyzyConst.CookieVluew_UserId, u.Id.ToString(), dt);
+                Util.SetCookie(Const.CookieName_User, Const.CookieVluew_UserId, u.Id.ToString(), dt);
                 return "0";
             }
             else
@@ -228,7 +228,7 @@ namespace user.easyzy.com.Controllers
             List<dto_UserZy> list = B_UserZy.GetUserZy(UserId, pageIndex, pageSize, out totalCount);
             if (list != null)
             {
-                list.ForEach(a => a.ZyNum = EasyzyConst.GetZyNum(a.ZyId));
+                list.ForEach(a => a.ZyNum = Const.GetZyNum(a.ZyId));
             }
             ViewBag.PageCount = Util.GetTotalPageCount(totalCount, pageSize);
             return PartialView(list);
@@ -240,7 +240,7 @@ namespace user.easyzy.com.Controllers
             List<dto_UserZy> list = B_UserZy.GetSubmitedZy(UserId, pageIndex, pageSize, out totalCount);
             if (list != null)
             {
-                list.ForEach(a => a.ZyNum = EasyzyConst.GetZyNum(a.ZyId));
+                list.ForEach(a => a.ZyNum = Const.GetZyNum(a.ZyId));
             }
             ViewBag.PageCount = Util.GetTotalPageCount(totalCount, pageSize);
             return PartialView(list);
@@ -278,7 +278,7 @@ namespace user.easyzy.com.Controllers
             List<dto_UserZy> list = B_UserZy.GetUserZy(userId, pageIndex, pageSize, out totalCount);
             if (list != null)
             {
-                list.ForEach(a => a.ZyNum = EasyzyConst.GetZyNum(a.ZyId));
+                list.ForEach(a => a.ZyNum = Const.GetZyNum(a.ZyId));
             }
             T_User u = B_UserRedis.GetUser(userId);
             ViewBag.RTrueName = u == null ? "" : (u.UserName + "(" + u.TrueName + ")");

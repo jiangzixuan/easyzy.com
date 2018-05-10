@@ -91,15 +91,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EasyzyConst.cs" />
     <Compile Include="FileHelper.cs" />
-    <Compile Include="LogHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UniqueObjectID.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\easyzy.sdk\easyzy.sdk.csproj">
+      <Project>{DFFCD023-6630-48B0-909D-9996385F8716}</Project>
+      <Name>easyzy.sdk</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace easyzy.sdk
 {
+    /// <summary>
+    /// log4net日志帮助类
+    /// </summary>
     public class LogHelper
     {
         private static ILog log = null;

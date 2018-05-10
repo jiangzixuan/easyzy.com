@@ -1,4 +1,5 @@
-﻿using m.easyzy.bll;
+﻿using easyzy.sdk;
+using m.easyzy.bll;
 using m.easyzy.common;
 using m.easyzy.model.entity;
 using System;
@@ -16,7 +17,7 @@ namespace m.easyzy.com.Controllers
 
         public BaseController()
         {
-            string u = Util.GetCookie(EasyzyConst.CookieName_User, EasyzyConst.CookieVluew_UserId);
+            string u = Util.GetCookie(Const.CookieName_User, Const.CookieVluew_UserId);
             if (!string.IsNullOrEmpty(u))
             {
                 UserId = int.Parse(u);
@@ -30,7 +31,7 @@ namespace m.easyzy.com.Controllers
         {
             try
             {
-                Util.ClearCookies(EasyzyConst.CookieName_User);
+                Util.ClearCookies(Const.CookieName_User);
             }
             catch
             { }

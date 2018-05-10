@@ -1,4 +1,5 @@
-﻿using m.easyzy.common;
+﻿using easyzy.sdk;
+using m.easyzy.common;
 using m.easyzy.model.entity;
 using MySql.Data.MySqlClient;
 using System;
@@ -14,9 +15,15 @@ namespace m.easyzy.bll
     /// </summary>
     public class B_Common
     {
+        private static string HomeConnString = "";
+
+        static B_Common()
+        {
+            Const.DBConnStrNameDic.TryGetValue(Const.DBName.Home, out HomeConnString);
+        }
         public static int AddSuggestion(T_Suggestion s)
         {
-            object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+            object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(HomeConnString),
                 "insert into T_Suggestion(Id, Name, Phone, Content, CreateDate, Processed) values (null, @Name, @Phone, @Content, @CreateDate, @Processed); select last_insert_id();",
                 "@Name".ToVarCharInPara(s.Name),
                 "@Phone".ToVarCharInPara(s.Phone),

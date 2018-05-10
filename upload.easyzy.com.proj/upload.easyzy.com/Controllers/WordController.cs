@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Http;
 using upload.easyzy.com.Models;
 using System.Web.Http.Cors;
+using easyzy.sdk;
 
 namespace upload.easyzy.com.Controllers
 {
@@ -64,7 +65,7 @@ namespace upload.easyzy.com.Controllers
                     path = "\\word\\" + wordFunc + "\\" + wordCategory;
                     string saveName = UniqueObjectID.GenerateStrNewId();
                     filePath = FileHelper.SaveFile(file, path, saveName);
-                    if (wordFunc == (int)EasyzyConst.WordFunc.CreateZY)
+                    if (wordFunc == (int)Const.WordFunc.CreateZY)
                     {
                         //Word转Html
                         string htmlPath = filePath.Replace("word", "html").Replace("docx", "html").Replace("doc", "html");

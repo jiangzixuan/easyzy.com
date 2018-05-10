@@ -1,16 +1,17 @@
-﻿using user.easyzy.common;
-using user.easyzy.model.dto;
+﻿using user.easyzy.model.dto;
 using MySql.Data.MySqlClient;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using easyzy.sdk;
 
 namespace user.easyzy.bll
 {
     public class B_UserZy
     {
+        private static string ZyConnString = "";
+        static B_UserZy()
+        {
+            Const.DBConnStrNameDic.TryGetValue(Const.DBName.Zy, out ZyConnString);
+        }
         /// <summary>
         /// 获取老师新建的作业列表
         /// </summary>
@@ -19,7 +20,7 @@ namespace user.easyzy.bll
         public static List<dto_UserZy> GetUserZy(int userId)
         {
             List<dto_UserZy> model = null;
-            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
                 "select Id ZyId, UserId, BodyHtmlPath, AnswerHtmlPath, CreateDate, Structed from T_Zy where UserId = @UserId order by CreateDate desc",
                 "@UserId".ToInt32InPara(userId)))
             {
@@ -39,7 +40,7 @@ namespace user.easyzy.bll
         public static List<dto_UserZy> GetUserZy(int userId, int pageIndex, int pageSize, out int totalCount)
         {
             List<dto_UserZy> model = null;
-            using (MySqlDataReader dr = MySqlDBHelper.GetPageReader(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+            using (MySqlDataReader dr = MySqlDBHelper.GetPageReader(Util.GetConnectString(ZyConnString),
                 "Id ZyId, UserId, BodyHtmlPath, AnswerHtmlPath, CreateDate, Structed",
                 "T_Zy where UserId = @UserId",
                 "CreateDate desc",
@@ -64,7 +65,7 @@ namespace user.easyzy.bll
         public static List<dto_UserZy> GetSubmitedZy(int studentId)
         {
             List<dto_UserZy> model = null;
-            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
                 "select ZyId, CreateDate from T_Answer where StudentId = @StudentId order by CreateDate desc",
                 "@StudentId".ToInt32InPara(studentId)))
             {
@@ -79,7 +80,7 @@ namespace user.easyzy.bll
         public static List<dto_UserZy> GetSubmitedZy(int studentId, int pageIndex, int pageSize, out int totalCount)
         {
             List<dto_UserZy> model = null;
-            using (MySqlDataReader dr = MySqlDBHelper.GetPageReader(Util.GetConnectString(EasyzyConst.ZyConnectStringName),
+            using (MySqlDataReader dr = MySqlDBHelper.GetPageReader(Util.GetConnectString(ZyConnString),
                 "ZyId, CreateDate",
                 "T_Answer where StudentId = @StudentId",
                 "CreateDate desc",

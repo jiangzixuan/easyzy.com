@@ -112,6 +112,10 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\easyzy.sdk\easyzy.sdk.csproj">
+      <Project>{dffcd023-6630-48b0-909d-9996385f8716}</Project>
+      <Name>easyzy.sdk</Name>
+    </ProjectReference>
     <ProjectReference Include="..\upload.easyzy.common\upload.easyzy.common.csproj">
       <Project>{1e95526e-caf2-43a1-95f6-64345a672d4a}</Project>
       <Name>upload.easyzy.common</Name>

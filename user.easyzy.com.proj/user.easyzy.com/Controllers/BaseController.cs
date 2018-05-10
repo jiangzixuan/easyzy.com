@@ -1,11 +1,8 @@
 ﻿using user.easyzy.bll;
-using user.easyzy.common;
 using user.easyzy.model.entity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using easyzy.sdk;
 
 namespace user.easyzy.com.Controllers
 {
@@ -16,7 +13,7 @@ namespace user.easyzy.com.Controllers
 
         public BaseController()
         {
-            string u = Util.GetCookie(EasyzyConst.CookieName_User, EasyzyConst.CookieVluew_UserId);
+            string u = Util.GetCookie(Const.CookieName_User, Const.CookieVluew_UserId);
             if (!string.IsNullOrEmpty(u))
             {
                 UserId = int.Parse(u);
@@ -37,7 +34,7 @@ namespace user.easyzy.com.Controllers
         {
             try
             {
-                Util.ClearCookies(EasyzyConst.CookieName_User);
+                Util.ClearCookies(Const.CookieName_User);
             }
             catch
             { }

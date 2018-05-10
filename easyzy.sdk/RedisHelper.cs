@@ -12,6 +12,9 @@ using static easyzy.sdk.Const;
 
 namespace easyzy.sdk
 {
+    /// <summary>
+    /// redis访问帮助类
+    /// </summary>
     public class RedisHelper
     {
         private const string RedisConfigName = "RedisConfig.xml";

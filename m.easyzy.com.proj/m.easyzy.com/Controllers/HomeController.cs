@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using easyzy.sdk;
 
 namespace m.easyzy.com.Controllers
 {
@@ -31,7 +32,7 @@ namespace m.easyzy.com.Controllers
             {
                 DateTime dt = DateTime.Now.AddDays(30);
                 
-                Util.SetCookie(EasyzyConst.CookieName_User, EasyzyConst.CookieVluew_UserId, u.Id.ToString(), dt);
+                Util.SetCookie(Const.CookieName_User, Const.CookieVluew_UserId, u.Id.ToString(), dt);
                 return "0";
             }
             else
@@ -43,13 +44,13 @@ namespace m.easyzy.com.Controllers
         public ActionResult Open()
         {
             ViewBag.UploadUrl = Util.GetAppSetting("UploadUrlPrefix");
-            ViewBag.PicFunc = (int)EasyzyConst.ImgFunc.SubmitAnswer;
+            ViewBag.PicFunc = (int)Const.ImgFunc.SubmitAnswer;
             return View();
         }
 
         public string QueryZy(string zyNum)
         {
-            int zyId = EasyzyConst.GetZyId(zyNum);
+            int zyId = Const.GetZyId(zyNum);
             string hasPsd = "0";
             T_Zy zy = B_ZyRedis.GetZy(zyId);
             //作业不存在
@@ -111,7 +112,7 @@ namespace m.easyzy.com.Controllers
         public string NeedZyPsd(string zyNum)
         {
             string result = "0";
-            int zyId = EasyzyConst.GetZyId(zyNum);
+            int zyId = Const.GetZyId(zyNum);
             T_Zy zy = B_ZyRedis.GetZy(zyId);
             if (zy != null)
             {
@@ -135,7 +136,7 @@ namespace m.easyzy.com.Controllers
         /// <returns></returns>
         public string CheckZyPsd(string zyNum, string zyPsd)
         {
-            int zyId = EasyzyConst.GetZyId(zyNum);
+            int zyId = Const.GetZyId(zyNum);
             string result = "1";
             T_Zy zy = B_ZyRedis.GetZy(zyId);
             if (zy != null)
@@ -161,7 +162,7 @@ namespace m.easyzy.com.Controllers
 
         public ActionResult GetZyStruct(string zyNum)
         {
-            int zyId = EasyzyConst.GetZyId(zyNum);
+            int zyId = Const.GetZyId(zyNum);
             T_Zy zy = B_ZyRedis.GetZy(zyId);
             List<T_ZyStruct> zys = null;
             if (zy.Structed)
@@ -187,7 +188,7 @@ namespace m.easyzy.com.Controllers
                 return "1|真实姓名未填写！";
             }
 
-            int zyId = EasyzyConst.GetZyId(zyNum);
+            int zyId = Const.GetZyId(zyNum);
 
             if (B_Zy.IsZySubmited(zyId, trueName))
             {
@@ -250,7 +251,7 @@ namespace m.easyzy.com.Controllers
         /// <returns></returns>
         public ActionResult QuerySubmitedStudents(string zyNum, int cdOrder, int rateOrder)
         {
-            int zyId = EasyzyConst.GetZyId(zyNum);
+            int zyId = Const.GetZyId(zyNum);
             List<T_Answer> al = B_Zy.GetZyAnswers(zyId);
             List<dto_Answer3> dal = new List<dto_Answer3>();
             if (al != null && al.Count > 0)
@@ -317,7 +318,7 @@ namespace m.easyzy.com.Controllers
         /// <returns></returns>
         public ActionResult GetStudentAnswerCard(string zyNum, string trueName)
         {
-            int zyId = EasyzyConst.GetZyId(zyNum);
+            int zyId = Const.GetZyId(zyNum);
             string errorMsg = "";
             List<dto_Answer2> result = null;
             if (!QueryAccess(zyId, ref errorMsg))
@@ -356,7 +357,7 @@ namespace m.easyzy.com.Controllers
             List<dto_UserZy> list = B_UserZy.GetSubmitedZy(UserId);
             if (list != null)
             {
-                list.ForEach(a => a.ZyNum = EasyzyConst.GetZyNum(a.ZyId));
+                list.ForEach(a => a.ZyNum = Const.GetZyNum(a.ZyId));
             }
             return View(list);
         }
@@ -374,7 +375,7 @@ namespace m.easyzy.com.Controllers
             List<dto_UserZy> list = B_UserZy.GetUserZy(UserId);
             if (list != null)
             {
-                list.ForEach(a => a.ZyNum = EasyzyConst.GetZyNum(a.ZyId));
+                list.ForEach(a => a.ZyNum = Const.GetZyNum(a.ZyId));
             }
             return View(list);
         }
@@ -408,7 +409,7 @@ namespace m.easyzy.com.Controllers
 
         public ActionResult ZyChart(string zyNum)
         {
-            int zyId = EasyzyConst.GetZyId(zyNum);
+            int zyId = Const.GetZyId(zyNum);
             string errorMsg = "";
             if (!QueryAccess(zyId, ref errorMsg))
             {
@@ -468,7 +469,7 @@ namespace m.easyzy.com.Controllers
         /// <returns></returns>
         public JsonResult GetOptionPercent(string zyNum, int bqNum, int sqNum)
         {
-            int zyId = EasyzyConst.GetZyId(zyNum);
+            int zyId = Const.GetZyId(zyNum);
             List<T_Answer> al = B_Zy.GetZyAnswers(zyId);
             List<T_ZyStruct> zysl = B_ZyRedis.GetZyStruct(zyId);
             string qa = zysl.FirstOrDefault(a => a.BqNum == bqNum && a.SqNum == sqNum).QuesAnswer;

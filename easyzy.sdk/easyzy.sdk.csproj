@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="ClientUtil.cs" />
     <Compile Include="Const.cs" />
+    <Compile Include="DesUtil.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="MySqlDBHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

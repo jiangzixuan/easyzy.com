@@ -13,6 +13,9 @@ using System.Collections;
 
 namespace easyzy.sdk
 {
+    /// <summary>
+    /// 补充mysql.data的mysql数据库访问帮助类
+    /// </summary>
     public static class MySqlDBHelper
     {
 

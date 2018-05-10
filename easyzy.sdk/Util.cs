@@ -18,6 +18,11 @@ namespace easyzy.sdk
             return System.Configuration.ConfigurationManager.ConnectionStrings[Name].ToString();
         }
 
+        public static string GetCookie(object cookieName_User, object cookieVluew_UserId)
+        {
+            throw new NotImplementedException();
+        }
+
         public static string GetAppSetting(string key)
         {
             return System.Configuration.ConfigurationManager.AppSettings[key];
