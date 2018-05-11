@@ -94,9 +94,14 @@ span.tag-line {
 }
 .main-nav div > ul > li a {
   font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   color: #c1cad1;
 }
+
+.main-nav div > ul .sub-menu > li a {
+  font-size: 13px;
+}
+
 .main-nav div > ul > li a:hover {
   color: #fff;
 }
