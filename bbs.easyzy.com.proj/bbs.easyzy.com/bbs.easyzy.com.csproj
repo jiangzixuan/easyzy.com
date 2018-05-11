@@ -141,8 +141,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\ExceptionFilterAttribute.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\LoginFilterAttribute.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\topicController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -190,6 +193,9 @@
     <Content Include="Images\user.png" />
     <Content Include="Images\video-large.png" />
     <Content Include="Images\video.png" />
+    <Content Include="Scripts\artDialog\css\ui-dialog.css" />
+    <Content Include="Scripts\artDialog\dialog-plus-min.js" />
+    <Content Include="Scripts\artDialog\dialog.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -197,6 +203,7 @@
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\custom.js" />
+    <Content Include="Scripts\easyzy.common.js" />
     <Content Include="Scripts\jflickrfeed.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -613,6 +620,7 @@
     <Folder Include="Scripts\kindeditor\attached\wordimport\20130926\20130926110529_8049\" />
     <Folder Include="Scripts\kindeditor\attached\wordimport\20140709\20140709160940_9434\" />
     <Folder Include="Scripts\kindeditor\attached\wordimport\20140709\20140709161613_7299\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -626,6 +634,20 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\easyzy.sdk\easyzy.sdk.csproj">
+      <Project>{dffcd023-6630-48b0-909d-9996385f8716}</Project>
+      <Name>easyzy.sdk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbs.easyzy.bll\bbs.easyzy.bll.csproj">
+      <Project>{9cc28960-9ddc-4aa4-9283-466dc3b8ca2e}</Project>
+      <Name>bbs.easyzy.bll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbs.easyzy.model\bbs.easyzy.model.csproj">
+      <Project>{061c3101-1704-4bb3-9814-c7dae73aa818}</Project>
+      <Name>bbs.easyzy.model</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

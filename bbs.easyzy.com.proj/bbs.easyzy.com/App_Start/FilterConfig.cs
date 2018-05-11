@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace bbs.easyzy.com
 {
@@ -7,7 +6,8 @@ namespace bbs.easyzy.com
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
+            filters.Add(new ExceptionFilterAttribute());
         }
+        
     }
 }

@@ -69,6 +69,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ques.thrift.itf", "rpc.easy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ques.thrift.server", "rpc.easyzy.proj\ques.thrift.server\ques.thrift.server.csproj", "{AF7663A0-B948-4DA0-B866-29B4027B1C2A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bbs.easyzy.bll", "bbs.easyzy.com.proj\bbs.easyzy.bll\bbs.easyzy.bll.csproj", "{9CC28960-9DDC-4AA4-9283-466DC3B8CA2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bbs.easyzy.model", "bbs.easyzy.com.proj\bbs.easyzy.model\bbs.easyzy.model.csproj", "{061C3101-1704-4BB3-9814-C7DAE73AA818}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -179,6 +183,14 @@ Global
 		{AF7663A0-B948-4DA0-B866-29B4027B1C2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF7663A0-B948-4DA0-B866-29B4027B1C2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF7663A0-B948-4DA0-B866-29B4027B1C2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CC28960-9DDC-4AA4-9283-466DC3B8CA2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CC28960-9DDC-4AA4-9283-466DC3B8CA2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CC28960-9DDC-4AA4-9283-466DC3B8CA2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CC28960-9DDC-4AA4-9283-466DC3B8CA2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{061C3101-1704-4BB3-9814-C7DAE73AA818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{061C3101-1704-4BB3-9814-C7DAE73AA818}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{061C3101-1704-4BB3-9814-C7DAE73AA818}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{061C3101-1704-4BB3-9814-C7DAE73AA818}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -206,6 +218,8 @@ Global
 		{D4C415EF-0121-4BB1-86C3-68E747770028} = {4F04835E-6811-44FE-A3E4-0294FA2B6432}
 		{370FC043-4D7A-4EBB-8D72-C9CC3145FB8A} = {9D6381EA-C65C-4DCC-B1EF-4EC4A3F16F55}
 		{AF7663A0-B948-4DA0-B866-29B4027B1C2A} = {9D6381EA-C65C-4DCC-B1EF-4EC4A3F16F55}
+		{9CC28960-9DDC-4AA4-9283-466DC3B8CA2E} = {4F04835E-6811-44FE-A3E4-0294FA2B6432}
+		{061C3101-1704-4BB3-9814-C7DAE73AA818} = {4F04835E-6811-44FE-A3E4-0294FA2B6432}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A22F5292-B9C7-4639-9625-8D62EA929AFA}

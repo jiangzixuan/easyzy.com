@@ -6,6 +6,9 @@ using Thrift.Transport;
 
 namespace easyzy.sdk
 {
+    /// <summary>
+    /// 题库查询帮助类
+    /// </summary>
     public class QuesHelper
     {
         static QuesService.Client client = null;

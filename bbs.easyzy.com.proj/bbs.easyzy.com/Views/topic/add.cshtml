@@ -21,11 +21,28 @@
                     <td class="td-2"><textarea id="topic" name="topic"></textarea></td>
                 </tr>
                 <tr>
-                    <td class="td-1">学科/年级</td>
-                    <td class="td-2"></td>
+                    <td class="td-1">标签</td>
+                    <td class="td-2">
+                        年级：
+                        <select id="GradeSelecter" style="width:100px; margin-top:10px;">
+                            <option value="0"></option>
+                            @foreach (var g in ViewBag.Grades)
+                            {
+                                <option value="@g.Key">@g.Value</option>
+                            }
+                        </select> 
+                        学科：
+                        <select id="SubjectSelecter" style="width:100px; margin-top:10px;">
+                            <option value="0"></option>
+                            @foreach (var s in ViewBag.Subjects)
+                            {
+                                <option value="@s.Key">@s.Value</option>
+                            }
+                        </select>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="td-2" colspan="2" style="text-align:center;"><input class="btn" type="submit" value="提交" /></td>
+                    <td class="td-2" colspan="2" style="text-align:center;"><input class="btn submit" type="button" value="提交" /></td>
                 </tr>
             </table>
         </div>
@@ -47,23 +64,36 @@
     function check() {
         var Title = $("#title").val();
         if (Title.length > 50) {
-            alert("标题不能超过50个字！")
+            dialogAlert("标题不能超过50个字！")
             return false;
         }
         else if (trim(Title).length == 0) {
-            alert("标题不能为空！")
+            dialogAlert("标题不能为空！")
             return false;
         }
 
-        var Topic = editor1.text();
+        var Topic = editor1.html();
         if (Topic.length > 8000) {
-            alert("内容太长了！")
+            dialogAlert("内容太长了！")
             return false;
         }
     }
 
-    function trim(str) {   //删除左右两端的空格
-        return str.replace(/(^\s*)|(\s*$)/g, "");
-    }
+    $(".submit").on("click", function () {
+        if (check()) {
+            var Title = $("#title").val();
+            var Topic = editor1.html();
+            var TopicText = editor1.text();
+            
+            Topic = encodeURI(Topic);
+            TopicText = encodeURI(TopicText);
+
+            $.post("AddTopic",
+                { title: Title, topic: Topic, topicText: TopicText },
+                function (data) {
+
+                })
+        }
+    })
 
 </script>
