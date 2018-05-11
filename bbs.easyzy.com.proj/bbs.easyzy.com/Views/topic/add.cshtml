@@ -1,8 +1,74 @@
-﻿
-@{
-    ViewBag.Title = "create";
+﻿@{
+    ViewBag.Title = "新增话题";
+    ViewBag.Menu = 5;
 }
+<link href="/Content/bbs.css" rel="stylesheet" />
+<script src="/kindeditor/kindeditor-min.js" charset="utf-8" type="text/javascript"></script>
+<div class="container clearfix">
+    <div class="currposition">当前位置： 师生交流 > 新增话题</div>
+    <!--主内容-->
+    <div class="main-content">
+        <div class="content2">
+            <div class="table-con">
+                <!--表格-->
+                <form action="AddTopic" method="post" enctype="multipart/form-data" onsubmit="return(check());">
+                    <input type="hidden" name="classId" id="classId" value="@ViewBag.ClassID" />
+                    <table class="table-1" style="width:100%; margin-top:10px;">
+                        @*<tr>
+                                <td class="td-1">学科</td>
+                                <td class="td-2"></td>
+                            </tr>*@
+                        <tr>
+                            <td class="td-1">标题</td>
+                            <td class="td-2"><input id="title" name="title" class="txt" type="text" style="font-family:'Microsoft YaHei'; line-height:30px; height:30px;" /></td>
+                        </tr>
+                        <tr>
+                            <td class="td-1">内容</td>
+                            <td class="td-2"><textarea id="topic" name="topic" style='width:100%;height:400px;visibility:hidden;'></textarea></td>
 
-<h2>create</h2>
+                        </tr>
+                        <tr>
+                            <td class="td-2" colspan="2" style="text-align:center;"><input class="btn" type="submit" value="提交" /></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
 
-<div>add</div>
+    var editor1;
+    KindEditor.ready(function (K) {
+        editor1 = K.create('#topic', {
+            cssPath: '/kindeditor/plugins/code/prettify.css',
+            uploadJson: '/kindeditor/upload_picture.ashx',
+            fileManagerJson: '/kindeditor/file_manager_json.ashx',
+            allowFileManager: true
+        });
+        //prettyPrint();
+    });
+
+    function check() {
+        var Title = $("#title").val();
+        if (Title.length > 50) {
+            alert("标题不能超过50个字！")
+            return false;
+        }
+        else if (trim(Title).length == 0) {
+            alert("标题不能为空！")
+            return false;
+        }
+
+        var Topic = editor1.text();
+        if (Topic.length > 8000) {
+            alert("内容太长了！")
+            return false;
+        }
+    }
+
+    function trim(str) {   //删除左右两端的空格
+        return str.replace(/(^\s*)|(\s*$)/g, "");
+    }
+
+</script>

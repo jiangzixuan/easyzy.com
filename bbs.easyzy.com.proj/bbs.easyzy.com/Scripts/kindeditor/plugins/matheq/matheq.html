@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <style type="text/css">
+        *{color: #838383;margin: 0;padding: 0;}
+        html,body {font-size: 12px;overflow: hidden; }
+        .content{padding:10px 0 0 10px;}
+        #loading { font-family:宋体; font-size:13px; text-align:center; color:#b0a7a7; }
+        #eqeditor { display:none; }
+    </style>
+    <script type="text/javascript" src="../internal.js"></script>
+    <script type="text/javascript" src="matheq.js"></script>
+</head>
+<body>
+    <div class="content">
+    <div id="loading"><var id="lang_div_loadingTxt"></var></div>
+    <div id="eqeditor">
+     <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="856" height="396" id="f_editor1" >
+                <param name="movie" value="FlashFormulaEditor.swf" />
+                <param name="quality" value="high" />
+                <param name="bgcolor" value="#ffffff" />
+                <param name="allowScriptAccess" value="sameDomain" />
+                <param name="allowFullScreen" value="true" />
+                <!--[if !IE]>-->
+                <object type="application/x-shockwave-flash" data="FlashFormulaEditor.swf" width="856" height="396" id="f_editor2">
+                    <param name="quality" value="high" />
+                    <param name="bgcolor" value="#ffffff" />
+                    <param name="allowScriptAccess" value="sameDomain" />
+                    <param name="allowFullScreen" value="true" />
+                <!--<![endif]-->
+                <!--[if gte IE 6]>-->
+                    <p> 
+                        Either scripts and active content are not permitted to run or Adobe Flash Player version
+                        11.1.0 or greater is not installed.
+                    </p>
+                <!--<![endif]-->
+                    <a href="http://www.adobe.com/go/getflashplayer">
+                        <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash Player" />
+                    </a>
+                <!--[if !IE]>-->
+                </object>
+                <!--<![endif]-->
+            </object>    
+    </div>
+    </div>
+    <script type="text/javascript">
+        window.onload = function () {
+            setTimeout('removeLoading();', 500);
+        };
+    </script>
+</body>
+</html>
