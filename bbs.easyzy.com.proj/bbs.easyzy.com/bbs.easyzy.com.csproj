@@ -155,12 +155,36 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap5152.css" />
     <Content Include="Content\main.css" />
     <Content Include="Content\responsive.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\calendar-icon.png" />
+    <Content Include="Images\category-main-icon.png" />
+    <Content Include="Images\comment.png" />
+    <Content Include="Images\faq-minus.png" />
+    <Content Include="Images\faq-plus.png" />
+    <Content Include="Images\footer-bg.png" />
+    <Content Include="Images\image-large.png" />
+    <Content Include="Images\image.png" />
+    <Content Include="Images\li-arrow.png" />
+    <Content Include="Images\like-btn.png" />
+    <Content Include="Images\like.png" />
+    <Content Include="Images\main-bg.jpg" />
+    <Content Include="Images\plus-minus.png" />
+    <Content Include="Images\question-large.png" />
+    <Content Include="Images\quote.png" />
+    <Content Include="Images\scroll-top.png" />
+    <Content Include="Images\search-loader.gif" />
+    <Content Include="Images\standard-large.png" />
+    <Content Include="Images\standard.png" />
+    <Content Include="Images\support.png" />
+    <Content Include="Images\user.png" />
+    <Content Include="Images\video-large.png" />
+    <Content Include="Images\video.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -202,7 +226,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
