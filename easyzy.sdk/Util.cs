@@ -18,11 +18,6 @@ namespace easyzy.sdk
             return System.Configuration.ConfigurationManager.ConnectionStrings[Name].ToString();
         }
 
-        public static string GetCookie(object cookieName_User, object cookieVluew_UserId)
-        {
-            throw new NotImplementedException();
-        }
-
         public static string GetAppSetting(string key)
         {
             return System.Configuration.ConfigurationManager.AppSettings[key];
@@ -80,6 +75,8 @@ namespace easyzy.sdk
             return (int)(DateTime.UtcNow - startTime).TotalSeconds;
         }
 
+        #region Cookie Get/Set/Clear
+
         /// <summary>
         /// 添加Cookies
         /// </summary>
@@ -122,7 +119,7 @@ namespace easyzy.sdk
             cookie.Path = "/";
             cookie.Domain = "easyzy.com";
             HttpContext.Current.Response.Cookies.Add(cookie);
-            
+
         }
 
         public static void ClearCookies(string cookieName)
@@ -143,13 +140,15 @@ namespace easyzy.sdk
         public static string GetCookie(string cookieName, string valueName)
         {
             string value = "";
-            
+
             if (HttpContext.Current.Request.Cookies[cookieName] != null)
             {
                 value = HttpContext.Current.Request.Cookies[cookieName].Values[valueName].ToString();
             }
             return value;
         }
+
+        #endregion
 
         /// <summary>
         /// 图片压缩

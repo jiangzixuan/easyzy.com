@@ -13,17 +13,20 @@ namespace hw.easyzy.com.Controllers
     public class BaseController : Controller
     {
         protected int UserId = 0;
-        protected T_User User = null;
+        protected T_User UserInfo = null;
 
         public BaseController()
         {
-            string u = Util.GetCookie(Const.CookieName_User, Const.CookieVluew_UserId);
-            if (!string.IsNullOrEmpty(u))
+            string DesUserModel = Util.GetCookie("easyzy.user", "useridentity");
+            string DesKey = Util.GetAppSetting("DesKey");
+            UserCookieHelper.UserCookieModel u = UserCookieHelper.DescryptUserCookie(DesUserModel, DesKey);
+
+            UserId = u._id;
+            if (UserId != 0)
             {
-                UserId = int.Parse(u);
-                User = B_UserRedis.GetUser(UserId);
+                UserInfo = B_UserRedis.GetUser(UserId);
             }
-            ViewBag.UserInfo = User;
+            ViewBag.UserInfo = UserInfo;
         }
     }
 }

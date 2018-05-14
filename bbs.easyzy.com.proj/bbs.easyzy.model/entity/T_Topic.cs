@@ -18,6 +18,8 @@ namespace bbs.easyzy.model.entity
 
         public string TopicContent { get; set; }
 
+        public string TopicText { get; set; }
+
         public DateTime CreateDate { get; set; }
 
         public int Good { get; set; }

@@ -6,10 +6,16 @@ using System.Web.Mvc;
 
 namespace bbs.easyzy.com.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public ActionResult Index()
         {
+            return View();
+        }
+
+        public ActionResult LoginTip(string from)
+        {
+            ViewBag.From = from;
             return View();
         }
     }

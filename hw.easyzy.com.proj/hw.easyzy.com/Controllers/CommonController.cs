@@ -26,7 +26,7 @@ namespace hw.easyzy.com.Controllers
         {
             try
             {
-                Util.ClearCookies(Const.CookieName_User);
+                Util.ClearCookies("easyzy.user");
             }
             catch
             { }

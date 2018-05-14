@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="ClientUtil.cs" />
     <Compile Include="Const.cs" />
+    <Compile Include="UserCookieHelper.cs" />
     <Compile Include="DesUtil.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="MySqlDBHelper.cs" />

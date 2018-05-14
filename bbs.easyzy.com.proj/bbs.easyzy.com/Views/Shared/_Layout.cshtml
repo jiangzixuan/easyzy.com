@@ -14,10 +14,12 @@
 
     <link rel='stylesheet' id='bootstrap-css-css' href='/content/bootstrap5152.css?ver=1.0' type='text/css' media='all' />
     <link rel='stylesheet' id='responsive-css-css' href='/content/responsive.css?ver=1.0' type='text/css' media='all' />
-    @*<link rel='stylesheet' id='pretty-photo-css-css' href='/scripts/prettyphoto/prettyPhoto.css?ver=3.1.4' type='text/css' media='all' />*@
     <link rel='stylesheet' id='main-css-css' href='/content/main.css?ver=1.0' type='text/css' media='all' />
-
-
+    <link rel='stylesheet' type="text/css" href='/scripts/artdialog/css/ui-dialog.css' />
+    <script type='text/javascript' src='/scripts/jquery-1.10.2.min.js'></script>
+    <script type='text/javascript' src='/scripts/artdialog/dialog.js'></script>
+    <script type='text/javascript' src='/scripts/uaredirect.js'></script>
+    <script type='text/javascript' src='/scripts/easyzy.common.js'></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
     <script src="js/html5.js"></script></script>
@@ -45,7 +47,13 @@
                             <li><a href="http://local.easyzy.com">易作业首页</a></li>
                             <li><a href="http://local.bbs.easyzy.com">论坛首页</a></li>
                             <li><a href="#">|</a></li>
-                            <li><a href="#">被邀请<sup style="margin: -1px 1px 0px 3px; padding:0 2px; border-radius: 100%; font-size:8px; background:red;">1</sup></a></li>
+                            <li><a href="#">被邀请
+                                @if (ViewBag.Invited != 0)
+                                {
+                                <sup style="margin: -1px 1px 0px 3px; padding:0 2px; border-radius: 100%; font-size:8px; background:red;">@ViewBag.Invited</sup>
+                                }
+                                </a>
+                            </li>
                             <li><a href="#">|</a></li>
                             <li><a href="#">切换：</a></li>
                             <li>
@@ -76,11 +84,26 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="#"><img src="/Images/user.jpg" style="margin: -4px 8px 0 0;border-radius: 100%;border: 2px solid #FFF;max-width: 30px;" />匿名</a>
-                                <ul class="sub-menu">
-                                    <li><a href="#">注册 / 登录</a></li>
-                                    <li><a href="#">注销</a></li>
-                                </ul>
+                                @if (ViewBag.UserInfo == null)
+                                {
+                                    <a href="#">
+                                        <img src="/Images/user.jpg" style="margin: -4px 8px 0 0;border-radius: 100%;border: 2px solid #FFF;max-width: 30px;" />
+                                        匿名
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li><a href="#">注册 / 登录</a></li>
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <a href="#">
+                                        <img src="/Images/user.jpg" style="margin: -4px 8px 0 0;border-radius: 100%;border: 2px solid #FFF;max-width: 30px;" />
+                                        @ViewBag.UserInfo.UserName
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li><a href="#" class="exit">注销</a></li>
+                                    </ul>
+                                }
                             </li>
                         </ul>
                     </div>
@@ -154,7 +177,6 @@
     <a href="#top" id="scroll-top"></a>
 
     <!-- script -->
-    <script type='text/javascript' src='/scripts/jquery-1.10.2.min.js'></script>
     <script type='text/javascript' src='/scripts/jflickrfeed.js'></script>
     <script type='text/javascript' src='/scripts/jquery.validate.min.js?ver=1.10.0'></script>
     <script type='text/javascript' src='/scripts/custom.js?ver=1.0'></script>

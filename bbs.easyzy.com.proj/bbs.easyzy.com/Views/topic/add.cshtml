@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "新增话题";
+    ViewBag.Title = "易作业论坛-新增话题";
 }
 <link href="/Content/bbs.css" rel="stylesheet" />
 <script src="/scripts/kindeditor/kindeditor-min.js" charset="utf-8" type="text/javascript"></script>
@@ -77,6 +77,7 @@
             dialogAlert("内容太长了！")
             return false;
         }
+        return true;
     }
 
     $(".submit").on("click", function () {
@@ -91,7 +92,9 @@
             $.post("AddTopic",
                 { title: Title, topic: Topic, topicText: TopicText },
                 function (data) {
-
+                    if (data.status != 0) {
+                        dialogAlert(data.message);
+                    }
                 })
         }
     })

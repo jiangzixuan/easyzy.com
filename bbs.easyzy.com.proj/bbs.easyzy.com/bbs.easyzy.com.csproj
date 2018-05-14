@@ -146,6 +146,7 @@
     <Compile Include="App_Start\LoginFilterAttribute.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\topicController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -193,6 +194,7 @@
     <Content Include="Images\user.png" />
     <Content Include="Images\video-large.png" />
     <Content Include="Images\video.png" />
+    <Content Include="RedisConfig.xml" />
     <Content Include="Scripts\artDialog\css\ui-dialog.css" />
     <Content Include="Scripts\artDialog\dialog-plus-min.js" />
     <Content Include="Scripts\artDialog\dialog.js" />
@@ -201,6 +203,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Log4Net.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\easyzy.common.js" />
@@ -553,6 +556,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\uaredirect.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -573,6 +577,7 @@
     <Content Include="Scripts\kindeditor\plugins\wordimport\wordimport.ashx" />
     <Content Include="Scripts\kindeditor\upload_json.ashx" />
     <Content Include="Scripts\kindeditor\upload_picture.ashx" />
+    <Content Include="Views\Home\LoginTip.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -621,6 +626,7 @@
     <Folder Include="Scripts\kindeditor\attached\wordimport\20140709\20140709160940_9434\" />
     <Folder Include="Scripts\kindeditor\attached\wordimport\20140709\20140709161613_7299\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Common\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

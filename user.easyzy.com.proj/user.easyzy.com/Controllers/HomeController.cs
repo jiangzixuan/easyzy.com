@@ -95,8 +95,9 @@ namespace user.easyzy.com.Controllers
             return B_User.Create(u) > 0 ? "0" : "1";
         }
 
-        public ActionResult Login()
+        public ActionResult Login(string from)
         {
+            ViewBag.From = string.IsNullOrEmpty(from) ? "http://easyzy.com" : HttpUtility.UrlDecode(from);
             return View();
         }
 
@@ -120,7 +121,11 @@ namespace user.easyzy.com.Controllers
                 {
                     dt = DateTime.Now.AddDays(30);
                 }
-                Util.SetCookie(Const.CookieName_User, Const.CookieVluew_UserId, u.Id.ToString(), dt);
+                UserCookieHelper.UserCookieModel m = new UserCookieHelper.UserCookieModel() { _id = u.Id, _ip = ClientUtil.Ip, _timestamp = Util.GetTimeStamp(), _classid = 0, _schoolid = 0 };
+                string uidentity = UserCookieHelper.EncryptUserCookie(m, Util.GetAppSetting("DesKey"));
+                LogHelper.Error("uidentity=" + uidentity);
+                Util.SetCookie("easyzy.user", "useridentity", uidentity, dt);
+                
                 return "0";
             }
             else

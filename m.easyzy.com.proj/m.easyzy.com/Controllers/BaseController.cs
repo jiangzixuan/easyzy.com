@@ -13,17 +13,20 @@ namespace m.easyzy.com.Controllers
     public class BaseController : Controller
     {
         protected int UserId = 0;
-        protected T_User User = null;
+        protected T_User UserInfo = null;
 
         public BaseController()
         {
-            string u = Util.GetCookie(Const.CookieName_User, Const.CookieVluew_UserId);
-            if (!string.IsNullOrEmpty(u))
+            string DesUserModel = Util.GetCookie("easyzy.user", "useridentity");
+            string DesKey = Util.GetAppSetting("DesKey");
+            UserCookieHelper.UserCookieModel u = UserCookieHelper.DescryptUserCookie(DesUserModel, DesKey);
+
+            UserId = u._id;
+            if (UserId != 0)
             {
-                UserId = int.Parse(u);
-                User = B_UserRedis.GetUser(UserId);
+                UserInfo = B_UserRedis.GetUser(UserId);
             }
-            ViewBag.UserInfo = User;
+            ViewBag.UserInfo = UserInfo;
         }
 
         #region 因为路由规则问题未解决，暂将公共方法放这里
@@ -31,7 +34,7 @@ namespace m.easyzy.com.Controllers
         {
             try
             {
-                Util.ClearCookies(Const.CookieName_User);
+                Util.ClearCookies("easyzy.user");
             }
             catch
             { }

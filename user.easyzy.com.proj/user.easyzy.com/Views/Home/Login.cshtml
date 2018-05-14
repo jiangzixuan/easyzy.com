@@ -30,11 +30,11 @@
             </div>
         </div>
         <div class="line">
-            <a href="javascript:void(0)" class="help rempsd unchoose">记住密码</a>
-            <a href="javascript:void(0)" class="help right forpsd">忘记密码？</a>
+            <a href="#" class="help rempsd unchoose">记住密码</a>
+            <a href="#" class="help right forpsd">忘记密码？</a>
         </div>
         <div class="line">
-            <a href="javascript:void(0)" class="submit">登 录</a>
+            <a href="#" class="submit">登 录</a>
         </div>
     </div>
 </div>
@@ -42,6 +42,16 @@
 <script type="text/javascript">
     $(function () {
         $('input').placeholder();
+
+        $("body").bind("keyup", function (event) {
+            if (event.keyCode == 13) {
+                login();
+            }
+        });
+
+        $(".submit").on("click", function () {
+            login();
+        })
     });
 
     $(".rempsd").on("click", function(){
@@ -57,23 +67,37 @@
         dialogAlert("暂未开放找回密码功能，请返回首页（<a style='color:red; border-bottom:1px solid red;' href='http://easyzy.com'>http://easyzy.com</a>）与我们联系重置密码！");
     })
 
-    $(".submit").on("click", function () {
+    var login = function () {
+        if (check()) {
+            window.location.href = "@ViewBag.From";
+        }
+    }
+
+    var check = function () {
         var username = $(".username").val();
         var psd = $(".password").val();
         var isauto = "0";
         if ($(".line .rempsd").hasClass("choose")) {
             isauto = "1";
         }
-
-        $.post("UserLogin",
-            { userName: username, passWord: psd, isAutoLogin: isauto},
-            function (data) {
+        var s = false;
+        $.ajax({
+            type: "post",
+            url: "UserLogin",
+            data: { userName: username, passWord: psd, isAutoLogin: isauto },
+            async: false,
+            success: function (data) {
                 if (data == "0") {
-                    window.location.href = "http://easyzy.com";
+                    s = true;
                 }
                 else {
                     dialogAlert("用户名或密码错误！");
                 }
-            })
-    })
+            },
+            error: function (data) {
+
+            }
+        });
+        return s;
+    }
 </script>

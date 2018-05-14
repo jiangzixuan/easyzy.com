@@ -31,8 +31,9 @@ namespace m.easyzy.com.Controllers
             if (u.Psd == Util.MD5(passWord))
             {
                 DateTime dt = DateTime.Now.AddDays(30);
-                
-                Util.SetCookie(Const.CookieName_User, Const.CookieVluew_UserId, u.Id.ToString(), dt);
+
+                UserCookieHelper.UserCookieModel m = new UserCookieHelper.UserCookieModel() { _id = u.Id, _ip = ClientUtil.Ip, _timestamp = Util.GetTimeStamp(), _classid = 0, _schoolid = 0 };
+                Util.SetCookie("easyzy.user", "useridentity", UserCookieHelper.EncryptUserCookie(m, Util.GetAppSetting("DesKey")), dt);
                 return "0";
             }
             else

@@ -89,13 +89,6 @@ namespace easyzy.sdk
 
         #endregion
 
-        #region Cookie名称
-
-        public static string CookieName_User = "easyzy.user";
-        public static string CookieVluew_UserId = "userid";
-
-        #endregion
-
         /// <summary>
         /// 选择题题型ID集合
         /// </summary>

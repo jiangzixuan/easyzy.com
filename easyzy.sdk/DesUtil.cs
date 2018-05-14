@@ -9,11 +9,6 @@ namespace easyzy.sdk
     /// </summary>
     public class DesUtil
     {
-        /// <summary>
-        /// 加密的key暂写在这里
-        /// </summary>
-        static string key = "qhklN4eijJe10n'UBNkMe";
-
         /// <summary>  
         /// 3DES加密  
         /// base64小细节，当使用get请求时，base64生成字符中有“+”号，  
@@ -22,7 +17,7 @@ namespace easyzy.sdk
         ///  str = str.Replace("+","%2B");  
         //  }  
         /// </summary>  
-        public static string Encrypt3DES_2(string data)
+        public static string Encrypt3DES_2(string data, string key)
         {
             if (string.IsNullOrEmpty(data))
             {
@@ -49,7 +44,7 @@ namespace easyzy.sdk
         /// </summary>  
         /// <returns>解密串</returns>  
         /// <param name="data">加密串</param>  
-        public static string Decrypt3DES_2(string data)
+        public static string Decrypt3DES_2(string data, string key)
         {
             if (string.IsNullOrEmpty(data))
             {

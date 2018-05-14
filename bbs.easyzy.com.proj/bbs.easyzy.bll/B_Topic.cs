@@ -26,6 +26,11 @@ namespace bbs.easyzy.bll
             return model;
         }
 
+        /// <summary>
+        /// 插入话题，返回话题Id
+        /// </summary>
+        /// <param name="topic"></param>
+        /// <returns></returns>
         public static int AddTopic(T_Topic topic)
         {
             object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(BBSConnString),
