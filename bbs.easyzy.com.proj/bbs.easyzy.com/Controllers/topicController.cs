@@ -14,7 +14,7 @@ namespace bbs.easyzy.com.Controllers
             return View();
         }
 
-        [LoginFilterAttribute]
+        //[LoginFilterAttribute]
         public ActionResult add()
         {
             ViewBag.Grades = Const.Grades;
@@ -22,7 +22,7 @@ namespace bbs.easyzy.com.Controllers
             return View();
         }
 
-        [LoginFilterAttribute]
+        //[LoginFilterAttribute]
         public JsonResult AddTopic(string invites, string title, string topic, string topicText, int gradeId, int subjectId)
         {
             topic = HttpUtility.UrlDecode(topic);

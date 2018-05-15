@@ -19,9 +19,7 @@ namespace bbs.easyzy.com
         /// <param name="filterContext"></param>
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            LogHelper.Error(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             string DesUserModel = Util.GetCookie("easyzy.user", "useridentity");
-            LogHelper.Error(DesUserModel);
             if (string.IsNullOrEmpty(DesUserModel))
             {
                 //if (HttpContext.Current.Request.Headers["X-Requested-With"] == "XMLHttpRequest")

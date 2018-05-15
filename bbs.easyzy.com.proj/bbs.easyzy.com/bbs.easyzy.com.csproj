@@ -47,6 +47,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LitJSON">
+      <HintPath>..\..\easyzy.lib\LitJSON.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.8.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -649,6 +652,10 @@
     <ProjectReference Include="..\bbs.easyzy.bll\bbs.easyzy.bll.csproj">
       <Project>{9cc28960-9ddc-4aa4-9283-466dc3b8ca2e}</Project>
       <Name>bbs.easyzy.bll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbs.easyzy.common\bbs.easyzy.common.csproj">
+      <Project>{7c8276ae-ca9b-4a3b-8c24-7ea3986103c6}</Project>
+      <Name>bbs.easyzy.common</Name>
     </ProjectReference>
     <ProjectReference Include="..\bbs.easyzy.model\bbs.easyzy.model.csproj">
       <Project>{061c3101-1704-4bb3-9814-c7dae73aa818}</Project>

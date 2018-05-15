@@ -21,7 +21,8 @@ namespace easyzy.sdk
 
         public enum ImgFunc
         {
-            SubmitAnswer = 0
+            SubmitAnswer = 0,
+            BBSKindEditer = 1
         }
 
         #region 作业编号命名规则

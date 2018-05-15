@@ -4,13 +4,11 @@ using System.Collections;
 using System.Web;
 using System.Collections.Generic;
 using LitJson;
-using jqzy.common;
-using jqzy.model;
-using jqzy.bll;
+using bbs.easyzy.common;
+using easyzy.sdk;
 
 /// <summary>
-/// 修改upload_json.ashx，将图片通过upload.jqzy.zxxk.com上传到服务器
-/// 2016/12/27
+/// 修改upload_json.ashx，将图片通过upload.easyzy.com上传到服务器
 /// </summary>
 public class Upload : IHttpHandler
 {
@@ -24,13 +22,12 @@ public class Upload : IHttpHandler
             showError("No file selected.");
         }
         string result = "";
-        
-        result = FileUploader.UploadToServer(2, imgFile);
-        
+
+        result = FileUploader.UploadToServer(imgFile);
         var r = Newtonsoft.Json.JsonConvert.DeserializeObject<ResponseEntity<List<string>>>(result);
         Hashtable hash = new Hashtable();
         hash["error"] = 0;
-        hash["url"] = r.Data[0];
+        hash["url"] = Util.GetAppSetting("UploadUrlPrefix") + "/" + r.Data[0];
         context.Response.AddHeader("Content-Type", "text/html; charset=UTF-8");
         context.Response.Write(JsonMapper.ToJson(hash));
         context.Response.End();
@@ -61,11 +58,11 @@ public class ResponseEntity<T>
 {
 
     public int Code { get; set; }
-    
+
     public int BussCode { get; set; }
-    
+
     public string Message { get; set; }
-    
+
     public T Data { get; set; }
 
     public ResponseEntity()
@@ -81,7 +78,7 @@ public enum ResponseBussCode
     Success = 1000,
 
     Error = 1001,
- 
+
     Evaluating = 1002,
 
     NoSumbit = 1003

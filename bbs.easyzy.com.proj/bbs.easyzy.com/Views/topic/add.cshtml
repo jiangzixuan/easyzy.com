@@ -82,6 +82,8 @@
 
     $(".submit").on("click", function () {
         if (check()) {
+            var Invites = "";
+
             var Title = $("#title").val();
             var Topic = editor1.html();
             var TopicText = editor1.text();
@@ -89,11 +91,17 @@
             Topic = encodeURI(Topic);
             TopicText = encodeURI(TopicText);
 
+            var GradeId = $("#GradeSelecter").val();
+            var SubjectId = $("#SubjectSelecter").val();
+
             $.post("AddTopic",
-                { title: Title, topic: Topic, topicText: TopicText },
+                { invites: Invites, title: Title, topic: Topic, topicText: TopicText, gradeId: GradeId, subjectId: SubjectId },
                 function (data) {
                     if (data.status != 0) {
                         dialogAlert(data.message);
+                    }
+                    else {
+                        window.location.href = "list";
                     }
                 })
         }

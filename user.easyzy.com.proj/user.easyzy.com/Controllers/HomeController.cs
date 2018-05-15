@@ -123,7 +123,7 @@ namespace user.easyzy.com.Controllers
                 }
                 UserCookieHelper.UserCookieModel m = new UserCookieHelper.UserCookieModel() { _id = u.Id, _ip = ClientUtil.Ip, _timestamp = Util.GetTimeStamp(), _classid = 0, _schoolid = 0 };
                 string uidentity = UserCookieHelper.EncryptUserCookie(m, Util.GetAppSetting("DesKey"));
-                LogHelper.Error("uidentity=" + uidentity);
+                
                 Util.SetCookie("easyzy.user", "useridentity", uidentity, dt);
                 
                 return "0";
