@@ -1,8 +1,19 @@
 ﻿@{
-    ViewBag.Title = "易作业论坛-新增话题";
+    ViewBag.Title = "师生论坛-新增话题";
 }
+<style type="text/css">
+    .add-topic{position:relative;}
+    .suggests {display:none; position:absolute; color:#000000; border-top: 1px solid #e3e3e3; border-left: 1px solid #e3e3e3; border-right: 1px solid #e3e3e3; background:#ffffff; max-height:250px; overflow-y:scroll; }
+    .suggests ul{margin:0;}
+    .suggests li{cursor:pointer; width:200px; padding: 5px 10px; border-bottom:1px solid #e3e3e3;}
+    .suggests li:hover{background:#316dfa; color:#ffffff;}
+
+</style>
 <link href="/Content/bbs.css" rel="stylesheet" />
+<script src="/scripts/jquery.placeholder.min.js" type="text/javascript"></script>
 <script src="/scripts/kindeditor/kindeditor-min.js" charset="utf-8" type="text/javascript"></script>
+<script src="~/Scripts/jquery.caret.js" type="text/javascript"></script>
+
 <div class="container clearfix" style="width:1200px;">
     <!--主内容-->
     <div class="main-content">
@@ -10,7 +21,12 @@
             <table class="table-1 add-topic">
                 <tr>
                     <td class="td-1">邀请回复</td>
-                    <td class="td-2"><input id="title" name="title" class="txt" type="text" placeholder="想邀请谁回答请@他，最多5人" /></td>
+                    <td class="td-2">
+                        <input id="invites" name="invites" class="txt" type="text" placeholder="想邀请谁回答请@他，最多5人（老版本的IE浏览器不支持此功能）" oninput="GetSuggest();" onkeydown="return(keyd());" />
+                        <div class="suggests">
+                            <ul></ul>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <td class="td-1">标题</td>
@@ -46,8 +62,10 @@
                 </tr>
             </table>
         </div>
+        
     </div>
 </div>
+
 <script type="text/javascript">
 
     var editor1;
@@ -60,6 +78,71 @@
         });
         //prettyPrint();
     });
+
+    $(function () {
+        $('input').placeholder();
+    });
+
+    var keyd = function () {
+        if ($("#invites").val().split(" ").length >= 5 && event.keyCode != 8) return false;
+        return true;
+    }
+    
+
+    var GetSuggest = function () {
+        var value = $("#invites").val();
+        var invites = value.substring(value.lastIndexOf(" ") + 1);
+        if (invites == " " || invites == "") {
+            $(".suggests").hide();
+        }
+        if (invites == "@@") {
+            var ca = $("#invites").caret('offset');
+            var l = ca.left - 370 + "px", h = ca.top - 90 + "px";
+            $(".suggests").css("left", l).css("top", h);
+            $(".suggests ul").html("<li data-bind=''> 无 </li>");
+            $(".suggests").show();
+            return false;
+        }
+        if (invites.length > 0 && invites.substring(0, 1) == "@@") {
+            var inv = invites.substring(1);
+            var html = "";
+            $.ajax({
+                type: "post",
+                url: "GetSuggests",
+                data: { invites: inv },
+                async: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            html += "<li data-bind='" + data[i].UserName + "'>" + data[i].UserName + "【" + data[i].TrueName + "】</li>";
+                        }
+                    }
+                    else {
+                        html += "<li data-bind=''> 无 </li>";
+                    }
+                    
+                    $(".suggests").show();
+                    $(".suggests ul").html(html);
+                    $(".suggests li").on("click", function () {
+                        iniSuggestClick($(this));
+                    })
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+    }
+
+    var iniSuggestClick = function (t) {
+        if (t.attr("data-bind") == "") return false;
+        var UserName = t.attr("data-bind");
+        var value = $("#invites").val();
+        value = value.substring(0, value.lastIndexOf(" ") + 1) + UserName + " ";
+        $("#invites").val(value);
+        $("#invites").focus();
+        $(".suggests").hide();
+    }
 
     function check() {
         var Title = $("#title").val();
@@ -82,7 +165,7 @@
 
     $(".submit").on("click", function () {
         if (check()) {
-            var Invites = "";
+            var Invites = $("#invites").val();
 
             var Title = $("#title").val();
             var Topic = editor1.html();

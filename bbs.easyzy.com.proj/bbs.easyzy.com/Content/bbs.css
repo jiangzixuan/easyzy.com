@@ -31,15 +31,15 @@ table{border-collapse:collapse;border-spacing:0}
 .table-1 .td-3{vertical-align:top;}
 .gray1-tr{background:#e7f1fc;}
 .gray2-tr{background:#fff;}
-.btn {-moz-border-radius-topleft: 6px; -moz-border-radius-topright: 6px;-moz-border-radius-bottomleft: 6px; -moz-border-radius-bottomright: 6px; -webkit-border-top-left-radius: 6px; -webkit-border-top-right-radius: 6px; -webkit-border-bottom-left-radius: 6px;-webkit-border-bottom-right-radius: 6px;}
+/*.btn {-moz-border-radius-topleft: 6px; -moz-border-radius-topright: 6px;-moz-border-radius-bottomleft: 6px; -moz-border-radius-bottomright: 6px; -webkit-border-top-left-radius: 6px; -webkit-border-top-right-radius: 6px; -webkit-border-bottom-left-radius: 6px;-webkit-border-bottom-right-radius: 6px;}*/
 
 .main-content .table-con{ overflow:hidden; padding:50px 0;}
 .main-content .detail-title{background:#32ca73; margin-top:10px;color:white; padding:10px 10px 10px 10px; font-size:16px; font-weight:bold; height:21px;}
 .main-content .detail-title a{color:#fff;}
 .main-content .detail-title .btn{padding:5px 10px 5px 10px; background:#f2ac84;}
-.main-content .td-2 .txt{width:500px; height:20px;margin:0;}
+.main-content .td-2 .txt{width:950px; height:20px;margin:0;}
 .main-content .td-2 .rdo{width:15px; height:15px;}
-.main-content .td-2 .btn{width:100px; height:30px; background:#1276BF; color:#fff;}
+.main-content .td-2 .btn{width:100px; height:30px; background:#1276BF; color:#fff; text-shadow:none;}
 .main-content .td-3{text-align:left;}
 .main-content .td-3 .td-top{border-bottom:1px solid #c6e2f7; padding:0 10px 0 10px; font-size:12px;line-height:25px; height:25px;}
 .main-content .td-3 .td-middle{padding:10px 10px 10px 10px;font-size:14px;min-height:235px;clear:both;}

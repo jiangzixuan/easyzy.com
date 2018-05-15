@@ -195,7 +195,7 @@
         if (!CheckCPsd()) return false;
         if (!CheckCheckCode()) return false;
         $.post("RegistUser",
-            { userName: $(".username").val(), passWord: $(".password").val()},
+            { userName: $(".username").val(), passWord: $(".password").val(), token: token, checkCode: $(".checkcode").val()},
             function (data) {
                 if (data == "0") {
                     dialogAlert("注册成功，3秒后自动跳转到登录页！");

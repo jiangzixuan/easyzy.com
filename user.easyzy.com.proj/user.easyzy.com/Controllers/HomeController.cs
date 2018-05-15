@@ -77,8 +77,12 @@ namespace user.easyzy.com.Controllers
         /// <param name="userName"></param>
         /// <param name="passWord"></param>
         /// <returns></returns>
-        public string RegistUser(string userName, string passWord)
+        public string RegistUser(string userName, string passWord, string token, string checkCode)
         {
+            string CorrectCode = B_CheckCodeRedis.GetCheckCode(token);
+            if (checkCode != CorrectCode) return "1";
+            if (IsUserNameExists(userName) == "1") return "1";
+
             T_User u = new T_User()
             {
                 UserName = userName,
