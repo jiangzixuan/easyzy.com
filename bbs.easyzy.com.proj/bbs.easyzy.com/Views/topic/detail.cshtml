@@ -1,8 +1,148 @@
 ﻿
 @{
-    ViewBag.Title = "detail";
+    ViewBag.Title = "师生论坛-话题详情";
 }
 
-<h2>detail</h2>
+<style type="text/css">
+    .td-bottom label{display:inline-block;}
+</style>
+<script src="/scripts/kindeditor/kindeditor-min.js" charset="utf-8" type="text/javascript"></script>
+<div class="container clearfix">
+    <!--主内容-->
+    <div class="main-content">
+        <div class="content2">
+            <div class="table-con">
+                <table class="table-1" style="width:100%; margin-top:10px;">
+                    <tr>
+                        <td class="td-1 td-top">
+                            <p><img class="headpic" src="~/images/no-picture.jpg" alt="头像" /></p>
+                            <p class="name">@ViewBag.TopicInfo.UserName【@ViewBag.TopicInfo.TrueName】</p>
+                            <p>IP：@ViewBag.TopicInfo.Ip</p>
+                        </td>
+                        <td class="td-3">
+                            <div class="td-top td-title">@ViewBag.TopicInfo.Title</div>
+                            <div class="td-top">
+                                发表于: @ViewBag.TopicInfo.CreateDate.ToString("yyyy-MM-dd HH:mm:ss") &nbsp;&nbsp;年级：@ViewBag.TopicInfo.GradeName &nbsp;&nbsp;学科：@ViewBag.TopicInfo.SubjectName
+                            </div>
+                            <div class="td-middle">@Html.Raw(ViewBag.TopicInfo.TopicContent)</div>
+                            <div class="td-bottom">
+                                <div class="left">回复次数：@ViewBag.TopicInfo.ReplyCount</div>
+                                <div class="right good"><a href="javascript:void(0);" onclick="addTopicGoodCount();"><img src="~/images/good.jpg" width="15" height="15" />赞</a>(<label id="good_@(ViewBag.TopicInfo.Id)">@ViewBag.TopicInfo.Good</label>)</div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="replys"></div>
+            <div class="table-con" style="min-height:20px;"><table class="table-1" style="width:100%; border:none;"><tr><td id="pager" class="zypager" style="height:50px; float:right; border:none; margin: 0;"></td></tr></table></div>
+            <div class="table-con">
+                <table class="table-1" style="width:100%; margin-top:10px;">
+                    <tr>
+                        <td class="td-1">回复</td>
+                        <td class="td-2"><textarea id="Reply" name="Reply" style='width:100%;height:300px;visibility:hidden;'></textarea></td>
 
-<div>detail</div>
+                    </tr>
+                    <tr>
+                        <td class="td-2" colspan="2" style="text-align:center;"><input class="btn submit" type="button" value="提交回复" /></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    var editor1;
+    KindEditor.ready(function (K) {
+        editor1 = K.create('#Reply', {
+            cssPath: '/scripts/kindeditor/plugins/code/prettify.css',
+            uploadJson: '/scripts/kindeditor/upload_picture.ashx',
+            fileManagerJson: '/scripts/kindeditor/file_manager_json.ashx',
+            allowFileManager: true
+        });
+        //prettyPrint();
+    });
+
+    function check()
+    {
+        var Reply = editor1.text();
+        if (Reply.length > 8000) {
+            alert("内容太长了！")
+            return false;
+        }
+        else if (trim(Reply).length == 0) {
+            alert("内容不能为空！")
+            return false;
+        }
+
+    }
+
+    function addTopicGoodCount()
+    {
+        var id = @ViewBag.TopicInfo.Id;
+        $.ajax({
+            url: "AddTopicGoodCount",
+            type: "post",
+            async: false,
+            data: { topicId: id, t: new Date().getTime() },
+            success: function (data) {
+                var json = JSON.parse(data);
+                if(json == true)
+                {
+                    var s = "#good_" + id;
+                    var good = $(s).html();
+                    $(s).html(parseInt(good) + 1);
+                }
+            }
+        })
+    }
+
+    function quoto(i, id)
+    {
+        $.ajax({
+            url: "GetReplyById",
+            type: "post",
+            async: false,
+            data: { id: id, t: new Date().getTime() },
+            success: function (json) {
+                var replycontent = json.ReplyContent.replace(new RegExp("<fieldset><legend>", "g"), "[quote=");
+                replycontent = replycontent.replace(new RegExp("</legend>", "g"), "的回复:]<br />");
+                replycontent = replycontent.replace(new RegExp("</fieldset>", "g"), "[/quote]");
+                var s = "[quote=引用" + i + "楼 " + json.UserName + " 的回复:]<br />" + replycontent + "[/quote]";
+                editor1.html(s);
+            }
+        })
+    }
+
+    $(".submit").on("click", function () {
+        $.post("Reply",
+            { topicId: Cur_data.Id, reply: editor1.html() },
+            function (data) {
+                if (data.status != 0) {
+                    dialogAlert(data.message);
+                }
+                else {
+                    window.location.reload();
+                }
+            })
+    })
+
+    var Cur_data = { Id: @ViewBag.TopicInfo.Id, PageSize: 20, PageIndex: 1 }
+
+    function PageClick(PageIndex){
+        $("#pageIndexHidden").val(PageIndex);
+        Cur_data.PageIndex=PageIndex;
+        GetData();
+    }
+    function GetData() {
+        $("#pager").html("");
+        $("tbodybank").html('<tr><td align="center" colspan="3"><img src="/images/wait.gif" /></td></tr>');
+        $.post("GetReplyList", { id: Cur_data.Id, pageSize: Cur_data.PageSize, pageIndex: Cur_data.PageIndex }, function (data) {
+            $("#replys").html(data);
+            if (parseInt($("#PageCountDiv").html()) > 1) {
+                $("#pager").pager({ pagenumber: Cur_data.PageIndex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: PageClick });
+            }
+        });
+    }
+    GetData();
+</script>

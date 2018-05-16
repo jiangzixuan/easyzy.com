@@ -158,6 +158,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="badwords.txt" />
     <Content Include="Content\bbs.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -165,6 +166,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap5152.css" />
     <Content Include="Content\main.css" />
+    <Content Include="Content\jquery.pager.css" />
     <Content Include="Content\responsive.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -177,6 +179,7 @@
     <Content Include="Images\faq-minus.png" />
     <Content Include="Images\faq-plus.png" />
     <Content Include="Images\footer-bg.png" />
+    <Content Include="Images\good.jpg" />
     <Content Include="Images\image-large.png" />
     <Content Include="Images\image.png" />
     <Content Include="Images\li-arrow.png" />
@@ -185,6 +188,7 @@
     <Content Include="Images\logo.jpg" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\main-bg.jpg" />
+    <Content Include="Images\no-picture.jpg" />
     <Content Include="Images\plus-minus.png" />
     <Content Include="Images\question-large.png" />
     <Content Include="Images\quote.png" />
@@ -197,6 +201,7 @@
     <Content Include="Images\user.png" />
     <Content Include="Images\video-large.png" />
     <Content Include="Images\video.png" />
+    <Content Include="Images\waitting.gif" />
     <Content Include="RedisConfig.xml" />
     <Content Include="Scripts\artDialog\css\ui-dialog.css" />
     <Content Include="Scripts\artDialog\dialog-plus-min.js" />
@@ -215,6 +220,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.caret.js" />
+    <Content Include="Scripts\jquery.pager.js" />
     <Content Include="Scripts\jquery.placeholder.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -583,6 +589,8 @@
     <Content Include="Scripts\kindeditor\upload_json.ashx" />
     <Content Include="Scripts\kindeditor\upload_picture.ashx" />
     <Content Include="Views\Home\LoginTip.cshtml" />
+    <Content Include="Views\topic\gettopics.cshtml" />
+    <Content Include="Views\topic\getreplylist.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

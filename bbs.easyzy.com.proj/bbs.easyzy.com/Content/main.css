@@ -226,6 +226,7 @@ form.search-form input.search-btn:hover {
 /* Page - Container --------------------------------------------------------------------------------------------------*/
 .page-container {
   width: 100%;
+  background:#f1f1f1;
 }
 .page-container > .container {
   padding: 40px 35px;
@@ -599,6 +600,7 @@ ul.articles li.article-entry:last-child {
 }
 .main-listing article.hentry {
   margin-bottom: 0;
+  padding-bottom:20px;
 }
 
 .hentry .post-meta {

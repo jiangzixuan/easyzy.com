@@ -1,0 +1,50 @@
+﻿@using bbs.easyzy.model.dto;
+@if (ViewBag.ReplyList != null && ViewBag.ReplyList.Count > 0)
+{
+    int i = 0;
+    foreach (dto_Reply m in ViewBag.ReplyList)
+    {
+        i = i + 1;
+        <div class="table-con">
+            <table class="table-1" style="width:100%;">
+                <tr>
+                    <td class="td-1 td-top">
+                        <p><img class="headpic" src="~/images/no-picture.jpg" alt="头像" /></p>
+                        <p class="name">@m.UserName【@m.TrueName】</p>
+                        <p>IP：@m.Ip</p>
+                    </td>
+
+                    @if (m.Blocked)
+                    {
+                    <td class="td-3">
+                        <div class="td-top">
+                            <div class="left">回复于: @m.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")</div>
+                            <div class="right">@(i)楼</div>
+                        </div>
+                        <div class="td-middle">
+                            <div>该言论有敏感词汇，已被屏蔽！！！</div>
+                        </div>
+                        <div class="td-bottom"></div>
+                    </td>
+                    }
+                    else
+                    {
+                    <td class="td-3">
+                        <div class="td-top">
+                            <div class="left">回复于: @m.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")</div>
+                            <div class="right">@(i)楼</div>
+                        </div>
+                        <div class="td-middle">
+                            <div>@Html.Raw(m.ReplyContent)</div>
+                        </div>
+                        <div class="td-bottom"><a href="javascript:void(0);" onclick="quoto('@i', '@m.Id');">引用</a></div>
+                    </td>
+                    }
+
+                </tr>
+            </table>
+        </div>
+    }
+}
+
+<div style="display:none"><table class="table-1"><tr><td id="PageCountDiv" colspan="3">@ViewBag.PageCount</td></tr></table></div>
