@@ -12,18 +12,17 @@
     .zypager ul.pages li {
         list-style: none;
         float: left;
-        border: 1px solid #32ca73;
+        border: 1px solid #bbbbbb;
         text-decoration: none;
         margin: 0 5px 0 0;
-        padding: 8px;
-        color: #32ca73;
+        padding: 4px 12px;
+        color: #333333;
+        background-color: whitesmoke;
         border-radius: 3px;
     }
 
         .zypager ul.pages li:hover {
-            border: 1px solid #fff;
-            color: #fff;
-            background-color: #32ca73;
+            background-color: #e6e6e6;
         }
 
         .zypager ul.pages li.pgEmpty {
@@ -36,8 +35,6 @@
             }
 
         .zypager ul.pages li.pgCurrent {
-            border: 1px solid #32ca73;
-            color: #fff;
             font-weight: 700;
-            background-color: #32ca73;
+            background-color: #e6e6e6;
         }

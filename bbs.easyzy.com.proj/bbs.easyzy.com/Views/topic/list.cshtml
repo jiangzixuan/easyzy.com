@@ -26,7 +26,7 @@
             <div class="span8 main-listing">
 
                 <div class="topics"></div>
-                <div id="pager" class="pager"></div>
+                <div id="pager" class="zypager"></div>
             </div>
             
             <!-- end of page content -->
@@ -114,7 +114,7 @@
 
     var GetTopics = function () {
         $(".topics").html("<div class='watting'><img src='/images/waitting.gif' />正在加载中...</div>")
-        $.post("gettopics",
+        $.post("/topic/gettopics",
             { gradeId: cur_data.gradeid, subjectId: cur_data.subjectid, pageIndex: cur_data.pageindex, pageSize: cur_data.pagesize },
             function (data) {
                 $(".topics").html(data);

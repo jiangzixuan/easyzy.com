@@ -195,10 +195,10 @@ namespace bbs.easyzy.bll
 
         public static bool HasTopicSetGood(int topicId, int userId)
         {
-            string sql = "select 1 from T_TopicGood where TopicId = @TopicId and UserId = @UserId ";
+            string sql = "select 1 from T_TopicGood where TopicId = @TopicId and UserId = @UserId limit 1";
             var obj = MySqlHelper.ExecuteScalar(Util.GetConnectString(BBSConnString), sql, "@TopicId".ToInt32InPara(topicId), "@UserId".ToInt32InPara(userId));
-
-            return int.Parse(obj.ToString()) > 0;
+            if (obj == null) return false;
+            return true;
         }
     }
 }

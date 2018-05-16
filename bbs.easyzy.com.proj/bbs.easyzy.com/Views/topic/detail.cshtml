@@ -67,11 +67,11 @@
     {
         var Reply = editor1.text();
         if (Reply.length > 8000) {
-            alert("内容太长了！")
+            dialogAlert("内容太长了！")
             return false;
         }
         else if (trim(Reply).length == 0) {
-            alert("内容不能为空！")
+            dialogAlert("内容不能为空！")
             return false;
         }
 
@@ -86,12 +86,13 @@
             async: false,
             data: { topicId: id, t: new Date().getTime() },
             success: function (data) {
-                var json = JSON.parse(data);
-                if(json == true)
-                {
+                if (data.status == "0") {
                     var s = "#good_" + id;
                     var good = $(s).html();
                     $(s).html(parseInt(good) + 1);
+                }
+                else {
+                    dialogAlert(data.message);
                 }
             }
         })
