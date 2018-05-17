@@ -535,23 +535,9 @@ ul.articles .article-entry {
   position: relative;
   border-bottom: 1px solid #f2f2f2;
   padding: 0 0 0 24px;
-  background: url("/images/standard.png") no-repeat 0 3px;
+  background: url("/images/hot.gif") no-repeat -2px 6px;
 }
-ul.articles .article-entry.standard {
-  background: url("/images/standard.png") no-repeat 0 3px;
-}
-ul.articles .article-entry.video {
-  background: url("/images/video.png") no-repeat 0 3px;
-}
-ul.articles .article-entry.image {
-  background: url("/images/image.png") no-repeat 0 3px;
-}
-ul.articles .article-entry.gallery {
-  background: url("/images/image.png") no-repeat 0 3px;
-}
-ul.articles li.article-entry:last-child {
-  border-bottom: 1px solid #f2f2f2;
-}
+
 
 .article-entry > h4 {
   font-size: 13px;
@@ -616,11 +602,17 @@ ul.articles li.article-entry:last-child {
   margin-right: 15px;
   line-height: 22px;
 }
+.hentry .post-meta .grade {
+  background: url("/images/category-icon.png") no-repeat left center;
+}
+.hentry .post-meta .invites {
+  background: url("/images/brotips.png") no-repeat left center;
+}
 .hentry .post-meta .date {
   background: url("/images/calendar-icon.png") no-repeat left center;
 }
 .hentry .post-meta .category {
-  background: url("/images/category-icon.png") no-repeat left center;
+  background: url("/images/gantanhao.png") no-repeat left center;
 }
 .hentry .post-meta .author {
   background: url("/images/user.png") no-repeat left center;
@@ -663,11 +655,10 @@ ul.articles li.article-entry:last-child {
 }
 
 .hentry.type-post .post-title {
-  padding-left: 35px;
-  background: url("/images/standard-large.png") no-repeat 0 3px;
   font-size: 20px;
   line-height: 30px;
 }
+.hentry.type-post .post-title i{padding:2px 4px; color:#395996}
 .hentry.type-post h1.post-title {
   font-size: 26px;
   line-height: 36px;

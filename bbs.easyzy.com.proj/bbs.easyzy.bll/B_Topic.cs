@@ -29,6 +29,21 @@ namespace bbs.easyzy.bll
             return model;
         }
 
+        public static List<dto_Topic> GetTop5Topics(DateTime firstCycleDay)
+        {
+            List<dto_Topic> model = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(BBSConnString),
+                "select Id, UserId, Invites, Title, TopicContent, TopicText, CreateDate, Good, Hit, ReplyCount, GradeId, SubjectId, Deleted, Blocked, Ip from T_Topic where Deleted = 0 and Blocked = 0 and CreateDate > @FirstCycleDay order by ReplyCount desc limit 5"
+                , "@FirstCycleDay".ToDateTimeInPara(firstCycleDay)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    model = MySqlDBHelper.ConvertDataReaderToEntityList<dto_Topic>(dr);
+                }
+            }
+            return model;
+        }
+
         /// <summary>
         /// 获取话题列表
         /// </summary>
@@ -103,7 +118,7 @@ namespace bbs.easyzy.bll
             List<dto_Reply> result = null;
 
             using (var dr = MySqlDBHelper.GetPageReader(Util.GetConnectString(BBSConnString),
-                "Id, UserId, TopicId, ReplyContent, CreateDate, Ip, Blocked",
+                "Id, UserId, TopicId, ReplyContent, CreateDate, Ip, Blocked, Good",
                 "T_Reply where TopicId = @TopicId and Deleted = 0",
                 "CreateDate",
                 pageSize,
@@ -123,8 +138,8 @@ namespace bbs.easyzy.bll
         public static dto_Reply GetReplyById(int id)
         {
             dto_Reply result = null;
-            string sql = "select Id, UserId, TopicId, ReplyContent, CreateDate from T_Reply where Id = @Id ";
-            using (var reader = MySqlHelper.ExecuteReader(Util.GetConnectString(BBSConnString), sql.ToString(), "@Id".ToInt32InPara(id)))//查询数据库
+            string sql = "select Id, UserId, TopicId, ReplyContent, CreateDate, Good from T_Reply where Id = @Id ";
+            using (var reader = MySqlHelper.ExecuteReader(Util.GetConnectString(BBSConnString), sql.ToString(), "@Id".ToInt32InPara(id)))
             {
                 if (reader != null && reader.HasRows)
                 {
@@ -136,7 +151,7 @@ namespace bbs.easyzy.bll
 
         public static int AddReply(T_Reply m)
         {
-            string sql = "insert into T_Reply(Id, UserId, TopicId, ReplyContent, CreateDate, Deleted, Blocked, Ip) values(null, @UserId, @TopicId, @ReplyContent, @CreateDate, @Deleted, @Blocked, @Ip) ";
+            string sql = "insert into T_Reply(Id, UserId, TopicId, ReplyContent, CreateDate, Deleted, Blocked, Ip, Good) values(null, @UserId, @TopicId, @ReplyContent, @CreateDate, @Deleted, @Blocked, @Ip, @Good) ";
             MySqlParameter[] p = new MySqlParameter[]
             {
                 "@UserID".ToInt32InPara(m.UserId),
@@ -145,7 +160,8 @@ namespace bbs.easyzy.bll
                 "@CreateDate".ToDateTimeInPara(m.CreateDate),
                 "@Deleted".ToBitInPara(m.Deleted),
                 "@Blocked".ToBitInPara(m.Blocked),
-                "@Ip".ToVarCharInPara(m.Ip)
+                "@Ip".ToVarCharInPara(m.Ip),
+                "@Good".ToInt32InPara(m.Good)
             };
             int i = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(BBSConnString), sql, p);
             return i;
@@ -199,6 +215,79 @@ namespace bbs.easyzy.bll
             var obj = MySqlHelper.ExecuteScalar(Util.GetConnectString(BBSConnString), sql, "@TopicId".ToInt32InPara(topicId), "@UserId".ToInt32InPara(userId));
             if (obj == null) return false;
             return true;
+        }
+
+        public static bool AddReplyGoodCount(int replyId, int userId)
+        {
+            if (AddReplyGood(replyId, userId))
+            {
+                string sql = "update T_Reply set Good = Good + 1 where Id = @ReplyId";
+                MySqlParameter[] p = new MySqlParameter[]
+                {
+                "@ReplyId".ToInt32InPara(replyId)
+                };
+                int i = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(BBSConnString), sql, p);
+                return i > 0;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private static bool AddReplyGood(int replyId, int userId)
+        {
+            string sql = "insert into T_ReplyGood(ReplyId, UserId, CreateDate) values(@ReplyId, @UserId, @CreateDate) ";
+            MySqlParameter[] p = new MySqlParameter[]
+            {
+                "@ReplyId".ToInt32InPara(replyId),
+                "@UserId".ToInt32InPara(userId),
+                "@CreateDate".ToDateTimeInPara(DateTime.Now)
+            };
+            int i = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(BBSConnString), sql, p);
+            return i > 0;
+        }
+
+        public static bool HasReplySetGood(int replyId, int userId)
+        {
+            string sql = "select 1 from T_ReplyGood where ReplyId = @ReplyId and UserId = @UserId limit 1";
+            var obj = MySqlHelper.ExecuteScalar(Util.GetConnectString(BBSConnString), sql, "@ReplyId".ToInt32InPara(replyId), "@UserId".ToInt32InPara(userId));
+            if (obj == null) return false;
+            return true;
+        }
+
+        public static bool AddActivity(int userId, string func, int val, DateTime firstCycleDay)
+        {
+            string sql = "insert into T_Activity(UserId, ActivityFunc, Value, FirstCycleDay, CreateDate) values(@UserId, @ActivityFunc, @Value, @FirstCycleDay, @CreateDate) ";
+            MySqlParameter[] p = new MySqlParameter[]
+            {
+                "@ActivityFunc".ToVarCharInPara(func),
+                "@UserId".ToInt32InPara(userId),
+                "@Value".ToInt32InPara(val),
+                "@FirstCycleDay".ToDateTimeInPara(firstCycleDay),
+                "@CreateDate".ToDateTimeInPara(DateTime.Now)
+            };
+            int i = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(BBSConnString), sql, p);
+            return i > 0;
+
+        }
+
+        public static Dictionary<int, int> GetTop5Activities(DateTime firstCycleDay)
+        {
+            Dictionary<int, int> d = null;
+            string sql = "select UserId, sum(value) s from T_Activity where FirstCycleDay = @FirstCycleDay group by UserId order by sum(value) desc limit 5 ";
+            using (var reader = MySqlHelper.ExecuteReader(Util.GetConnectString(BBSConnString), sql, "@FirstCycleDay".ToDateTimeInPara(firstCycleDay)))
+            {
+                if (reader != null && reader.HasRows)
+                {
+                    d = new Dictionary<int, int>();
+                    while (reader.Read())
+                    {
+                        d.Add(int.Parse(reader[0].ToString()), int.Parse(reader[1].ToString()));
+                    }
+                }
+            }
+            return d;
         }
     }
 }

@@ -22,7 +22,7 @@
                         <td class="td-3">
                             <div class="td-top td-title">@ViewBag.TopicInfo.Title</div>
                             <div class="td-top">
-                                发表于: @ViewBag.TopicInfo.CreateDate.ToString("yyyy-MM-dd HH:mm:ss") &nbsp;&nbsp;年级：@ViewBag.TopicInfo.GradeName &nbsp;&nbsp;学科：@ViewBag.TopicInfo.SubjectName
+                                发表于: @ViewBag.TopicInfo.CreateDate.ToString("yyyy-MM-dd HH:mm:ss") &nbsp;&nbsp;@ViewBag.TopicInfo.GradeName &nbsp;&nbsp;@ViewBag.TopicInfo.SubjectName &nbsp;&nbsp;邀请：@ViewBag.TopicInfo.Invites
                             </div>
                             <div class="td-middle">@Html.Raw(ViewBag.TopicInfo.TopicContent)</div>
                             <div class="td-bottom">
@@ -98,6 +98,26 @@
         })
     }
 
+    function addReplyGoodCount(rid)
+    {
+        $.ajax({
+            url: "AddReplyGoodCount",
+            type: "post",
+            async: false,
+            data: { replyId: rid, t: new Date().getTime() },
+            success: function (data) {
+                if (data.status == "0") {
+                    var s = "#rgood_" + rid;
+                    var good = $(s).html();
+                    $(s).html(parseInt(good) + 1);
+                }
+                else {
+                    dialogAlert(data.message);
+                }
+            }
+        })
+    }
+
     function quoto(i, id)
     {
         $.ajax({
@@ -123,7 +143,8 @@
                     dialogAlert(data.message);
                 }
                 else {
-                    window.location.reload();
+                    editor1.html("");
+                    GetData();
                 }
             })
     })

@@ -23,5 +23,7 @@ namespace bbs.easyzy.model.entity
         public bool Blocked { get; set; }
 
         public string Ip { get; set; }
+
+        public int Good { get; set; }
     }
 }

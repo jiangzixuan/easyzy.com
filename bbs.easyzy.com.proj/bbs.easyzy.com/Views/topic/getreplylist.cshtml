@@ -37,7 +37,10 @@
                         <div class="td-middle">
                             <div>@Html.Raw(m.ReplyContent)</div>
                         </div>
-                        <div class="td-bottom"><a href="javascript:void(0);" onclick="quoto('@i', '@m.Id');">引用</a></div>
+                        <div class="td-bottom">
+                            <div class="left"><a href="javascript:void(0);" onclick="quoto('@i', '@m.Id');">引用</a></div>
+                            <div class="right good"><a href="javascript:void(0);" onclick="addReplyGoodCount(@m.Id);"><img src="~/images/good.jpg" width="15" height="15" />赞</a>(<label id="rgood_@(@m.Id)">@m.Good</label>)</div>
+                        </div>
                     </td>
                     }
 

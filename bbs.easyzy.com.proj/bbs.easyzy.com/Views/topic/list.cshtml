@@ -6,14 +6,30 @@
 <!-- Start of Search Wrapper -->
 <div class="search-area-wrapper">
     <div class="search-area container">
-        <h3 class="search-header">Have a Question?</h3>
+        @*<h3 class="search-header">Have a Question?</h3>
         <p class="search-tag-line">&nbsp;</p>
 
         <form id="search-form" class="search-form clearfix" method="get" action="#" autocomplete="off">
             <input class="search-term required" type="text" id="s" name="s" placeholder="搜索功能 暂未开放" title="" />
             <input class="search-btn" type="submit" value="搜索" />
             <div id="search-error-container"></div>
-        </form>
+        </form>*@
+        <div class="search-condition search-grade">
+            年级：
+            <a data-bind="0">全部</a>
+            @foreach (var g in ViewBag.AllGrades)
+            {
+            <a data-bind="@g.Key">@g.Value</a>
+            }
+        </div>
+        <div class="search-condition search-subject">
+            学科：
+            <a data-bind="0">全部</a>
+            @foreach (var g in ViewBag.AllSubjects)
+            {
+            <a data-bind="@g.Key">@g.Value</a>
+            }
+        </div>
     </div>
 </div>
 <!-- End of Search Wrapper -->
@@ -21,10 +37,8 @@
 <div class="page-container">
     <div class="container">
         <div class="row">
-
             <!-- start of page content -->
             <div class="span8 main-listing">
-
                 <div class="topics"></div>
                 <div id="pager" class="zypager"></div>
             </div>
@@ -46,19 +60,15 @@
                 </section>
 
                 <section class="widget">
-                    <h3 class="title">天梯</h3>
-                    <ul>
-                        <li><a href="#" title="Lorem ipsum dolor sit amet,">谢霆锋</a><a href="#" class="right">100</a></li>
-                        <li><a href="#" title="Lorem ipsum dolor sit amet,">写力挺</a><a href="#" class="right">60</a></li>
-                        <li><a href="#" title="Lorem ipsum dolor sit amet,">谢长廷</a><a href="#" class="right">40</a></li>
-                        <li><a href="#" title="Lorem ipsum dolor sit amet, ">谢梦</a><a href="#" class="right">20</a></li>
-                        <li><a href="#" title="Lorem ipsum dolor sit amet,">谢大脚</a><a href="#" class="right">10</a></li>
+                    <h3 class="title">本周活跃榜</h3>
+                    <ul class="activities">
+                        
                     </ul>
                 </section>
 
                 <section class="widget">
                     <h3 class="title">本周热门话题</h3>
-                    <ul class="articles">
+                    <ul class="articles hottopics">
                         <li class="article-entry">
                             <h4><a href="single.html">母猪的产后护理</a></h4>
                             <span class="date">25 Feb, 2013 by 赵本山</span>
@@ -98,6 +108,8 @@
 <script type="text/javascript">
     $(function () {
         GetTopics();
+        GetTop5Activities();
+        GetTop5Topics();
     })
 
     var cur_data = {
@@ -121,6 +133,30 @@
                 if (parseInt($("#PageCountDiv").html()) > 1) {
                     $("#pager").pager({ pagenumber: cur_data.pageindex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: PageClick });
                 }
+            })
+    }
+
+    var GetTop5Activities = function () {
+        $.post("/topic/GetTop5Activities",
+            {},
+            function (data) {
+                var html = "";
+                for (var i = 0; i < data.length; i++) {
+                    html += "<li><a href='#'>" + data[i].key + "</a><a href='#' class='right'>" + data[i].value + "</a></li>";
+                }
+                $(".activities").html(html);
+            })
+    }
+
+    var GetTop5Topics = function () {
+        $.post("/topic/GetTop5Topics",
+            {},
+            function (data) {
+                var html = "";
+                for (var i = 0; i < data.length; i++) {
+                    html += "<li class='article-entry'><h4><a href='/topic/detail?id=" + data[i].Id + "'>" + data[i].Title + "</a></h4><span class='date'>" + data[i].CreateDate + " by " + data[i].UserName + "【" + data[i].TrueName + "】</span><span class='comments'>" + data[i].ReplyCount + "</span></li>";
+                }
+                $(".hottopics").html(html);
             })
     }
 </script>

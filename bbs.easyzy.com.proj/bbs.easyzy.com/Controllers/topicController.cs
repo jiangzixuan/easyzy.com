@@ -16,6 +16,8 @@ namespace bbs.easyzy.com.Controllers
     {
         public ActionResult list()
         {
+            ViewBag.AllSubjects = Const.Subjects;
+            ViewBag.AllGrades = Const.Grades;
             return View();
         }
 
@@ -33,11 +35,42 @@ namespace bbs.easyzy.com.Controllers
                     string GradeName = "", SubjectName = "";
                     Const.Grades.TryGetValue(t.GradeId, out GradeName);
                     Const.Subjects.TryGetValue(t.SubjectId, out SubjectName);
+                    t.GradeName = GradeName;
+                    t.SubjectName = SubjectName;
                 }
             }
             ViewBag.List = tl;
             ViewBag.PageCount = Util.GetTotalPageCount(totalCount, pageSize);
             return PartialView();
+        }
+
+        public JsonResult GetTop5Activities()
+        {
+            DateTime FirstCycleDay = DateTime.Now.AddDays(1 - Convert.ToInt32(DateTime.Now.DayOfWeek.ToString("d"))).Date;
+            Dictionary<int, int> d = B_Topic.GetTop5Activities(FirstCycleDay);
+            List<dto_KeyValue> d2 = new List<dto_KeyValue>();
+            if (d != null)
+            {
+                foreach (var s in d)
+                {
+                    T_User t = B_UserRedis.GetUser(s.Key);
+                    d2.Add(new dto_KeyValue() {key= string.Concat(t == null ? "" : string.Concat(t.UserName, "【", t.TrueName, "】")), value=s.Value.ToString() });
+                }
+            }
+            return Json(d2);
+        }
+
+        public JsonResult GetTop5Topics()
+        {
+            DateTime FirstCycleDay = DateTime.Now.AddDays(1 - Convert.ToInt32(DateTime.Now.DayOfWeek.ToString("d"))).Date;
+            List<dto_Topic> tl = B_Topic.GetTop5Topics(FirstCycleDay);
+            foreach (var t in tl)
+            {
+                T_User u = B_UserRedis.GetUser(t.UserId);
+                t.UserName = u == null ? "" : u.UserName;
+                t.TrueName = u == null ? "" : u.TrueName;
+            }
+            return Json(tl);
         }
 
         /// <summary>
@@ -121,6 +154,8 @@ namespace bbs.easyzy.com.Controllers
                 string GradeName = "", SubjectName = "";
                 Const.Grades.TryGetValue(t.GradeId, out GradeName);
                 Const.Subjects.TryGetValue(t.SubjectId, out SubjectName);
+                t.GradeName = GradeName;
+                t.SubjectName = SubjectName;
             }
             ViewBag.TopicInfo = t;
             return View();
@@ -178,6 +213,7 @@ namespace bbs.easyzy.com.Controllers
             m.Deleted = false;
             m.Blocked = false;
             m.Ip = ClientUtil.Ip;
+            m.Good = 0;
             int i = B_Topic.AddReply(m);
             if (i > 0)
             {
@@ -190,10 +226,26 @@ namespace bbs.easyzy.com.Controllers
             }
         }
 
+        [LoginFilterAttribute]
         public JsonResult AddTopicGoodCount(int topicId)
         {
             if (B_Topic.HasTopicSetGood(topicId, this.UserInfo.Id)) return Json(new { status = "1", message = "已经点赞过！", value = 0 });
             bool isOK = B_Topic.AddTopicGoodCount(topicId, this.UserInfo.Id);
+            if (isOK)
+            {
+                return Json(new { status = "0", message = "", value = 0 });
+            }
+            else
+            {
+                return Json(new { status = "1", message = "点赞失败！", value = 0 });
+            }
+        }
+
+        [LoginFilterAttribute]
+        public JsonResult AddReplyGoodCount(int replyId)
+        {
+            if (B_Topic.HasReplySetGood(replyId, this.UserInfo.Id)) return Json(new { status = "1", message = "已经点赞过！", value = 0 });
+            bool isOK = B_Topic.AddReplyGoodCount(replyId, this.UserInfo.Id);
             if (isOK)
             {
                 return Json(new { status = "0", message = "", value = 0 });
