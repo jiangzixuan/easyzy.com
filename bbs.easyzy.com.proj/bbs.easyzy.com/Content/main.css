@@ -565,6 +565,19 @@ ul.articles .article-entry {
   border-bottom: none;
   background: url("/images/like.png") no-repeat 6px 8px;
 }
+
+.article-entry .comments {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  line-height: 18px;
+  font-weight: 600;
+  padding: 6px 5px 3px 25px;
+  border: 1px solid #f2f2f2;
+  border-bottom: none;
+  background: url("/images/comment.png") no-repeat 6px 8px;
+}
+
 .article-entry:hover .like-count {
   background: url("/images/like.png") no-repeat 6px -22px;
   color: #395996;
