@@ -2,7 +2,6 @@
     ViewBag.Title = "师生论坛";
 }
 
-<!-- End of Header -->
 <!-- Start of Search Wrapper -->
 <div class="search-area-wrapper">
     <div class="search-area container">
@@ -15,21 +14,26 @@
             <div id="search-error-container"></div>
         </form>*@
         <div class="search-condition search-grade">
-            年级：
-            <a data-bind="0">全部</a>
+            <b>年级：</b>
+            <a data-bind="0" class="active">全部</a>
             @foreach (var g in ViewBag.AllGrades)
             {
             <a data-bind="@g.Key">@g.Value</a>
             }
         </div>
         <div class="search-condition search-subject">
-            学科：
-            <a data-bind="0">全部</a>
+            <b>学科：</b>
+            <a data-bind="0" class="active">全部</a>
             @foreach (var g in ViewBag.AllSubjects)
             {
             <a data-bind="@g.Key">@g.Value</a>
             }
         </div>
+        <form id="search-form" class="search-form clearfix" method="get" action="#" autocomplete="off">
+            <input class="search-term required" type="text" id="s" name="s" placeholder="搜索功能 暂未开放" title="" />
+            <input class="search-btn" type="submit" value="搜索" />
+            <div id="search-error-container"></div>
+        </form>
     </div>
 </div>
 <!-- End of Search Wrapper -->
@@ -47,9 +51,9 @@
             <!-- start of sidebar -->
             <aside class="span4 page-sidebar">
                 <section>
-                    <div class="add-topic"><a href="topic/add">我要发帖</a></div>
+                    <div class="add-topic"><a href="/topic/add">我要发帖</a></div>
                 </section>
-                <section class="widget">
+                @*<section class="widget">
                     <div class="support-widget">
                         <h2 class="title">三年级 英语</h2>
                         <h3 class="title">本周最佳 王大拿</h3>
@@ -57,7 +61,7 @@
                         <p class="intro">发帖：10 回复：20 被赞：100</p>
 
                     </div>
-                </section>
+                </section>*@
 
                 <section class="widget">
                     <h3 class="title">本周活跃榜</h3>
@@ -104,20 +108,32 @@
         </div>
     </div>
 </div>
-
+<script type="text/javascript" src="/scripts/jquery.cookie.js"></script>
 <script type="text/javascript">
+    var cur_data = {
+        pageindex: 1,
+        pagesize: 10,
+        gradeid: 0,
+        subjectid: 0
+    }
+
     $(function () {
+        var defaultsubject = $.cookie("bbs.easyzy.defaultsubject");
+        var defaultgrade = $.cookie("bbs.easyzy.defaultgrade");
+
+        if (defaultgrade) {
+            cur_data.gradeid = defaultgrade;
+            $(".search-grade a[data-bind=" + defaultgrade + "]").addClass("active").siblings().removeClass("active");
+        }
+        if (defaultsubject) {
+            cur_data.subjectid = defaultsubject;
+            $(".search-subject a[data-bind=" + defaultsubject + "]").addClass("active").siblings().removeClass("active");
+        }
+
         GetTopics();
         GetTop5Activities();
         GetTop5Topics();
     })
-
-    var cur_data = {
-        pageindex : 1,
-        pagesize : 10,
-        gradeid : 0,
-        subjectid : 0
-    }
     
     var PageClick = function(PageIndex) {
         cur_data.pageindex = PageIndex;
@@ -154,9 +170,23 @@
             function (data) {
                 var html = "";
                 for (var i = 0; i < data.length; i++) {
-                    html += "<li class='article-entry'><h4><a href='/topic/detail?id=" + data[i].Id + "'>" + data[i].Title + "</a></h4><span class='date'>" + data[i].CreateDate + " by " + data[i].UserName + "【" + data[i].TrueName + "】</span><span class='comments'>" + data[i].ReplyCount + "</span></li>";
+                    html += "<li class='article-entry'><h4><a href='/topic/detail?id=" + data[i].Id + "'>" + data[i].Title + "</a></h4><span class='date'>" + data[i].CreateDateString + " by " + data[i].UserName + "【" + data[i].TrueName + "】</span><span class='comments'>" + data[i].ReplyCount + "</span></li>";
                 }
                 $(".hottopics").html(html);
             })
     }
+
+    $(".search-grade a").on("click", function () {
+        $(this).addClass("active").siblings().removeClass("active");
+        cur_data.gradeid = $(this).attr("data-bind");
+        $.cookie("bbs.easyzy.defaultgrade", cur_data.gradeid, { expires: 7, path: '/' });
+        GetTopics();
+    })
+
+    $(".search-subject a").on("click", function () {
+        $(this).addClass("active").siblings().removeClass("active");
+        cur_data.subjectid = $(this).attr("data-bind");
+        $.cookie("bbs.easyzy.defaultsubject", cur_data.subjectid, { expires: 7, path: '/' });
+        GetTopics();
+    })
 </script>

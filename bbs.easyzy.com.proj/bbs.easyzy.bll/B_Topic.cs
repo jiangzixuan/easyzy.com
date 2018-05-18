@@ -29,6 +29,20 @@ namespace bbs.easyzy.bll
             return model;
         }
 
+        public static List<dto_Topic> GetTopics(int[] topicIds)
+        {
+            List<dto_Topic> list = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(BBSConnString),
+                "select Id, UserId, Invites, Title, TopicContent, TopicText, CreateDate, Good, Hit, ReplyCount, GradeId, SubjectId, Deleted, Blocked, Ip from T_Topic where Id in (" + string.Join(",", topicIds) + ")"))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    list = MySqlDBHelper.ConvertDataReaderToEntityList<dto_Topic>(dr);
+                }
+            }
+            return list;
+        }
+
         public static List<dto_Topic> GetTop5Topics(DateTime firstCycleDay)
         {
             List<dto_Topic> model = null;
@@ -288,6 +302,69 @@ namespace bbs.easyzy.bll
                 }
             }
             return d;
+        }
+
+        public static bool AddTopicInvites(int topicId, string[] inviteUserName)
+        {
+            if (inviteUserName.Length == 0) return false;
+            string sql = "";
+            foreach (var un in inviteUserName)
+            {
+                sql += string.Format(",({0}, '{1}', '{2}', {3})", topicId, un, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), 0);
+            }
+            sql = "insert into T_Invites(TopicId, InviteUserName, CreateDate, Readed) values " + sql.Substring(1);
+            
+            int i = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(BBSConnString), sql);
+            return i > 0;
+        }
+
+        /// <summary>
+        /// 查询一个月以内被邀请的话题数
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public static int GetInviteCount(string userName)
+        {
+            string sql = "select count(1) from T_Invites where InviteUserName = @InviteUserName and Readed = 0 and CreateDate >= date_sub(curdate(), interval 30 day) ";
+            var i = MySqlHelper.ExecuteScalar(Util.GetConnectString(BBSConnString), sql, "@InviteUserName".ToVarCharInPara(userName));
+            
+            return int.Parse(i.ToString());
+        }
+
+        /// <summary>
+        /// 查询一个月以内被邀请的话题Id
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public static List<int> GetInvites(string userName)
+        {
+            List<int> result = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(BBSConnString),
+                "select TopicId, InviteUserName, CreateDate from T_Invites where InviteUserName = @InviteUserName and Readed = 0 and CreateDate >= date_sub(curdate(), interval 30 day)"
+                , "@InviteUserName".ToVarCharInPara(userName)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    result = new List<int>();
+                    while (dr.Read())
+                    {
+                        result.Add(int.Parse(dr[0].ToString()));
+                    }
+                }
+            }
+            
+            return result;
+        }
+
+        /// <summary>
+        /// 将一个月内的话题都设置为已读
+        /// </summary>
+        /// <param name="userName"></param>
+        public static void ClearInvites(string userName)
+        {
+            MySqlHelper.ExecuteNonQuery(Util.GetConnectString(BBSConnString),
+                "update T_Invites set Readed = 1 where InviteUserName = @InviteUserName and Readed = 0 and CreateDate >= date_sub(curdate(), interval 30 day)",
+                "@InviteUserName".ToVarCharInPara(userName));
         }
     }
 }

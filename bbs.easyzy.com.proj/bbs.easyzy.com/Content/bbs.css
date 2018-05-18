@@ -65,3 +65,8 @@ table.add-topic{width:100%;}
 .watting img{width:100px; height:100px;}
 .readmore-link{margin-left:50px;}
 .td-middle legend{ display: block; padding: 0; width:auto;margin-bottom: 0; font-size: inherit; line-height: inherit; color: inherit; border: 0; border-bottom:none; }
+.search-condition{margin-top:20px;}
+.search-condition a{cursor: pointer; font-size:14px; color:#fff; padding: 5px 10px;}
+.search-condition a.active{color:crimson;}
+.search-condition a:hover{color:crimson;}
+.search-condition b{color:#fff;}

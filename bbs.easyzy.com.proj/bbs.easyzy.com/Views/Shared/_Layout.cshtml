@@ -27,7 +27,6 @@
     <!--[if lt IE 9]>
     <script src="js/html5.js"></script></script>
     <![endif]-->
-
 </head>
 <body>
     <!-- Start of Header -->
@@ -49,14 +48,21 @@
                             <li><a href="http://local.easyzy.com">易作业首页</a></li>
                             <li><a href="http://local.bbs.easyzy.com">论坛首页</a></li>
                             <li><a href="#">|</a></li>
-                            <li><a href="#">被邀请
-                                @if (ViewBag.Invited != 0)
+                            <li><a href="/topic/invites">被邀请
+                                @if (ViewBag.Invites != 0)
                                 {
-                                <sup style="margin: -1px 1px 0px 3px; padding:0 2px; border-radius: 100%; font-size:8px; background:red;">@ViewBag.Invited</sup>
+                                    if (ViewBag.Invites < 10)
+                                    {
+                                        <sup style="margin: -1px 1px 0px 3px; padding:0 4px; border-radius: 100%; font-size:8px; background:red;">@ViewBag.Invites</sup>
+                                    }
+                                    else
+                                    {
+                                        <sup style="margin: -1px 1px 0px 3px; padding:0 1px; border-radius: 100%; font-size:8px; background:red;">@ViewBag.Invites</sup>
+                                    }
                                 }
                                 </a>
                             </li>
-                            <li><a href="#">|</a></li>
+                            @*<li><a href="#">|</a></li>
                             <li><a href="#">切换：</a></li>
                             <li>
                                 <a href="#">年级</a>
@@ -84,7 +90,7 @@
                                     <li><a href="#">数学</a></li>
                                     <li><a href="#">英语</a></li>
                                 </ul>
-                            </li>
+                            </li>*@
                             <li>
                                 @if (ViewBag.UserInfo == null)
                                 {

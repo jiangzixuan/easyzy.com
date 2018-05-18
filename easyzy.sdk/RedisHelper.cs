@@ -18,15 +18,28 @@ namespace easyzy.sdk
     public class RedisHelper
     {
         private const string RedisConfigName = "RedisConfig.xml";
-
+        /// <summary>
+        /// 单实例的RedisClient字典
+        /// </summary>
         private static readonly ConcurrentDictionary<string, IRedisClient> RedisCatelogDictionary;
+
+        /// <summary>
+        /// 缓存池方式的RedisClient字典
+        /// </summary>
+        private static readonly ConcurrentDictionary<string, PooledRedisClientManager>  PoolInstanceDictonary;
 
         static RedisHelper()
         {
             RedisCatelogDictionary = new ConcurrentDictionary<string, IRedisClient>();
 
+            PoolInstanceDictonary = new ConcurrentDictionary<string, PooledRedisClientManager>();
         }
 
+        /// <summary>
+        /// 根据字库类别查询RedisConfig.xml获取各字库的信息
+        /// </summary>
+        /// <param name="catelog"></param>
+        /// <returns></returns>
         private static RedisModel GetRedisModel(string catelog)
         {
             RedisModel r = null;
@@ -55,17 +68,68 @@ namespace easyzy.sdk
 
         public static IRedisClient GetRedisClient(string catelog)
         {
+            #region 单例模式
+            //GetRedisClientBySingle(catelog);
+            #endregion
+
+            #region 集群方式
+            return GetRedisClientByPool(catelog);
+            #endregion
+        }
+
+        /// <summary>
+        /// 单实例方式
+        /// </summary>
+        /// <param name="catelog"></param>
+        /// <returns></returns>
+        private static IRedisClient GetRedisClientBySingle(string catelog)
+        {
             IRedisClient result;
             bool b = RedisCatelogDictionary.TryGetValue(catelog, out result);
             if (!b)
             {
                 RedisModel rm = GetRedisModel(catelog);
-                //单实例方式，PooledRedisClientManager为集群方式
                 result = new RedisClient(rm.Ip, rm.Port, rm.Pwd, rm.Db);
                 RedisCatelogDictionary.TryAdd(catelog, result);
             }
             return result;
         }
+
+        /// <summary>
+        /// 缓存池方式
+        /// </summary>
+        /// <param name="catelog"></param>
+        /// <returns></returns>
+        private static IRedisClient GetRedisClientByPool(string catelog)
+        {
+            PooledRedisClientManager result;
+            bool b = PoolInstanceDictonary.TryGetValue(catelog, out result);
+            if (!b)
+            {
+                result = InitPool(catelog);
+            }
+            return result.GetClient();
+        }
+
+        /// <summary>
+        /// 初始化Pool
+        /// </summary>
+        /// <param name="catelog"></param>
+        /// <returns></returns>
+        private static PooledRedisClientManager InitPool(string catelog)
+        {   
+            int _RedisPoolSize = 10000;
+            int _RedisPoolTimeoutSeconds = 2;
+            RedisModel _rm = GetRedisModel(catelog);
+            PooledRedisClientManager Instance = new PooledRedisClientManager(_RedisPoolSize,
+                                       _RedisPoolTimeoutSeconds,
+                                       new string[] { string.Format("{0}@{1}:{2}", _rm.Pwd, _rm.Ip, _rm.Port) })
+            {
+                ConnectTimeout = 1500
+            };
+            PoolInstanceDictonary.TryAdd(catelog, Instance);
+            return Instance;
+    }
 
         /// <summary>
         /// CacheProject = EasyZy

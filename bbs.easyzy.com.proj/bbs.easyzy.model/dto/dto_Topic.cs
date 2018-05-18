@@ -16,5 +16,7 @@ namespace bbs.easyzy.model.dto
         public string GradeName { get; set; }
 
         public string SubjectName { get; set; }
+
+        public string CreateDateString { get; set; }
     }
 }

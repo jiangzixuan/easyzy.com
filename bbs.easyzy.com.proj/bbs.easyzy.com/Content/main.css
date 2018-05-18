@@ -175,7 +175,7 @@ p.search-tag-line {
 
 form.search-form {
   margin: 40px 0 0;
-  text-align: center;
+  /*text-align: center;*/
 }
 form.search-form .input-common, form.search-form input.search-term, form.search-form input.search-btn {
   font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -231,6 +231,7 @@ form.search-form input.search-btn:hover {
 .page-container > .container {
   padding: 40px 35px;
   background-color: #fff;
+  min-height:500px;
 }
 
 .breadcrumb {

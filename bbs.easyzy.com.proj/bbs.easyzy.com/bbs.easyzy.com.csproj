@@ -225,6 +225,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.caret.js" />
+    <Content Include="Scripts\jquery.cookie.js" />
     <Content Include="Scripts\jquery.pager.js" />
     <Content Include="Scripts\jquery.placeholder.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -596,6 +597,8 @@
     <Content Include="Views\Home\LoginTip.cshtml" />
     <Content Include="Views\topic\gettopics.cshtml" />
     <Content Include="Views\topic\getreplylist.cshtml" />
+    <Content Include="Views\topic\invites.cshtml" />
+    <Content Include="Views\topic\getinvites.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

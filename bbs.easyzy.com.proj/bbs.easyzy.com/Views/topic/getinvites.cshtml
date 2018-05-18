@@ -7,7 +7,7 @@
             <header class="clearfix">
                 <h3 class="post-title">
                     <i>?</i>
-                    <a href="/topic/detail?id=@(t.Id)">@t.Title</a>
+                    <a href="/topic/detail?id=@(t.Id)" target="_blank">@t.Title</a>
                 </h3>
 
                 <div class="post-meta clearfix">
@@ -19,7 +19,7 @@
                     <span class="like-count">@t.Good</span>
                 </div>
             </header>
-            <p>@t.TopicText<a class="readmore-link" href="/topic/detail?id=@(t.Id)">Read more</a></p>
+            <p>@t.TopicText<a class="readmore-link" href="/topic/detail?id=@(t.Id)" target="_blank">Read more</a></p>
         </article>
     }
 }
@@ -32,5 +32,4 @@ else
     </article>
 }
 
-<div style="display:none"><div id="PageCountDiv">@ViewBag.PageCount</div></div>
 

@@ -14,6 +14,11 @@ namespace bbs.easyzy.com.Controllers
 {
     public class topicController : BaseController
     {
+        /// <summary>
+        /// 列表页
+        /// </summary>
+        /// <param name="invites">0：查询全部 1：查询被邀请的</param>
+        /// <returns></returns>
         public ActionResult list()
         {
             ViewBag.AllSubjects = Const.Subjects;
@@ -66,6 +71,7 @@ namespace bbs.easyzy.com.Controllers
             List<dto_Topic> tl = B_Topic.GetTop5Topics(FirstCycleDay);
             foreach (var t in tl)
             {
+                t.CreateDateString = t.CreateDate.ToString("yyyy-MM-dd HH:mm:ss");
                 T_User u = B_UserRedis.GetUser(t.UserId);
                 t.UserName = u == null ? "" : u.UserName;
                 t.TrueName = u == null ? "" : u.TrueName;
@@ -123,6 +129,10 @@ namespace bbs.easyzy.com.Controllers
                 Ip = ClientUtil.Ip
             };
             int i = B_Topic.AddTopic(t);
+            if (i > 0 && !string.IsNullOrEmpty(invites))
+            {
+                B_Topic.AddTopicInvites(i, invites.Split(' '));
+            }
             return Json(new { status = "0", message = "", value = i });
         }
 
@@ -254,6 +264,26 @@ namespace bbs.easyzy.com.Controllers
             {
                 return Json(new { status = "1", message = "点赞失败！", value = 0 });
             }
+        }
+
+        [LoginFilterAttribute]
+        public ActionResult Invites()
+        {
+            return View();
+        }
+
+        [LoginFilterAttribute]
+        public ActionResult GetInvites()
+        {
+            List<int> invites = B_Topic.GetInvites(this.UserInfo.UserName);
+            List<dto_Topic> tl = null;
+            if (invites != null)
+            {
+                tl = B_Topic.GetTopics(invites.ToArray());
+            }
+            B_Topic.ClearInvites(this.UserInfo.UserName);
+            ViewBag.List = tl;
+            return PartialView();
         }
 
         #region 私有方法
