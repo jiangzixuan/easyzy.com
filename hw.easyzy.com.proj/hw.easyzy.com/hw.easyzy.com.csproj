@@ -147,6 +147,7 @@
     <Compile Include="Areas\create\Controllers\selfController.cs" />
     <Compile Include="Areas\create\createAreaRegistration.cs" />
     <Compile Include="Areas\list\Controllers\baseController.cs" />
+    <Compile Include="Areas\list\Controllers\homeController.cs" />
     <Compile Include="Areas\list\Controllers\selfController.cs" />
     <Compile Include="Areas\list\listAreaRegistration.cs" />
     <Compile Include="Areas\submit\Controllers\baseController.cs" />
