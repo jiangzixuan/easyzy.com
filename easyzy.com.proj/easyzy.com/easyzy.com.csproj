@@ -161,6 +161,14 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\banner-bg-home.jpg" />
+    <Content Include="Images\home-img-1.png" />
+    <Content Include="Images\home-img-2.jpg" />
+    <Content Include="Images\home-img-3.jpg" />
+    <Content Include="Images\home-img-4.jpg" />
+    <Content Include="Images\home-img-5.jpg" />
+    <Content Include="Images\home-img-6.jpg" />
+    <Content Include="Images\menu-bg-gallery.png" />
+    <Content Include="Images\menu-bg-home.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">

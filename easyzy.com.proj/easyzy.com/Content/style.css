@@ -27,7 +27,6 @@ body {
 .main-body {
 	float: left;
 	width: 100%;
-	background: url(../images/page-bg.jpg) no-repeat top center;
 	background-size: 100% auto;
 	background-attachment: fixed;
 }
@@ -147,6 +146,18 @@ body {
 .home {
 	background-color: rgba(16, 165, 205, 0.8);
 	background-image: url(../images/menu-bg-home.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+.home2 {
+	background-color: rgba(16, 165, 205, 0.8);
+	background-image: url(../images/home-img-5.jpg);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+.home3 {
+	background-color: rgba(16, 165, 205, 0.8);
+	background-image: url(../images/home-img-6.jpg);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
@@ -291,6 +302,7 @@ body {
 	float: left;
 	width: 100%;
 	padding-left: 15px;
+    padding-top:140px;
 }
 .desc p {
 	line-height: 1.8;
