@@ -42,7 +42,7 @@ a.chart{color:#e91a53;font-weight:bold;width:30px;height:30px;line-height:30px;b
 .header-wrap .head{height:70px;line-height:70px;width:1200px}
 .header-wrap .head .logo{width:50px;height:50px;margin-top:10px}
 .head .logoarea{height:70px;line-height:70px}
-.head .logoarea label{font-size:20px;color:#e91a53}
+.head .logoarea label{font-size:18px;color:#333;}
 .head .right a{padding:0 10px}
 .head .right a:hover{color:red}
 .head .right .facepic{background:url("/Images/ico.png");display:inline-block;width:50px;height:50px;background-position:0 -93px;margin:10px}
@@ -53,6 +53,9 @@ a.chart{color:#e91a53;font-weight:bold;width:30px;height:30px;line-height:30px;b
 .head .uprop ul{margin-bottom:0}
 .head .uprop li{border-bottom:1px dashed #ccc;height:40px;line-height:40px;background:#00aeff;cursor:pointer}
 .head .uprop li a{color:#fff;padding:10px 26px}
+.head .navigate{padding-top:1px; padding-left:50px; font-size:18px;}
+.head .navigate a{padding:5px 10px; color:#333;}
+.head .navigate a:hover{color:#e91a53}
 .topnav{height:40px; background:#e91a53; line-height:40px;color:#fff; margin-top:10px;}
 .topnav-list{width:1200px; margin:auto;}
 .topnav .notice{float:left; }

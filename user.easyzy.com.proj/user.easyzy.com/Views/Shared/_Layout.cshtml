@@ -26,9 +26,16 @@
                         <img src="~/Images/logo.jpg" class="logo left" />
                         <label class="f1">易作业-超级简单、易用的作业平台</label>
                     </div>
+                    <div class="left navigate">
+                        <a href="http://local.easyzy.com">首页</a>
+                        <a href="http://local.easyzy.com/list">查看作业</a>
+                        <a href="http://local.easyzy.com/create/qdb">题库作业</a>
+                        <a href="http://local.hw.easyzy.com/create/self">自传作业</a>
+                        <a href="http://local.bbs.easyzy.com">师生论坛</a>
+                    </div>
                     <div class="right">
                         @*| <a href="javascript:void(0);" onclick="">使用帮助</a> | <a href="javascript:void(0);">更新日志</a>*@
-                        
+
                         <div class="udiv right">
                             <div class="uinfo">
                                 <b class="left">@ViewBag.UserInfo.UserName</b>
@@ -38,24 +45,25 @@
                             <div class="uprop">
                                 <div style="border: 5px solid transparent;border-bottom: 8px solid #00aeff;width: 0;height: 0px;"></div>
                                 <ul>
-                                    <li><a href="http://user.easyzy.com/personal">个人中心</a></li>
+                                    <li><a href="http://local.user.easyzy.com/personal">个人中心</a></li>
                                     <li style="border-bottom:0;"><a href="javascript:void(0);" class="exit">退出登录</a></li>
                                 </ul>
                             </div>
                         </div>
                         <i class="facepic right"></i>
                     </div>
+
+
                 </div>
                 <div class="topnav">
                     <div class="topnav-list">
                         <label class="notice"><img src="/Images/ico2.png"/>各位老师同学好，易作业致力于做全国最简单、易用的作业平台，无需登录即可体验，登录后更可解锁更多功能！快试试吧！</label>
-                        <ul>
-                            <li><a href="http://easyzy.com/zy/query">查看</a></li>
-                            <li><a href="http://easyzy.com/zy/open">答题</a></li>
-                            <li><a href="http://easyzy.com/zy/add">新建</a></li>
-                            <li><a href="http://easyzy.com">首页</a></li>
+                        
+                        @*<ul>
+                            <li><a href="http://local.easyzy.com">易作业首页</a></li>
                             <li>功能导航：</li>
-                        </ul>
+                        </ul>*@
+                        
                     </div>
                 </div>
             </div>
