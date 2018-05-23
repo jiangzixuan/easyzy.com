@@ -54,7 +54,8 @@ namespace easyzy.sdk
             Zy,
             ZyStruct,
             ZyAnswer,
-            CheckCode //验证码
+            CheckCode, //验证码
+            Base
         }
 
         /// <summary>
@@ -148,5 +149,7 @@ namespace easyzy.sdk
         /// 易作业各年级支持的学科字典
         /// </summary>
         public static readonly Dictionary<int, string> GradeSubjects = new Dictionary<int, string> { { 1, "1,2,3" }, { 2, "1,2,3" }, { 3, "1,2,3" }, { 4, "1,2,3" }, { 5, "1,2,3" }, { 6, "1,2,3" }, { 7, "1,2,3,4,5,6,7,8,9" }, { 8, "1,2,3,4,5,6,7,8,9" }, { 9, "1,2,3,4,5,6,7,8,9" }, { 10, "1,2,3,4,5,6,7,8,9" }, { 11, "1,2,3,4,5,6,7,8,9" }, { 12, "1,2,3,4,5,6,7,8,9" } };
+
+
     }
 }

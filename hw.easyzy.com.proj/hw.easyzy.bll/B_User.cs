@@ -19,12 +19,12 @@ namespace hw.easyzy.bll
             Const.DBConnStrNameDic.TryGetValue(Const.DBName.User, out UserConnString);
         }
 
-        public static T_User GetUser(int Id)
+        public static T_User GetUser(int id)
         {
             T_User model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(UserConnString),
                 "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice, Class from T_User where Id = @Id",
-                "@Id".ToInt32InPara(Id)))
+                "@Id".ToInt32InPara(id)))
             {
                 if (dr != null && dr.HasRows)
                 {

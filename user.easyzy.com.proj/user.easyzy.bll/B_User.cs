@@ -14,12 +14,12 @@ namespace user.easyzy.bll
         {
             Const.DBConnStrNameDic.TryGetValue(Const.DBName.User, out UserConnString);
         }
-        public static T_User GetUser(int Id)
+        public static T_User GetUser(int id)
         {
             T_User model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(UserConnString),
-                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice, Class from T_User where Id = @Id",
-                "@Id".ToInt32InPara(Id)))
+                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, ZyPsd, ZyPrice, ProvinceId, CityId, DistrictId, SchoolId, GradeId, ClassId from T_User where Id = @Id",
+                "@Id".ToInt32InPara(id)))
             {
                 if (dr != null && dr.HasRows)
                 {
@@ -33,7 +33,7 @@ namespace user.easyzy.bll
         {
             T_User model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(UserConnString),
-                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice, Class from T_User where UserName = @UserName",
+                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, ZyPsd, ZyPrice, ProvinceId, CityId, DistrictId, SchoolId, GradeId, ClassId from T_User where UserName = @UserName",
                 "@UserName".ToVarCharInPara(userName)))
             {
                 if (dr != null && dr.HasRows)
@@ -52,7 +52,7 @@ namespace user.easyzy.bll
         public static int Create(T_User zy)
         {
             object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(UserConnString),
-                "insert into T_User(Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice, Class) values (null, @UserName, @TrueName, @Psd, @Mobile, @FirstLoginDate, @CreateDate, @Extend1, @ZyPsd, @ZyPrice, @Class); select last_insert_id();",
+                "insert into T_User(Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice, ProvinceId, CityId, DistrictId, SchoolId, GradeId, ClassId) values (null, @UserName, @TrueName, @Psd, @Mobile, @FirstLoginDate, @CreateDate, @Extend1, @ZyPsd, @ZyPrice, @ProvinceId, @CityId, @DistrictId, @SchoolId, @GradeId, @ClassId); select last_insert_id();",
                 "@UserName".ToVarCharInPara(zy.UserName),
                 "@TrueName".ToVarCharInPara(zy.TrueName),
                 "@Psd".ToVarCharInPara(zy.Psd),
@@ -62,7 +62,12 @@ namespace user.easyzy.bll
                 "@Extend1".ToVarCharInPara(zy.Extend1),
                 "@ZyPsd".ToVarCharInPara(zy.ZyPsd),
                 "@ZyPrice".ToInt32InPara(zy.ZyPrice),
-                "@Class".ToVarCharInPara(zy.Class)
+                "@ProvinceId".ToInt32InPara(zy.ProvinceId),
+                "@CityId".ToInt32InPara(zy.CityId),
+                "@DistrictId".ToInt32InPara(zy.DistrictId),
+                "@SchoolId".ToInt32InPara(zy.SchoolId),
+                "@GradeId".ToInt32InPara(zy.GradeId),
+                "@ClassId".ToInt32InPara(zy.ClassId)
                 );
             return o == null ? 0 : int.Parse(o.ToString());
         }
@@ -202,7 +207,7 @@ namespace user.easyzy.bll
         {
             List<T_User> model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(UserConnString),
-                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice, Class from T_User where concat(UserName, TrueName, Class) like '%" + keyWords + "%' limit 20"))
+                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, ZyPsd, ZyPrice, ProvinceId, CityId, DistrictId, SchoolId, GradeId, ClassId from T_User where concat(UserName, TrueName) like '%" + keyWords + "%' limit 20"))
             {
                 if (dr != null && dr.HasRows)
                 {

@@ -18,14 +18,14 @@ namespace hw.easyzy.bll
         /// <summary>
         /// 查询作业
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        public static T_Zy GetZy(int Id)
+        public static T_Zy GetZy(int id)
         {
             T_Zy model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
                 "select Id, UserId, BodyWordPath, BodyHtmlPath, AnswerWordPath, AnswerHtmlPath, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser, Structed from T_Zy where Id = @Id",
-                "@Id".ToInt32InPara(Id)))
+                "@Id".ToInt32InPara(id)))
             {
                 if (dr != null && dr.HasRows)
                 {

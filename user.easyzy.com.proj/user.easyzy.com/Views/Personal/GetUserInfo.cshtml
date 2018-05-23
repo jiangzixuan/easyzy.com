@@ -12,8 +12,87 @@
             <td class=""><a href="javascript:void(0);" class="truenamebtn icoedit" title="修改"></a>@*<label class="cedit">（5位以内。修改后，您提交作业时将会默认使用此姓名）</label>*@</td>
         </tr>
         <tr>
-            <td class="tright">班级信息：</td>
-            <td class="tleft"><b id="ClassB">@ViewBag.UserInfo.Class</b><input class="classinfo" type="text" id="ClassInput" value="" style="display:none" /></td>
+            <td class="tright">学校信息：</td>
+            <td class="tleft">
+                @*<b id="ClassB">@ViewBag.UserInfo.Class</b>
+                <input class="classinfo" type="text" id="ClassInput" value="" style="display:none" />*@
+                省：
+                <select @(ViewBag.UserInfo.ProvinceId == 0 ? "" : "disabled") class="pselecter">
+                    @if (ViewBag.Provinces != null)
+                    {
+                        <option value="0"></option>
+                        foreach (var p in ViewBag.Provinces)
+                        {
+                            <option value="@p.Key">@p.Value</option>
+                        }
+                    }
+                    else
+                    {
+                        <option value="@ViewBag.UserInfo.ProvinceId">@ViewBag.UserInfo.ProvinceName</option>
+                    }
+                </select>
+                市：
+                <select @(ViewBag.UserInfo.CityId == 0 ? "" : "disabled") class="cselecter">
+                    @if (ViewBag.Cities != null)
+                    {
+                        <option value="0"></option>
+                        foreach (var c in ViewBag.Cities)
+                        {
+                            <option value="@c.CityId">@c.CityName</option>
+                        }
+                    }
+                    else
+                    {
+                        <option value="@ViewBag.UserInfo.CityId">@ViewBag.UserInfo.CityName</option>
+                    }
+                </select>
+                区：
+                <select @(ViewBag.UserInfo.DistrictId == 0 ? "" : "disabled") class="cselecter">
+                    @if (ViewBag.Districts != null)
+                    {
+                        <option value="0"></option>
+                        foreach (var c in ViewBag.Districts)
+                        {
+                            <option value="@c.DistrictId">@c.DistrictName</option>
+                        }
+                    }
+                    else
+                    {
+                        <option value="@ViewBag.UserInfo.DistrictId">@ViewBag.UserInfo.DistrictName</option>
+                    }
+                </select>
+                <br/>
+                学校：
+                <select @(ViewBag.UserInfo.SchoolId == 0 ? "" : "disabled") class="cselecter">
+                    @if (ViewBag.Schools != null)
+                    {
+                        <option value="0"></option>
+                        foreach (var c in ViewBag.Schools)
+                        {
+                            <option value="@c.SchoolId">@c.SchoolName</option>
+                        }
+                    }
+                    else
+                    {
+                        <option value="@ViewBag.UserInfo.SchoolId">@ViewBag.UserInfo.SchoolName</option>
+                    }
+                </select>
+                年级：
+                <select @(ViewBag.UserInfo.GradeId == 0 ? "" : "disabled") class="cselecter">
+                    @if (ViewBag.Grades != null)
+                    {
+                        <option value="0"></option>
+                        foreach (var c in ViewBag.Grades)
+                        {
+                            <option value="@c.Key">@c.Value</option>
+                        }
+                    }
+                    else
+                    {
+                        <option value="@ViewBag.UserInfo.GradeId">@ViewBag.UserInfo.GradeName</option>
+                    }
+                </select>
+            </td>
             <td class=""><a href="javascript:void(0);" class="classbtn icoedit" title="修改"></a>@*<label class="cedit">（30位以内。建议格式：XX学校XX年级XX班级）</label>*@</td>
         </tr>
         <tr>

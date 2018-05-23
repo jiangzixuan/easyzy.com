@@ -20,12 +20,12 @@ namespace hw.easyzy.bll
         /// <summary>
         /// 获取作业信息
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        public static T_Zy GetZy(int Id)
+        public static T_Zy GetZy(int id)
         {
             Dictionary<string, string> tempresult = null;
-            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Zy, Id.ToString());
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Zy, id.ToString());
             using (var client = RedisHelper.GetRedisClient(CacheCatalog.Zy.ToString()))
             {
                 if (client != null)
@@ -40,7 +40,7 @@ namespace hw.easyzy.bll
             }
             else
             {
-                result = B_Zy.GetZy(Id);
+                result = B_Zy.GetZy(id);
                 if (result != null)
                 {
                     using (var cl = RedisHelper.GetRedisClient(CacheCatalog.Zy.ToString()))
@@ -59,13 +59,13 @@ namespace hw.easyzy.bll
         /// <summary>
         /// 获取作业结构信息
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="zyId"></param>
         /// <returns></returns>
-        public static List<T_ZyStruct> GetZyStruct(int ZyId)
+        public static List<T_ZyStruct> GetZyStruct(int zyId)
         {
             string tempresult = null;
 
-            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.ZyStruct, ZyId.ToString());
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.ZyStruct, zyId.ToString());
             using (var client = RedisHelper.GetRedisClient(CacheCatalog.ZyStruct.ToString()))
             {
                 if (client != null)
@@ -80,7 +80,7 @@ namespace hw.easyzy.bll
             }
             else
             {
-                result = B_Zy.GetZyStruct(ZyId);
+                result = B_Zy.GetZyStruct(zyId);
                 if (result != null)
                 {
                     using (var cl = RedisHelper.GetRedisClient(CacheCatalog.ZyStruct.ToString()))

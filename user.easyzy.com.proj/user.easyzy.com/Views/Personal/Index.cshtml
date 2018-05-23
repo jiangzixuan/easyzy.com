@@ -38,7 +38,7 @@
 
     var GetUserInfo = function () {
         $(".personal-info").html("<div class='loading' style='text-align:center; padding-top:50px;'><img style='vertical-align: middle;' src='/images/loader.gif'><b>正在查询中……</b></div>");
-        $.post("GetUserInfo",
+        $.post("/personal/GetUserInfo",
             {},
             function (data) {
                 $(".personal-info").html(data);
@@ -64,7 +64,7 @@
 
     var QueryCreatedZy = function () {
         $(".personal-info").html("<div class='loading' style='text-align:center; padding-top:50px;'><img style='vertical-align: middle;' src='/images/loader.gif'><b>正在查询中……</b></div>");
-        $.post("GetCreatedZy",
+        $.post("/personal/GetCreatedZy",
             { pageIndex: Zy_data.PageIndex, pageSize: Zy_data.PageSize },
             function (data) {
                 $(".personal-info").html(data);
@@ -94,7 +94,7 @@
 
     var QuerySubmitedZy = function () {
         $(".personal-info").html("<div class='loading' style='text-align:center; padding-top:50px;'><img style='vertical-align: middle;' src='/images/loader.gif'><b>正在查询中……</b></div>");
-        $.post("GetSubmitedZy",
+        $.post("/personal/GetSubmitedZy",
             { pageIndex: Sub_data.PageIndex, pageSize: Sub_data.PageSize},
             function (data) {
                 $(".personal-info").html(data);
@@ -126,7 +126,7 @@
     
     var QueryRZyData = function () {
         $(".personal-info").html("<div class='loading' style='text-align:center; padding-top:50px;'><img style='vertical-align: middle;' src='/images/loader.gif'><b>正在查询中……</b></div>");
-        $.post("QueryRZy",
+        $.post("/personal/QueryRZy",
             { userId: RZy_data.UserId, pageIndex: RZy_data.PageIndex, pageSize: RZy_data.PageSize },
             function (data) {
                 $(".personal-info").html(data);

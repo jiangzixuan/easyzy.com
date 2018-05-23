@@ -13,13 +13,11 @@ namespace easyzy.sdk
         {
             public int _id { get; set; }
 
+            public string _uname { get; set; }
+
             public string _ip { get; set; }
 
             public long _timestamp { get; set; }
-
-            public int _schoolid { get; set; }
-
-            public int _classid { get; set; }
         }
 
         /// <summary>
@@ -30,7 +28,7 @@ namespace easyzy.sdk
         /// <returns></returns>
         public static string EncryptUserCookie(UserCookieModel cookieModel, string key)
         {
-            return(DesUtil.Encrypt3DES_2(string.Concat(cookieModel._id, "\f", cookieModel._ip, "\f", cookieModel._timestamp, "\f", cookieModel._schoolid, "\f", cookieModel._classid), key));
+            return(DesUtil.Encrypt3DES_2(string.Concat(cookieModel._id, "\f", cookieModel._uname, "\f", cookieModel._ip, "\f", cookieModel._timestamp), key));
         }
 
         /// <summary>
@@ -48,10 +46,9 @@ namespace easyzy.sdk
             string[] ss = s.Split('\f');
 
             u._id = int.Parse(ss[0]);
-            u._ip = ss[1];
-            u._timestamp = long.Parse(ss[2]);
-            u._schoolid = int.Parse(ss[3]);
-            u._classid = int.Parse(ss[4]);
+            u._uname = ss[1];
+            u._ip = ss[2];
+            u._timestamp = long.Parse(ss[3]);
             
             return u;
         }

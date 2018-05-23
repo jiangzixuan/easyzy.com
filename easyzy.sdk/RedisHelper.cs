@@ -63,6 +63,10 @@ namespace easyzy.sdk
                     break;
                 }
             }
+            if (r == null)
+            {
+                LogHelper.Error("RedisConfig.xml文件中未找到catelog:" + catelog);
+            }
             return r;
         }
 
@@ -108,6 +112,7 @@ namespace easyzy.sdk
             {
                 result = InitPool(catelog);
             }
+            if (result == null) return null;
             return result.GetClient();
         }
 
@@ -121,6 +126,7 @@ namespace easyzy.sdk
             int _RedisPoolSize = 10000;
             int _RedisPoolTimeoutSeconds = 2;
             RedisModel _rm = GetRedisModel(catelog);
+            if (_rm == null) return null;
             PooledRedisClientManager Instance = new PooledRedisClientManager(_RedisPoolSize,
                                        _RedisPoolTimeoutSeconds,
                                        new string[] { string.Format("{0}@{1}:{2}", _rm.Pwd, _rm.Ip, _rm.Port) })
