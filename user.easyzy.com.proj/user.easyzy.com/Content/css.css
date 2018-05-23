@@ -101,6 +101,7 @@ a.btn{border:0;border-radius:5px;cursor:pointer;background:royalblue;padding:5px
 .personal-info{width:75%;float:left;margin-left:10px}
 .tab-default .icoedit{width:30px;height:30px;background:url("/Images/v3-bg.png") no-repeat 0 -8px;padding-left:20px}
 .tab-default .icoedit.save{background-position:-31px -8px}
+.tab-default .icoapply{width:30px;height:30px;background:url("/Images/icon_bg.png") no-repeat -51px -261px;padding-left:20px}
 .tab-default td .cedit{font-size:14px;color:red}
 .tab-default .classinfo{width:180px}
 .tab-default .relate{width:80%}
@@ -113,3 +114,8 @@ a.btn{border:0;border-radius:5px;cursor:pointer;background:royalblue;padding:5px
 .foot-wrap{width:100%;min-width:1000px;padding:30px 0;overflow:hidden;background:#333}
 .foot{text-align:center;color:#e4e6ed}
 .foot p{line-height:30px;}
+.tpanal .tselect{border-bottom:1px solid royalblue;}
+.tpanal .tselect .tselect_tip{padding-left:14px; }
+.tpanal .panal_title{color:#ff0000; background:url('/Images/gantanhao.png') no-repeat 3px; padding-left: 22px;}
+.tpanal .short{width: 70px; }
+.tpanal .long{width: 150px; }

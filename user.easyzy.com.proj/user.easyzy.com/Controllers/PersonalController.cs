@@ -79,59 +79,49 @@ namespace user.easyzy.com.Controllers
             return PartialView();
         }
 
-        public string UpdateTrueName(string trueName)
+        public int UpdateTrueName(string trueName)
         {
-            string result = "0";
             if (B_User.UpdateTrueName(UserId, trueName) > 0)
             {
                 B_UserRedis.UpdateTrueName(UserId, trueName);
+                return 0;
             }
-            else
-            {
-                result = "1";
-            }
-
-            return result;
+            return 1;
         }
 
         /// <summary>
-        /// 修改默认作业密码
-        /// </summary>
-        /// <param name="zyPsd"></param>
-        /// <returns></returns>
-        public string UpdateZyPsd(string zyPsd)
-        {
-            string result = "0";
-            if (B_User.UpdateZyPsd(UserId, zyPsd) > 0)
-            {
-                B_UserRedis.UpdateZyPsd(UserId, zyPsd);
-            }
-            else
-            {
-                result = "1";
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// 修改班级信息
+        /// 修改班级信息，【省、市、区、学校】不能修改，【年级、班级】可以修改
         /// </summary>
         /// <param name="userClass"></param>
         /// <returns></returns>
-        public string UpdateUserClass(string userClass)
+        public int UpdateUserClass(int provinceId, int cityId, int districtId, int schoolId, int gradeId, int classId)
         {
-            string result = "0";
-            if (B_User.UpdateClass(UserId, userClass) > 0)
+            dto_User du = B_UserRedis.GetUser(UserId);
+
+            if (B_User.UpdateClass(UserId, (du.ProvinceId == 0 ? provinceId : -1), (du.CityId == 0 ? cityId : -1), (du.DistrictId == 0 ? districtId : -1), (du.SchoolId == 0 ? schoolId : -1), gradeId, classId))
             {
                 B_UserRedis.ReloadUserCache(UserId);
+                return 0;
             }
-            else
-            {
-                result = "1";
-            }
+            return 1;
+        }
 
-            return result;
+        public JsonResult GetCites(int provinceId)
+        {
+            List<T_City> cl = B_BaseRedis.GetCities(provinceId);
+            return Json(cl);
+        }
+
+        public JsonResult GetDistricts(int cityId)
+        {
+            List<T_District> dl = B_BaseRedis.GetDistricts(cityId);
+            return Json(dl);
+        }
+
+        public JsonResult GetSchools(int districtId)
+        {
+            List<T_School> sl = B_BaseRedis.GetSchools(districtId);
+            return Json(sl);
         }
 
         public ActionResult GetCreatedZy(int pageIndex, int pageSize)

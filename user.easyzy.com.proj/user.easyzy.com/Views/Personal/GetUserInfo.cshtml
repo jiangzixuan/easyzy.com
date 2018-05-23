@@ -8,98 +8,116 @@
         </tr>
         <tr>
             <td class="tright">真实姓名：</td>
-            <td class="tleft"><b id="TrueNameB">@ViewBag.UserInfo.TrueName</b><input type="text" id="TrueNameInput" value="" style="display:none" /></td>
-            <td class=""><a href="javascript:void(0);" class="truenamebtn icoedit" title="修改"></a>@*<label class="cedit">（5位以内。修改后，您提交作业时将会默认使用此姓名）</label>*@</td>
+            <td class="tleft"><input type="text" id="TrueNameInput" value="@ViewBag.UserInfo.TrueName" /></td>
+            <td class=""><a href="javascript:void(0);" class="truenamebtn icoedit save" title="保存"></a>@*<label class="cedit">（5位以内。修改后，您提交作业时将会默认使用此姓名）</label>*@</td>
         </tr>
         <tr>
             <td class="tright">学校信息：</td>
             <td class="tleft">
                 @*<b id="ClassB">@ViewBag.UserInfo.Class</b>
                 <input class="classinfo" type="text" id="ClassInput" value="" style="display:none" />*@
-                省：
-                <select @(ViewBag.UserInfo.ProvinceId == 0 ? "" : "disabled") class="pselecter">
-                    @if (ViewBag.Provinces != null)
-                    {
-                        <option value="0"></option>
-                        foreach (var p in ViewBag.Provinces)
-                        {
-                            <option value="@p.Key">@p.Value</option>
-                        }
-                    }
-                    else
-                    {
-                        <option value="@ViewBag.UserInfo.ProvinceId">@ViewBag.UserInfo.ProvinceName</option>
-                    }
-                </select>
-                市：
-                <select @(ViewBag.UserInfo.CityId == 0 ? "" : "disabled") class="cselecter">
-                    @if (ViewBag.Cities != null)
-                    {
-                        <option value="0"></option>
-                        foreach (var c in ViewBag.Cities)
-                        {
-                            <option value="@c.CityId">@c.CityName</option>
-                        }
-                    }
-                    else
-                    {
-                        <option value="@ViewBag.UserInfo.CityId">@ViewBag.UserInfo.CityName</option>
-                    }
-                </select>
-                区：
-                <select @(ViewBag.UserInfo.DistrictId == 0 ? "" : "disabled") class="cselecter">
-                    @if (ViewBag.Districts != null)
-                    {
-                        <option value="0"></option>
-                        foreach (var c in ViewBag.Districts)
-                        {
-                            <option value="@c.DistrictId">@c.DistrictName</option>
-                        }
-                    }
-                    else
-                    {
-                        <option value="@ViewBag.UserInfo.DistrictId">@ViewBag.UserInfo.DistrictName</option>
-                    }
-                </select>
-                <br/>
-                学校：
-                <select @(ViewBag.UserInfo.SchoolId == 0 ? "" : "disabled") class="cselecter">
-                    @if (ViewBag.Schools != null)
-                    {
-                        <option value="0"></option>
-                        foreach (var c in ViewBag.Schools)
-                        {
-                            <option value="@c.SchoolId">@c.SchoolName</option>
-                        }
-                    }
-                    else
-                    {
-                        <option value="@ViewBag.UserInfo.SchoolId">@ViewBag.UserInfo.SchoolName</option>
-                    }
-                </select>
-                年级：
-                <select @(ViewBag.UserInfo.GradeId == 0 ? "" : "disabled") class="cselecter">
-                    @if (ViewBag.Grades != null)
-                    {
-                        <option value="0"></option>
-                        foreach (var c in ViewBag.Grades)
-                        {
-                            <option value="@c.Key">@c.Value</option>
-                        }
-                    }
-                    else
-                    {
-                        <option value="@ViewBag.UserInfo.GradeId">@ViewBag.UserInfo.GradeName</option>
-                    }
-                </select>
+                <div class="tpanal">
+                    <p class="panal_title">省、市、区、学校 设置之后不能修改，请谨慎选择！</p>
+                    
+                    <div class="tselect">
+                        <label class="tselect_tip">省：</label>
+                        <select @(ViewBag.UserInfo.ProvinceId == 0 ? "" : "disabled") class="pselecter short">
+                            @if (ViewBag.Provinces != null)
+                            {
+                                <option value="0"></option>
+                                foreach (var p in ViewBag.Provinces)
+                                {
+                                    <option value="@p.Key">@p.Value</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="@ViewBag.UserInfo.ProvinceId">@ViewBag.UserInfo.ProvinceName</option>
+                            }
+                        </select>
+                        <label class="tselect_tip">市：</label>
+                        <select @(ViewBag.UserInfo.CityId == 0 ? "" : "disabled") class="cselecter short">
+                            @if (ViewBag.Cities != null)
+                            {
+                                <option value="0"></option>
+                                foreach (var c in ViewBag.Cities)
+                                {
+                                    <option value="@c.CityId">@c.CityName</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="@ViewBag.UserInfo.CityId">@ViewBag.UserInfo.CityName</option>
+                            }
+                        </select>
+                        &nbsp;&nbsp;区：
+                        <select @(ViewBag.UserInfo.DistrictId == 0 ? "" : "disabled") class="dselecter long">
+                            @if (ViewBag.Districts != null)
+                            {
+                                <option value="0"></option>
+                                foreach (var c in ViewBag.Districts)
+                                {
+                                    <option value="@c.DistrictId">@c.DistrictName</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="@ViewBag.UserInfo.DistrictId">@ViewBag.UserInfo.DistrictName</option>
+                            }
+                        </select>
+                        &nbsp;&nbsp;学校：
+                        <select @(ViewBag.UserInfo.SchoolId == 0 ? "" : "disabled") class="sselecter long">
+                            @if (ViewBag.Schools != null)
+                            {
+                                <option value="0"></option>
+                                foreach (var c in ViewBag.Schools)
+                                {
+                                    <option value="@c.SchoolId">@c.SchoolName</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="@ViewBag.UserInfo.SchoolId">@ViewBag.UserInfo.SchoolName</option>
+                            }
+                        </select>
+                    </div>
+                    <div>
+                        年级：
+                        <select @(ViewBag.UserInfo.GradeId == 0 ? "" : "disabled") class="gselecter short">
+                            @if (ViewBag.Grades != null)
+                            {
+                                <option value="0"></option>
+                                foreach (var c in ViewBag.Grades)
+                                {
+                                    <option value="@c.Key">@c.Value</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="@ViewBag.UserInfo.GradeId">@ViewBag.UserInfo.GradeName</option>
+                            }
+                        </select>
+                        班级：
+                        <select @(ViewBag.UserInfo.ClassId == 0 ? "" : "disabled") class="clsselecter short">
+                            @if (ViewBag.UserInfo.ClassId == 0)
+                            {
+                                <option value="0"></option>
+                                for (int i = 1; i < 100; i++)
+                                {
+                                    <option value=@i>@(i)班</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="@ViewBag.UserInfo.ClassId">@ViewBag.UserInfo.ClassName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
             </td>
-            <td class=""><a href="javascript:void(0);" class="classbtn icoedit" title="修改"></a>@*<label class="cedit">（30位以内。建议格式：XX学校XX年级XX班级）</label>*@</td>
+            <td class=""><a href="javascript:void(0);" class="classbtn icoedit save" title="保存"></a><a href="javascript:void(0);" class="applybtn icoapply" title="提交修改申请"></a></td>
         </tr>
-        <tr>
-            <td class="tright">作业密码：</td>
-            <td class="tleft"><b id="ZyPsdB">@ViewBag.UserInfo.ZyPsd</b><input type="text" id="ZyPsdInput" value="" style="display:none" /></td>
-            <td class=""><a href="javascript:void(0);" class="zypsdbtn icoedit" title="修改"></a>@*<label class="cedit">（6位数字。修改后，只有知道此密码的人才能打开/查看您新建的作业）</label>*@</td>
-        </tr>
+        
         <tr>
             <td class="tright">作业收费：</td>
             <td class="tleft">0元</td>
@@ -158,144 +176,102 @@
 
 <script type="text/javascript">
     $(".truenamebtn").on("click", function () {
-        if ($(this).hasClass("save")) {
-            SaveTrueName();
-        }
-        else {
-            ShowTrueNameInput();
-        }
-    })
-
-    var ShowTrueNameInput = function () {
-        $(".truenamebtn").addClass("save");
-        $("#TrueNameInput").val($("#TrueNameB").html());
-        $("#TrueNameInput").show();
-        $("#TrueNameB").hide();
-
-        $(".tab-default .icoedit.save").hover(function () {
-            $(this).attr("title", "保存");
-        }, function () {
-            $(this).attr("title", "修改");
-        })
-    }
-
-    var SaveTrueName = function () {
         var truename = $("#TrueNameInput").val();
         if (truename.length > 5) {
             dialogAlert("真实姓名长度不能大于5！");
             return;
         }
 
-        $.post("UpdateTrueName",
+        $.post("/personal/UpdateTrueName",
             { trueName: truename },
             function (data) {
                 if (data == "0") {
-                    $("#TrueNameB").html(truename);
-                    $("#TrueNameB").show();
-                    $(".truenamebtn").removeClass("save");
-                    $("#TrueNameInput").hide();
+                    dialogAlert("修改成功！");
                 }
                 else {
                     dialogAlert("修改失败！");
                 }
             })
-    }
-
-    //作业密码修改
-    $(".zypsdbtn").on("click", function () {
-        if ($(this).hasClass("save")) {
-            SaveZyPsd();
-        }
-        else {
-            ShowZyPsdInput();
-        }
     })
 
-    var ShowZyPsdInput = function () {
-        $(".zypsdbtn").addClass("save");
-        $("#ZyPsdInput").val($("#ZyPsdB").html());
-        $("#ZyPsdInput").show();
-        $("#ZyPsdB").hide();
-
-        $(".tab-default .icoedit.save").hover(function () {
-            $(this).attr("title", "保存");
-        }, function () {
-            $(this).attr("title", "修改");
-        })
-    }
-
-    var SaveZyPsd = function () {
-        var zypsd = trim($("#ZyPsdInput").val());
-        if (zypsd != "") {
-            if (zypsd.length != 6) {
-                dialogAlert("作业密码长度必须等于6！");
-                return;
-            }
-            if (!isNumber(zypsd)) {
-                dialogAlert("作业密码必须全部为数字！");
-                return;
-            }
+    $(".pselecter").on("change", function () {
+        $("dselecter").html("");
+        $("sselecter").html("");
+        var pid = $(this).val();
+        if (pid == 0) {
+            $("cselecter").html("");
+            return;
         }
-
-        $.post("UpdateZyPsd",
-            { zyPsd: zypsd },
+        var html = "";
+        $.post("/personal/GetCites",
+            { provinceId: pid},
             function (data) {
-                if (data == "0") {
-                    $("#ZyPsdB").html(zypsd);
-                    $("#ZyPsdB").show();
-                    $(".zypsdbtn").removeClass("save");
-                    $("#ZyPsdInput").hide();
+                for (var i = 0; i < data.length; i++) {
+                    html += "<option value='" + data[i].CityId + "'>" + data[i].CityName + "</option>";
                 }
-                else {
-                    dialogAlert("修改失败！");
-                }
+                $("cselecter").html(html);
             })
-    }
+    })
+
+    $(".cselecter").on("change", function () {
+        $("sselecter").html("");
+        var cid = $(this).val();
+        if (cid == 0) {
+            $("dselecter").html("");
+            return;
+        }
+        var html = "";
+        $.post("/personal/GetDistricts",
+            { cityId: cid },
+            function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    html += "<option value='" + data[i].DistrictId + "'>" + data[i].DistrictName + "</option>";
+                }
+                $("dselecter").html(html);
+            })
+    })
+
+    $(".dselecter").on("change", function () {
+        var did = $(this).val();
+        if (did == 0) {
+            $("sselecter").html("");
+            return;
+        }
+        var html = "";
+        $.post("/personal/GetSchools",
+            { districtId: did },
+            function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    html += "<option value='" + data[i].SchoolId + "'>" + data[i].SchoolName + "</option>";
+                }
+                $("sselecter").html(html);
+            })
+    })
 
     //班级修改
     $(".classbtn").on("click", function () {
-        if ($(this).hasClass("save")) {
-            SaveClass();
-        }
-        else {
-            ShowClassInput();
-        }
-    })
+        var pid = $(".pselecter").val();
+        var cid = $(".cselecter").val();
+        var did = $(".dselecter").val();
+        var sid = $(".sselecter").val();
+        var gid = $(".gselecter").val();
+        var clsid = $(".clsselecter").val();
 
-    var ShowClassInput = function () {
-        $(".classbtn").addClass("save");
-        $("#ClassInput").val($("#ClassB").html());
-        $("#ClassInput").show();
-        $("#ClassB").hide();
-
-        $(".tab-default .icoedit.save").hover(function () {
-            $(this).attr("title", "保存");
-        }, function () {
-            $(this).attr("title", "修改");
-        })
-    }
-
-    var SaveClass = function () {
-        var userClass = trim($("#ClassInput").val());
-        if (userClass != "" && userClass.length > 30) {
-            dialogAlert("班级长度必须不能大于30！");
-            return;
-        }
-
-        $.post("UpdateUserClass",
-            { userClass: userClass },
+        $.post("/personal/UpdateUserClass",
+            { provinceId: pid, cityId: cid, districtId: did, schoolId: sid, gradeId: gid, classId: clsid },
             function (data) {
                 if (data == "0") {
-                    $("#ClassB").html(userClass);
-                    $("#ClassB").show();
-                    $(".classbtn").removeClass("save");
-                    $("#ClassInput").hide();
+                    if (pid != 0) $(".pselecter").attr("disabled", true);
+                    if (cid != 0) $(".cselecter").attr("disabled", true);
+                    if (did != 0) $(".dselecter").attr("disabled", true);
+                    if (sid != 0) $(".sselecter").attr("disabled", true);
+                    dialogAlert("修改成功！");
                 }
                 else {
                     dialogAlert("修改失败！");
                 }
             })
-    }
+    })
 
     //添加关注
     var AddRelate = function () {
@@ -315,7 +291,7 @@
         var html = "";
         $("#tbody2").html("<div><img style='vertical-align: middle;' src='/images/loader.gif'><b>正在查询中……</b></div>");
         var keywords = $("#keywords").val();
-        $.post("SearchUser",
+        $.post("/personal/SearchUser",
             { keyWords: keywords },
             function (json) {
                 if (json.length != 0) {
@@ -332,7 +308,7 @@
 
     var relate = function (userid, username, truename)
     {
-        $.post("Relate",
+        $.post("/personal/Relate",
             { userId: userid },
             function (data) {
                 if (data == "") {
@@ -357,7 +333,7 @@
     }
 
     var CancelRelateOK = function () {
-        $.post("CancelRelate",
+        $.post("/personal/CancelRelate",
             { userId: Cancel_Data.UserId },
             function (data) {
                 if (data == "") {

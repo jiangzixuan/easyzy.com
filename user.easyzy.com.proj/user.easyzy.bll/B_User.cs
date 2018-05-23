@@ -105,19 +105,50 @@ namespace user.easyzy.bll
         }
 
         /// <summary>
-        /// 修改班级
+        /// 修改班级，【省、市、区、学校】如果传-1，则不修改
         /// </summary>
         /// <param name="userId"></param>
-        /// <param name="userClass"></param>
+        /// <param name="provinceId"></param>
+        /// <param name="cityId"></param>
+        /// <param name="districtId"></param>
+        /// <param name="schoolId"></param>
+        /// <param name="gradeId"></param>
+        /// <param name="classId"></param>
         /// <returns></returns>
-        public static int UpdateClass(int userId, string userClass)
+        public static bool UpdateClass(int userId, int provinceId, int cityId, int districtId, int schoolId, int gradeId, int classId)
         {
-            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString),
-                "update T_User set Class = @Class where Id = @UserId",
-                "@UserId".ToInt32InPara(userId),
-                "@Class".ToVarCharInPara(userClass)
-                );
-            return o == null ? 0 : int.Parse(o.ToString());
+            string sql = "";
+            List<MySqlParameter> pl = new List<MySqlParameter>();
+            
+            if (provinceId != -1)
+            {
+                sql += ", ProvinceId = @ProvinceId";
+                pl.Add(new MySqlParameter("@ProvinceId", provinceId));
+            }
+
+            if (cityId != -1)
+            {
+                sql += ", CityId = @CityId";
+                pl.Add(new MySqlParameter("@CityId", cityId));
+            }
+
+            if (districtId != -1)
+            {
+                sql += ", DistrictId = @DistrictId";
+                pl.Add(new MySqlParameter("@DistrictId", districtId));
+            }
+
+            if (schoolId != -1)
+            {
+                sql += ", SchoolId = @SchoolId";
+                pl.Add(new MySqlParameter("@SchoolId", schoolId));
+            }
+
+            sql = "update T_User set " + sql.Substring(1) + " where Id = @UserId";
+            pl.Add(new MySqlParameter("@UserId", userId));
+
+            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString), sql, pl.ToArray());
+            return o == null ? false : true;
         }
 
         /// <summary>
