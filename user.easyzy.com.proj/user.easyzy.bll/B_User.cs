@@ -144,11 +144,15 @@ namespace user.easyzy.bll
                 pl.Add(new MySqlParameter("@SchoolId", schoolId));
             }
 
+            sql += ", GradeId = @GradeId, ClassId = @ClassId";
+            pl.Add(new MySqlParameter("@GradeId", gradeId));
+            pl.Add(new MySqlParameter("@ClassId", classId));
+
             sql = "update T_User set " + sql.Substring(1) + " where Id = @UserId";
             pl.Add(new MySqlParameter("@UserId", userId));
 
-            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString), sql, pl.ToArray());
-            return o == null ? false : true;
+            int i = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString), sql, pl.ToArray());
+            return i > 0;
         }
 
         /// <summary>

@@ -20,7 +20,7 @@ a.btn{border:0;border-radius:5px;cursor:pointer;background:royalblue;padding:5px
 .tab-default tr td.tright{text-align:right}
 .tab-default tr td a{color:#00aeff}
 .tab-default tr td a:hover{color:#333}
-.tab-default tr td select{width:90px;height:24px;border:solid 1px #dfdfdf;padding-left:14px}
+.tab-default tr td select{width:90px;height:24px;border:solid 1px #dfdfdf;padding-left:2px}
 .tab-default select,.tab-default input{width:70px;height:22px;border:1px solid #dfdfdf;background:#f4f4f4}
 .fixed{position:fixed;top:500px;right:250px}
 .topfixed{position:fixed;right:20px;bottom:200px;width:50px}

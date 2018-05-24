@@ -145,7 +145,7 @@ namespace easyzy.sdk
         /// <returns></returns>
         public static string GetEasyZyRedisKey(CacheCatalog cc, string key)
         {
-            return "C_" + CacheProject.EasyZy + "_" + cc + "_" + key;
+            return "C_" + (int)CacheProject.EasyZy + "_" + (int)cc + "_" + key;
         }
 
         public static T ConvertDicToEntitySingle<T>(Dictionary<string, string> dic) where T : new()

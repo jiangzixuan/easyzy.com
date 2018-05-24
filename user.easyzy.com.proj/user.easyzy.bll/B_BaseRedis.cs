@@ -44,6 +44,7 @@ namespace user.easyzy.bll
                 {
                     using (var cl = RedisHelper.GetRedisClient(CacheCatalog.Base.ToString()))
                     {
+                        LogHelper.Error("4" + cl.Host);
                         if (cl != null)
                         {
                             cl.Set<string>(key, JsonConvert.SerializeObject(result), ts);

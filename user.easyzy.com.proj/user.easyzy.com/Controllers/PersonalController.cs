@@ -47,11 +47,8 @@ namespace user.easyzy.com.Controllers
                 ViewBag.Schools = B_BaseRedis.GetSchools(UserInfo.DistrictId);
             }
 
-            if (UserInfo.GradeId == 0)
-            {
-                ViewBag.Grades = Const.Grades;
-            }
-
+            ViewBag.Grades = Const.Grades;
+            
             //关注列表
             List<dto_RelateUser> list = B_User.GetRelateUser(UserId);
             if (list != null)

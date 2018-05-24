@@ -83,33 +83,19 @@
                     </div>
                     <div>
                         年级：
-                        <select @(ViewBag.UserInfo.GradeId == 0 ? "" : "disabled") class="gselecter short">
-                            @if (ViewBag.Grades != null)
+                        <select class="gselecter short">
+                            <option value="0"></option>
+                            @foreach (var c in ViewBag.Grades)
                             {
-                                <option value="0"></option>
-                                foreach (var c in ViewBag.Grades)
-                                {
-                                    <option value="@c.Key">@c.Value</option>
-                                }
-                            }
-                            else
-                            {
-                                <option value="@ViewBag.UserInfo.GradeId">@ViewBag.UserInfo.GradeName</option>
+                                <option value="@c.Key">@c.Value</option>
                             }
                         </select>
                         班级：
-                        <select @(ViewBag.UserInfo.ClassId == 0 ? "" : "disabled") class="clsselecter short">
-                            @if (ViewBag.UserInfo.ClassId == 0)
+                        <select class="clsselecter short">
+                            <option value="0"></option>
+                            @for (int i = 1; i < 100; i++)
                             {
-                                <option value="0"></option>
-                                for (int i = 1; i < 100; i++)
-                                {
-                                    <option value=@i>@(i)班</option>
-                                }
-                            }
-                            else
-                            {
-                                <option value="@ViewBag.UserInfo.ClassId">@ViewBag.UserInfo.ClassName</option>
+                                <option value=@i>@(i)班</option>
                             }
                         </select>
                     </div>
@@ -175,6 +161,16 @@
 </div>
 
 <script type="text/javascript">
+    $(function () {
+        if ("@ViewBag.UserInfo.GradeId" != "0") {
+            $(".gselecter").val("@ViewBag.UserInfo.GradeId");
+        }
+
+        if ("@ViewBag.UserInfo.ClassId" != "0") {
+            $(".clsselecter").val("@ViewBag.UserInfo.ClassId");
+        }
+    })
+
     $(".truenamebtn").on("click", function () {
         var truename = $("#TrueNameInput").val();
         if (truename.length > 5) {
@@ -195,56 +191,56 @@
     })
 
     $(".pselecter").on("change", function () {
-        $("dselecter").html("");
-        $("sselecter").html("");
+        $(".dselecter").html("<option value='0'></option>");
+        $(".sselecter").html("<option value='0'></option>");
         var pid = $(this).val();
         if (pid == 0) {
-            $("cselecter").html("");
+            $(".cselecter").html("<option value='0'></option>");
             return;
         }
-        var html = "";
+        var html = "<option value='0'></option>";
         $.post("/personal/GetCites",
-            { provinceId: pid},
+            { provinceId: pid },
             function (data) {
                 for (var i = 0; i < data.length; i++) {
                     html += "<option value='" + data[i].CityId + "'>" + data[i].CityName + "</option>";
                 }
-                $("cselecter").html(html);
+                $(".cselecter").html(html);
             })
     })
 
     $(".cselecter").on("change", function () {
-        $("sselecter").html("");
+        $(".sselecter").html("<option value='0'></option>");
         var cid = $(this).val();
         if (cid == 0) {
-            $("dselecter").html("");
+            $(".dselecter").html("<option value='0'></option>");
             return;
         }
-        var html = "";
+        var html = "<option value='0'></option>";
         $.post("/personal/GetDistricts",
             { cityId: cid },
             function (data) {
                 for (var i = 0; i < data.length; i++) {
                     html += "<option value='" + data[i].DistrictId + "'>" + data[i].DistrictName + "</option>";
                 }
-                $("dselecter").html(html);
+                $(".dselecter").html(html);
             })
     })
 
     $(".dselecter").on("change", function () {
         var did = $(this).val();
         if (did == 0) {
-            $("sselecter").html("");
+            $(".sselecter").html("<option value='0'></option>");
             return;
         }
-        var html = "";
+        var html = "<option value='0'></option>";
         $.post("/personal/GetSchools",
             { districtId: did },
             function (data) {
                 for (var i = 0; i < data.length; i++) {
                     html += "<option value='" + data[i].SchoolId + "'>" + data[i].SchoolName + "</option>";
                 }
-                $("sselecter").html(html);
+                $(".sselecter").html(html);
             })
     })
 

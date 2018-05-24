@@ -48,7 +48,7 @@ namespace user.easyzy.com.Controllers
         public string IsUserNameExists(string userName)
         {
             if (Const.UserNameFilter.Contains(userName)) return "1";
-            T_User u = B_UserRedis.GetUser(userName);
+            T_User u = B_User.GetUser(userName);
             if (u == null)
             {
                 return "0";
@@ -112,7 +112,7 @@ namespace user.easyzy.com.Controllers
 
         public string UserLogin(string userName, string passWord, string isAutoLogin)
         {
-            T_User u = B_UserRedis.GetUser(userName);
+            T_User u = B_User.GetUser(userName);
             if (u == null) return "1";
             if (u.Psd == Util.MD5(passWord))
             {

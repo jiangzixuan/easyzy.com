@@ -13,47 +13,47 @@ namespace user.easyzy.bll
         //缓存有效期(30天）
         private static TimeSpan ts = new TimeSpan(30, 0, 0, 0);
 
-        /// <summary>
-        /// 根据UserName查询User，应该只会在以下场景使用
-        /// 1、注册用户，判断用户名是否存在
-        /// 2、登录
-        /// </summary>
-        /// <param name="userName"></param>
-        /// <returns></returns>
-        public static T_User GetUser(string userName)
-        {
-            Dictionary<string, string> tempresult = null;
-            string key = RedisHelper.GetEasyZyRedisKey(Const.CacheCatalog.User, userName.ToString());
-            using (var client = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
-            {
-                if (client != null)
-                {
-                    tempresult = client.GetAllEntriesFromHash(key);
-                }
-            }
-            T_User result = null;
-            if (tempresult.Count != 0)
-            {
-                result = RedisHelper.ConvertDicToEntitySingle<T_User>(tempresult);
-            }
-            else
-            {
-                result = B_User.GetUser(userName);
+        ///// <summary>
+        ///// 根据UserName查询User，应该只会在以下场景使用
+        ///// 1、注册用户，判断用户名是否存在
+        ///// 2、登录
+        ///// </summary>
+        ///// <param name="userName"></param>
+        ///// <returns></returns>
+        //public static T_User GetUser(string userName)
+        //{
+        //    Dictionary<string, string> tempresult = null;
+        //    string key = RedisHelper.GetEasyZyRedisKey(Const.CacheCatalog.User, "u_" + userName.ToString());
+        //    using (var client = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
+        //    {
+        //        if (client != null)
+        //        {
+        //            tempresult = client.GetAllEntriesFromHash(key);
+        //        }
+        //    }
+        //    T_User result = null;
+        //    if (tempresult.Count != 0)
+        //    {
+        //        result = RedisHelper.ConvertDicToEntitySingle<T_User>(tempresult);
+        //    }
+        //    else
+        //    {
+        //        result = B_User.GetUser(userName);
 
-                if (result != null)
-                {
-                    using (var cl = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
-                    {
-                        if (cl != null)
-                        {
-                            cl.SetRangeInHash(key, GetUserKeyValuePairs(result));
-                            cl.ExpireEntryIn(key, ts);
-                        }
-                    }
-                }
-            }
-            return result;
-        }
+        //        if (result != null)
+        //        {
+        //            using (var cl = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
+        //            {
+        //                if (cl != null)
+        //                {
+        //                    cl.SetRangeInHash(key, GetUserKeyValuePairs(result));
+        //                    cl.ExpireEntryIn(key, ts);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return result;
+        //}
 
         /// <summary>
         /// 根据UserId查询User
@@ -99,7 +99,24 @@ namespace user.easyzy.bll
 
         private static dto_User TransUserToDtoUser(T_User u)
         {
-            dto_User result = new dto_User() { Id = u.Id, UserName = u.UserName, Psd = u.Psd, Mobile = u.Mobile, CreateDate = u.CreateDate, FirstLoginDate = u.FirstLoginDate, TrueName = u.TrueName, ZyPrice = u.ZyPrice, ZyPsd = u.ZyPsd };
+            dto_User result = new dto_User()
+            {
+                Id = u.Id,
+                UserName = u.UserName,
+                Psd = u.Psd,
+                Mobile = u.Mobile,
+                CreateDate = u.CreateDate,
+                FirstLoginDate = u.FirstLoginDate,
+                TrueName = u.TrueName,
+                ZyPrice = u.ZyPrice,
+                ZyPsd = u.ZyPsd,
+                ProvinceId = u.ProvinceId,
+                CityId = u.CityId,
+                DistrictId = u.DistrictId,
+                SchoolId = u.SchoolId,
+                GradeId = u.GradeId,
+                ClassId = u.ClassId
+            };
             string pName = "";
             bool b = Const.Provinces.TryGetValue(result.ProvinceId, out pName);
             result.ProvinceName = pName == null ? "" : pName;
