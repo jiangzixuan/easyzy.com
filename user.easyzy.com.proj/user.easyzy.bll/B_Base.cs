@@ -62,6 +62,21 @@ namespace user.easyzy.bll
             }
             return model;
         }
+
+        public static T_School GetSchool(int schoolId)
+        {
+            T_School model = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(BaseConnString),
+                "select SchoolId, SchoolName from T_School where SchoolId = @SchoolId",
+                "@SchoolId".ToInt32InPara(schoolId)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    model = MySqlDBHelper.ConvertDataReaderToEntitySingle<T_School>(dr);
+                }
+            }
+            return model;
+        }
         
     }
 }

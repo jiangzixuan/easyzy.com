@@ -44,7 +44,6 @@ namespace user.easyzy.bll
                 {
                     using (var cl = RedisHelper.GetRedisClient(CacheCatalog.Base.ToString()))
                     {
-                        LogHelper.Error("4" + cl.Host);
                         if (cl != null)
                         {
                             cl.Set<string>(key, JsonConvert.SerializeObject(result), ts);
@@ -95,7 +94,7 @@ namespace user.easyzy.bll
         }
 
         /// <summary>
-        /// 获取区列表
+        /// 获取学校列表
         /// </summary>
         /// <param name="districtId"></param>
         /// <returns></returns>
@@ -130,7 +129,45 @@ namespace user.easyzy.bll
                     }
                 }
             }
-            
+            return result;
+        }
+
+        /// <summary>
+        /// 获取学校
+        /// </summary>
+        /// <param name="schoolId"></param>
+        /// <returns></returns>
+        public static T_School GetSchool(int schoolId)
+        {
+            string tempresult = null;
+
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Base, "SCH_" + schoolId.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.Base.ToString()))
+            {
+                if (client != null)
+                {
+                    tempresult = client.Get<string>(key);
+                }
+            }
+            T_School result = null;
+            if (!string.IsNullOrEmpty(tempresult))
+            {
+                result = JsonConvert.DeserializeObject<T_School>(tempresult);
+            }
+            else
+            {
+                result = B_Base.GetSchool(schoolId);
+                if (result != null)
+                {
+                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.Base.ToString()))
+                    {
+                        if (cl != null)
+                        {
+                            cl.Set<string>(key, JsonConvert.SerializeObject(result), ts);
+                        }
+                    }
+                }
+            }
             return result;
         }
     }

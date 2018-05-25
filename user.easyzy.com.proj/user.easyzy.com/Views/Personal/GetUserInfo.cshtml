@@ -1,5 +1,5 @@
 ﻿
-<div style="font-size:16px; padding-left:20px;">
+<div style="font-size:16px;">
     <table class="tab-default">
         <tr>
             <td class="tright">用户名：</td>
@@ -17,91 +17,96 @@
                 @*<b id="ClassB">@ViewBag.UserInfo.Class</b>
                 <input class="classinfo" type="text" id="ClassInput" value="" style="display:none" />*@
                 <div class="tpanal">
-                    <p class="panal_title">省、市、区、学校 设置之后不能修改，请谨慎选择！</p>
+                    <p class="panal_title">学校信息设置之后不能修改，请谨慎选择！</p>
                     
                     <div class="tselect">
-                        <label class="tselect_tip">省：</label>
-                        <select @(ViewBag.UserInfo.ProvinceId == 0 ? "" : "disabled") class="pselecter short">
-                            @if (ViewBag.Provinces != null)
-                            {
+                        @if (ViewBag.UserInfo.SchoolId == 0)
+                        {
+                            <label class="tselect_tip">省：</label>
+                            <select class="pselecter short">
                                 <option value="0"></option>
-                                foreach (var p in ViewBag.Provinces)
+                                @foreach (var p in ViewBag.Provinces)
                                 {
                                     <option value="@p.Key">@p.Value</option>
                                 }
-                            }
-                            else
-                            {
+                            </select>
+                            <label class="tselect_tip">市：</label>
+                            <select class="cselecter short">
+                                <option value="0"></option>
+                            </select>
+                            <label class="tselect_tip">区：</label>
+                            <select class="dselecter long">
+                                <option value="0"></option>
+                            </select>
+                            
+                            <div class="ss">
+                                <label>学校：</label>
+                                <input class="schinput long" placeholder="在结果中搜索、点右边箭头展开" />
+                                <select class="sselecter long" style="position:relative;">
+                                    <option value="0"></option>
+                                </select>
+                            </div>
+                        }
+                        else
+                        {
+                            <label class="tselect_tip">省：</label>
+                            <select disabled class="pselecter short">
                                 <option value="@ViewBag.UserInfo.ProvinceId">@ViewBag.UserInfo.ProvinceName</option>
-                            }
-                        </select>
-                        <label class="tselect_tip">市：</label>
-                        <select @(ViewBag.UserInfo.CityId == 0 ? "" : "disabled") class="cselecter short">
-                            @if (ViewBag.Cities != null)
-                            {
-                                <option value="0"></option>
-                                foreach (var c in ViewBag.Cities)
-                                {
-                                    <option value="@c.CityId">@c.CityName</option>
-                                }
-                            }
-                            else
-                            {
+                            </select>
+                            <label class="tselect_tip">市：</label>
+                            <select disabled class="cselecter short">
                                 <option value="@ViewBag.UserInfo.CityId">@ViewBag.UserInfo.CityName</option>
-                            }
-                        </select>
-                        &nbsp;&nbsp;区：
-                        <select @(ViewBag.UserInfo.DistrictId == 0 ? "" : "disabled") class="dselecter long">
-                            @if (ViewBag.Districts != null)
-                            {
-                                <option value="0"></option>
-                                foreach (var c in ViewBag.Districts)
-                                {
-                                    <option value="@c.DistrictId">@c.DistrictName</option>
-                                }
-                            }
-                            else
-                            {
+                            </select>
+                            <label class="tselect_tip">区：</label>
+                            <select disabled class="dselecter long">
                                 <option value="@ViewBag.UserInfo.DistrictId">@ViewBag.UserInfo.DistrictName</option>
-                            }
-                        </select>
-                        &nbsp;&nbsp;学校：
-                        <select @(ViewBag.UserInfo.SchoolId == 0 ? "" : "disabled") class="sselecter long">
-                            @if (ViewBag.Schools != null)
-                            {
-                                <option value="0"></option>
-                                foreach (var c in ViewBag.Schools)
-                                {
-                                    <option value="@c.SchoolId">@c.SchoolName</option>
-                                }
-                            }
-                            else
-                            {
-                                <option value="@ViewBag.UserInfo.SchoolId">@ViewBag.UserInfo.SchoolName</option>
-                            }
-                        </select>
-                    </div>
-                    <div>
-                        年级：
-                        <select class="gselecter short">
-                            <option value="0"></option>
-                            @foreach (var c in ViewBag.Grades)
-                            {
-                                <option value="@c.Key">@c.Value</option>
-                            }
-                        </select>
-                        班级：
-                        <select class="clsselecter short">
-                            <option value="0"></option>
-                            @for (int i = 1; i < 100; i++)
-                            {
-                                <option value=@i>@(i)班</option>
-                            }
-                        </select>
+                            </select>
+                            <div>
+                                <label>学校：</label>
+                                <select disabled class="sselecter long">
+                                    <option value="@ViewBag.UserInfo.SchoolId">@ViewBag.UserInfo.SchoolName</option>
+                                </select>
+                            </div>
+                        }
                     </div>
                 </div>
             </td>
-            <td class=""><a href="javascript:void(0);" class="classbtn icoedit save" title="保存"></a><a href="javascript:void(0);" class="applybtn icoapply" title="提交修改申请"></a></td>
+            <td>
+                @if (ViewBag.UserInfo.SchoolId == 0)
+                {
+                    <a href="javascript:void(0);" class="schoolbtn icoedit save" title="保存"></a>
+                }
+                else
+                {
+                    <a href="javascript:void(0);" class="applybtn icoapply" onclick="RequestModify();" title="提交修改申请"></a>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td class="tright">班级信息：</td>
+            <td class="tleft">
+                <div class="tpanal">
+                    年级：
+                    <select class="gselecter short">
+                        <option value="0"></option>
+                        @foreach (var c in ViewBag.Grades)
+                        {
+                            <option value="@c.Key">@c.Value</option>
+                        }
+                    </select>
+                    班级：
+                    <select class="clsselecter short">
+                        <option value="0"></option>
+                        @for (int i = 1; i < 100; i++)
+                        {
+                            <option value=@i>@(i)班</option>
+                        }
+                    </select>
+                </div>
+            </td>
+            <td>
+                <a href="javascript:void(0);" class="classbtn icoedit save" title="保存"></a>
+            </td>
         </tr>
         
         <tr>
@@ -116,7 +121,7 @@
                 {
                     foreach (var u in ViewBag.RelateUser)
                     {
-                        <a href="javascript:void(0);" data-bind="@u.RUserId" class="ql" onclick="QueryRZy(@u.RUserId);">@(u.RUserName)(@(u.RTrueName == "" ? "" : u.RTrueName))</a>
+                        <a href="javascript:void(0);" data-bind="@u.RUserId" class="ql" onclick="QueryRZy(@u.RUserId);">@(u.RUserName)【@(u.RTrueName)】</a>
                         <a href="javascript:void(0);" data-bind="@u.RUserId" class="del" onclick="CancelRelate(@u.RUserId);"></a>
                     }
                 }
@@ -130,7 +135,7 @@
                 {
                     foreach (var u in ViewBag.BeRelatedUser)
                     {
-                        <label href="javascript:void(0);" class="ql">@(u.UserName)(@(u.TrueName == "" ? "" : u.TrueName))</label>
+                        <label href="javascript:void(0);" class="ql">@(u.UserName)【@(u.TrueName)】</label>
                     }
                 }
             </td>
@@ -141,7 +146,7 @@
 <div class="Relate st-roster" style="display:none; padding: 20px 10px; height:500px;">
     <img src="/Images/close.png" class="popclose" />
     <div class="queryrelate">
-        <input id="keywords" placeholder="模糊搜索（用户名/真实姓名/班级）" /><a class="btn" onclick="query();">查询</a>
+        <input id="keywords" placeholder="模糊搜索（用户名/真实姓名）" /><a class="btn" onclick="query();">查询</a>
     </div>
     <div class="chooserelate">
         <div style="color:red; padding-bottom:5px;">（最多返回20条记录）</div>
@@ -151,6 +156,8 @@
                     <th>序号</th>
                     <th>用户名</th>
                     <th>真实姓名</th>
+                    <th>学校</th>
+                    <th>年级</th>
                     <th>班级</th>
                     <th></th>
                 </tr>
@@ -228,39 +235,115 @@
     })
 
     $(".dselecter").on("change", function () {
-        var did = $(this).val();
+        searchSchools();
+        showSchools();
+    })
+
+    var cur_Schools = [];
+
+    var searchSchools = function () {
+        cur_Schools = [];
+        var did = $(".dselecter").val();
         if (did == 0) {
             $(".sselecter").html("<option value='0'></option>");
             return;
         }
-        var html = "<option value='0'></option>";
-        $.post("/personal/GetSchools",
-            { districtId: did },
-            function (data) {
+        
+        $.ajax({
+            url: "/personal/SearchSchools",
+            type: "post",
+            async: false,
+            data: { districtId: did, keyWords: "" },
+            success: function (data) {
                 for (var i = 0; i < data.length; i++) {
-                    html += "<option value='" + data[i].SchoolId + "'>" + data[i].SchoolName + "</option>";
+                    cur_Schools.push(data[i].SchoolId + "_!" + data[i].SchoolName);
                 }
-                $(".sselecter").html(html);
+            }
+        })
+    }
+
+    //根据搜索出来的学校数组，结合搜索词，重置下拉框中显示的学校
+    var showSchools = function () {
+        if (cur_Schools.length == 0) return;
+        var keyWords = $(".schinput").val();
+        
+        var html = "<option value='0'></option>";
+        if (keyWords == "") {
+            for (var i = 0; i < cur_Schools.length; i++) {
+                html += "<option value='" + cur_Schools[i].split("_!")[0] + "'>" + cur_Schools[i].split("_!")[1] + "</option>";
+            }
+        }
+        else {
+            for (var i = 0; i < cur_Schools.length; i++) {
+                var ss = cur_Schools[i].split("_!");
+                if (ss[1].indexOf(keyWords) != -1) {
+                    html += "<option value='" + ss[0] + "'>" + ss[1] + "</option>";
+                }
+            }
+        }
+        $(".sselecter").html(html);
+    }
+
+    $(".schinput").focus(function () {
+        var did = $(".dselecter").val();
+        if (!did || did == 0) {
+            $(".dselecter").css("border", "1px solid red");
+            return;
+        }
+    })
+
+    //从下拉框中搜索学校
+    $(".schinput").on("change", function () {
+        showSchools();
+    })
+
+    //从下拉框中搜索到学校并选中
+    $(".schinput").on("blur", function () {
+        $(".dselecter").css("border", "1px solid #dfdfdf");
+    })
+
+    $(".sselecter").on("change", function () {
+        $(".schinput").val($(this).find("option:selected").text());
+    })
+
+    //学校修改
+    $(".schoolbtn").on("click", function () {
+        var pid = $(".pselecter").val();
+        var cid = $(".cselecter").val();
+        var did = $(".dselecter").val();
+        var sid = $(".sselecter").val();
+
+        if (!sid || sid == 0) {
+            dialogAlert("请从学校下拉框中选择学校！");
+            return false;
+        }
+
+        $.post("/personal/UpdateUserSchool",
+            { provinceId: pid, cityId: cid, districtId: did, schoolId: sid },
+            function (data) {
+                if (data == "0") {
+                    $(".pselecter").attr("disabled", true);
+                    $(".cselecter").attr("disabled", true);
+                    $(".dselecter").attr("disabled", true);
+                    $(".sselecter").attr("disabled", true);
+                    $(".schinput").attr("disabled", true);
+                    dialogAlert("修改成功！");
+                }
+                else {
+                    dialogAlert("修改失败！");
+                }
             })
     })
 
     //班级修改
     $(".classbtn").on("click", function () {
-        var pid = $(".pselecter").val();
-        var cid = $(".cselecter").val();
-        var did = $(".dselecter").val();
-        var sid = $(".sselecter").val();
         var gid = $(".gselecter").val();
         var clsid = $(".clsselecter").val();
-
+        
         $.post("/personal/UpdateUserClass",
-            { provinceId: pid, cityId: cid, districtId: did, schoolId: sid, gradeId: gid, classId: clsid },
+            { gradeId: gid, classId: clsid },
             function (data) {
                 if (data == "0") {
-                    if (pid != 0) $(".pselecter").attr("disabled", true);
-                    if (cid != 0) $(".cselecter").attr("disabled", true);
-                    if (did != 0) $(".dselecter").attr("disabled", true);
-                    if (sid != 0) $(".sselecter").attr("disabled", true);
                     dialogAlert("修改成功！");
                 }
                 else {
@@ -292,12 +375,12 @@
             function (json) {
                 if (json.length != 0) {
                     for (var i = 0; i < json.length; i++) {
-                        html += "<tr><td>" + (i + 1) + "</td><td>" + json[i].UserName + "</td><td>" + json[i].TrueName + "</td><td>" + json[i].Class + "</td><td><a href='javascript:void(0);' onclick=\"relate('" + json[i].Id + "','" + json[i].UserName + "','" + json[i].TrueName + "'); \">关注</a></td></tr>";
+                        html += "<tr><td>" + (i + 1) + "</td><td>" + json[i].UserName + "</td><td>" + json[i].TrueName + "</td><td>" + json[i].SchoolName + "</td><td>" + json[i].GradeName + "</td><td>" + json[i].ClassName + "</td><td><a href='javascript:void(0);' onclick=\"relate('" + json[i].Id + "','" + json[i].UserName + "','" + json[i].TrueName + "'); \">关注</a></td></tr>";
                     }
                     $("#tbody2").html(html);
                 }
                 else {
-                    $("#tbody2").html("<tr><td colspan='4'>没有查询到任何信息！</td></tr>");
+                    $("#tbody2").html("<tr><td colspan='6'>没有查询到用户！</td></tr>");
                 }
             })
     }
@@ -308,7 +391,7 @@
             { userId: userid },
             function (data) {
                 if (data == "") {
-                    $("td.relate").prepend("<a href='javascript:void(0);' data-bind='" + userid + "' class='ql' onclick='QueryRZy(" + userid + ");'>" + username + "(" + truename + ")</a><a href='javascript:void(0);' data-bind='" + userid + "' class='del' onclick=\"CancelRelate(" + userid + ");\"></a>");
+                    $("td.relate").prepend("<a href='javascript:void(0);' data-bind='" + userid + "' class='ql' onclick='QueryRZy(" + userid + ");'>" + username + "【" + truename + "】</a><a href='javascript:void(0);' data-bind='" + userid + "' class='del' onclick=\"CancelRelate(" + userid + ");\"></a>");
                     $(".Relate").hide();
                     $(".shade").hide();
                 }

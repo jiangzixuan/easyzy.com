@@ -122,7 +122,7 @@ namespace user.easyzy.bll
             result.ProvinceName = pName == null ? "" : pName;
             result.CityName = result.CityId == 0 ? "" : B_BaseRedis.GetCities(result.ProvinceId).Find(a => a.CityId == result.CityId).CityName;
             result.DistrictName = result.DistrictId == 0 ? "" : B_BaseRedis.GetDistricts(result.CityId).Find(a => a.DistrictId == result.DistrictId).DistrictName;
-            result.SchoolName = result.SchoolId == 0 ? "" : B_BaseRedis.GetSchools(result.DistrictId).Find(a => a.SchoolId == result.SchoolId).SchoolName;
+            result.SchoolName = result.SchoolId == 0 ? "" : B_BaseRedis.GetSchool(result.SchoolId).SchoolName;
             string gName = "";
             Const.Grades.TryGetValue(result.GradeId, out gName);
             result.GradeName = gName == null ? "" : gName;
@@ -147,6 +147,37 @@ namespace user.easyzy.bll
             {
                 result = RedisHelper.ConvertDicToEntitySingle<dto_User>(tempresult);
                 result.TrueName = trueName;
+                using (var cl = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
+                {
+                    if (cl != null)
+                    {
+                        cl.SetRangeInHash(key, GetDtoUserKeyValuePairs(result));
+                        cl.ExpireEntryIn(key, ts);
+                    }
+                }
+            }
+        }
+
+        public static void UpdateClass(int userId, int gradeId, string gradeName, int classId, string className)
+        {
+            Dictionary<string, string> tempresult = null;
+            string key = RedisHelper.GetEasyZyRedisKey(Const.CacheCatalog.User, userId.ToString());
+            using (var client = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
+            {
+                if (client != null)
+                {
+                    tempresult = client.GetAllEntriesFromHash(key);
+                }
+            }
+
+            dto_User result = null;
+            if (tempresult.Count != 0)
+            {
+                result = RedisHelper.ConvertDicToEntitySingle<dto_User>(tempresult);
+                result.GradeId = gradeId;
+                result.GradeName = gradeName;
+                result.ClassId = classId;
+                result.ClassName = className;
                 using (var cl = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
                 {
                     if (cl != null)

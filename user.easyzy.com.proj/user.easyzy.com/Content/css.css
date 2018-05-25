@@ -11,15 +11,15 @@ li{list-style-type:none}
 .tleft{text-align:left}
 .tright{text-align:right}
 .font-yahei{font-family:"Microsoft YaHei"}
-a.btn{border:0;border-radius:5px;cursor:pointer;background:royalblue;padding:5px 20px;color:#fff}
+a.btn{border:0;border-radius:5px;cursor:pointer;background:#9585bf;padding:5px 20px;color:#fff}
 .tab-default{line-height:40px;background:#d7d7d7;font-size:14px;width:100%}
 .tab-default th{background:#f4f4f4}
 .tab-default tr{background:#FFF}
 .tab-default tr td{background:#FFF;padding:5px 10px;text-align:center}
 .tab-default tr td.tleft{text-align:left}
 .tab-default tr td.tright{text-align:right}
-.tab-default tr td a{color:#00aeff}
-.tab-default tr td a:hover{color:#333}
+.tab-default tr td a{color:#333}
+.tab-default tr td a:hover{color:#0088cc}
 .tab-default tr td select{width:90px;height:24px;border:solid 1px #dfdfdf;padding-left:2px}
 .tab-default select,.tab-default input{width:70px;height:22px;border:1px solid #dfdfdf;background:#f4f4f4}
 .fixed{position:fixed;top:500px;right:250px}
@@ -65,7 +65,7 @@ a.btn{border:0;border-radius:5px;cursor:pointer;background:royalblue;padding:5px
 .topnva ul{float:right;}
 .topnav ul li{float:right; margin-left:20px;}
 .topnav li a{color:#fff;}
-.popclose,.closesuggest{position:relative;top:-35px;right:-22px;float:right;cursor:pointer}
+.popclose,.closesuggest{position:relative;top:-32px;right:-20px;float:right;cursor:pointer}
 .slider{height:500px}
 .slider .pic-field{padding:50px 0;width:1200px}
 .content-wrap{background:#f4f4f4;min-height:800px}
@@ -98,7 +98,7 @@ a.btn{border:0;border-radius:5px;cursor:pointer;background:royalblue;padding:5px
 .personal-funcs li a{display:inline-block;text-align:center;width:100%;padding:20px 0;border-bottom:1px dashed #a19999;font-size:16px}
 .personal-funcs li a:hover{color:royalblue}
 .personal-funcs .active{color:royalblue}
-.personal-info{width:75%;float:left;margin-left:10px}
+.personal-info{width:80%;float:left;margin-left:10px}
 .tab-default .icoedit{width:30px;height:30px;background:url("/Images/v3-bg.png") no-repeat 0 -8px;padding-left:20px}
 .tab-default .icoedit.save{background-position:-31px -8px}
 .tab-default .icoapply{width:30px;height:30px;background:url("/Images/icon_bg.png") no-repeat -51px -261px;padding-left:20px}
@@ -114,8 +114,13 @@ a.btn{border:0;border-radius:5px;cursor:pointer;background:royalblue;padding:5px
 .foot-wrap{width:100%;min-width:1000px;padding:30px 0;overflow:hidden;background:#333}
 .foot{text-align:center;color:#e4e6ed}
 .foot p{line-height:30px;}
-.tpanal .tselect{border-bottom:1px solid royalblue;}
+.tpanal .tselect{border-top:1px solid royalblue;}
 .tpanal .tselect .tselect_tip{padding-left:14px; }
+.inner-content .tselect .ss, .tpanal .tselect .ss{position: relative; display: inline-block;}
+.inner-content .tselect .ss input, .tpanal .tselect .ss input{position: absolute; margin-top: 9px; margin-left:1px; z-index: 99; width:228px; border:hidden;}
 .tpanal .panal_title{color:#ff0000; background:url('/Images/gantanhao.png') no-repeat 3px; padding-left: 22px;}
-.tpanal .short{width: 70px; }
-.tpanal .long{width: 150px; }
+.tpanal .short{width: 100px; }
+.tpanal .long{width: 250px; }
+.sselecter option{padding:5px;}
+.sselecter option .q{border:1px solid #e91a53}
+.inner-content input{width:70px;height:22px;border:1px solid #dfdfdf;background:#f4f4f4}

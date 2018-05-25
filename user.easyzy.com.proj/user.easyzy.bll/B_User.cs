@@ -78,14 +78,14 @@ namespace user.easyzy.bll
         /// <param name="userId"></param>
         /// <param name="trueName"></param>
         /// <returns></returns>
-        public static int UpdateTrueName(int userId, string trueName)
+        public static bool UpdateTrueName(int userId, string trueName)
         {
             object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString),
                 "update T_User set TrueName = @TrueName where Id = @UserId",
                 "@UserId".ToInt32InPara(userId),
                 "@TrueName".ToVarCharInPara(trueName)
                 );
-            return o == null ? 0 : int.Parse(o.ToString());
+            return o == null ? false : true;
         }
 
         /// <summary>
@@ -94,14 +94,14 @@ namespace user.easyzy.bll
         /// <param name="userId"></param>
         /// <param name="zyPsd"></param>
         /// <returns></returns>
-        public static int UpdateZyPsd(int userId, string zyPsd)
+        public static bool UpdateZyPsd(int userId, string zyPsd)
         {
             object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString),
                 "update T_User set ZyPsd = @ZyPsd where Id = @UserId",
                 "@UserId".ToInt32InPara(userId),
                 "@ZyPsd".ToVarCharInPara(zyPsd)
                 );
-            return o == null ? 0 : int.Parse(o.ToString());
+            return o == null ? false : true;
         }
 
         /// <summary>
@@ -115,41 +115,31 @@ namespace user.easyzy.bll
         /// <param name="gradeId"></param>
         /// <param name="classId"></param>
         /// <returns></returns>
-        public static bool UpdateClass(int userId, int provinceId, int cityId, int districtId, int schoolId, int gradeId, int classId)
+        public static bool UpdateSchool(int userId, int provinceId, int cityId, int districtId, int schoolId)
         {
-            string sql = "";
             List<MySqlParameter> pl = new List<MySqlParameter>();
             
-            if (provinceId != -1)
-            {
-                sql += ", ProvinceId = @ProvinceId";
-                pl.Add(new MySqlParameter("@ProvinceId", provinceId));
-            }
+            pl.Add(new MySqlParameter("@ProvinceId", provinceId));
+            pl.Add(new MySqlParameter("@CityId", cityId));
+            pl.Add(new MySqlParameter("@DistrictId", districtId));
+            pl.Add(new MySqlParameter("@SchoolId", schoolId));
+            pl.Add(new MySqlParameter("@UserId", userId));
 
-            if (cityId != -1)
-            {
-                sql += ", CityId = @CityId";
-                pl.Add(new MySqlParameter("@CityId", cityId));
-            }
+            string sql = "update T_User set ProvinceId = @ProvinceId, CityId = @CityId, DistrictId = @DistrictId, SchoolId = @SchoolId where Id = @UserId";
+            
+            int i = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString), sql, pl.ToArray());
+            return i > 0;
+        }
 
-            if (districtId != -1)
-            {
-                sql += ", DistrictId = @DistrictId";
-                pl.Add(new MySqlParameter("@DistrictId", districtId));
-            }
+        public static bool UpdateClass(int userId, int gradeId, int classId)
+        {
+            List<MySqlParameter> pl = new List<MySqlParameter>();
 
-            if (schoolId != -1)
-            {
-                sql += ", SchoolId = @SchoolId";
-                pl.Add(new MySqlParameter("@SchoolId", schoolId));
-            }
-
-            sql += ", GradeId = @GradeId, ClassId = @ClassId";
             pl.Add(new MySqlParameter("@GradeId", gradeId));
             pl.Add(new MySqlParameter("@ClassId", classId));
-
-            sql = "update T_User set " + sql.Substring(1) + " where Id = @UserId";
             pl.Add(new MySqlParameter("@UserId", userId));
+
+            string sql = "update T_User set GradeId = @GradeId, ClassId = @ClassId where Id = @UserId";
 
             int i = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString), sql, pl.ToArray());
             return i > 0;
@@ -161,14 +151,14 @@ namespace user.easyzy.bll
         /// <param name="userId"></param>
         /// <param name="firstLoginDate"></param>
         /// <returns></returns>
-        public static int UpdateFirstLoginDate(int userId, DateTime firstLoginDate)
+        public static bool UpdateFirstLoginDate(int userId, DateTime firstLoginDate)
         {
             object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString),
                 "update T_User set FirstLoginDate = @FirstLoginDate where Id = @UserId",
                 "@UserId".ToInt32InPara(userId),
                 "@FirstLoginDate".ToDateTimeInPara(firstLoginDate)
                 );
-            return o == null ? 0 : int.Parse(o.ToString());
+            return o == null ? false : true;
         }
 
         /// <summary>
@@ -211,7 +201,7 @@ namespace user.easyzy.bll
             return model;
         }
 
-        public static int AddRelate(int userId, int rUserId, DateTime createDate)
+        public static bool AddRelate(int userId, int rUserId, DateTime createDate)
         {
             object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(UserConnString),
                 "insert into T_UserRelate(Id, UserId, RUserId, CreateDate) values (null, @UserId, @RUserId, @CreateDate); select last_insert_id();",
@@ -220,17 +210,17 @@ namespace user.easyzy.bll
                 "@RUserId".ToInt32InPara(rUserId),
                 "@CreateDate".ToDateTimeInPara(createDate)
                 );
-            return o == null ? 0 : int.Parse(o.ToString());
+            return o == null ? false : true;
         }
 
-        public static int CancelRelate(int userId, int rUserId)
+        public static bool CancelRelate(int userId, int rUserId)
         {
             object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString),
                 "delete from T_UserRelate where UserId = @UserId and RUserId = @RUserId",
                 "@UserId".ToInt32InPara(userId),
                 "@RUserId".ToInt32InPara(rUserId)
                 );
-            return o == null ? 0 : int.Parse(o.ToString());
+            return o == null ? false : true;
         }
 
         /// <summary>
@@ -238,11 +228,12 @@ namespace user.easyzy.bll
         /// </summary>
         /// <param name="keyWords"></param>
         /// <returns></returns>
-        public static List<T_User> SearchUser(string keyWords)
+        public static List<T_User> SearchUser(string keyWords, int exceptUserId)
         {
             List<T_User> model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(UserConnString),
-                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, ZyPsd, ZyPrice, ProvinceId, CityId, DistrictId, SchoolId, GradeId, ClassId from T_User where concat(UserName, TrueName) like '%" + keyWords + "%' limit 20"))
+                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, ZyPsd, ZyPrice, ProvinceId, CityId, DistrictId, SchoolId, GradeId, ClassId from T_User where concat(UserName, TrueName) like '%" + keyWords + "%' and Id <> @ExceptUserId limit 20",
+                "@ExceptUserId".ToInt32InPara(exceptUserId)))
             {
                 if (dr != null && dr.HasRows)
                 {
@@ -250,6 +241,44 @@ namespace user.easyzy.bll
                 }
             }
             return model;
+        }
+
+        public static dto_ModifyRequest GetModifyRequest(int userId)
+        {
+            dto_ModifyRequest model = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(UserConnString),
+                "select Id, UserId, FromSchoolId, ToSchoolId, Reason, Status, CreateDate from T_ModifyRequest where UserId = @UserId and Status = 0 limit 1",
+                "@UserId".ToInt32InPara(userId)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    model = MySqlDBHelper.ConvertDataReaderToEntitySingle<dto_ModifyRequest>(dr);
+                }
+            }
+            return model;
+        }
+
+        public static bool CancelModifyRequest(int id)
+        {
+            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString),
+                "update T_ModifyRequest set Status = 1 where Id = @Id",
+                "@Id".ToInt32InPara(id)
+                );
+            return o == null ? false : true;
+        }
+
+        public static int AddModifyRequest(T_ModifyRequest mr)
+        {
+            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString),
+                "insert into T_ModifyRequest(UserId, FromSchoolId, ToSchoolId, Reason, Status, CreateDate) values(@UserId, @FromSchoolId, @ToSchoolId, @Reason, @Status, @CreateDate)",
+                "@UserId".ToInt32InPara(mr.UserId),
+                "@FromSchoolId".ToInt32InPara(mr.FromSchoolId),
+                "@ToSchoolId".ToInt32InPara(mr.ToSchoolId),
+                "@Status".ToInt32InPara(mr.Status),
+                "@Reason".ToVarCharInPara(mr.Reason),
+                "@CreateDate".ToDateTimeInPara(mr.CreateDate)
+                );
+            return o == null ? 0 : int.Parse(o.ToString());
         }
     }
 }

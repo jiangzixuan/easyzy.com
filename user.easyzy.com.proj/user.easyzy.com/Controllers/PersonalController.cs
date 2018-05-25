@@ -27,24 +27,9 @@ namespace user.easyzy.com.Controllers
             dto_User UserInfo = B_UserRedis.GetUser(UserId);
             ViewBag.UserInfo = UserInfo;
 
-            if (UserInfo.ProvinceId == 0)
+            if (UserInfo.SchoolId == 0)
             {
                 ViewBag.Provinces = Const.Provinces;
-            }
-
-            if (UserInfo.CityId == 0 && UserInfo.ProvinceId != 0)
-            {
-                ViewBag.Cities = B_BaseRedis.GetCities(UserInfo.ProvinceId);
-            }
-
-            if (UserInfo.DistrictId == 0 && UserInfo.CityId != 0)
-            {
-                ViewBag.Districts = B_BaseRedis.GetDistricts(UserInfo.CityId);
-            }
-
-            if (UserInfo.SchoolId == 0 && UserInfo.DistrictId != 0)
-            {
-                ViewBag.Schools = B_BaseRedis.GetSchools(UserInfo.DistrictId);
             }
 
             ViewBag.Grades = Const.Grades;
@@ -78,7 +63,7 @@ namespace user.easyzy.com.Controllers
 
         public int UpdateTrueName(string trueName)
         {
-            if (B_User.UpdateTrueName(UserId, trueName) > 0)
+            if (B_User.UpdateTrueName(UserId, trueName))
             {
                 B_UserRedis.UpdateTrueName(UserId, trueName);
                 return 0;
@@ -87,17 +72,49 @@ namespace user.easyzy.com.Controllers
         }
 
         /// <summary>
-        /// 修改班级信息，【省、市、区、学校】不能修改，【年级、班级】可以修改
+        /// 修改学校信息，如果已经被改过，则不能重复修改
         /// </summary>
         /// <param name="userClass"></param>
         /// <returns></returns>
-        public int UpdateUserClass(int provinceId, int cityId, int districtId, int schoolId, int gradeId, int classId)
+        public int UpdateUserSchool(int provinceId, int cityId, int districtId, int schoolId)
         {
+            if (provinceId == 0 || cityId == 0 || districtId == 0 || schoolId == 0)
+            {
+                return 1;
+            }
             dto_User du = B_UserRedis.GetUser(UserId);
-
-            if (B_User.UpdateClass(UserId, (du.ProvinceId == 0 ? provinceId : -1), (du.CityId == 0 ? cityId : -1), (du.DistrictId == 0 ? districtId : -1), (du.SchoolId == 0 ? schoolId : -1), gradeId, classId))
+            if (du.SchoolId != 0)
+            {
+                return 1;
+            }
+            if (B_User.UpdateSchool(UserId, provinceId, cityId, districtId, schoolId))
             {
                 B_UserRedis.ReloadUserCache(UserId);
+                return 0;
+            }
+            return 1;
+        }
+
+        /// <summary>
+        /// 修改班级信息
+        /// </summary>
+        /// <param name="gradeId"></param>
+        /// <param name="classId"></param>
+        /// <returns></returns>
+        public int UpdateUserClass(int gradeId, int classId)
+        {
+            if (gradeId == 0 || classId == 0)
+            {
+                return 1;
+            }
+
+            if (B_User.UpdateClass(UserId, gradeId, classId))
+            {
+                string gName = "";
+                Const.Grades.TryGetValue(gradeId, out gName);
+                gName = gName == null ? "" : gName;
+
+                B_UserRedis.UpdateClass(UserId, gradeId, gName, classId, classId + "班");
                 return 0;
             }
             return 1;
@@ -113,12 +130,6 @@ namespace user.easyzy.com.Controllers
         {
             List<T_District> dl = B_BaseRedis.GetDistricts(cityId);
             return Json(dl);
-        }
-
-        public JsonResult GetSchools(int districtId)
-        {
-            List<T_School> sl = B_BaseRedis.GetSchools(districtId);
-            return Json(sl);
         }
 
         public ActionResult GetCreatedZy(int pageIndex, int pageSize)
@@ -147,9 +158,24 @@ namespace user.easyzy.com.Controllers
 
         public JsonResult SearchUser(string keyWords)
         {
-            List<T_User> list = B_User.SearchUser(keyWords);
-            if (list == null) return Json(new List<T_User>());
-            return Json(list);
+            List<T_User> list = B_User.SearchUser(keyWords, UserId);
+            if (list == null) return Json(new List<dto_User>());
+            List<dto_User> ul = new List<dto_User>();
+            foreach (var l in list)
+            {
+                string gName = "";
+                Const.Grades.TryGetValue(l.GradeId, out gName);
+                ul.Add(new dto_User()
+                {
+                    Id = l.Id,
+                    UserName = l.UserName,
+                    TrueName = l.TrueName,
+                    SchoolName = B_Base.GetSchool(l.SchoolId).SchoolName,
+                    GradeName = gName == null ? "" : gName,
+                    ClassName = l.ClassId + "班"
+                });
+            }
+            return Json(ul);
         }
 
         /// <summary>
@@ -163,12 +189,12 @@ namespace user.easyzy.com.Controllers
             //查询是否关注过
             List<dto_RelateUser> list = B_User.GetRelateUser(UserId);
             if (list != null && list.Exists(a => a.RUserId == userId)) return "已经关注过，不能重复关注！";
-            return B_User.AddRelate(UserId, userId, DateTime.Now) > 0 ? "" : "操作失败！";
+            return B_User.AddRelate(UserId, userId, DateTime.Now) ? "" : "操作失败！";
         }
 
         public string CancelRelate(int userId)
         {
-            return B_User.CancelRelate(UserId, userId) > 0 ? "" : "操作失败！";
+            return B_User.CancelRelate(UserId, userId) ? "" : "操作失败！";
         }
 
         public ActionResult QueryRZy(int userId, int pageIndex, int pageSize)
@@ -180,7 +206,7 @@ namespace user.easyzy.com.Controllers
                 list.ForEach(a => a.ZyNum = Const.GetZyNum(a.ZyId));
             }
             T_User u = B_UserRedis.GetUser(userId);
-            ViewBag.RTrueName = u == null ? "" : (u.UserName + "(" + u.TrueName + ")");
+            ViewBag.RTrueName = u == null ? "" : (u.UserName + "【" + u.TrueName + "】");
             ViewBag.PageCount = Util.GetTotalPageCount(totalCount, pageSize);
             return PartialView(list);
         }
@@ -188,11 +214,52 @@ namespace user.easyzy.com.Controllers
         public JsonResult SearchSchools(int districtId, string keywords)
         {
             List<T_School> sl = B_BaseRedis.GetSchools(districtId);
-            if (sl != null)
+            if (!string.IsNullOrEmpty(keywords))
             {
-                sl = sl.FindAll(a => a.SchoolName.Contains(keywords));
+                if (sl != null)
+                {
+                    sl = sl.FindAll(a => a.SchoolName.Contains(keywords));
+                }
             }
             return Json(sl);
+        }
+
+        public ActionResult RequestModify()
+        {
+            dto_ModifyRequest drm = B_User.GetModifyRequest(UserId);
+            if (drm != null)
+            {
+                drm.FromSchoolName = B_BaseRedis.GetSchool(drm.FromSchoolId).SchoolName;
+                drm.ToSchoolName = B_BaseRedis.GetSchool(drm.ToSchoolId).SchoolName;
+            }
+            ViewBag.Model = drm;
+            ViewBag.Provinces = Const.Provinces;
+            return PartialView();
+        }
+
+        public int CancelModifyRequest(int id)
+        {
+            if (B_User.CancelModifyRequest(id))
+            {
+                return 0;
+            }
+            return 1;
+        }
+
+        public JsonResult AddModifyRequest(int schoolId, string reason)
+        {
+            dto_User u = B_UserRedis.GetUser(UserId);
+
+            dto_ModifyRequest mr = new dto_ModifyRequest() { UserId = UserId, FromSchoolId = u.SchoolId, ToSchoolId = schoolId, Reason = reason, CreateDate = DateTime.Now, Status = 0 };
+            int i = B_User.AddModifyRequest(mr);
+            if (i != 0)
+            {
+                mr.Id = i;
+                mr.FromSchoolName = B_BaseRedis.GetSchool(mr.FromSchoolId).SchoolName;
+                mr.ToSchoolName = B_BaseRedis.GetSchool(mr.ToSchoolId).SchoolName;
+                return Json(mr);
+            }
+            return null;
         }
     }
 }

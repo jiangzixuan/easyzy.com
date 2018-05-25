@@ -10,7 +10,8 @@
             <ul>
                 <li><a href="javascript:void(0);" class="userinfo active">个人信息</a></li>
                 <li><a href="javascript:void(0);" class="created">已建作业</a></li>
-                <li><a href="javascript:void(0);" class="submited" style="border-bottom:none;">已做作业</a></li>
+                <li><a href="javascript:void(0);" class="submited">已做作业</a></li>
+                <li><a href="javascript:void(0);" class="requestmodify" style="border-bottom:none;">修改请求</a></li>
             </ul>
             
         </div>
@@ -101,6 +102,19 @@
                 if (parseInt($("#PageCountDiv").html()) > 1) {
                     $("#pager").pager({ pagenumber: Sub_data.PageIndex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: SubPageClick });
                 }
+            })
+    }
+
+    $(".requestmodify").on("click", function () {
+        RequestModify();
+    })
+
+    var RequestModify = function () {
+        $(".requestmodify").addClass("active").parent("li").siblings().find("a").removeClass("active");
+        $.post("/personal/RequestModify",
+            {  },
+            function (data) {
+                $(".personal-info").html(data);
             })
     }
 

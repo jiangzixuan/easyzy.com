@@ -120,7 +120,7 @@ namespace user.easyzy.com.Controllers
                 if (u.FirstLoginDate == DateTime.Parse("2000-01-01 00:00:00"))
                 {
                     DateTime dtFLD = DateTime.Now;
-                    if (B_User.UpdateFirstLoginDate(u.Id, dtFLD) > 0)
+                    if (B_User.UpdateFirstLoginDate(u.Id, dtFLD))
                     {
                         B_UserRedis.UpdateFirstLoginDate(u.Id, dtFLD);
                     }

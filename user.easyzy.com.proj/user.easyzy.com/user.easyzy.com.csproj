@@ -220,6 +220,7 @@
     <Content Include="Views\Personal\GetCreatedZy.cshtml" />
     <Content Include="Views\Personal\GetSubmitedZy.cshtml" />
     <Content Include="Views\Personal\QueryRZy.cshtml" />
+    <Content Include="Views\Personal\RequestModify.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

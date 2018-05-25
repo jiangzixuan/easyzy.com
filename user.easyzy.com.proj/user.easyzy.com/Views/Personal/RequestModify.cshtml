@@ -1,0 +1,236 @@
+﻿@using user.easyzy.model.dto;
+@{
+    ViewBag.Title = "易作业-修改学校请求";
+}
+<style type="text/css">
+    .inner-content .tselect{padding:20px 10px; line-height:40px;}
+    .inner-content .tselect select{width: 100px;height: 24px;border: solid 1px #dfdfdf;padding-left: 2px;background: #f4f4f4;}
+    .inner-content .tselect select.long{width:250px;}
+    .inner-content a{padding: 5px 20px; background:#e91a53; color:#fff;}
+    .inner-content .rearea{width:100%; height:100px;}
+    .inner-content .requests{clear:both; padding: 20px 0;}
+    .inner-content .requests .req{float:left; width:90%}
+    .inner-content .requests .req span{padding-right: 20px; }
+    .inner-content .requests .creq{float:right;}
+    .inner-content .requests label{color:#e91a53; padding:0 10px;}
+</style>
+
+<div class="inner-title" style="line-height: 38px;background: #f7f7f7; color: #669fc7; border: 1px solid #CCC; border-bottom: 1px solid #DDD; padding: 5px 12px; font-size:16px">
+    申请修改学校信息
+</div>
+<div class="inner-content">
+    @if (ViewBag.Model != null)
+    {
+    <div class="requests">
+        <div class="req">
+            <span>@ViewBag.Model.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")</span>
+            <span>从<label>@(ViewBag.Model.FromSchoolName)</label>转到<label>@(ViewBag.Model.ToSchoolName)</label></span>
+            <br/><br />
+            <span>原因是：@ViewBag.Model.Reason</span>
+        </div>
+        <div class="creq">
+            <a href="javascript:void(0);" onclick="CancelRequest(@ViewBag.Model.Id);">取消</a>
+        </div>
+    </div>
+    }
+    else
+    {
+    <div class="tselect">
+        <div>
+            <label class="tselect_tip">省：</label>
+            <select class="pselecter short">
+                <option value="0"></option>
+                @foreach (var p in ViewBag.Provinces)
+                {
+                    <option value="@p.Key">@p.Value</option>
+                }
+            </select>
+            <label class="tselect_tip">市：</label>
+            <select class="cselecter short">
+                <option value="0"></option>
+            </select>
+            <label class="tselect_tip">区：</label>
+            <select class="dselecter long">
+                <option value="0"></option>
+            </select>
+                            
+            <div class="ss">
+                <label>学校：</label>
+                <input class="schinput long" placeholder="在结果中搜索、点右边箭头展开" />
+                <select class="sselecter long" style="position:relative;">
+                    <option value="0"></option>
+                </select>
+            </div>
+        </div>
+        <div>
+            <label>原因：</label><br/>
+            <textarea class="rearea" placeholder="必须写明原因，长度不能超过200字" />
+        </div>
+        
+        <div>
+            <a href="javascript:void(0);" class="request">申请</a>
+        </div>
+    </div>
+    }
+</div>
+
+<script type="text/javascript">
+    $(".pselecter").on("change", function () {
+        $(".dselecter").html("<option value='0'></option>");
+        $(".sselecter").html("<option value='0'></option>");
+        var pid = $(this).val();
+        if (pid == 0) {
+            $(".cselecter").html("<option value='0'></option>");
+            return;
+        }
+        var html = "<option value='0'></option>";
+        $.post("/personal/GetCites",
+            { provinceId: pid },
+            function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    html += "<option value='" + data[i].CityId + "'>" + data[i].CityName + "</option>";
+                }
+                $(".cselecter").html(html);
+            })
+    })
+
+    $(".cselecter").on("change", function () {
+        $(".sselecter").html("<option value='0'></option>");
+        var cid = $(this).val();
+        if (cid == 0) {
+            $(".dselecter").html("<option value='0'></option>");
+            return;
+        }
+        var html = "<option value='0'></option>";
+        $.post("/personal/GetDistricts",
+            { cityId: cid },
+            function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    html += "<option value='" + data[i].DistrictId + "'>" + data[i].DistrictName + "</option>";
+                }
+                $(".dselecter").html(html);
+            })
+    })
+
+    $(".dselecter").on("change", function () {
+        searchSchools();
+        showSchools();
+    })
+
+    var cur_Schools = [];
+
+    var searchSchools = function () {
+        cur_Schools = [];
+        var did = $(".dselecter").val();
+        if (did == 0) {
+            $(".sselecter").html("<option value='0'></option>");
+            return;
+        }
+
+        $.ajax({
+            url: "/personal/SearchSchools",
+            type: "post",
+            async: false,
+            data: { districtId: did, keyWords: "" },
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    cur_Schools.push(data[i].SchoolId + "_!" + data[i].SchoolName);
+                }
+            }
+        })
+    }
+
+    //根据搜索出来的学校数组，结合搜索词，重置下拉框中显示的学校
+    var showSchools = function () {
+        if (cur_Schools.length == 0) return;
+        var keyWords = $(".schinput").val();
+
+        var html = "<option value='0'></option>";
+        if (keyWords == "") {
+            for (var i = 0; i < cur_Schools.length; i++) {
+                html += "<option value='" + cur_Schools[i].split("_!")[0] + "'>" + cur_Schools[i].split("_!")[1] + "</option>";
+            }
+        }
+        else {
+            for (var i = 0; i < cur_Schools.length; i++) {
+                var ss = cur_Schools[i].split("_!");
+                if (ss[1].indexOf(keyWords) != -1) {
+                    html += "<option value='" + ss[0] + "'>" + ss[1] + "</option>";
+                }
+            }
+        }
+        $(".sselecter").html(html);
+    }
+
+    $(".schinput").focus(function () {
+        var did = $(".dselecter").val();
+        if (!did || did == 0) {
+            $(".dselecter").css("border", "1px solid red");
+            return;
+        }
+    })
+
+    //从下拉框中搜索学校
+    $(".schinput").on("change", function () {
+        showSchools();
+    })
+
+    //从下拉框中搜索到学校并选中
+    $(".schinput").on("blur", function () {
+        $(".dselecter").css("border", "1px solid #dfdfdf");
+    })
+
+    $(".sselecter").on("change", function () {
+        $(".schinput").val($(this).find("option:selected").text());
+    })
+
+    $(".request").on("click", function () {
+        var sid = $(".sselecter").val();
+        var reason = $(".rearea").val();
+        console.log(sid);
+        console.log(reason);
+        if (!sid || sid == 0) {
+            dialogAlert("请从学校下拉框中选择学校！");
+            return false;
+        }
+
+        if (!reason || trim(reason).length == 0) {
+            dialogAlert("必须要写明原因！");
+            $(".rearea").focus();
+            return false;
+        }
+
+        if (trim(reason).length > 200) {
+            dialogAlert("原因不能超过200字！");
+            $(".rearea").focus();
+            return false;
+        }
+
+        $.post("/personal/AddModifyRequest",
+            { schoolId: sid, reason: reason },
+            function (data) {
+                if (data != "null") {
+                    var html = "<div class='requests'><div class='req'><span>" + data.CreateDate + "</span><span>从<label>" + data.FromSchoolName + "</label>转到<label>" + data.ToSchoolName + "</label></span><br/><br /><span>原因是<label>" + data.Reason + "</label></span></div><div class='creq'><a href='javascript:void(0);' onclick='CancelRequest(" + data.Id + ");'>取消</a></div></div>";
+                    $(".tselect").hide();
+                    
+                    $(".inner-content").html(html);
+                }
+                else {
+                    dialogAlert("修改失败！");
+                }
+            })
+    })
+
+    var CancelRequest = function (id) {
+        $.post("/personal/CancelModifyRequest",
+            { id: id },
+            function (data) {
+                if (data == "0") {
+                    window.location.reload();
+                }
+                else {
+                    dialogAlert("修改失败！");
+                }
+            })
+    }
+</script>
