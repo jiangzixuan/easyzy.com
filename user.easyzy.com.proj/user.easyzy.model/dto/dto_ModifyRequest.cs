@@ -8,5 +8,7 @@ namespace user.easyzy.model.dto
 
         public string ToSchoolName { get; set; }
 
+        public string CreateDateStr { get; set; }
+
     }
 }

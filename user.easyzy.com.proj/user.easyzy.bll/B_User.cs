@@ -280,5 +280,56 @@ namespace user.easyzy.bll
                 );
             return o == null ? 0 : int.Parse(o.ToString());
         }
+
+        public static T_UserExtend GetUserExtend(int userId)
+        {
+            T_UserExtend model = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(UserConnString),
+                "select UserId, Locked from T_UserExtend where UserId = @UserId",
+                "@UserId".ToInt32InPara(userId)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    model = MySqlDBHelper.ConvertDataReaderToEntitySingle<T_UserExtend>(dr);
+                }
+            }
+            return model;
+        }
+
+        public static List<T_UserExtend> GetUserExtends(int[] uIds)
+        {
+            if (uIds.Length == 0) return null;
+            string userIds = string.Join(",", uIds);
+            List<T_UserExtend> model = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(UserConnString),
+                "select UserId, Locked from T_UserExtend where UserId in (" + userIds + ")"))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    model = MySqlDBHelper.ConvertDataReaderToEntityList<T_UserExtend>(dr);
+                }
+            }
+            return model;
+        }
+
+        public static bool UpdateUserExtend(T_UserExtend ue)
+        {
+            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString),
+                "update T_UserExtend set Locked = @Locked where UserId = @UserId",
+                "@Locked".ToBitInPara(ue.Locked),
+                "@UserId".ToInt32InPara(ue.UserId)
+                );
+            return o == null ? false : true;
+        }
+
+        public static bool AddUserExtend(T_UserExtend ue)
+        {
+            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString),
+                "insert into T_UserExtend(UserId, Locked) values(@UserId, @Locked)",
+                "@UserId".ToInt32InPara(ue.UserId),
+                "@Locked".ToBitInPara(ue.Locked)
+                );
+            return o == null ? false : true;
+        }
     }
 }

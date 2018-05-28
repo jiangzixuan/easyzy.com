@@ -58,6 +58,10 @@ namespace user.easyzy.com.Controllers
                 }
             }
             ViewBag.BeRelatedUser = list2;
+            
+            T_UserExtend tue = B_User.GetUserExtend(UserId);
+            ViewBag.Extend = tue;
+
             return PartialView();
         }
 
@@ -160,11 +164,15 @@ namespace user.easyzy.com.Controllers
         {
             List<T_User> list = B_User.SearchUser(keyWords, UserId);
             if (list == null) return Json(new List<dto_User>());
+            int[] uIds = list.Select(a => a.Id).ToArray();
+            List<T_UserExtend> uel = B_User.GetUserExtends(uIds);
+
             List<dto_User> ul = new List<dto_User>();
             foreach (var l in list)
             {
                 string gName = "";
                 Const.Grades.TryGetValue(l.GradeId, out gName);
+                T_UserExtend ue = uel == null ? null : uel.Find(a => a.UserId == l.Id);
                 ul.Add(new dto_User()
                 {
                     Id = l.Id,
@@ -172,7 +180,8 @@ namespace user.easyzy.com.Controllers
                     TrueName = l.TrueName,
                     SchoolName = B_Base.GetSchool(l.SchoolId).SchoolName,
                     GradeName = gName == null ? "" : gName,
-                    ClassName = l.ClassId + "班"
+                    ClassName = l.ClassId + "班",
+                    Locked = ue == null ? false : ue.Locked
                 });
             }
             return Json(ul);
@@ -186,9 +195,13 @@ namespace user.easyzy.com.Controllers
         public string Relate(int userId)
         {
             if (UserId == userId) return "不能关注自己！";
+            //查询用户是否已经锁定
+            T_UserExtend tue = B_User.GetUserExtend(userId);
+            if (tue != null && tue.Locked) return "用户已经锁定，不能关注！";
             //查询是否关注过
             List<dto_RelateUser> list = B_User.GetRelateUser(UserId);
             if (list != null && list.Exists(a => a.RUserId == userId)) return "已经关注过，不能重复关注！";
+
             return B_User.AddRelate(UserId, userId, DateTime.Now) ? "" : "操作失败！";
         }
 
@@ -255,11 +268,38 @@ namespace user.easyzy.com.Controllers
             if (i != 0)
             {
                 mr.Id = i;
+                mr.CreateDateStr = mr.CreateDate.ToString("yyyy-MM-dd HH:mm:ss");
                 mr.FromSchoolName = B_BaseRedis.GetSchool(mr.FromSchoolId).SchoolName;
                 mr.ToSchoolName = B_BaseRedis.GetSchool(mr.ToSchoolId).SchoolName;
                 return Json(mr);
             }
             return null;
+        }
+
+        public int Lock()
+        {
+            T_UserExtend ue = B_User.GetUserExtend(UserId);
+            bool b = false;
+            if (ue == null)
+            {
+                ue = new T_UserExtend() { UserId = UserId, Locked = true };
+                b = B_User.AddUserExtend(ue);
+            }
+            else
+            {
+                ue.Locked = true;
+                b = B_User.UpdateUserExtend(ue);
+            }
+            return b ? 0 : 1;
+        }
+
+        public int UnLock()
+        {
+            bool b = false;
+            T_UserExtend ue = new T_UserExtend() { UserId = UserId, Locked = false };
+            b = B_User.UpdateUserExtend(ue);
+            
+            return b ? 0 : 1;
         }
     }
 }

@@ -25,8 +25,10 @@
         <div class="req">
             <span>@ViewBag.Model.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")</span>
             <span>从<label>@(ViewBag.Model.FromSchoolName)</label>转到<label>@(ViewBag.Model.ToSchoolName)</label></span>
-            <br/><br />
+            <br /><br />
             <span>原因是：@ViewBag.Model.Reason</span>
+            <br /><br />
+            <span>状态：<label>等待处理</label></span>
         </div>
         <div class="creq">
             <a href="javascript:void(0);" onclick="CancelRequest(@ViewBag.Model.Id);">取消</a>
@@ -210,7 +212,7 @@
             { schoolId: sid, reason: reason },
             function (data) {
                 if (data != "null") {
-                    var html = "<div class='requests'><div class='req'><span>" + data.CreateDate + "</span><span>从<label>" + data.FromSchoolName + "</label>转到<label>" + data.ToSchoolName + "</label></span><br/><br /><span>原因是<label>" + data.Reason + "</label></span></div><div class='creq'><a href='javascript:void(0);' onclick='CancelRequest(" + data.Id + ");'>取消</a></div></div>";
+                    var html = "<div class='requests'><div class='req'><span>" + data.CreateDateStr + "</span><span>从<label>" + data.FromSchoolName + "</label>转到<label>" + data.ToSchoolName + "</label></span><br/><br /><span>原因是：<label>" + data.Reason + "</label></span><br /><br /><span>状态：<label>等待处理</label></span></div><div class='creq'><a href='javascript:void(0);' onclick='CancelRequest(" + data.Id + ");'>取消</a></div></div>";
                     $(".tselect").hide();
                     
                     $(".inner-content").html(html);

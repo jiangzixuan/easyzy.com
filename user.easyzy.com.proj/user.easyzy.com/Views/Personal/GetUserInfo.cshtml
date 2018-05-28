@@ -131,15 +131,31 @@
         <tr>
             <td class="tright">被谁关注：</td>
             <td class="tleft berelated">
-                @if (ViewBag.BeRelatedUser != null)
-                {
-                    foreach (var u in ViewBag.BeRelatedUser)
+                <p class="panal_title">只有关注了您的人，才有权打开您新建的作业！锁定之后任何人都不能再关注您。</p>
+                <div style="height:50px;">
+                    @if (ViewBag.BeRelatedUser != null)
                     {
-                        <label href="javascript:void(0);" class="ql">@(u.UserName)【@(u.TrueName)】</label>
+                        foreach (var u in ViewBag.BeRelatedUser)
+                        {
+                            <label href="javascript:void(0);" class="ql">@(u.UserName)【@(u.TrueName)】</label>
+                        }
                     }
+                    else
+                    {
+                        <label>暂无</label>
+                    }
+                </div>
+            </td>
+            <td>
+                @if (ViewBag.Extend == null || !ViewBag.Extend.Locked)
+                {
+                    <a href="javascript:void(0);" class="icolock lock" title="未锁定 可被关注"></a>
+                }
+                else
+                {
+                    <a href="javascript:void(0);" class="icolock lock active" title="已锁定 不能被关注"></a>
                 }
             </td>
-            <td class=""></td>
         </tr>
     </table>
 </div>
@@ -375,7 +391,14 @@
             function (json) {
                 if (json.length != 0) {
                     for (var i = 0; i < json.length; i++) {
-                        html += "<tr><td>" + (i + 1) + "</td><td>" + json[i].UserName + "</td><td>" + json[i].TrueName + "</td><td>" + json[i].SchoolName + "</td><td>" + json[i].GradeName + "</td><td>" + json[i].ClassName + "</td><td><a href='javascript:void(0);' onclick=\"relate('" + json[i].Id + "','" + json[i].UserName + "','" + json[i].TrueName + "'); \">关注</a></td></tr>";
+                        html += "<tr><td>" + (i + 1) + "</td><td>" + json[i].UserName + "</td><td>" + json[i].TrueName + "</td><td>" + json[i].SchoolName + "</td><td>" + json[i].GradeName + "</td><td>" + json[i].ClassName + "</td>";
+                        if (!json[i].Locked) {
+                            html += "<td><a href='javascript:void(0);' style='color:royalblue' onclick=\"relate('" + json[i].Id + "','" + json[i].UserName + "','" + json[i].TrueName + "'); \">关注</a></td >";
+                        }
+                        else {
+                            html += "<td title='被锁定，不能关注'>-</td >";
+                        }
+                        html += "</tr > ";
                     }
                     $("#tbody2").html(html);
                 }
@@ -427,4 +450,34 @@
                 }
             })
     }
+
+    $(".lock").on("click", function () {
+        var t = $(this);
+        if (t.hasClass("active")) {
+            $.post("/personal/UnLock",
+                {},
+                function (data) {
+                    if (data == "0") {
+                        t.removeClass("active");
+                        t.attr("title", "未锁定 可被关注");
+                    }
+                    else {
+                        dialogAlert("解锁失败！");
+                    }
+                })
+        }
+        else {
+            $.post("/personal/Lock",
+                {},
+                function (data) {
+                    if (data == "0") {
+                        t.addClass("active");
+                        t.attr("title", "已锁定 不能被关注");
+                    }
+                    else {
+                        dialogAlert("锁定失败！");
+                    }
+                })
+        }
+    })
 </script>
