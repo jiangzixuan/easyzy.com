@@ -1,12 +1,218 @@
 ﻿@{
-    ViewBag.Title = "易作业-题库作业";
+    ViewBag.Title = "易作业-新建题库作业";
     Layout = "~/areas/create/Views/Shared/_Layout.cshtml";
 }
+<style type="text/css">
+    .treeoverall{width:25%; height:500px; float:left;}
+    .quesoverall{width:74%; min-height:500px;  float:right; background:#fff}
+    .treeoverall .jcchoose, .treeoverall .treeshow{background:#fff;}
+    .treeoverall .jctip{position:relative; color:#0094ff;font-size:16px;padding:10px 10px 10px 32px; background:url("/Images/category-main-icon.png") no-repeat 5px 9px; cursor:pointer;}
+    .treeoverall .jcall{position:absolute; padding:5px; background:#e9e1e1; width:800px; display:none;}
+    .treeoverall .jcall li:hover{color:#ff006e;}
+    .treeoverall .jcall li.active{color:#ff006e;}
+    .treeoverall .bblist, .treeoverall .jclist{clear:both; }
+    .treeoverall .bblist span, .treeoverall .jclist span{color:#0094ff}
+    .treeoverall .bblist li, .treeoverall .jclist li{float:left; padding:5px 10px; cursor:pointer;}
+    .treeoverall .treeshow{margin-top:5px; min-height:454px;}
 
+</style>
 <div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > 新建作业 > 题库作业</div>
-<div class="content">
-    <div class="main-content">
+<div class="content-title">
+    <div class="page-top">
+        <div class="page-nav">
+            <div class="kct left">
+                <div class="select-header">
+                    <div class="selectkc">
+                        <div class="left currentkc" data-bind="26">高中语文</div>
+                        <div class="left" style="padding-top: 15px;padding-left: 4px;">
+                            <div class="white-line"></div>
+                            <div class="white-line"></div>
+                            <div class="white-line"></div>
+                        </div>
+                    </div>
 
+                </div>
+                <ul class="stage-list">
+                    <li class="stage">
+                        <span>高中</span>
+                        <ul>
+                            <li>
+                                @foreach (var s in ViewBag.SeniorCourses)
+                                {
+                                    <a class="left" data-bind="@s.Key">@s.Value</a>
+                                }
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="stage">
+                        <span>初中</span>
+                        <ul>
+                            <li>
+                                @foreach (var s in ViewBag.JuniorCourses)
+                                {
+                                    <a class="left" data-bind="@s.Key">@s.Value</a>
+                                }
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="stage">
+                        <span>小学</span>
+                        <ul>
+                            <li>
+                                @foreach (var s in ViewBag.PrimaryCourses)
+                                {
+                                    <a class="left" data-bind="@s.Key">@s.Value</a>
+                                }
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="zj page-func left active" data-bind="0">章节选题</div>
+            <div class="kpt page-func left" data-bind="1">知识点选题</div>
+            <div class="paper page-func left" data-bind="2">套卷选题</div>
+        </div>
+        <div class="basket"></div>
+    </div>
+</div>
+<div class="content">
+    <div class="main-content" style="background:#f4f4f4; width:1200px; padding: 0;">
+        <div class="treeoverall">
+            <div class="jcchoose">
+                <div class="jctip">
+                    人教版 必修1
+                </div>
+                <div class="jcall">
+                    <div class="bblist">
+                        <span>版本:</span>
+                        <ul>
+                            <li>人教版</li>
+                            <li>苏教版</li>
+                            <li>人教版</li>
+                            <li>苏教版</li>
+                            <li>人教版</li>
+                            <li>苏教版</li>
+                            <li>人教版</li>
+                            <li>苏教版</li>
+                            <li>人教版</li>
+                            <li>苏教版</li>
+                        </ul>
+                    </div>
+                    <div class="jclist">
+                        <span>教材</span>
+                        <ul>
+                            <li>必修1</li>
+                            <li>必修2</li>
+                            <li>必修1</li>
+                            <li>必修2</li>
+                            <li>必修1</li>
+                            <li>必修2</li>
+                            <li>必修1</li>
+                            <li>必修2</li>
+                            <li>必修1</li>
+                            <li>必修2</li>
+                        </ul>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="treeshow">
+
+            </div>
+        </div>
+        <div class="quesoverall">
+
+
+        </div>
     </div>
 </div>
 
+@section css{
+    <link rel="stylesheet" href="/scripts/ztree/zTreeStyle/zTreeStyle.css" />
+}
+
+@section scriptlast{
+    <script type="text/javascript" src="/scripts/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/scripts/ztree/jquery.ztree.core.min.js"></script>
+}
+
+<script type="text/javascript">
+    //有选择过课程，则以cookie记录的课程为默认课程
+    //否则默认高中语文
+    var cur_data = {
+        default_courseId: 26,
+        default_courseName: "高中语文"
+    }
+
+    $(function () {
+        var defaultCourse = $.cookie("easyzy.basket.defaultcourse");
+        if (defaultCourse) {
+            cur_data.default_courseId = defaultCourse.split('|')[0];
+            cur_data.default_courseName = defaultCourse.split('|')[1];
+        }
+        $(".currentkc").attr("data-bind", cur_data.default_courseId).html(cur_data.default_courseName);
+        $(".stage-list li a[data-bind='" + cur_data.default_courseId + "']").addClass("active");
+        //默认根据章节选题，加载教材版本
+        LoadTextBookVersions();
+    })
+
+    //弹层显示、隐藏以及一些页面交互
+    $(".select-header, .page-nav .stage-list").on("mouseover", function () {
+        $(".page-nav .stage-list").show();
+    });
+
+    $(".page-nav .kct").on("mouseout", function () {
+        $(".page-nav .stage-list").hide();
+    })
+
+    $(".treeoverall .jctip, .treeoverall .jcall").on("mouseover", function () {
+        $(".treeoverall .jcall").show();
+    });
+
+    $(".treeoverall .jcchoose").on("mouseout", function () {
+        $(".treeoverall .jcall").hide();
+    })
+
+    $(".page-nav .page-func").on("click", function () {
+        $(this).addClass("active").siblings().removeClass("active");
+    })
+
+    $(".treeoverall .bblist li").on("click", function () {
+        $(this).addClass("active").siblings().removeClass("active");
+    })
+
+    $(".treeoverall .jclist li").on("click", function () {
+        $(this).addClass("active").siblings().removeClass("active");
+    })
+
+    //选择课程
+    $(".page-nav .stage-list .stage li a").on("click", function () {
+        $(this).addClass("active").siblings().removeClass("active").parents(".stage").siblings().find("a").removeClass("active");
+        var id = $(this).attr("data-bind");
+        var name = $(this).parents("ul").siblings("span").html() + $(this).html();
+        $(".currentkc").attr("data-bind", id);
+        $(".currentkc").html(name);
+
+        var s = id + "|" + name;
+        $.cookie("easyzy.basket.defaultcourse", s, { expires: 30, path: '/' });
+    })
+
+    //加载教材版本
+    var LoadTextBookVersions = function () {
+        
+    }
+
+    //点击教材版本，拉取教材
+    $(".treeoverall .bblist ul li").on("click", function () {
+        LoadTextBooks($(this).attr("data-bind"));
+    })
+
+    var LoadTextBooks = function () {
+
+    }
+
+    var LoadTree = function () {
+        var courseId = $(".currentkc").attr("data-bind");
+    }
+
+</script>

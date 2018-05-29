@@ -9,7 +9,6 @@ namespace hw.easyzy.com.Areas.create.Controllers
 {
     public class selfController : baseController
     {
-        // GET: create/self
         public ActionResult Index()
         {
             ViewBag.WordFunc = (int)Const.WordFunc.CreateZY;

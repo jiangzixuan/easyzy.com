@@ -134,3 +134,17 @@ a.oddesc{background-position:0 -26px;}
 .foot-wrap{width:100%;min-width:1000px;padding:30px 0;overflow:hidden;background:#333}
 .foot{text-align:center;color:#e4e6ed}
 .foot p{line-height:30px;}
+.page-nav .page-func{margin-right:25px;cursor:pointer;font-size:18px;padding:12px 15px;margin-left:20px}
+.page-nav .page-func:hover{color:#0094ff}
+.content-title{height:50px;width:1200px;background:#fff;margin-bottom:20px}
+.page-nav .select-header{background:#0094ff;text-align:center;width:250px;height:50px;cursor:pointer;border-radius:4px 4px 0 0;position:relative}
+.page-nav .selectkc{font-weight:700;clear:both;font-size:18px;width:135px;line-height:50px;color:#fff}
+.page-nav .selectkc .white-line{width:20px;height:5px;border-bottom:1px solid #fff}
+.page-nav .select-header ul{position:absolute; }
+.page-nav .stage-list{width:250px;background:#e9e1e1;border-bottom:1px solid #fff;position:absolute;display:none;z-index:99;}
+.page-nav .stage-list .stage{clear:both;border-bottom:1px solid #ff006e;line-height:30px;padding-top:10px}
+.page-nav .stage-list span{color:#0094ff;font-size:16px;padding:10px 10px}
+.page-nav .stage-list .stage li a{padding:5px 10px;cursor:pointer}
+.page-nav .stage-list .stage li a:hover{color:#ff006e}
+.page-nav .stage-list .stage li a.active{color:#ff006e}
+.page-top .page-func.active{color:#0094ff;border-bottom:2px solid #0094ff}

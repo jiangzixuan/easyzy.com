@@ -25,8 +25,8 @@ namespace hw.easyzy.bll
         public static T_Zy GetZy(int id)
         {
             Dictionary<string, string> tempresult = null;
-            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Zy, id.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.Zy.ToString()))
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.SelfZy, id.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.SelfZy.ToString()))
             {
                 if (client != null)
                 {
@@ -43,7 +43,7 @@ namespace hw.easyzy.bll
                 result = B_Zy.GetZy(id);
                 if (result != null)
                 {
-                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.Zy.ToString()))
+                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.SelfZy.ToString()))
                     {
                         if (cl != null)
                         {
@@ -65,8 +65,8 @@ namespace hw.easyzy.bll
         {
             string tempresult = null;
 
-            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.ZyStruct, zyId.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.ZyStruct.ToString()))
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.SelfZyStruct, zyId.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.SelfZyStruct.ToString()))
             {
                 if (client != null)
                 {
@@ -83,7 +83,7 @@ namespace hw.easyzy.bll
                 result = B_Zy.GetZyStruct(zyId);
                 if (result != null)
                 {
-                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.ZyStruct.ToString()))
+                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.SelfZyStruct.ToString()))
                     {
                         if (cl != null)
                         {
@@ -98,8 +98,8 @@ namespace hw.easyzy.bll
         public static T_Answer GetZyAnswer(int zyId, string trueName)
         {
             Dictionary<string, string> tempresult = null;
-            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.ZyAnswer, zyId.ToString() + trueName);
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.ZyAnswer.ToString()))
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.SelfZyAnswer, zyId.ToString() + trueName);
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.SelfZyAnswer.ToString()))
             {
                 if (client != null)
                 {
@@ -116,7 +116,7 @@ namespace hw.easyzy.bll
                 result = B_Zy.GetZyAnswer(zyId, trueName);
                 if (result != null)
                 {
-                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.ZyAnswer.ToString()))
+                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.SelfZyAnswer.ToString()))
                     {
                         if (cl != null)
                         {
@@ -132,8 +132,8 @@ namespace hw.easyzy.bll
         public static T_Answer GetZyAnswer(int zyId, int studentId)
         {
             Dictionary<string, string> tempresult = null;
-            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.ZyAnswer, zyId.ToString() + studentId.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.ZyAnswer.ToString()))
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.SelfZyAnswer, zyId.ToString() + studentId.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.SelfZyAnswer.ToString()))
             {
                 if (client != null)
                 {
@@ -150,7 +150,7 @@ namespace hw.easyzy.bll
                 result = B_Zy.GetZyAnswer(zyId, studentId);
                 if (result != null)
                 {
-                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.ZyAnswer.ToString()))
+                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.SelfZyAnswer.ToString()))
                     {
                         if (cl != null)
                         {
@@ -170,8 +170,8 @@ namespace hw.easyzy.bll
         public static void UpdateZyStructed(int zyId)
         {
             Dictionary<string, string> tempresult = null;
-            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Zy, zyId.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.Zy.ToString()))
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.SelfZy, zyId.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.SelfZy.ToString()))
             {
                 if (client != null)
                 {
@@ -183,7 +183,7 @@ namespace hw.easyzy.bll
             {
                 result = RedisHelper.ConvertDicToEntitySingle<T_Zy>(tempresult);
                 result.Structed = true;
-                using (var cl = RedisHelper.GetRedisClient(CacheCatalog.Zy.ToString()))
+                using (var cl = RedisHelper.GetRedisClient(CacheCatalog.SelfZy.ToString()))
                 {
                     if (cl != null)
                     {
@@ -200,8 +200,8 @@ namespace hw.easyzy.bll
         /// <param name="zyId"></param>
         public static void DeleteZyCache(int zyId)
         {
-            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Zy, zyId.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.Zy.ToString()))
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.SelfZy, zyId.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.SelfZy.ToString()))
             {
                 if (client != null)
                 {

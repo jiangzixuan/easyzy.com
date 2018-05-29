@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="dto\dto_Answer.cs" />
     <Compile Include="dto\dto_Echart_pie-simple.cs" />
     <Compile Include="dto\dto_RelateUser.cs" />
