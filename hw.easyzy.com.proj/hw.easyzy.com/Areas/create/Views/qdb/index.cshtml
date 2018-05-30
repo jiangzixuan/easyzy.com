@@ -16,7 +16,7 @@
     .treeoverall .treeshow{margin-top:5px; min-height:454px;}
 
 </style>
-<div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > 新建作业 > 题库作业</div>
+<div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > 新建 > 题库作业</div>
 <div class="content-title">
     <div class="page-top">
         <div class="page-nav">
@@ -177,10 +177,6 @@
         $(this).addClass("active").siblings().removeClass("active");
     })
 
-    $(".treeoverall .bblist li").on("click", function () {
-        $(this).addClass("active").siblings().removeClass("active");
-    })
-
     $(".treeoverall .jclist li").on("click", function () {
         $(this).addClass("active").siblings().removeClass("active");
     })
@@ -195,20 +191,50 @@
 
         var s = id + "|" + name;
         $.cookie("easyzy.basket.defaultcourse", s, { expires: 30, path: '/' });
+        $(".page-nav .stage-list").hide();
+
+        var type = $(".page-nav .page-func.active").attr("data-bind");
+        if (type == 0) {
+            LoadTextBookVersions();
+        }
     })
 
     //加载教材版本
     var LoadTextBookVersions = function () {
-        
+        var courseid = $(".currentkc").attr("data-bind");
+        var html = "";
+        $.post("qdb/GetTextBookVersions",
+            {courseId: courseid},
+            function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    html += "<li data-bind='" + data[i].Id + "'>" + data[i].Name + "</li>";
+                }
+                $(".treeoverall .bblist ul").html(html);
+
+                $(".treeoverall .bblist li").on("click", function () {
+                    $(this).addClass("active").siblings().removeClass("active");
+                    LoadTextBooks();
+                })
+            })
     }
 
-    //点击教材版本，拉取教材
-    $(".treeoverall .bblist ul li").on("click", function () {
-        LoadTextBooks($(this).attr("data-bind"));
-    })
-
+    //加载教材
     var LoadTextBooks = function () {
+        var versionid = $(".treeoverall .bblist li.active").attr("data-bind");
+        var html = "";
+        $.post("qdb/GetTextBooks",
+            { versionId: versionid },
+            function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    html += "<li data-bind='" + data[i].Id + "'>" + data[i].Volume + "</li>";
+                }
+                $(".treeoverall .jclist ul").html(html);
 
+                $(".treeoverall .jclist li").on("click", function () {
+                    $(this).addClass("active").siblings().removeClass("active");
+                    LoadTree();
+                })
+            })
     }
 
     var LoadTree = function () {

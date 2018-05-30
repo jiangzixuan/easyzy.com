@@ -1,4 +1,6 @@
 ﻿using easyzy.sdk;
+using hw.easyzy.bll;
+using hw.easyzy.model.entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +43,18 @@ namespace hw.easyzy.com.Areas.create.Controllers
             ViewBag.JuniorCourses = jd; ;
             ViewBag.SeniorCourses = sd; ;
             return View();
+        }
+
+        public JsonResult GetTextBookVersions(int courseId)
+        {
+            List<T_TextBookVersions> list = B_QuesRedis.GetTextBookVersions(courseId);
+            return Json(list);
+        }
+
+        public JsonResult GetTextBooks(int versionId)
+        {
+            List<T_TextBooks> list = B_QuesRedis.GetTextBooks(versionId);
+            return Json(list);
         }
     }
 }

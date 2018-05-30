@@ -50,15 +50,18 @@ namespace easyzy.sdk
         /// </summary>
         public enum CacheCatalog
         {
-            User,
-            SelfZy,
-            QdbZy,
-            ZyQues,
-            Ques,
-            SelfZyStruct,
-            SelfZyAnswer,
-            CheckCode, //验证码
-            Base
+            User,    //用户
+            SelfZy,  //自传作业
+            QdbZy,   //题库作业
+            ZyQues,  //作业试题
+            Ques,    //试题
+            SelfZyStruct,  //自传作业结构
+            SelfZyAnswer,  //自传作业答案
+            CheckCode,     //验证码
+            Base,    //基础数据
+            TextBooks,  //教材集合
+            TextBookVersions //教材版本集合
+
         }
 
         /// <summary>
