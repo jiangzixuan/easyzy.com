@@ -55,6 +55,7 @@
     <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Management" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -67,6 +68,8 @@
     <Compile Include="B_BaseRedis.cs" />
     <Compile Include="B_Common.cs" />
     <Compile Include="B_Ques.cs" />
+    <Compile Include="B_QuesBase.cs" />
+    <Compile Include="B_QuesBaseRedis.cs" />
     <Compile Include="B_QuesRedis.cs" />
     <Compile Include="B_Test.cs" />
     <Compile Include="B_User.cs" />

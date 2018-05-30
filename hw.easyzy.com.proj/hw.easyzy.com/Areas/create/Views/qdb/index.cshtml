@@ -3,17 +3,7 @@
     Layout = "~/areas/create/Views/Shared/_Layout.cshtml";
 }
 <style type="text/css">
-    .treeoverall{width:25%; height:500px; float:left;}
-    .quesoverall{width:74%; min-height:500px;  float:right; background:#fff}
-    .treeoverall .jcchoose, .treeoverall .treeshow{background:#fff;}
-    .treeoverall .jctip{position:relative; color:#0094ff;font-size:16px;padding:10px 10px 10px 32px; background:url("/Images/category-main-icon.png") no-repeat 5px 9px; cursor:pointer;}
-    .treeoverall .jcall{position:absolute; padding:5px; background:#e9e1e1; width:800px; display:none;}
-    .treeoverall .jcall li:hover{color:#ff006e;}
-    .treeoverall .jcall li.active{color:#ff006e;}
-    .treeoverall .bblist, .treeoverall .jclist{clear:both; }
-    .treeoverall .bblist span, .treeoverall .jclist span{color:#0094ff}
-    .treeoverall .bblist li, .treeoverall .jclist li{float:left; padding:5px 10px; cursor:pointer;}
-    .treeoverall .treeshow{margin-top:5px; min-height:454px;}
+    
 
 </style>
 <div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > 新建 > 题库作业</div>
@@ -86,37 +76,19 @@
                     <div class="bblist">
                         <span>版本:</span>
                         <ul>
-                            <li>人教版</li>
-                            <li>苏教版</li>
-                            <li>人教版</li>
-                            <li>苏教版</li>
-                            <li>人教版</li>
-                            <li>苏教版</li>
-                            <li>人教版</li>
-                            <li>苏教版</li>
-                            <li>人教版</li>
-                            <li>苏教版</li>
+                            
                         </ul>
                     </div>
                     <div class="jclist">
                         <span>教材</span>
                         <ul>
-                            <li>必修1</li>
-                            <li>必修2</li>
-                            <li>必修1</li>
-                            <li>必修2</li>
-                            <li>必修1</li>
-                            <li>必修2</li>
-                            <li>必修1</li>
-                            <li>必修2</li>
-                            <li>必修1</li>
-                            <li>必修2</li>
+                            
                         </ul>
                     </div>
                     
                 </div>
             </div>
-            <div class="treeshow">
+            <div class="treeshow ztree">
 
             </div>
         </div>
@@ -175,6 +147,13 @@
 
     $(".page-nav .page-func").on("click", function () {
         $(this).addClass("active").siblings().removeClass("active");
+        var type = $(".page-nav .page-func.active").attr("data-bind");
+        if (type == 0) {
+            LoadTextBookVersions();
+        }
+        else if (type == 1) {
+            LoadKPTree();
+        }
     })
 
     $(".treeoverall .jclist li").on("click", function () {
@@ -197,6 +176,9 @@
         if (type == 0) {
             LoadTextBookVersions();
         }
+        else if(type == 1) {
+            LoadKPTree();
+        }
     })
 
     //加载教材版本
@@ -207,7 +189,12 @@
             {courseId: courseid},
             function (data) {
                 for (var i = 0; i < data.length; i++) {
-                    html += "<li data-bind='" + data[i].Id + "'>" + data[i].Name + "</li>";
+                    if (i == 0) {
+                        html += "<li data-bind='" + data[i].Id + "' class='active'>" + data[i].Name + "</li>";
+                    }
+                    else {
+                        html += "<li data-bind='" + data[i].Id + "'>" + data[i].Name + "</li>";
+                    }
                 }
                 $(".treeoverall .bblist ul").html(html);
 
@@ -215,10 +202,13 @@
                     $(this).addClass("active").siblings().removeClass("active");
                     LoadTextBooks();
                 })
+
+                //加载第一个版本的课本
+                LoadTextBooks();
             })
     }
 
-    //加载教材
+    //加载课本
     var LoadTextBooks = function () {
         var versionid = $(".treeoverall .bblist li.active").attr("data-bind");
         var html = "";
@@ -226,19 +216,116 @@
             { versionId: versionid },
             function (data) {
                 for (var i = 0; i < data.length; i++) {
-                    html += "<li data-bind='" + data[i].Id + "'>" + data[i].Volume + "</li>";
+                    if (i == 0) {
+                        html += "<li data-bind='" + data[i].Id + "' class='active'>" + data[i].Volume + "</li>";
+                    }
+                    else {
+                        html += "<li data-bind='" + data[i].Id + "'>" + data[i].Volume + "</li>";
+                    }
                 }
                 $(".treeoverall .jclist ul").html(html);
-
+                //显示当前课本名称
+                ShowCurrentBook();
                 $(".treeoverall .jclist li").on("click", function () {
                     $(this).addClass("active").siblings().removeClass("active");
-                    LoadTree();
+                    ShowCurrentBook();
+                    LoadZJTree();
+                    $(".treeoverall .jcall").hide();
                 })
+                //加载第一个课本的章节树
+                LoadZJTree();
             })
     }
 
-    var LoadTree = function () {
+    //显示当前的书名
+    var ShowCurrentBook = function () {
+        var tbvName = $(".bblist li.active").html();
+        var tbName = $(".jclist li.active").html();
+
+        $(".treeoverall .jctip").html(tbvName + " " + tbName);
+    }
+
+    //树配置
+    var zTreeObj;
+    // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+    var settingKP = {
+        view: {
+            dblClickExpand: false,
+            showLine: true,
+            selectedMulti: false
+        },
+        data: {
+            simpleData: {
+                enable: true,
+                idKey: "id",
+                pIdKey: "pId",
+                rootPId: "0"
+            }
+        },
+        callback: {
+            onClick: kpzTreeOnClick
+
+        }
+    };
+
+    var settingZJ = {
+        view: {
+            dblClickExpand: false,
+            showLine: true,
+            selectedMulti: false
+        },
+        data: {
+            simpleData: {
+                enable: true,
+                idKey: "id",
+                pIdKey: "pId",
+                rootPId: "0"
+            }
+        },
+        callback: {
+            onClick: zjzTreeOnClick
+
+        }
+    };
+
+    //加载章节树
+    var LoadZJTree = function () {
         var courseId = $(".currentkc").attr("data-bind");
+        var bookId = $(".treeoverall .jclist li.active").attr("data-bind");
+        
+        $(".treeshow").html("<div><img src='/images/loader.gif'><b>正在加载……</b></div>");
+        $.post("qdb/GetCatalogTree", { textbookId: bookId }, function (data) {
+            if (data != "null") {
+                zTreeObj = $.fn.zTree.init($(".treeshow"), settingZJ, data);
+            }
+            else {
+                $(".treeshow").html("<div align='center'>没有相关目录结构！</div>");
+            }
+        })
+    }
+
+    //加载知识点树
+    var LoadKPTree = function () {
+        var courseId = $(".currentkc").attr("data-bind");
+
+        $(".treeshow").html("<div><img src='/images/loader.gif'><b>正在加载……</b></div>");
+        $.post("qdb/GetKnowledgePointTree", { courseId: courseId }, function (data) {
+            if (data != "null") {
+                zTreeObj = $.fn.zTree.init($(".treeshow"), settingKP, data);
+            }
+            else {
+                $(".treeshow").html("<div align='center'>没有相关目录结构！</div>");
+            }
+        })
+    }
+
+    var kpzTreeOnClick = function () {
+
+
+    }
+
+    var zjzTreeOnClick = function () {
+
     }
 
 </script>

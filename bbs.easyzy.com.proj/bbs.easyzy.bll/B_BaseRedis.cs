@@ -1,14 +1,10 @@
 ﻿using easyzy.sdk;
-using Newtonsoft.Json;
+using bbs.easyzy.model.entity;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using user.easyzy.model.entity;
 using static easyzy.sdk.Const;
 
-namespace user.easyzy.bll
+namespace bbs.easyzy.bll
 {
     public class B_BaseRedis
     {
@@ -40,7 +36,7 @@ namespace user.easyzy.bll
                     }
                 }
             }
-
+            
             return tempresult;
         }
 
@@ -69,7 +65,7 @@ namespace user.easyzy.bll
                     }
                 }
             }
-
+            
             return tempresult;
         }
 
@@ -98,7 +94,7 @@ namespace user.easyzy.bll
                     }
                 }
             }
-
+            
             return tempresult;
         }
 
@@ -127,7 +123,7 @@ namespace user.easyzy.bll
                     }
                 }
             }
-
+            
             return tempresult;
         }
     }

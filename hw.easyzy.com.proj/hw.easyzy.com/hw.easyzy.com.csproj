@@ -224,6 +224,7 @@
     <Content Include="Images\radio.png" />
     <Content Include="Images\addpic.jpg" />
     <Content Include="Images\redstar.png" />
+    <Content Include="Images\type_ico.png" />
     <Content Include="Images\write.png" />
     <Content Include="RedisConfig.xml" />
     <Content Include="Scripts\artDialog\css\ui-dialog.css" />
@@ -249,6 +250,9 @@
     <Content Include="Areas\submit\Views\_ViewStart.cshtml" />
     <Content Include="Areas\submit\Views\home\index.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="QuesBaseJson\similarcatalogs.json" />
+    <Content Include="QuesBaseJson\textbooks.json" />
+    <Content Include="QuesBaseJson\textbookversions.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\echarts\echarts.common.min.js" />
     <Content Include="Scripts\echarts\echarts.min.js" />

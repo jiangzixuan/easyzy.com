@@ -22,36 +22,26 @@ namespace hw.easyzy.bll
         /// <returns></returns>
         public static List<T_City> GetCities(int provinceId)
         {
-            string tempresult = null;
+            List<T_City> tempresult = null;
 
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Base, "CL_" + provinceId.ToString());
             using (var client = RedisHelper.GetRedisClient(CacheCatalog.Base.ToString()))
             {
                 if (client != null)
                 {
-                    tempresult = client.Get<string>(key);
-                }
-            }
-            List<T_City> result = null;
-            if (!string.IsNullOrEmpty(tempresult))
-            {
-                result = JsonConvert.DeserializeObject<List<T_City>>(tempresult);
-            }
-            else
-            {
-                result = B_Base.GetCities(provinceId);
-                if (result != null)
-                {
-                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.Base.ToString()))
+                    tempresult = client.Get<List<T_City>>(key);
+                    if (tempresult == null)
                     {
-                        if (cl != null)
+                        tempresult = B_Base.GetCities(provinceId);
+                        if (tempresult != null && tempresult.Count > 0)
                         {
-                            cl.Set<string>(key, JsonConvert.SerializeObject(result), ts);
+                            client.Set<List<T_City>>(key, tempresult, ts);
                         }
                     }
                 }
             }
-            return result;
+            
+            return tempresult;
         }
 
         /// <summary>
@@ -61,36 +51,26 @@ namespace hw.easyzy.bll
         /// <returns></returns>
         public static List<T_District> GetDistricts(int cityId)
         {
-            string tempresult = null;
+            List<T_District> tempresult = null;
 
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Base, "DL_" + cityId.ToString());
             using (var client = RedisHelper.GetRedisClient(CacheCatalog.Base.ToString()))
             {
                 if (client != null)
                 {
-                    tempresult = client.Get<string>(key);
-                }
-            }
-            List<T_District> result = null;
-            if (!string.IsNullOrEmpty(tempresult))
-            {
-                result = JsonConvert.DeserializeObject<List<T_District>>(tempresult);
-            }
-            else
-            {
-                result = B_Base.GetDistricts(cityId);
-                if (result != null)
-                {
-                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.Base.ToString()))
+                    tempresult = client.Get<List<T_District>>(key);
+                    if (tempresult == null)
                     {
-                        if (cl != null)
+                        tempresult = B_Base.GetDistricts(cityId);
+                        if (tempresult != null && tempresult.Count > 0)
                         {
-                            cl.Set<string>(key, JsonConvert.SerializeObject(result), ts);
+                            client.Set<List<T_District>>(key, tempresult, ts);
                         }
                     }
                 }
             }
-            return result;
+            
+            return tempresult;
         }
 
         /// <summary>
@@ -100,36 +80,26 @@ namespace hw.easyzy.bll
         /// <returns></returns>
         public static List<T_School> GetSchools(int districtId)
         {
-            string tempresult = null;
+            List<T_School> tempresult = null;
 
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Base, "SL_" + districtId.ToString());
             using (var client = RedisHelper.GetRedisClient(CacheCatalog.Base.ToString()))
             {
                 if (client != null)
                 {
-                    tempresult = client.Get<string>(key);
-                }
-            }
-            List<T_School> result = null;
-            if (!string.IsNullOrEmpty(tempresult))
-            {
-                result = JsonConvert.DeserializeObject<List<T_School>>(tempresult);
-            }
-            else
-            {
-                result = B_Base.GetSchools(districtId);
-                if (result != null)
-                {
-                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.Base.ToString()))
+                    tempresult = client.Get<List<T_School>>(key);
+                    if (tempresult == null)
                     {
-                        if (cl != null)
+                        tempresult = B_Base.GetSchools(districtId);
+                        if (tempresult != null && tempresult.Count > 0)
                         {
-                            cl.Set<string>(key, JsonConvert.SerializeObject(result), ts);
+                            client.Set<List<T_School>>(key, tempresult, ts);
                         }
                     }
                 }
             }
-            return result;
+            
+            return tempresult;
         }
 
         /// <summary>
@@ -139,36 +109,26 @@ namespace hw.easyzy.bll
         /// <returns></returns>
         public static T_School GetSchool(int schoolId)
         {
-            string tempresult = null;
+            T_School tempresult = null;
 
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Base, "SCH_" + schoolId.ToString());
             using (var client = RedisHelper.GetRedisClient(CacheCatalog.Base.ToString()))
             {
                 if (client != null)
                 {
-                    tempresult = client.Get<string>(key);
-                }
-            }
-            T_School result = null;
-            if (!string.IsNullOrEmpty(tempresult))
-            {
-                result = JsonConvert.DeserializeObject<T_School>(tempresult);
-            }
-            else
-            {
-                result = B_Base.GetSchool(schoolId);
-                if (result != null)
-                {
-                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.Base.ToString()))
+                    tempresult = client.Get<T_School>(key);
+                    if (tempresult == null)
                     {
-                        if (cl != null)
+                        tempresult = B_Base.GetSchool(schoolId);
+                        if (tempresult != null)
                         {
-                            cl.Set<string>(key, JsonConvert.SerializeObject(result), ts);
+                            client.Set<T_School>(key, tempresult, ts);
                         }
                     }
                 }
             }
-            return result;
+            
+            return tempresult;
         }
     }
 }

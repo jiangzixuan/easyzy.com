@@ -43,11 +43,15 @@
     <Compile Include="dto\dto_Answer.cs" />
     <Compile Include="dto\dto_Echart_pie-simple.cs" />
     <Compile Include="dto\dto_RelateUser.cs" />
+    <Compile Include="dto\dto_SimilarCatalogs.cs" />
     <Compile Include="dto\dto_User.cs" />
     <Compile Include="dto\dto_UserZy.cs" />
+    <Compile Include="dto\dto_ZTree.cs" />
     <Compile Include="entity\T_Answer.cs" />
+    <Compile Include="entity\T_CatalogNodes.cs" />
     <Compile Include="entity\T_City.cs" />
     <Compile Include="entity\T_District.cs" />
+    <Compile Include="entity\T_KnowledgePoints.cs" />
     <Compile Include="entity\T_School.cs" />
     <Compile Include="entity\T_Suggestion.cs" />
     <Compile Include="entity\T_TextBooks.cs" />

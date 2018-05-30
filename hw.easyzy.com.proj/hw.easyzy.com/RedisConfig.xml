@@ -7,6 +7,8 @@
   <redis catelog="CheckCode" ip="47.94.100.66" port="6379" pwd="260031297" db="2">验证码</redis>
   <redis catelog="TextBooks" ip="47.94.100.66" port="6379" pwd="260031297" db="13">教材</redis>
   <redis catelog="TextBookVersions" ip="47.94.100.66" port="6379" pwd="260031297" db="13">教材版本</redis>
+  <redis catelog="Catalogs" ip="47.94.100.66" port="6379" pwd="260031297" db="13">课本目录</redis>
+  <redis catelog="KnowledgePoints" ip="47.94.100.66" port="6379" pwd="260031297" db="13">知识点</redis>
   <redis catelog="Ques" ip="47.94.100.66" port="6379" pwd="260031297" db="14">试题缓存</redis>
   <redis catelog="Base" ip="47.94.100.66" port="6379" pwd="260031297" db="15">Base库中地区学校</redis>
 </root>

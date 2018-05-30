@@ -3,8 +3,7 @@ using System;
 using System.Collections.Generic;
 using easyzy.sdk;
 using user.easyzy.model.dto;
-using AutoMapper;
-using Newtonsoft.Json;
+using static easyzy.sdk.Const;
 
 namespace user.easyzy.bll
 {
@@ -13,48 +12,6 @@ namespace user.easyzy.bll
         //缓存有效期(30天）
         private static TimeSpan ts = new TimeSpan(30, 0, 0, 0);
 
-        ///// <summary>
-        ///// 根据UserName查询User，应该只会在以下场景使用
-        ///// 1、注册用户，判断用户名是否存在
-        ///// 2、登录
-        ///// </summary>
-        ///// <param name="userName"></param>
-        ///// <returns></returns>
-        //public static T_User GetUser(string userName)
-        //{
-        //    Dictionary<string, string> tempresult = null;
-        //    string key = RedisHelper.GetEasyZyRedisKey(Const.CacheCatalog.User, "u_" + userName.ToString());
-        //    using (var client = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
-        //    {
-        //        if (client != null)
-        //        {
-        //            tempresult = client.GetAllEntriesFromHash(key);
-        //        }
-        //    }
-        //    T_User result = null;
-        //    if (tempresult.Count != 0)
-        //    {
-        //        result = RedisHelper.ConvertDicToEntitySingle<T_User>(tempresult);
-        //    }
-        //    else
-        //    {
-        //        result = B_User.GetUser(userName);
-
-        //        if (result != null)
-        //        {
-        //            using (var cl = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
-        //            {
-        //                if (cl != null)
-        //                {
-        //                    cl.SetRangeInHash(key, GetUserKeyValuePairs(result));
-        //                    cl.ExpireEntryIn(key, ts);
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return result;
-        //}
-
         /// <summary>
         /// 根据UserId查询User
         /// </summary>
@@ -62,39 +19,27 @@ namespace user.easyzy.bll
         /// <returns></returns>
         public static dto_User GetUser(int userId)
         {
-            Dictionary<string, string> tempresult = null;
-            string key = RedisHelper.GetEasyZyRedisKey(Const.CacheCatalog.User, userId.ToString());
-            using (var client = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
+            dto_User tempresult = null;
+            T_User u = null;
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.User, userId.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.User.ToString()))
             {
                 if (client != null)
                 {
-                    tempresult = client.GetAllEntriesFromHash(key);
-                }
-            }
-            dto_User result = null;
-            if (tempresult.Count != 0)
-            {
-                result = RedisHelper.ConvertDicToEntitySingle<dto_User>(tempresult);
-            }
-            else
-            {
-                T_User tmp = B_User.GetUser(userId);
-                if (tmp == null) return null;
-                result = TransUserToDtoUser(tmp);
-                
-                if (result != null)
-                {
-                    using (var cl = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
+                    tempresult = client.Get<dto_User>(key);
+                    if (tempresult == null)
                     {
-                        if (cl != null)
+                        u = B_User.GetUser(userId);
+                        if (u != null)
                         {
-                            cl.SetRangeInHash(key, GetDtoUserKeyValuePairs(result));
-                            cl.ExpireEntryIn(key, ts);
+                            tempresult = TransUserToDtoUser(u);
+                            client.Set<dto_User>(key, tempresult, ts);
                         }
                     }
                 }
             }
-            return result;
+
+            return tempresult;
         }
 
         private static dto_User TransUserToDtoUser(T_User u)
@@ -132,27 +77,17 @@ namespace user.easyzy.bll
 
         public static void UpdateTrueName(int userId, string trueName)
         {
-            Dictionary<string, string> tempresult = null;
-            string key = RedisHelper.GetEasyZyRedisKey(Const.CacheCatalog.User, userId.ToString());
-            using (var client = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
+            dto_User tempresult = null;
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.User, userId.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.User.ToString()))
             {
                 if (client != null)
                 {
-                    tempresult = client.GetAllEntriesFromHash(key);
-                }
-            }
-
-            dto_User result = null;
-            if (tempresult.Count != 0)
-            {
-                result = RedisHelper.ConvertDicToEntitySingle<dto_User>(tempresult);
-                result.TrueName = trueName;
-                using (var cl = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
-                {
-                    if (cl != null)
+                    tempresult = client.Get<dto_User>(key);
+                    if (tempresult != null)
                     {
-                        cl.SetRangeInHash(key, GetDtoUserKeyValuePairs(result));
-                        cl.ExpireEntryIn(key, ts);
+                        tempresult.TrueName = trueName;
+                        client.Set<dto_User>(key, tempresult, ts);
                     }
                 }
             }
@@ -160,58 +95,20 @@ namespace user.easyzy.bll
 
         public static void UpdateClass(int userId, int gradeId, string gradeName, int classId, string className)
         {
-            Dictionary<string, string> tempresult = null;
-            string key = RedisHelper.GetEasyZyRedisKey(Const.CacheCatalog.User, userId.ToString());
-            using (var client = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
+            dto_User tempresult = null;
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.User, userId.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.User.ToString()))
             {
                 if (client != null)
                 {
-                    tempresult = client.GetAllEntriesFromHash(key);
-                }
-            }
-
-            dto_User result = null;
-            if (tempresult.Count != 0)
-            {
-                result = RedisHelper.ConvertDicToEntitySingle<dto_User>(tempresult);
-                result.GradeId = gradeId;
-                result.GradeName = gradeName;
-                result.ClassId = classId;
-                result.ClassName = className;
-                using (var cl = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
-                {
-                    if (cl != null)
+                    tempresult = client.Get<dto_User>(key);
+                    if (tempresult != null)
                     {
-                        cl.SetRangeInHash(key, GetDtoUserKeyValuePairs(result));
-                        cl.ExpireEntryIn(key, ts);
-                    }
-                }
-            }
-        }
-
-        public static void UpdateZyPsd(int userId, string zyPsd)
-        {
-            Dictionary<string, string> tempresult = null;
-            string key = RedisHelper.GetEasyZyRedisKey(Const.CacheCatalog.User, userId.ToString());
-            using (var client = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
-            {
-                if (client != null)
-                {
-                    tempresult = client.GetAllEntriesFromHash(key);
-                }
-            }
-
-            dto_User result = null;
-            if (tempresult.Count != 0)
-            {
-                result = RedisHelper.ConvertDicToEntitySingle<dto_User>(tempresult);
-                result.ZyPsd = zyPsd;
-                using (var cl = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
-                {
-                    if (cl != null)
-                    {
-                        cl.SetRangeInHash(key, GetDtoUserKeyValuePairs(result));
-                        cl.ExpireEntryIn(key, ts);
+                        tempresult.GradeId = gradeId;
+                        tempresult.GradeName = gradeName;
+                        tempresult.ClassId = classId;
+                        tempresult.ClassName = className;
+                        client.Set<dto_User>(key, tempresult, ts);
                     }
                 }
             }
@@ -223,94 +120,32 @@ namespace user.easyzy.bll
             T_User tmp = B_User.GetUser(userId);
             if (tmp == null) return;
             result = TransUserToDtoUser(tmp);
-            string key = RedisHelper.GetEasyZyRedisKey(Const.CacheCatalog.User, userId.ToString());
-            using (var client = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.User, userId.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.User.ToString()))
             {
                 if (client != null)
                 {
-                    client.SetRangeInHash(key, GetDtoUserKeyValuePairs(result));
-                    client.ExpireEntryIn(key, ts);
+                    client.Set<dto_User>(key, result, ts);
                 }
             }
-            
         }
 
         public static void UpdateFirstLoginDate(int userId, DateTime firstLoginDate)
         {
-            Dictionary<string, string> tempresult = null;
-            string key = RedisHelper.GetEasyZyRedisKey(Const.CacheCatalog.User, userId.ToString());
-            using (var client = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
+            dto_User tempresult = null;
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.User, userId.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.User.ToString()))
             {
                 if (client != null)
                 {
-                    tempresult = client.GetAllEntriesFromHash(key);
-                }
-            }
-
-            dto_User result = null;
-            if (tempresult.Count != 0)
-            {
-                result = RedisHelper.ConvertDicToEntitySingle<dto_User>(tempresult);
-                result.FirstLoginDate = firstLoginDate;
-                using (var cl = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
-                {
-                    if (cl != null)
+                    tempresult = client.Get<dto_User>(key);
+                    if (tempresult != null)
                     {
-                        cl.SetRangeInHash(key, GetDtoUserKeyValuePairs(result));
-                        cl.ExpireEntryIn(key, ts);
+                        tempresult.FirstLoginDate = firstLoginDate;
+                        client.Set<dto_User>(key, tempresult, ts);
                     }
                 }
             }
-        }
-
-        static List<KeyValuePair<string, string>> GetUserKeyValuePairs(T_User m)
-        {
-            var result = new List<KeyValuePair<string, string>>() {
-                            new KeyValuePair<string, string>("Id",m.Id.ToString()),
-                            new KeyValuePair<string, string>("UserName",m.UserName.ToString()),
-                            new KeyValuePair<string, string>("TrueName",m.TrueName.ToString()),
-                            new KeyValuePair<string, string>("Psd",m.Psd.ToString()),
-                            new KeyValuePair<string, string>("Mobile",m.Mobile.ToString()),
-                            new KeyValuePair<string, string>("FirstLoginDate",m.FirstLoginDate.ToString()),
-                            new KeyValuePair<string, string>("CreateDate",m.CreateDate.ToString()),
-                            new KeyValuePair<string, string>("ZyPsd",m.ZyPsd.ToString()),
-                            new KeyValuePair<string, string>("ZyPrice",m.ZyPrice.ToString()),
-                            new KeyValuePair<string, string>("ProvinceId",m.ProvinceId.ToString()),
-                            new KeyValuePair<string, string>("CityId",m.CityId.ToString()),
-                            new KeyValuePair<string, string>("DistrictId",m.DistrictId.ToString()),
-                            new KeyValuePair<string, string>("SchoolId",m.SchoolId.ToString()),
-                            new KeyValuePair<string, string>("GradeId",m.GradeId.ToString()),
-                            new KeyValuePair<string, string>("ClassId",m.ClassId.ToString())
-                        };
-            return result;
-        }
-
-        static List<KeyValuePair<string, string>> GetDtoUserKeyValuePairs(dto_User m)
-        {
-            var result = new List<KeyValuePair<string, string>>() {
-                            new KeyValuePair<string, string>("Id",m.Id.ToString()),
-                            new KeyValuePair<string, string>("UserName",m.UserName.ToString()),
-                            new KeyValuePair<string, string>("TrueName",m.TrueName.ToString()),
-                            new KeyValuePair<string, string>("Psd",m.Psd.ToString()),
-                            new KeyValuePair<string, string>("Mobile",m.Mobile.ToString()),
-                            new KeyValuePair<string, string>("FirstLoginDate",m.FirstLoginDate.ToString()),
-                            new KeyValuePair<string, string>("CreateDate",m.CreateDate.ToString()),
-                            new KeyValuePair<string, string>("ZyPsd",m.ZyPsd.ToString()),
-                            new KeyValuePair<string, string>("ZyPrice",m.ZyPrice.ToString()),
-                            new KeyValuePair<string, string>("ProvinceId",m.ProvinceId.ToString()),
-                            new KeyValuePair<string, string>("ProvinceName",m.ProvinceName),
-                            new KeyValuePair<string, string>("CityId",m.CityId.ToString()),
-                            new KeyValuePair<string, string>("CityName",m.CityName),
-                            new KeyValuePair<string, string>("DistrictId",m.DistrictId.ToString()),
-                            new KeyValuePair<string, string>("DistrictName",m.DistrictName),
-                            new KeyValuePair<string, string>("SchoolId",m.SchoolId.ToString()),
-                            new KeyValuePair<string, string>("SchoolName",m.SchoolName),
-                            new KeyValuePair<string, string>("GradeId",m.GradeId.ToString()),
-                            new KeyValuePair<string, string>("GradeName",m.GradeName),
-                            new KeyValuePair<string, string>("ClassId",m.ClassId.ToString()),
-                            new KeyValuePair<string, string>("ClassName",m.ClassName)
-                        };
-            return result;
         }
     }
 }

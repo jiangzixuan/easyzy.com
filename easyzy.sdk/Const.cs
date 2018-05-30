@@ -60,7 +60,9 @@ namespace easyzy.sdk
             CheckCode,     //验证码
             Base,    //基础数据
             TextBooks,  //教材集合
-            TextBookVersions //教材版本集合
+            TextBookVersions, //教材版本集合
+            Catalogs,   //课程下的各书本的目录
+            KnowledgePoints
 
         }
 

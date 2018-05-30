@@ -148,3 +148,16 @@ a.oddesc{background-position:0 -26px;}
 .page-nav .stage-list .stage li a:hover{color:#ff006e}
 .page-nav .stage-list .stage li a.active{color:#ff006e}
 .page-top .page-func.active{color:#0094ff;border-bottom:2px solid #0094ff}
+
+.treeoverall{width:25%; height:500px; float:left;}
+.quesoverall{width:74%; min-height:500px;  float:right; background:#fff}
+.treeoverall .jcchoose, .treeoverall .treeshow{background:#fff;}
+.treeoverall .jctip{position:relative; color:#0094ff;font-size:16px;padding:10px 10px 10px 32px; background:url("/Images/category-main-icon.png") no-repeat 5px 9px; cursor:pointer;}
+.treeoverall .jcall{position:absolute; padding:5px; background:#e9e1e1; width:800px; display:none;}
+.treeoverall .jcall li:hover{color:#ff006e;}
+.treeoverall .jcall li.active{color:#ff006e;}
+.treeoverall .bblist, .treeoverall .jclist{clear:both; }
+.treeoverall .bblist span, .treeoverall .jclist span{color:#0094ff}
+.treeoverall .bblist li, .treeoverall .jclist li{float:left; padding:5px 10px; cursor:pointer;}
+.treeoverall .jcchoose{margin-bottom: 5px;}
+.treeoverall .treeshow{min-height:454px;}

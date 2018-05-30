@@ -1,5 +1,6 @@
 ﻿using easyzy.sdk;
 using hw.easyzy.bll;
+using hw.easyzy.model.dto;
 using hw.easyzy.model.entity;
 using System;
 using System.Collections.Generic;
@@ -47,13 +48,25 @@ namespace hw.easyzy.com.Areas.create.Controllers
 
         public JsonResult GetTextBookVersions(int courseId)
         {
-            List<T_TextBookVersions> list = B_QuesRedis.GetTextBookVersions(courseId);
+            List<T_TextBookVersions> list = B_QuesBase.GetTextBookVersions(courseId);
             return Json(list);
         }
 
         public JsonResult GetTextBooks(int versionId)
         {
-            List<T_TextBooks> list = B_QuesRedis.GetTextBooks(versionId);
+            List<T_TextBooks> list = B_QuesBase.GetTextBooks(versionId);
+            return Json(list);
+        }
+
+        public JsonResult GetCatalogTree(int textbookId)
+        {
+            List<dto_ZTree> list = B_QuesBase.GetCatalogsTree(textbookId);
+            return Json(list);
+        }
+
+        public JsonResult GetKnowledgePointTree(int courseId)
+        {
+            List<dto_ZTree> list = B_QuesBase.GetKnowledgePointsTree(courseId);
             return Json(list);
         }
     }

@@ -58,6 +58,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="B_Base.cs" />
+    <Compile Include="B_BaseRedis.cs" />
     <Compile Include="B_StaticObject.cs" />
     <Compile Include="B_Topic.cs" />
     <Compile Include="B_User.cs" />

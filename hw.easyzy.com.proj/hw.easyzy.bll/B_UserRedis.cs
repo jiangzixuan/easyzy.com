@@ -15,7 +15,7 @@ namespace hw.easyzy.bll
     {
         //缓存有效期(30天）
         private static TimeSpan ts = new TimeSpan(30, 0, 0, 0);
-        
+
 
         /// <summary>
         /// 根据UserId查询User
@@ -24,38 +24,27 @@ namespace hw.easyzy.bll
         /// <returns></returns>
         public static dto_User GetUser(int userId)
         {
-            Dictionary<string, string> tempresult = null;
+            dto_User tempresult = null;
+            T_User u = null;
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.User, userId.ToString());
             using (var client = RedisHelper.GetRedisClient(CacheCatalog.User.ToString()))
             {
                 if (client != null)
                 {
-                    tempresult = client.GetAllEntriesFromHash(key);
-                }
-            }
-            dto_User result = null;
-            if (tempresult.Count != 0)
-            {
-                result = RedisHelper.ConvertDicToEntitySingle<dto_User>(tempresult);
-            }
-            else
-            {
-                T_User tmp = B_User.GetUser(userId);
-                if (tmp == null) return null;
-                result = TransUserToDtoUser(tmp);
-                if (result != null)
-                {
-                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.User.ToString()))
+                    tempresult = client.Get<dto_User>(key);
+                    if (tempresult == null)
                     {
-                        if (cl != null)
+                        u = B_User.GetUser(userId);
+                        if (u != null)
                         {
-                            cl.SetRangeInHash(key, GetUserKeyValuePairs(result));
-                            cl.ExpireEntryIn(key, ts);
+                            tempresult = TransUserToDtoUser(u);
+                            client.Set<dto_User>(key, tempresult, ts);
                         }
                     }
                 }
             }
-            return result;
+
+            return tempresult;
         }
 
         private static dto_User TransUserToDtoUser(T_User u)
@@ -90,33 +79,6 @@ namespace hw.easyzy.bll
             result.ClassName = result.ClassId == 0 ? "" : result.ClassId + "班";
             return result;
         }
-
-        static List<KeyValuePair<string, string>> GetUserKeyValuePairs(dto_User m)
-        {
-            var result = new List<KeyValuePair<string, string>>() {
-                            new KeyValuePair<string, string>("Id",m.Id.ToString()),
-                            new KeyValuePair<string, string>("UserName",m.UserName.ToString()),
-                            new KeyValuePair<string, string>("TrueName",m.TrueName.ToString()),
-                            new KeyValuePair<string, string>("Psd",m.Psd.ToString()),
-                            new KeyValuePair<string, string>("Mobile",m.Mobile.ToString()),
-                            new KeyValuePair<string, string>("FirstLoginDate",m.FirstLoginDate.ToString()),
-                            new KeyValuePair<string, string>("CreateDate",m.CreateDate.ToString()),
-                            new KeyValuePair<string, string>("ZyPsd",m.ZyPsd.ToString()),
-                            new KeyValuePair<string, string>("ZyPrice",m.ZyPrice.ToString()),
-                            new KeyValuePair<string, string>("ProvinceId",m.ProvinceId.ToString()),
-                            new KeyValuePair<string, string>("ProvinceName",m.ProvinceName),
-                            new KeyValuePair<string, string>("CityId",m.CityId.ToString()),
-                            new KeyValuePair<string, string>("CityName",m.CityName),
-                            new KeyValuePair<string, string>("DistrictId",m.DistrictId.ToString()),
-                            new KeyValuePair<string, string>("DistrictName",m.DistrictName),
-                            new KeyValuePair<string, string>("SchoolId",m.SchoolId.ToString()),
-                            new KeyValuePair<string, string>("SchoolName",m.SchoolName),
-                            new KeyValuePair<string, string>("GradeId",m.GradeId.ToString()),
-                            new KeyValuePair<string, string>("GradeName",m.GradeName),
-                            new KeyValuePair<string, string>("ClassId",m.ClassId.ToString()),
-                            new KeyValuePair<string, string>("ClassName",m.ClassName)
-                        };
-            return result;
-        }
+        
     }
 }
