@@ -18,7 +18,7 @@ namespace bbs.easyzy.bll
         {
             T_User model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(UserConnString),
-                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice, Class from T_User where Id = @Id",
+                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, ZyPsd, ZyPrice, ProvinceId, CityId, DistrictId, SchoolId, GradeId, ClassId from T_User where Id = @Id",
                 "@Id".ToInt32InPara(Id)))
             {
                 if (dr != null && dr.HasRows)
@@ -38,7 +38,7 @@ namespace bbs.easyzy.bll
         {
             List<T_User> model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(UserConnString),
-                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, Extend1, ZyPsd, ZyPrice, Class from T_User where concat(UserName, TrueName, Class) like '%" + keyWords + "%' limit 20"))
+                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, ZyPsd, ZyPrice, ProvinceId, CityId, DistrictId, SchoolId, GradeId, ClassId from T_User where concat(UserName, TrueName, Class) like '%" + keyWords + "%' limit 20"))
             {
                 if (dr != null && dr.HasRows)
                 {
