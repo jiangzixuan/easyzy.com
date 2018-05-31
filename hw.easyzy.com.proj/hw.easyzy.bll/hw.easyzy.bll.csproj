@@ -69,7 +69,6 @@
     <Compile Include="B_Common.cs" />
     <Compile Include="B_Ques.cs" />
     <Compile Include="B_QuesBase.cs" />
-    <Compile Include="B_QuesBaseRedis.cs" />
     <Compile Include="B_QuesRedis.cs" />
     <Compile Include="B_Test.cs" />
     <Compile Include="B_User.cs" />

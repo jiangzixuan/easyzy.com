@@ -5,6 +5,7 @@ using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -35,6 +36,11 @@ namespace hw.easyzy.bll
         /// 相似集
         /// </summary>
         private static List<dto_SimilarCatalogs> allSimilarCatalogs = null;
+
+        /// <summary>
+        /// 屏蔽掉的知识点节点<courseid, nodeid>
+        /// </summary>
+        public static readonly int[,] ExceptedKPoints = new int[,] { { 10, 47833 }, { 10, 49058 }, { 10, 49959 }, { 10, 50766 }, { 10, 51058 }, { 12, 18350 }, { 12, 27276 }, { 26, 43199 }, { 26, 44424 }, { 26, 45325 }, { 26, 47327 }, { 28, 65818 }, { 28, 30462 }, { 28, 39388 } };
 
         /// <summary>
         /// 教材版本json文件路径
@@ -80,7 +86,7 @@ namespace hw.easyzy.bll
 
         public static List<dto_ZTree> GetCatalogsTree(int bookId)
         {
-            List<T_CatalogNodes> cataloglist = B_QuesBaseRedis.GetCatalogs(bookId);
+            List<T_CatalogNodes> cataloglist = B_QuesRedis.GetCatalogs(bookId);
             List<dto_ZTree> tree = new List<dto_ZTree>();
             cataloglist.ForEach(p =>
             {
@@ -97,18 +103,45 @@ namespace hw.easyzy.bll
 
         public static List<dto_ZTree> GetKnowledgePointsTree(int courseId)
         {
-            List<T_KnowledgePoints> kplist = B_QuesBaseRedis.GetKnowledgePoints(courseId);
+            
+            List<T_KnowledgePoints> kpl = B_QuesRedis.GetKnowledgePoints(courseId);
+            
+            if (kpl == null) return null;
             List<dto_ZTree> tree = new List<dto_ZTree>();
-            kplist.ForEach(p =>
+            List<int> ExceptKPointIds = new List<int>();
+            for (int i = 0; i < ExceptedKPoints.GetLength(0); i++)
             {
-                dto_ZTree node = new dto_ZTree();
-                node.id = p.Id;
-                node.pId = p.ParentId;
-                node.name = p.Name;
-                node.ntype = p.Type;
-                //node.iconSkin = "icon01";
-                tree.Add(node);
-            });
+                if (ExceptedKPoints[i, 0] == courseId)
+                {
+                    ExceptKPointIds.Add(ExceptedKPoints[i, 1]);
+                }
+            }
+            tree = GetAllKPTree(0, kpl, ExceptKPointIds.ToArray());
+            
+            return tree;
+        }
+
+        public static List<dto_ZTree> GetAllKPTree(int nodeId, List<T_KnowledgePoints> kpl, int[] exceptedKPointIds)
+        {
+            List<dto_ZTree> tree = new List<dto_ZTree>();
+            dto_ZTree node = null;
+            if (kpl.Exists(a => a.ParentId == nodeId))
+            {
+                foreach (var kp in kpl.FindAll(a => a.ParentId == nodeId))
+                {
+                    if (exceptedKPointIds.Any(a => a == kp.Id) || kp.Name.Contains("学科网"))
+                        continue;
+                    node = new dto_ZTree()
+                    {
+                        id = kp.Id,
+                        pId = nodeId,
+                        name = kp.Name,
+                        children = GetAllKPTree(kp.Id, kpl, exceptedKPointIds)
+                    };
+                    tree.Add(node);
+                }
+            }
+
             return tree;
         }
 

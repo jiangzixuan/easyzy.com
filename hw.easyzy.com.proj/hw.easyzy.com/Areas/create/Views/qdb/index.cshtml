@@ -3,8 +3,17 @@
     Layout = "~/areas/create/Views/Shared/_Layout.cshtml";
 }
 <style type="text/css">
-    
-
+    .basket{float:right; position:relative;}
+    .basket .bpic{background:url("/Images/basket.png") no-repeat; width:100px; height:50px; line-height:50px; padding-left:50px; font-size:16px; cursor:pointer;position:relative; }
+    .basket .bpic .bcount{ padding:2px 6px; border-radius: 100%;  background:#0094ff; color:#fff; top: -15px; font-size: 12px; position:relative}
+    .basket .detail{width: 200px; border: 1px solid #0094ff; position:absolute; right:0;}
+    .basket .detail .title{height:30px; background:#0094ff; line-height:30px; color:#fff; padding-left:10px;}
+    .basket .detail .body{min-height:100px;}
+    .basket .detail .foot{height:50px; line-height:50px; border-top:1px solid #0094ff}
+    .basket label{display:inline-block;}
+    .basket .body .line{padding:5px 10px;}
+    .basket .body .line .qtn{width: 120px; text-align:left;}
+    .basket .body .line .qtc{width: 30px; text-align:left;}
 </style>
 <div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > 新建 > 题库作业</div>
 <div class="content-title">
@@ -62,7 +71,24 @@
             <div class="kpt page-func left" data-bind="1">知识点选题</div>
             <div class="paper page-func left" data-bind="2">套卷选题</div>
         </div>
-        <div class="basket"></div>
+        <div class="basket">
+            <div class="bpic">
+                <span class="bcount">1</span>试题篮
+            </div>
+            <div class="detail">
+                <div class="title">
+                    共计10题
+                </div>
+                <div class="body">
+                    <div class="line"><label class="qtn">选择题</label><label class="qtc">7</label><a href="#">删除</a></div>
+                    <div class="line"><label class="qtn">填空题</label><label class="qtc">2</label><a href="#">删除</a></div>
+                    <div class="line"><label class="qtn">完形填空题</label><label class="qtc">2</label><a href="#">删除</a></div>
+                </div>
+                <div class="foot">
+                    <a>全部清空</a><a>浏览试题篮</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="content">
@@ -149,9 +175,11 @@
         $(this).addClass("active").siblings().removeClass("active");
         var type = $(".page-nav .page-func.active").attr("data-bind");
         if (type == 0) {
+            $(".treeoverall .jcchoose").show();
             LoadTextBookVersions();
         }
         else if (type == 1) {
+            $(".treeoverall .jcchoose").hide();
             LoadKPTree();
         }
     })
@@ -314,7 +342,7 @@
                 zTreeObj = $.fn.zTree.init($(".treeshow"), settingKP, data);
             }
             else {
-                $(".treeshow").html("<div align='center'>没有相关目录结构！</div>");
+                $(".treeshow").html("<div align='center'>没有相关知识点结构！</div>");
             }
         })
     }

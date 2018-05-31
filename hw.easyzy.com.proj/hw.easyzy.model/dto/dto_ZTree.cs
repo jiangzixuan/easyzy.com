@@ -1,8 +1,5 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace hw.easyzy.model.dto
 {
@@ -34,6 +31,6 @@ namespace hw.easyzy.model.dto
         /// </summary>
         public string iconSkin { get; set; }
 
-        
+        public List<dto_ZTree> children { get; set; }
     }
 }
