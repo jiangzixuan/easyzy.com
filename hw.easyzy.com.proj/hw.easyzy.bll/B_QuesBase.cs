@@ -38,6 +38,11 @@ namespace hw.easyzy.bll
         private static List<dto_SimilarCatalogs> allSimilarCatalogs = null;
 
         /// <summary>
+        /// 题型
+        /// </summary>
+        private static List<T_QuesType> allQuesTypes = null;
+
+        /// <summary>
         /// 屏蔽掉的知识点节点<courseid, nodeid>
         /// </summary>
         public static readonly int[,] ExceptedKPoints = new int[,] { { 10, 47833 }, { 10, 49058 }, { 10, 49959 }, { 10, 50766 }, { 10, 51058 }, { 12, 18350 }, { 12, 27276 }, { 26, 43199 }, { 26, 44424 }, { 26, 45325 }, { 26, 47327 }, { 28, 65818 }, { 28, 30462 }, { 28, 39388 } };
@@ -57,15 +62,22 @@ namespace hw.easyzy.bll
         /// </summary>
         private static readonly string _similarcatalogsfilepath = "/QuesBaseJson/similarcatalogs.json";
 
+        /// <summary>
+        /// 题型json文件路径
+        /// </summary>
+        private static readonly string _questypefilepath = "/QuesBaseJson/questiontype.json";
+
         static B_QuesBase()
         {
             Const.DBConnStrNameDic.TryGetValue(Const.DBName.Ques, out QuesConnString);
 
-            allTextBookVersions = GetJosnFile<List<T_TextBookVersions>>(GetMapPath(_textbookversionsfilepath));
+            allTextBookVersions = GetJsonFile<List<T_TextBookVersions>>(GetMapPath(_textbookversionsfilepath));
 
-            allTextBooks = GetJosnFile<List<T_TextBooks>>(GetMapPath(_textbookfilepath));
+            allTextBooks = GetJsonFile<List<T_TextBooks>>(GetMapPath(_textbookfilepath));
 
-            allSimilarCatalogs = GetJosnFile<List<dto_SimilarCatalogs>>(GetMapPath(_similarcatalogsfilepath));
+            allSimilarCatalogs = GetJsonFile<List<dto_SimilarCatalogs>>(GetMapPath(_similarcatalogsfilepath));
+
+            allQuesTypes = GetJsonFile<List<T_QuesType>>(GetMapPath(_questypefilepath));
         }
 
         public static List<T_TextBookVersions> GetTextBookVersions(int courseId)
@@ -145,6 +157,33 @@ namespace hw.easyzy.bll
             return tree;
         }
 
+        /// <summary>
+        /// 查找相似集
+        /// </summary>
+        /// <param name="courseId"></param>
+        /// <param name="catalogId"></param>
+        /// <returns></returns>
+        public static int[] GetSimilarCatalogs(int courseId, int catalogId)
+        {
+            var CourseSimilarCatalogs = allSimilarCatalogs.FirstOrDefault(a => a.CourseId == courseId);
+            if (CourseSimilarCatalogs == null) return null;
+            int[][] csclist = JsonConvert.DeserializeObject<int[][]>(CourseSimilarCatalogs.SimilarCatalogs);
+            foreach (var s in csclist)
+            {
+                if (s.Contains(catalogId))
+                {
+                    return s;
+                }
+            }
+            return null;
+        }
+
+        public static List<T_QuesType> GetQuesTypes(int courseId)
+        {
+            return allQuesTypes.Where(p => p.CourseId.Equals(courseId) && p.ParentId.Equals(0)).ToList();
+        }
+
+        #region 私有方法
         private static string GetMapPath(string path)
         {
             if (HttpContext.Current != null)
@@ -157,7 +196,7 @@ namespace hw.easyzy.bll
             }
         }
 
-        private static T GetJosnFile<T>(string filePath) where T : new()
+        private static T GetJsonFile<T>(string filePath) where T : new()
         {
             T contentObject = default(T);
             if (File.Exists(filePath))
@@ -169,5 +208,6 @@ namespace hw.easyzy.bll
                 contentObject = new T();
             return contentObject;
         }
+        #endregion
     }
 }

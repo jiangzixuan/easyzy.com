@@ -12,6 +12,10 @@ namespace hw.easyzy.com.Areas.create.Controllers
 {
     public class qdbController : baseController
     {
+        /// <summary>
+        /// 新建页
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             Dictionary<int, string> pd = new Dictionary<int, string>();
@@ -46,28 +50,89 @@ namespace hw.easyzy.com.Areas.create.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 教材版本列表
+        /// </summary>
+        /// <param name="courseId"></param>
+        /// <returns></returns>
         public JsonResult GetTextBookVersions(int courseId)
         {
             List<T_TextBookVersions> list = B_QuesBase.GetTextBookVersions(courseId);
             return Json(list);
         }
 
+        /// <summary>
+        /// 课本列表
+        /// </summary>
+        /// <param name="versionId"></param>
+        /// <returns></returns>
         public JsonResult GetTextBooks(int versionId)
         {
             List<T_TextBooks> list = B_QuesBase.GetTextBooks(versionId);
             return Json(list);
         }
 
+        /// <summary>
+        /// 目录树
+        /// </summary>
+        /// <param name="textbookId"></param>
+        /// <returns></returns>
         public JsonResult GetCatalogTree(int textbookId)
         {
             List<dto_ZTree> list = B_QuesBase.GetCatalogsTree(textbookId);
             return Json(list);
         }
 
+        /// <summary>
+        /// 知识点树
+        /// </summary>
+        /// <param name="courseId"></param>
+        /// <returns></returns>
         public JsonResult GetKnowledgePointTree(int courseId)
         {
             List<dto_ZTree> list = B_QuesBase.GetKnowledgePointsTree(courseId);
             return Json(list);
+        }
+
+        /// <summary>
+        /// 筛题
+        /// </summary>
+        /// <param name="courseId"></param>
+        /// <param name="kpointId"></param>
+        /// <param name="cpointId"></param>
+        /// <param name="typeId"></param>
+        /// <param name="diffType"></param>
+        /// <param name="paperYear"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public ActionResult GetQuestions(int courseId, int kpointId, int cpointId, int typeId, int diffType, int paperYear, int pageIndex, int pageSize)
+        {
+            int totalCount = 0;
+            int[] qids = B_Ques.GetQuesIds(courseId, kpointId, cpointId, typeId, diffType, paperYear, pageIndex, pageSize, out totalCount);
+            int totalPage = Util.GetTotalPageCount(totalCount, pageSize);
+
+            List<T_Questions> list = null;
+            if (qids != null && qids.Length > 0)
+            {
+                list = new List<T_Questions>();
+                foreach (var q in qids)
+                {
+                    T_Questions ques = B_QuesRedis.GetQuestion(q);
+                    if (ques != null)
+                    {
+                        list.Add(ques);
+                    }
+                }
+            }
+            ViewBag.PageCount = totalPage;
+            ViewBag.Ques = list;
+            return PartialView();
+        }
+
+        public JsonResult GetQuesTypes(int courseId)
+        {
+            return Json(B_QuesBase.GetQuesTypes(courseId));
         }
     }
 }

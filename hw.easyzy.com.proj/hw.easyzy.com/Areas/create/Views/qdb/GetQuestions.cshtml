@@ -1,0 +1,15 @@
+﻿@using hw.easyzy.model.dto;
+
+@if (ViewBag.QuesList != null && ViewBag.QuesList.Count > 0)
+{
+    foreach (var q in ViewBag.QuesList)
+    {
+        
+    }
+}
+else
+{
+    <div style="padding-top:20px; text-align:center;">当前条件下没有查询到任何试题！</div>
+}
+
+<div style="display:none"><div id="PageCountDiv">@ViewBag.PageCount</div></div>

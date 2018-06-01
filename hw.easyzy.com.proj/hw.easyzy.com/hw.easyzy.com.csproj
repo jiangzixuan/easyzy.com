@@ -165,6 +165,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\jquery.pager.css" />
     <Content Include="Content\tool.css" />
     <Content Include="Content\css.css" />
     <Content Include="Content\viewer.min.css" />
@@ -220,6 +221,7 @@
     <Content Include="Images\loader.gif" />
     <Content Include="Images\logo.jpg" />
     <Content Include="Images\open-top.jpg" />
+    <Content Include="Images\plus-minus.png" />
     <Content Include="Images\qqimg.png" />
     <Content Include="Images\query-top.jpg" />
     <Content Include="Images\radio.png" />
@@ -250,10 +252,12 @@
     <Content Include="Areas\list\Views\home\index.cshtml" />
     <Content Include="Areas\submit\Views\_ViewStart.cshtml" />
     <Content Include="Areas\submit\Views\home\index.cshtml" />
+    <Content Include="Areas\create\Views\qdb\GetQuestions.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="QuesBaseJson\similarcatalogs.json" />
     <Content Include="QuesBaseJson\textbooks.json" />
     <Content Include="QuesBaseJson\textbookversions.json" />
+    <Content Include="QuesBaseJson\questiontype.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\echarts\echarts.common.min.js" />
     <Content Include="Scripts\echarts\echarts.min.js" />
@@ -262,6 +266,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.cookie.js" />
+    <Content Include="Scripts\jquery.pager.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />

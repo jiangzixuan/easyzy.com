@@ -1,4 +1,5 @@
 ﻿using easyzy.sdk;
+using hw.easyzy.model.dto;
 using hw.easyzy.model.entity;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,31 @@ namespace hw.easyzy.bll
     {
         //缓存有效期(50天）
         private static TimeSpan ts = new TimeSpan(500, 0, 0, 0);
+
+        public static dto_Question GetQuestion(int qId)
+        {
+            dto_Question tempresult = null;
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Ques, qId.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.Ques.ToString()))
+            {
+                if (client != null)
+                {
+                    tempresult = client.Get<dto_Question>(key);
+                    if (tempresult == null)
+                    {
+                        tempresult = B_Ques.GetWholeQuestion(qId);
+                        if (tempresult != null)
+                        {
+                            client.Set<T_Questions>(key, tempresult, ts);
+                        }
+                    }
+                }
+            }
+
+            return tempresult;
+        }
+
+        #region 知识点/章节目录
         public static List<T_CatalogNodes> GetCatalogs(int textbookId)
         {
             List<T_CatalogNodes> tempresult = null;
@@ -60,6 +86,6 @@ namespace hw.easyzy.bll
 
             return tempresult;
         }
-
+        #endregion
     }
 }

@@ -3,17 +3,19 @@
     Layout = "~/areas/create/Views/Shared/_Layout.cshtml";
 }
 <style type="text/css">
-    .basket{float:right; position:relative;}
-    .basket .bpic{background:url("/Images/basket.png") no-repeat; width:100px; height:50px; line-height:50px; padding-left:50px; font-size:16px; cursor:pointer;position:relative; }
-    .basket .bpic .bcount{ padding:2px 6px; border-radius: 100%;  background:#0094ff; color:#fff; top: -15px; font-size: 12px; position:relative}
-    .basket .detail{width: 200px; border: 1px solid #0094ff; position:absolute; right:0;}
-    .basket .detail .title{height:30px; background:#0094ff; line-height:30px; color:#fff; padding-left:10px;}
-    .basket .detail .body{min-height:100px;}
-    .basket .detail .foot{height:50px; line-height:50px; border-top:1px solid #0094ff}
-    .basket label{display:inline-block;}
-    .basket .body .line{padding:5px 10px;}
-    .basket .body .line .qtn{width: 120px; text-align:left;}
-    .basket .body .line .qtc{width: 30px; text-align:left;}
+    .quessearch{background:#fff; padding: 5px 10px;}
+    .quessearch .line{line-height:40px;}
+    .quessearch .line a{padding:5px 15px; }
+    .quessearch .line a:hover{color:#0094ff; }
+    .quessearch .line a.active{color:#0094ff; }
+    .quesrandom{margin-top:20px; background:#fff; padding: 5px 10px; line-height:40px;}
+    .quesrandom .tip{height:30px; line-height:30px; color:#ff006e}
+    .quesrandom input{width:100px;}
+    .quesrandom .rgq{padding:5px 15px; background:#0094ff; color:#fff; border-radius:3px;}
+    .resulttitle{margin-top:20px; background:#fff; padding: 5px 10px; line-height:40px;}
+    .resulttitle .chk{background:url("/images/checkbox.png") no-repeat 0 2px;  }
+    .resulttitle .addall{float:right; background-color:#0094ff; border-radius:3px; color:#fff; padding:0 10px; }
+    .resulttitle .addall b{font-size:18px;}
 </style>
 <div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > 新建 > 题库作业</div>
 <div class="content-title">
@@ -85,7 +87,7 @@
                     <div class="line"><label class="qtn">完形填空题</label><label class="qtc">2</label><a href="#">删除</a></div>
                 </div>
                 <div class="foot">
-                    <a>全部清空</a><a>浏览试题篮</a>
+                    <a class="clearbasket" href="#">全部清空</a><a class="viewbasket" href="#">浏览试题篮</a>
                 </div>
             </div>
         </div>
@@ -119,8 +121,40 @@
             </div>
         </div>
         <div class="quesoverall">
+            <div class="quessearch">
+                <div class="line questype">
 
+                </div>
+                <div class="line difftype">
+                    <b>难度：</b><a href="#" data-bind="0" class="active">全部</a> <a data-bind="1" href="#">容易</a><a data-bind="2" href="#">较易</a><a data-bind="3" href="#">一般</a>
+                    <a data-bind="4" href="#">较难</a><a data-bind="5" href="#">困难</a>
+                </div>
+                <div class="line quesyear">
+                    @{ int year = DateTime.Now.Year; int year1 = year - 1; int year2 = year - 2; int year3 = year - 3; int year4 = (year - 4) * -1;}
+                    <b>年份：</b><a href="#" class="active" data-bind="0">全部</a>
+                    <a href="#" data-bind="@year">@year</a>
+                    <a href="#" data-bind="@year1">@year1</a>
+                    <a href="#" data-bind="@year2">@year2</a>
+                    <a href="#" data-bind="@year3">@year3</a>
+                    <a href="#" data-bind="@year4">更早以前</a>
+                </div>
+            </div>
+            <div class="quesrandom">
+                <div class="tip">
+                    随机出题，按照主客观题1：2的比例，随机选择最近3年内的试题！
+                </div>
+                <div>
+                    <b>数量：</b><input /><br />
+                    <a href="#" class="rgq">出 题</a>
+                </div>
+            </div>
+            <div class="resulttitle">
+                <a href="#" class="chk">显示答案</a><a href="#" class="addall"><b>+</b> 全部加入试题篮</a>
+            </div>
+            <div class="queryresult">
 
+            </div>
+            <div id="pager" class="zypager"></div>
         </div>
     </div>
 </div>
@@ -139,7 +173,11 @@
     //否则默认高中语文
     var cur_data = {
         default_courseId: 26,
-        default_courseName: "高中语文"
+        default_courseName: "高中语文",
+        type = 0,
+        nodeid = 0,
+        pageindex = 1,
+        pagesize = 20
     }
 
     $(function () {
@@ -150,6 +188,8 @@
         }
         $(".currentkc").attr("data-bind", cur_data.default_courseId).html(cur_data.default_courseName);
         $(".stage-list li a[data-bind='" + cur_data.default_courseId + "']").addClass("active");
+        //加载默认课程的题型
+        LoadQuesTypes();
         //默认根据章节选题，加载教材版本
         LoadTextBookVersions();
     })
@@ -171,9 +211,23 @@
         $(".treeoverall .jcall").hide();
     })
 
+    $(".basket").on("mouseover", function () {
+        $(".basket .detail").show();
+    });
+
+    $(".basket").on("mouseout", function () {
+        $(".basket .detail").hide();
+    })
+
+    $(".quessearch a").on("click", function () {
+        $(this).addClass("active").siblings().removeClass("active");
+    })
+
+    //功能切换
     $(".page-nav .page-func").on("click", function () {
         $(this).addClass("active").siblings().removeClass("active");
         var type = $(".page-nav .page-func.active").attr("data-bind");
+        cur_data.type = type;
         if (type == 0) {
             $(".treeoverall .jcchoose").show();
             LoadTextBookVersions();
@@ -200,6 +254,7 @@
         $.cookie("easyzy.basket.defaultcourse", s, { expires: 30, path: '/' });
         $(".page-nav .stage-list").hide();
 
+        LoadQuesTypes();
         var type = $(".page-nav .page-func.active").attr("data-bind");
         if (type == 0) {
             LoadTextBookVersions();
@@ -347,13 +402,64 @@
         })
     }
 
-    var kpzTreeOnClick = function () {
 
-
+    var kpzTreeOnClick = function (event, treeId, treeNode) {
+        curdata.type = 1;
+        curdata.nodeid = treeNode.id;
+        curdata.pageIndex = 1;
+        SearchQuestions();
     }
 
-    var zjzTreeOnClick = function () {
-
+    var zjzTreeOnClick = function (event, treeId, treeNode) {
+        curdata.type = 0;
+        curdata.nodeid = treeNode.id;
+        curdata.pageIndex = 1;
+        SearchQuestions();
     }
 
+    //加载题型
+    var LoadQuesTypes = function () {
+        var courseid = $(".currentkc").attr("data-bind");
+        var html = "<b>题型：</b><a href='#' data-bind='0' class='active'>全部</a>";
+        $.post("qdb/GetQuesTypes",
+            {courseId: courseid},
+            function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    html += "<a href='#' data-bind='" + data[i].Id + "'>" + data[i].Name + "</a>";
+                }
+                $(".quessearch .questype").html(html);
+                $(".quessearch .questype a").on("click", function () {
+                    $(this).addClass("active").siblings().removeClass("active");
+                })
+            })
+    }
+
+    var PageClick = function (PageIndex) {
+        cur_data.pageindex = PageIndex;
+        SearchQuestions();
+    }
+
+    //查询试题
+    var SearchQuestions = function () {
+        var courseid = $(".currentkc").attr("data-bind");
+        var cpointid = 0, kpointid = 0;
+        if (cur_data.type == 0) {
+            cpointid = cur_data.nodeid;
+        }
+        else if (cur_data.type == 1) {
+            kpointid = cur_data.nodeid;
+        }
+        var typeid = $(".quessearch .questype .active").attr("data-bind");
+        var difftype = $(".quessearch .difftype .active").attr("data-bind");
+        var quesyear = $(".quessearch .quesyear .active").attr("data-bind");
+
+        $.post("qdb/GetQuestions",
+            { courseId: courseid, kpointId: kpointid, cpointId: cpointid, typeId: typeid, diffType: difftype, paperYear: quesyear, pageIndex: cur_data.pageindex, pageSize: cur_data.pagesize },
+            function (data) {
+                $(".queryresult").html(data);
+                if (parseInt($("#PageCountDiv").html()) > 1) {
+                    $("#pager").pager({ pagenumber: cur_data.pageindex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: PageClick });
+                }
+            })
+    }
 </script>

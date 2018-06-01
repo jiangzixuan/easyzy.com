@@ -102,7 +102,7 @@ namespace easyzy.sdk
         /// <summary>
         /// 选择题题型ID集合
         /// </summary>
-        public static readonly int[] OBJECTIVE_QUES_TYPES = new int[] { 2, 3, 4, 5, 6, 7 };
+        public static readonly List<int> OBJECTIVE_QUES_TYPES = new List<int> { 2, 3, 4, 5, 6, 7 };
 
         /// <summary>
         /// 学段枚举
