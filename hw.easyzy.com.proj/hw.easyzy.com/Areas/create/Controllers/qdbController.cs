@@ -118,7 +118,7 @@ namespace hw.easyzy.com.Areas.create.Controllers
                 list = new List<T_Questions>();
                 foreach (var q in qids)
                 {
-                    T_Questions ques = B_QuesRedis.GetQuestion(q);
+                    T_Questions ques = B_QuesRedis.GetQuestion(courseId, q);
                     if (ques != null)
                     {
                         list.Add(ques);
@@ -126,6 +126,39 @@ namespace hw.easyzy.com.Areas.create.Controllers
                 }
             }
             ViewBag.PageCount = totalPage;
+            ViewBag.Ques = list;
+            return PartialView();
+        }
+
+        /// <summary>
+        /// 随机出题
+        /// </summary>
+        /// <param name="courseId"></param>
+        /// <param name="kpointId"></param>
+        /// <param name="cpointId"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public ActionResult RandomQuestions(int courseId, int kpointId, int cpointId, int count)
+        {
+            List<T_Questions> list = null;
+            if (count <= 20)
+            {
+                int[] qids = B_Ques.GetQuesIds(courseId, kpointId, cpointId, count);
+                
+                if (qids != null && qids.Length > 0)
+                {
+                    list = new List<T_Questions>();
+                    foreach (var q in qids)
+                    {
+                        T_Questions ques = B_QuesRedis.GetQuestion(courseId, q);
+                        if (ques != null)
+                        {
+                            list.Add(ques);
+                        }
+                    }
+                }
+            }
+
             ViewBag.Ques = list;
             return PartialView();
         }

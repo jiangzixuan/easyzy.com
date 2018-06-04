@@ -37,14 +37,14 @@ namespace hw.easyzy.bll
         public static int[] GetQuesIds(int courseId, int kpointId, int cpointId, int typeId, int diffType, int paperYear, int pageIndex, int pageSize, out int totalCount)
         {
             List<int> model = null;
-            string wherestr = "T_Questions where courseid = @courseId and pid = 0 ";
+            string wherestr = "T_Questions where courseid = @courseId ";
             string orderstr = "usagetimes desc";
             List<MySqlParameter> pl = new List<MySqlParameter>();
             pl.Add(new MySqlParameter("@courseid", courseId));
 
             if (typeId != 0)
             {
-                wherestr += "and typeid=@typeid ";
+                wherestr += "and ptypeid=@typeid ";
                 pl.Add(new MySqlParameter("@typeid", typeId));
             }
             if (diffType != 0)
@@ -109,11 +109,64 @@ namespace hw.easyzy.bll
             
         }
 
+        /// <summary>
+        /// 随机出题
+        /// </summary>
+        /// <param name="courseId"></param>
+        /// <param name="kpointId"></param>
+        /// <param name="cpointId"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public static int[] GetQuesIds(int courseId, int kpointId, int cpointId, int count)
+        {
+            List<int> model = null;
+            string sql = "select id from T_Questions where courseid = @courseId and pid = 0 ";
+            List<MySqlParameter> pl = new List<MySqlParameter>();
+            pl.Add(new MySqlParameter("@courseid", courseId));
 
-        public static dto_Question GetWholeQuestion(int qId)
+            if (kpointId != 0)
+            {
+                sql += "and kpoints like '%\"" + kpointId + "\"%'";
+            }
+
+            if (cpointId != 0)
+            {
+                int[] s = B_QuesBase.GetSimilarCatalogs(courseId, cpointId);
+                if (s != null)
+                {
+                    sql += "and (";
+                    var str = "";
+                    foreach (var c in s)
+                    {
+                        str += " or cpoints like '%\"" + c + "\"%'";
+                    }
+                    sql += str.Substring(3) + ")";
+                }
+                else
+                {
+                    sql += "and cpoints like '%\"" + cpointId + "\"%'";
+                }
+            }
+
+            sql += " order by usagetimes desc";
+
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(QuesConnString), sql, pl.ToArray()))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        model.Add(int.Parse(dr[0].ToString()));
+                    }
+                }
+            }
+            return model == null ? null : model.ToArray();
+        }
+
+        public static dto_Question GetWholeQuestion(int courseId, int qId)
         {
             dto_Question dq = null;
-            T_Questions q = GetQuestion(qId);
+            T_Questions q = GetQuestion(courseId, qId);
             if (q != null)
             {
                 dq = (dto_Question)q;
@@ -158,12 +211,12 @@ namespace hw.easyzy.bll
         /// </summary>
         /// <param name="qId"></param>
         /// <returns></returns>
-        public static T_Questions GetQuestion(int qId)
+        public static T_Questions GetQuestion(int courseId, int qId)
         {
             T_Questions model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(QuesConnString),
-                "select id, courseid, typeid, typename, difftype, diff, haschildren, quesbody, quesanswer, quesparse, pid from T_Questions where Id = @Id",
-                "@Id".ToInt32InPara(qId)))
+                "select id, courseid, typeid, typename, difftype, diff, haschildren, quesbody, quesanswer, quesparse, pid, usagetimes from T_Questions where CourseId = @CourseId and Id = @Id",
+                "@CourseId".ToInt32InPara(courseId), "@Id".ToInt32InPara(qId)))
             {
                 if (dr != null && dr.HasRows)
                 {

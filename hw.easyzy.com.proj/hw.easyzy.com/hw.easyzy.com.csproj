@@ -253,6 +253,7 @@
     <Content Include="Areas\submit\Views\_ViewStart.cshtml" />
     <Content Include="Areas\submit\Views\home\index.cshtml" />
     <Content Include="Areas\create\Views\qdb\GetQuestions.cshtml" />
+    <Content Include="Areas\create\Views\qdb\RandomQuestions.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="QuesBaseJson\similarcatalogs.json" />
     <Content Include="QuesBaseJson\textbooks.json" />

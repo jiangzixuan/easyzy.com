@@ -16,7 +16,7 @@
     <script src="/Scripts/artDialog/dialog.js"></script>
     <script type="text/javascript" src="/Scripts/viewer-jquery.min.js"></script>
     <script type="text/javascript" src="/Scripts/uaredirect.js"></script>
-    <script src="/Scripts/easyzy.common.js"></script>
+    <script type="text/javascript" src="/Scripts/easyzy.common.js"></script>
     @RenderSection("scriptfirst", false)
 </head>
 <body>
@@ -44,7 +44,7 @@
                                     <b class="left">@ViewBag.UserInfo.UserName</b>
                                     <i class="right"></i>
                                 </div>
-                                
+
                                 <div class="uprop">
                                     <div style="border: 5px solid transparent;border-bottom: 8px solid #00aeff;width: 0;height: 0px;"></div>
                                     <ul>
@@ -57,26 +57,26 @@
                         }
                         else
                         {
-                            <a href="http://user.easyzy.com/home/login" class="utip" title="">登录</a><b> | </b><a href = "http://user.easyzy.com/home/reg" class="utip" title="">注册</a>
+                            <a href="http://user.easyzy.com/home/login" class="utip" title="">登录</a><b> | </b><a href="http://user.easyzy.com/home/reg" class="utip" title="">注册</a>
                         }
                     </div>
                 </div>
                 <div class="topnav">
                     <div class="topnav-list">
                         <label class="notice"><img src="/Images/ico2.png" />各位老师同学好，易作业致力于做全国最简单、易用的作业平台，无需登录即可体验，登录后更可解锁更多功能！快试试吧！</label>
-                        
+
                     </div>
                 </div>
             </div>
             <div class="content-wrap">
                 @RenderBody()
-                @RenderSection("scriptlast", false)
             </div>
             <div class="foot-wrap">
                 <div class="foot">
                     <p>&copy; @DateTime.Now.Year - 易作业 | 超级简单、易用的作业平台</p>
                     <p>京ICP备17073793</p>
-                    <p>@*联系我们 QQ:260031297 |*@ <script type="text/javascript" src="http://easyzy.com/Scripts/umeng.js"></script></p>
+                    <p>@*联系我们 QQ:260031297 |*@
+                    <script type="text/javascript" src="http://easyzy.com/Scripts/umeng.js"></script></p>
                 </div>
             </div>
         </div>
@@ -102,8 +102,9 @@
             <input id="cs_UserName" type="text" name="" placeholder="联系人（选填）">
             <input id="cs_Phone" type="text" name="" placeholder="联系方式（建议填写，以便于我们跟您联系）">
             <button id="cs_Submit" type="button" onclick="savesuggest();">提 交</button>
-            <div class="thanks">谢谢您的建议，我们会认真考虑并尽快处理的！<br/>3秒后自动关闭弹窗</div>
+            <div class="thanks">谢谢您的建议，我们会认真考虑并尽快处理的！<br />3秒后自动关闭弹窗</div>
         </div>
     </div>
+    @RenderSection("scriptlast", false)
 </body>
 </html>

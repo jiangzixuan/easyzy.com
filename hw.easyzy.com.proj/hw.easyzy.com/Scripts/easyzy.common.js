@@ -98,4 +98,10 @@ function letDivCenter(divName) {
     $(divName).css({ position: 'absolute', 'top': top + scrollTop, left: left + scrollLeft }).show();
 }
 
+function isNumber(val) {
+    var reg = /^[1-9]\d*$/;
+    return reg.test(val);
+
+}
+
 

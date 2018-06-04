@@ -3,19 +3,81 @@
     Layout = "~/areas/create/Views/Shared/_Layout.cshtml";
 }
 <style type="text/css">
-    .quessearch{background:#fff; padding: 5px 10px;}
-    .quessearch .line{line-height:40px;}
-    .quessearch .line a{padding:5px 15px; }
-    .quessearch .line a:hover{color:#0094ff; }
-    .quessearch .line a.active{color:#0094ff; }
-    .quesrandom{margin-top:20px; background:#fff; padding: 5px 10px; line-height:40px;}
-    .quesrandom .tip{height:30px; line-height:30px; color:#ff006e}
-    .quesrandom input{width:100px;}
-    .quesrandom .rgq{padding:5px 15px; background:#0094ff; color:#fff; border-radius:3px;}
-    .resulttitle{margin-top:20px; background:#fff; padding: 5px 10px; line-height:40px;}
-    .resulttitle .chk{background:url("/images/checkbox.png") no-repeat 0 2px;  }
-    .resulttitle .addall{float:right; background-color:#0094ff; border-radius:3px; color:#fff; padding:0 10px; }
-    .resulttitle .addall b{font-size:18px;}
+    .quessearch {
+        background: #fff;
+        padding: 5px 10px;
+    }
+
+        .quessearch .line {
+            line-height: 40px;
+        }
+
+            .quessearch .line a {
+                padding: 5px 15px;
+            }
+
+                .quessearch .line a:hover {
+                    color: #0094ff;
+                }
+
+                .quessearch .line a.active {
+                    color: #0094ff;
+                }
+
+    .quesrandom {
+        margin-top: 20px;
+        background: #fff;
+        padding: 5px 10px;
+        line-height: 40px;
+    }
+
+        .quesrandom .tip {
+            height: 30px;
+            line-height: 30px;
+            color: #ff006e
+        }
+
+        .quesrandom input {
+            width: 100px;
+        }
+
+        .quesrandom .rgq {
+            padding: 5px 15px;
+            background: #0094ff;
+            color: #fff;
+            border-radius: 3px;
+        }
+
+    .resulttitle {
+        margin-top: 20px;
+        background: #fff;
+        padding: 5px 10px;
+        line-height: 40px;
+    }
+
+        .resulttitle .chk {
+            background: url("/images/checkbox.png") no-repeat 0 2px;
+        }
+
+        .resulttitle .addall {
+            float: right;
+            background-color: #0094ff;
+            border-radius: 3px;
+            color: #fff;
+            padding: 0 10px;
+        }
+
+            .resulttitle .addall b {
+                font-size: 18px;
+            }
+
+    .queryresult {
+        margin-top: 20px;
+        background: #fff;
+        padding: 5px 10px;
+        min-height: 500px;
+    }
+    .rcounttip{color:#ff006e; display:none;}
 </style>
 <div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > 新建 > 题库作业</div>
 <div class="content-title">
@@ -75,7 +137,7 @@
         </div>
         <div class="basket">
             <div class="bpic">
-                <span class="bcount">1</span>试题篮
+                <span class="bcount">0</span>试题篮
             </div>
             <div class="detail">
                 <div class="title">
@@ -103,17 +165,13 @@
                 <div class="jcall">
                     <div class="bblist">
                         <span>版本:</span>
-                        <ul>
-                            
-                        </ul>
+                        <ul></ul>
                     </div>
                     <div class="jclist">
                         <span>教材</span>
-                        <ul>
-                            
-                        </ul>
+                        <ul></ul>
                     </div>
-                    
+
                 </div>
             </div>
             <div class="treeshow ztree">
@@ -144,7 +202,7 @@
                     随机出题，按照主客观题1：2的比例，随机选择最近3年内的试题！
                 </div>
                 <div>
-                    <b>数量：</b><input /><br />
+                    <b>数量：</b><input class="randomcount" placeholder="20以内" /><b class="rcounttip">（数量必须是小于等于20的正整数）</b><br />
                     <a href="#" class="rgq">出 题</a>
                 </div>
             </div>
@@ -174,10 +232,10 @@
     var cur_data = {
         default_courseId: 26,
         default_courseName: "高中语文",
-        type = 0,
-        nodeid = 0,
-        pageindex = 1,
-        pagesize = 20
+        type: 0,
+        nodeid: 0,
+        pageindex: 1,
+        pagesize: 20
     }
 
     $(function () {
@@ -223,6 +281,10 @@
         $(this).addClass("active").siblings().removeClass("active");
     })
 
+    $(".randomcount").on("keydown", function () {
+        $(".rcounttip").hide();
+    })
+
     //功能切换
     $(".page-nav .page-func").on("click", function () {
         $(this).addClass("active").siblings().removeClass("active");
@@ -259,7 +321,7 @@
         if (type == 0) {
             LoadTextBookVersions();
         }
-        else if(type == 1) {
+        else if (type == 1) {
             LoadKPTree();
         }
     })
@@ -269,7 +331,7 @@
         var courseid = $(".currentkc").attr("data-bind");
         var html = "";
         $.post("qdb/GetTextBookVersions",
-            {courseId: courseid},
+            { courseId: courseid },
             function (data) {
                 for (var i = 0; i < data.length; i++) {
                     if (i == 0) {
@@ -331,6 +393,12 @@
     //树配置
     var zTreeObj;
     // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+    var kpzTreeOnClick = function (event, treeId, treeNode) {
+        cur_data.type = 1;
+        cur_data.nodeid = treeNode.id;
+        cur_data.pageindex = 1;
+        SearchQuestions();
+    }
     var settingKP = {
         view: {
             dblClickExpand: false,
@@ -350,6 +418,13 @@
 
         }
     };
+
+    var zjzTreeOnClick = function (event, treeId, treeNode) {
+        cur_data.type = 0;
+        cur_data.nodeid = treeNode.id;
+        cur_data.pageindex = 1;
+        SearchQuestions();
+    }
 
     var settingZJ = {
         view: {
@@ -375,7 +450,7 @@
     var LoadZJTree = function () {
         var courseId = $(".currentkc").attr("data-bind");
         var bookId = $(".treeoverall .jclist li.active").attr("data-bind");
-        
+
         $(".treeshow").html("<div><img src='/images/loader.gif'><b>正在加载……</b></div>");
         $.post("qdb/GetCatalogTree", { textbookId: bookId }, function (data) {
             if (data != "null") {
@@ -401,28 +476,13 @@
             }
         })
     }
-
-
-    var kpzTreeOnClick = function (event, treeId, treeNode) {
-        curdata.type = 1;
-        curdata.nodeid = treeNode.id;
-        curdata.pageIndex = 1;
-        SearchQuestions();
-    }
-
-    var zjzTreeOnClick = function (event, treeId, treeNode) {
-        curdata.type = 0;
-        curdata.nodeid = treeNode.id;
-        curdata.pageIndex = 1;
-        SearchQuestions();
-    }
-
+    
     //加载题型
     var LoadQuesTypes = function () {
         var courseid = $(".currentkc").attr("data-bind");
         var html = "<b>题型：</b><a href='#' data-bind='0' class='active'>全部</a>";
         $.post("qdb/GetQuesTypes",
-            {courseId: courseid},
+            { courseId: courseid },
             function (data) {
                 for (var i = 0; i < data.length; i++) {
                     html += "<a href='#' data-bind='" + data[i].Id + "'>" + data[i].Name + "</a>";
@@ -453,6 +513,7 @@
         var difftype = $(".quessearch .difftype .active").attr("data-bind");
         var quesyear = $(".quessearch .quesyear .active").attr("data-bind");
 
+        $(".queryresult").html("<div><img src='/images/loader.gif'><b>正在加载……</b></div>");
         $.post("qdb/GetQuestions",
             { courseId: courseid, kpointId: kpointid, cpointId: cpointid, typeId: typeid, diffType: difftype, paperYear: quesyear, pageIndex: cur_data.pageindex, pageSize: cur_data.pagesize },
             function (data) {
@@ -460,6 +521,35 @@
                 if (parseInt($("#PageCountDiv").html()) > 1) {
                     $("#pager").pager({ pagenumber: cur_data.pageindex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: PageClick });
                 }
+            })
+    }
+
+    //随机生成试题
+    $(".rgq").on("click", function () {
+        RandomQuestions();
+    })
+
+    var RandomQuestions = function () {
+        var count = $(".randomcount").val();
+        if (count == "" || !isNumber(count) || parseInt(count) > 20) {
+            $(".randomcount").focus();
+            $(".rcounttip").show();
+            return;
+        }
+
+        var courseid = $(".currentkc").attr("data-bind");
+        var cpointid = 0, kpointid = 0;
+        if (cur_data.type == 0) {
+            cpointid = cur_data.nodeid;
+        }
+        else if (cur_data.type == 1) {
+            kpointid = cur_data.nodeid;
+        }
+        $(".queryresult").html("<div><img src='/images/loader.gif'><b>正在加载……</b></div>");
+        $.post("qdb/RandomQuestions",
+            { courseId: courseid, kpointId: kpointid, cpointId: cpointid, count: count},
+            function (data) {
+                $(".queryresult").html(data);
             })
     }
 </script>

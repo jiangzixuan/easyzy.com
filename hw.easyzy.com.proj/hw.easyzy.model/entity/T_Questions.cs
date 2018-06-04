@@ -37,5 +37,7 @@ namespace hw.easyzy.model.entity
         public string kpoints { get; set; }
 
         public string cpoints { get; set; }
+
+        public int usagetimes { get; set; }
     }
 }

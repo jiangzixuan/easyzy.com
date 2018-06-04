@@ -13,7 +13,7 @@ namespace hw.easyzy.bll
         //缓存有效期(50天）
         private static TimeSpan ts = new TimeSpan(500, 0, 0, 0);
 
-        public static dto_Question GetQuestion(int qId)
+        public static dto_Question GetQuestion(int courseId, int qId)
         {
             dto_Question tempresult = null;
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Ques, qId.ToString());
@@ -24,7 +24,7 @@ namespace hw.easyzy.bll
                     tempresult = client.Get<dto_Question>(key);
                     if (tempresult == null)
                     {
-                        tempresult = B_Ques.GetWholeQuestion(qId);
+                        tempresult = B_Ques.GetWholeQuestion(courseId, qId);
                         if (tempresult != null)
                         {
                             client.Set<T_Questions>(key, tempresult, ts);
