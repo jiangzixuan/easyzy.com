@@ -8,7 +8,7 @@ namespace hw.easyzy.model.entity
 {
     public class T_QuesOptions
     {
-        public int qid { get; set; }
+        public int id { get; set; }
 
         public string optiona { get; set; }
 

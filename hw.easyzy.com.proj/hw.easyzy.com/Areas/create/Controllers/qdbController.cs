@@ -112,26 +112,32 @@ namespace hw.easyzy.com.Areas.create.Controllers
             int[] qids = B_Ques.GetQuesIds(courseId, kpointId, cpointId, typeId, diffType, paperYear, pageIndex, pageSize, out totalCount);
             int totalPage = Util.GetTotalPageCount(totalCount, pageSize);
 
-            List<T_Questions> list = null;
+            List<dto_Question> list = null;
             if (qids != null && qids.Length > 0)
             {
-                list = new List<T_Questions>();
+                list = new List<dto_Question>();
                 foreach (var q in qids)
                 {
-                    T_Questions ques = B_QuesRedis.GetQuestion(courseId, q);
+                    dto_Question ques = B_QuesRedis.GetQuestion(courseId, q);
                     if (ques != null)
                     {
+                        //暴露的qid重写
+                        ques.id = IdNamingHelper.Encrypt(IdNamingHelper.IdTypeEnum.Ques, ques.id);
+                        if (ques.Children != null && ques.Children.Count > 0)
+                        {
+                            ques.Children.ForEach(a => a.id = IdNamingHelper.Encrypt(IdNamingHelper.IdTypeEnum.Ques, a.id));
+                        }
                         list.Add(ques);
                     }
                 }
             }
             ViewBag.PageCount = totalPage;
-            ViewBag.Ques = list;
+            ViewBag.QuesList = list;
             return PartialView();
         }
 
         /// <summary>
-        /// 随机出题
+        /// 随机出题（因功能废弃暂未实现主客观题2：1比例）
         /// </summary>
         /// <param name="courseId"></param>
         /// <param name="kpointId"></param>
@@ -140,26 +146,32 @@ namespace hw.easyzy.com.Areas.create.Controllers
         /// <returns></returns>
         public ActionResult RandomQuestions(int courseId, int kpointId, int cpointId, int count)
         {
-            List<T_Questions> list = null;
+            List<dto_Question> list = null;
             if (count <= 20)
             {
                 int[] qids = B_Ques.GetQuesIds(courseId, kpointId, cpointId, count);
                 
                 if (qids != null && qids.Length > 0)
                 {
-                    list = new List<T_Questions>();
+                    list = new List<dto_Question>();
                     foreach (var q in qids)
                     {
-                        T_Questions ques = B_QuesRedis.GetQuestion(courseId, q);
+                        dto_Question ques = B_QuesRedis.GetQuestion(courseId, q);
                         if (ques != null)
                         {
+                            //暴露的qid重写
+                            ques.id = IdNamingHelper.Encrypt(IdNamingHelper.IdTypeEnum.Ques, ques.id);
+                            if (ques.Children != null && ques.Children.Count > 0)
+                            {
+                                ques.Children.ForEach(a => a.id = IdNamingHelper.Encrypt(IdNamingHelper.IdTypeEnum.Ques, a.id));
+                            }
                             list.Add(ques);
                         }
                     }
                 }
             }
 
-            ViewBag.Ques = list;
+            ViewBag.QuesList = list;
             return PartialView();
         }
 

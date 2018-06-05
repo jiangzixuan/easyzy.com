@@ -1,15 +1,119 @@
 ﻿@using hw.easyzy.model.dto;
+@using easyzy.sdk;
 
-@if (ViewBag.QuesList != null && ViewBag.QuesList.Count > 0)
+@{List<dto_Question> ql = ViewBag.QuesList;}
+
+@if (ql != null && ql.Count > 0)
 {
-    foreach (var q in ViewBag.QuesList)
+    foreach (var q in ql)
     {
-        
+        <div class="pques">
+            <div class="qtitle">
+                <div class="qtleft">
+                    <span>使用：@(q.usagetimes)次</span>
+                    <span>难度：@(q.difftype == 1 ? "容易" : q.difftype == 2 ? "较易": q.difftype == 3 ? "一般" : q.difftype == 4 ? "较难" : "困难")</span>
+                    <span>题型：@(q.typename)</span>
+                </div>
+                <div class="qtright">
+                    <a href="#" class="addone"><b>+</b> 加入试题篮</a>
+                </div>
+            </div>
+            @if (!string.IsNullOrEmpty(q.quesbody))
+            {
+            <div class="pbody">
+                @q.quesbody
+            </div>
+            }
+            @if (Const.OBJECTIVE_QUES_TYPES.Contains(q.ptypeid) && q.Options != null)
+            {
+            <div class="poption">
+                <span>A. @q.Options.optiona</span>
+                <span>B. @q.Options.optionb</span>
+                <span>C. @q.Options.optionc</span>
+                <span>D. @q.Options.optiond</span>
+                @if(!string.IsNullOrEmpty(q.Options.optione))
+                {
+                    <span>E. @q.Options.optione</span>
+                }
+                @if(!string.IsNullOrEmpty(q.Options.optionf))
+                {
+                    <span>F. @q.Options.optionf</span>
+                }
+                @if(!string.IsNullOrEmpty(q.Options.optiong))
+                {
+                    <span>G. @q.Options.optiong</span>
+                }
+            </div>
+            }
+
+            <div class="panswerparse">
+                @if (!string.IsNullOrEmpty(q.quesanswer))
+                {
+                    <span>【正确答案】@q.quesanswer</span>
+                }
+                @if (!string.IsNullOrEmpty(q.quesparse))
+                {
+                <span>【解析】@q.quesparse</span>
+                }
+            </div>
+            @if (q.haschildren && q.Children != null && q.Children.Count > 0)
+            {
+                foreach (var cq in q.Children)
+                {
+            <div class="cques">
+                <div class="csingleques">
+                    <div class="cbody">@cq.quesbody</div>
+                    @if (Const.OBJECTIVE_QUES_TYPES.Contains(cq.ptypeid) && cq.Options != null)
+                    {
+                    <div class="coption">
+                        <span>A. @cq.Options.optiona</span>
+                        <span>B. @cq.Options.optionb</span>
+                        <span>C. @cq.Options.optionc</span>
+                        <span>D. @cq.Options.optiond</span>
+                        @if(!string.IsNullOrEmpty(cq.Options.optione))
+                        {
+                            <span>E. @cq.Options.optione</span>
+                        }
+                        @if(!string.IsNullOrEmpty(cq.Options.optionf))
+                        {
+                            <span>F. @cq.Options.optionf</span>
+                        }
+                        @if(!string.IsNullOrEmpty(cq.Options.optiong))
+                        {
+                            <span>G. @cq.Options.optiong</span>
+                        }
+                    </div>
+                    }
+                    <div class="canswerparse">
+                        @if (!string.IsNullOrEmpty(cq.quesanswer))
+                        {
+                            <span>【正确答案】@cq.quesanswer</span>
+                        }
+                        else
+                        {
+                            <span>【正确答案】略</span>
+                        }
+                        @if (!string.IsNullOrEmpty(cq.quesparse))
+                        {
+                        <span>【解析】@cq.quesparse</span>
+                        }
+                        else
+                        {
+                        <span>【解析】略</span>
+                        }
+                    </div>
+                </div>
+
+            </div>
+                }
+            }
+        </div>
     }
 }
 else
 {
     <div style="padding-top:20px; text-align:center;">当前条件下没有查询到任何试题！</div>
 }
+
 
 <div style="display:none"><div id="PageCountDiv">@ViewBag.PageCount</div></div>

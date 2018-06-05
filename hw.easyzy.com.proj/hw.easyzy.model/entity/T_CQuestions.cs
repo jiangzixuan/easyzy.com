@@ -10,10 +10,16 @@ namespace hw.easyzy.model.entity
     {
         public int id { get; set; }
 
-        public int parentid { get; set; }
+        public int pid { get; set; }
 
-        public int orderindex { get; set; }
+        /// <summary>
+        /// 客观题转化为2，3，4，5，6，7后的题型Id
+        /// </summary>
+        public int ptypeid { get; set; }
 
+        /// <summary>
+        /// 题型Id
+        /// </summary>
         public int typeid { get; set; }
 
         public string typename { get; set; }

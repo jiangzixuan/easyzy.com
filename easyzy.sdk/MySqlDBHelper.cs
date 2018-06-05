@@ -103,12 +103,12 @@ namespace easyzy.sdk
         /// <param name="pageIndex">需要显示第几页</param>
         /// <param name="neekct">是否需要计算总数</param>
         /// <returns>返回SQL语句</returns>
-        private static string getPageSql(string fieldList, string tableAndCondition, string orderWay, int pageSize, int pageIndex, bool neekct)
+        private static string getPageSql(string fieldList, string tableAndCondition, string orderWay, int pageSize, int pageIndex, bool needct)
         {
             int begin = (pageIndex - 1) * pageSize;
             if (begin < 0) begin = 0;
             StringBuilder tmpSql = new StringBuilder(string.Empty);
-            if (neekct)  //需要计算总数
+            if (needct)  //需要计算总数，在外面套一层是为了兼容distinct
             {
                 tmpSql.Append("select count(1) from (select " + fieldList + " from " + tableAndCondition + ") s;");
             }

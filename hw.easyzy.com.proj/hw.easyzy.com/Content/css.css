@@ -177,3 +177,18 @@ a.oddesc{background-position:0 -26px;}
 .basket .clearbasket{color:#0094ff}
 .basket .viewbasket{margin-left:30px; background:#ff006e; padding:5px 10px; color:#fff; border-radius: 5px 5px;}
 
+.quessearch{background:#fff;padding:5px 10px}
+.quessearch .line{line-height:40px}
+.quessearch .line a{padding:5px 15px}
+.quessearch .line a:hover{color:#0094ff}
+.quessearch .line a.active{color:#0094ff}
+.quesrandom{margin-top:20px;background:#fff;padding:5px 10px;line-height:40px}
+.quesrandom .tip{height:30px;line-height:30px;color:#ff006e}
+.quesrandom input{width:100px}
+.quesrandom .rgq{padding:5px 15px;background:#0094ff;color:#fff;border-radius:3px}
+.resulttitle{margin-top:20px;background:#fff;padding:5px 10px;line-height:40px}
+.resulttitle .chk{background:url(/images/checkbox.png) no-repeat 0 2px}
+.resulttitle .addall{float:right;background-color:#0094ff;border-radius:3px;color:#fff;padding:0 10px}
+.resulttitle .addall b{font-size:18px}
+.queryresult{margin-top:20px;background:#fff;padding:5px 10px;min-height:500px}
+.rcounttip{color:#ff006e;display:none}

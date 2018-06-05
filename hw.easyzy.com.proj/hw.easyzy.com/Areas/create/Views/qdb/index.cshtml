@@ -3,81 +3,7 @@
     Layout = "~/areas/create/Views/Shared/_Layout.cshtml";
 }
 <style type="text/css">
-    .quessearch {
-        background: #fff;
-        padding: 5px 10px;
-    }
-
-        .quessearch .line {
-            line-height: 40px;
-        }
-
-            .quessearch .line a {
-                padding: 5px 15px;
-            }
-
-                .quessearch .line a:hover {
-                    color: #0094ff;
-                }
-
-                .quessearch .line a.active {
-                    color: #0094ff;
-                }
-
-    .quesrandom {
-        margin-top: 20px;
-        background: #fff;
-        padding: 5px 10px;
-        line-height: 40px;
-    }
-
-        .quesrandom .tip {
-            height: 30px;
-            line-height: 30px;
-            color: #ff006e
-        }
-
-        .quesrandom input {
-            width: 100px;
-        }
-
-        .quesrandom .rgq {
-            padding: 5px 15px;
-            background: #0094ff;
-            color: #fff;
-            border-radius: 3px;
-        }
-
-    .resulttitle {
-        margin-top: 20px;
-        background: #fff;
-        padding: 5px 10px;
-        line-height: 40px;
-    }
-
-        .resulttitle .chk {
-            background: url("/images/checkbox.png") no-repeat 0 2px;
-        }
-
-        .resulttitle .addall {
-            float: right;
-            background-color: #0094ff;
-            border-radius: 3px;
-            color: #fff;
-            padding: 0 10px;
-        }
-
-            .resulttitle .addall b {
-                font-size: 18px;
-            }
-
-    .queryresult {
-        margin-top: 20px;
-        background: #fff;
-        padding: 5px 10px;
-        min-height: 500px;
-    }
-    .rcounttip{color:#ff006e; display:none;}
+    
 </style>
 <div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > 新建 > 题库作业</div>
 <div class="content-title">
@@ -197,7 +123,7 @@
                     <a href="#" data-bind="@year4">更早以前</a>
                 </div>
             </div>
-            <div class="quesrandom">
+            @*<div class="quesrandom">
                 <div class="tip">
                     随机出题，按照主客观题1：2的比例，随机选择最近3年内的试题！
                 </div>
@@ -205,9 +131,9 @@
                     <b>数量：</b><input class="randomcount" placeholder="20以内" /><b class="rcounttip">（数量必须是小于等于20的正整数）</b><br />
                     <a href="#" class="rgq">出 题</a>
                 </div>
-            </div>
+            </div>*@
             <div class="resulttitle">
-                <a href="#" class="chk">显示答案</a><a href="#" class="addall"><b>+</b> 全部加入试题篮</a>
+                <a href="#" class="chk showanswer">显示答案</a><a href="#" class="addall"><b>+</b> 全部加入试题篮</a>
             </div>
             <div class="queryresult">
 
@@ -224,6 +150,7 @@
 @section scriptlast{
     <script type="text/javascript" src="/scripts/jquery.cookie.js"></script>
     <script type="text/javascript" src="/scripts/ztree/jquery.ztree.core.min.js"></script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 }
 
 <script type="text/javascript">
@@ -330,7 +257,7 @@
     var LoadTextBookVersions = function () {
         var courseid = $(".currentkc").attr("data-bind");
         var html = "";
-        $.post("qdb/GetTextBookVersions",
+        $.post("/create/qdb/GetTextBookVersions",
             { courseId: courseid },
             function (data) {
                 for (var i = 0; i < data.length; i++) {
@@ -357,7 +284,7 @@
     var LoadTextBooks = function () {
         var versionid = $(".treeoverall .bblist li.active").attr("data-bind");
         var html = "";
-        $.post("qdb/GetTextBooks",
+        $.post("/create/qdb/GetTextBooks",
             { versionId: versionid },
             function (data) {
                 for (var i = 0; i < data.length; i++) {
@@ -452,7 +379,7 @@
         var bookId = $(".treeoverall .jclist li.active").attr("data-bind");
 
         $(".treeshow").html("<div><img src='/images/loader.gif'><b>正在加载……</b></div>");
-        $.post("qdb/GetCatalogTree", { textbookId: bookId }, function (data) {
+        $.post("/create/qdb/GetCatalogTree", { textbookId: bookId }, function (data) {
             if (data != "null") {
                 zTreeObj = $.fn.zTree.init($(".treeshow"), settingZJ, data);
             }
@@ -467,7 +394,7 @@
         var courseId = $(".currentkc").attr("data-bind");
 
         $(".treeshow").html("<div><img src='/images/loader.gif'><b>正在加载……</b></div>");
-        $.post("qdb/GetKnowledgePointTree", { courseId: courseId }, function (data) {
+        $.post("/create/qdb/GetKnowledgePointTree", { courseId: courseId }, function (data) {
             if (data != "null") {
                 zTreeObj = $.fn.zTree.init($(".treeshow"), settingKP, data);
             }
@@ -476,12 +403,12 @@
             }
         })
     }
-    
+
     //加载题型
     var LoadQuesTypes = function () {
         var courseid = $(".currentkc").attr("data-bind");
         var html = "<b>题型：</b><a href='#' data-bind='0' class='active'>全部</a>";
-        $.post("qdb/GetQuesTypes",
+        $.post("/create/qdb/GetQuesTypes",
             { courseId: courseid },
             function (data) {
                 for (var i = 0; i < data.length; i++) {
@@ -514,13 +441,14 @@
         var quesyear = $(".quessearch .quesyear .active").attr("data-bind");
 
         $(".queryresult").html("<div><img src='/images/loader.gif'><b>正在加载……</b></div>");
-        $.post("qdb/GetQuestions",
+        $.post("/create/qdb/GetQuestions",
             { courseId: courseid, kpointId: kpointid, cpointId: cpointid, typeId: typeid, diffType: difftype, paperYear: quesyear, pageIndex: cur_data.pageindex, pageSize: cur_data.pagesize },
             function (data) {
                 $(".queryresult").html(data);
                 if (parseInt($("#PageCountDiv").html()) > 1) {
                     $("#pager").pager({ pagenumber: cur_data.pageindex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: PageClick });
                 }
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             })
     }
 
@@ -546,10 +474,11 @@
             kpointid = cur_data.nodeid;
         }
         $(".queryresult").html("<div><img src='/images/loader.gif'><b>正在加载……</b></div>");
-        $.post("qdb/RandomQuestions",
-            { courseId: courseid, kpointId: kpointid, cpointId: cpointid, count: count},
+        $.post("/create/qdb/RandomQuestions",
+            { courseId: courseid, kpointId: kpointid, cpointId: cpointid, count: count },
             function (data) {
                 $(".queryresult").html(data);
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             })
     }
 </script>

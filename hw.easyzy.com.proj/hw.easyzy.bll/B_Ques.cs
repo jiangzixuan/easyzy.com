@@ -44,7 +44,7 @@ namespace hw.easyzy.bll
 
             if (typeId != 0)
             {
-                wherestr += "and ptypeid=@typeid ";
+                wherestr += "and btypeid=@typeid ";
                 pl.Add(new MySqlParameter("@typeid", typeId));
             }
             if (diffType != 0)
@@ -99,6 +99,7 @@ namespace hw.easyzy.bll
             {
                 if (dr != null && dr.HasRows)
                 {
+                    model = new List<int>();
                     while (dr.Read())
                     {
                         model.Add(int.Parse(dr[0].ToString()));
@@ -154,6 +155,7 @@ namespace hw.easyzy.bll
             {
                 if (dr != null && dr.HasRows)
                 {
+                    model = new List<int>();
                     while (dr.Read())
                     {
                         model.Add(int.Parse(dr[0].ToString()));
@@ -165,11 +167,9 @@ namespace hw.easyzy.bll
 
         public static dto_Question GetWholeQuestion(int courseId, int qId)
         {
-            dto_Question dq = null;
-            T_Questions q = GetQuestion(courseId, qId);
-            if (q != null)
+            dto_Question dq = GetQuestion(courseId, qId);
+            if (dq != null)
             {
-                dq = (dto_Question)q;
                 if (dq.haschildren)
                 {
                     List<dto_CQuestion> cdq = null;
@@ -188,7 +188,7 @@ namespace hw.easyzy.bll
                             dto_CQuestion c = (dto_CQuestion)a;
                             if (Const.OBJECTIVE_QUES_TYPES.Contains(c.typeid))
                             {
-                                c.Options = qo.Find(b => b.qid == a.id);
+                                c.Options = qo.Find(b => b.id == a.id);
                             }
                             cdq.Add(c);
                         });
@@ -211,16 +211,16 @@ namespace hw.easyzy.bll
         /// </summary>
         /// <param name="qId"></param>
         /// <returns></returns>
-        public static T_Questions GetQuestion(int courseId, int qId)
+        public static dto_Question GetQuestion(int courseId, int qId)
         {
-            T_Questions model = null;
+            dto_Question model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(QuesConnString),
-                "select id, courseid, typeid, typename, difftype, diff, haschildren, quesbody, quesanswer, quesparse, pid, usagetimes from T_Questions where CourseId = @CourseId and Id = @Id",
-                "@CourseId".ToInt32InPara(courseId), "@Id".ToInt32InPara(qId)))
+                "select id, courseid, ptypeid, typeid, typename, difftype, diff, haschildren, quesbody, quesanswer, quesparse, pid, usagetimes from T_Questions where courseid = @courseid and id = @id",
+                "@courseid".ToInt32InPara(courseId), "@id".ToInt32InPara(qId)))
             {
                 if (dr != null && dr.HasRows)
                 {
-                    model = MySqlDBHelper.ConvertDataReaderToEntitySingle<T_Questions>(dr);
+                    model = MySqlDBHelper.ConvertDataReaderToEntitySingle<dto_Question>(dr);
                 }
             }
             return model;
@@ -235,7 +235,7 @@ namespace hw.easyzy.bll
         {
             List<T_CQuestions> model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(QuesConnString),
-                "select id, pid, orderindex, typeid, typename, quesbody, quesanswer, quesparse from T_CQuestions where pid = @pid",
+                "select id, pid, typeid, typename, quesbody, quesanswer, quesparse from T_CQuestions where pid = @pid order by id",
                 "@pid".ToInt32InPara(pId)))
             {
                 if (dr != null && dr.HasRows)
@@ -255,7 +255,7 @@ namespace hw.easyzy.bll
         {
             List<T_QuesOptions> model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(QuesConnString),
-                "select qid, optiona, optionb, optionc, optiond, optione, optionf, optiong from T_QuesOptions where pid = @pid order by orderindex",
+                "select id, optiona, optionb, optionc, optiond, optione, optionf, optiong from T_QuesOptions where pid = @pid",
                 "@qid".ToInt32InPara(pId)))
             {
                 if (dr != null && dr.HasRows)
@@ -275,8 +275,8 @@ namespace hw.easyzy.bll
         {
             T_QuesOptions model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(QuesConnString),
-                "select qid, optiona, optionb, optionc, optiond, optione, optionf, optiong from T_QuesOptions where qid = @qid",
-                "@qid".ToInt32InPara(qId)))
+                "select id, optiona, optionb, optionc, optiond, optione, optionf, optiong from T_QuesOptions where id = @id",
+                "@id".ToInt32InPara(qId)))
             {
                 if (dr != null && dr.HasRows)
                 {
