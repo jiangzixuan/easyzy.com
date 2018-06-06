@@ -12,10 +12,10 @@ namespace easyzy.sdk
     public class IdNamingHelper
     {
         public static int _zytimes = 375099;
-        public static int _zyadds = 657831297;
+        public static int _zyadds = 478531297;
 
         public static int _questimes = 902673;
-        public static int _quesadds = 264412810;
+        public static int _quesadds = 260039487;
 
         public enum IdTypeEnum
         {

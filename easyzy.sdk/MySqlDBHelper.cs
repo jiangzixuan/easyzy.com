@@ -94,7 +94,8 @@ namespace easyzy.sdk
             }
         }
 
-        /// <summary>组装分页查询的SQL语句
+        /// <summary>
+        /// 组装分页查询的SQL语句，不兼容distinct
         /// </summary>
         /// <param name="fieldList">查询的字段列表，不含“SELECT”</param>
         /// <param name="tableAndCondition">查询的表和条件，不含“FROM”</param>
@@ -104,6 +105,30 @@ namespace easyzy.sdk
         /// <param name="neekct">是否需要计算总数</param>
         /// <returns>返回SQL语句</returns>
         private static string getPageSql(string fieldList, string tableAndCondition, string orderWay, int pageSize, int pageIndex, bool needct)
+        {
+            int begin = (pageIndex - 1) * pageSize;
+            if (begin < 0) begin = 0;
+            StringBuilder tmpSql = new StringBuilder(string.Empty);
+            if (needct)
+            {
+                tmpSql.Append("select count(1) from " + tableAndCondition + ";");
+            }
+
+            tmpSql.Append("select " + fieldList + " from " + tableAndCondition + " order by " + orderWay + " limit " + begin + "," + pageSize);
+            return tmpSql.ToString();
+        }
+
+        /// <summary>
+        /// 兼容distinct
+        /// </summary>
+        /// <param name="fieldList"></param>
+        /// <param name="tableAndCondition"></param>
+        /// <param name="orderWay"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="needct"></param>
+        /// <returns></returns>
+        private static string getPageSql2(string fieldList, string tableAndCondition, string orderWay, int pageSize, int pageIndex, bool needct)
         {
             int begin = (pageIndex - 1) * pageSize;
             if (begin < 0) begin = 0;

@@ -44,23 +44,24 @@ namespace hw.easyzy.bll
 
             if (typeId != 0)
             {
-                wherestr += "and btypeid=@typeid ";
-                pl.Add(new MySqlParameter("@typeid", typeId));
+                wherestr += "and btypeid=@btypeid ";
+                pl.Add(new MySqlParameter("@btypeid", typeId));
             }
+
             if (diffType != 0)
             {
                 wherestr += "and difftype=@difftype ";
                 pl.Add(new MySqlParameter("@difftype", diffType));
             }
 
-            if (paperYear != 0 && paperYear > 0)
+            if (paperYear > 0)
             {
-                wherestr += "and paperyear = @paperyear";
+                wherestr += "and paperyear = @paperyear ";
                 pl.Add(new MySqlParameter("@paperyear", paperYear));
             }
             else if (paperYear < 0)
             {
-                wherestr += "and paperyear <= @paperyear";
+                wherestr += "and paperyear <= @paperyear ";
                 pl.Add(new MySqlParameter("@paperyear", paperYear * -1));
             }
 
@@ -173,31 +174,30 @@ namespace hw.easyzy.bll
                 if (dq.haschildren)
                 {
                     List<dto_CQuestion> cdq = null;
-                    List<T_CQuestions> cq = GetChildQuestions(dq.id);
+                    List<dto_CQuestion> cq = GetChildQuestions(dq.id);
 
                     if (cq != null)
                     {
                         cdq = new List<dto_CQuestion>();
                         List<T_QuesOptions> qo = null;
-                        if (cq.Exists(a => Const.OBJECTIVE_QUES_TYPES.Contains(a.typeid)))
+                        if (cq.Exists(a => Const.OBJECTIVE_QUES_TYPES.Contains(a.ptypeid)))
                         {
                             qo = GetAllChildQuesOptions(dq.id);
                         }
                         cq.ForEach(a =>
                         {
-                            dto_CQuestion c = (dto_CQuestion)a;
-                            if (Const.OBJECTIVE_QUES_TYPES.Contains(c.typeid))
+                            if (Const.OBJECTIVE_QUES_TYPES.Contains(a.ptypeid))
                             {
-                                c.Options = qo.Find(b => b.id == a.id);
+                                a.Options = qo.Find(b => b.id == a.id);
                             }
-                            cdq.Add(c);
+                            cdq.Add(a);
                         });
                     }
                     dq.Children = cdq;
                 }
                 else
                 {
-                    if (Const.OBJECTIVE_QUES_TYPES.Contains(dq.typeid))
+                    if (Const.OBJECTIVE_QUES_TYPES.Contains(dq.ptypeid))
                     {
                         dq.Options = GetQuesOption(dq.id);
                     }
@@ -231,16 +231,16 @@ namespace hw.easyzy.bll
         /// </summary>
         /// <param name="pId"></param>
         /// <returns></returns>
-        public static List<T_CQuestions> GetChildQuestions(int pId)
+        public static List<dto_CQuestion> GetChildQuestions(int pId)
         {
-            List<T_CQuestions> model = null;
+            List<dto_CQuestion> model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(QuesConnString),
                 "select id, pid, typeid, typename, quesbody, quesanswer, quesparse from T_CQuestions where pid = @pid order by id",
                 "@pid".ToInt32InPara(pId)))
             {
                 if (dr != null && dr.HasRows)
                 {
-                    model = MySqlDBHelper.ConvertDataReaderToEntityList<T_CQuestions>(dr);
+                    model = MySqlDBHelper.ConvertDataReaderToEntityList<dto_CQuestion>(dr);
                 }
             }
             return model;

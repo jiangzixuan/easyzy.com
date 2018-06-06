@@ -7,107 +7,119 @@
 {
     foreach (var q in ql)
     {
-        <div class="pques">
-            <div class="qtitle">
-                <div class="qtleft">
-                    <span>使用：@(q.usagetimes)次</span>
-                    <span>难度：@(q.difftype == 1 ? "容易" : q.difftype == 2 ? "较易": q.difftype == 3 ? "一般" : q.difftype == 4 ? "较难" : "困难")</span>
-                    <span>题型：@(q.typename)</span>
-                </div>
-                <div class="qtright">
-                    <a href="#" class="addone"><b>+</b> 加入试题篮</a>
-                </div>
-            </div>
-            @if (!string.IsNullOrEmpty(q.quesbody))
+<div class="pques">
+    <div class="qtitle">
+        <div class="qtleft">
+            <span>使用：@(q.usagetimes)次</span>
+            <span>难度：@(q.difftype == 1 ? "容易" : q.difftype == 2 ? "较易" : q.difftype == 3 ? "一般" : q.difftype == 4 ? "较难" : "困难")</span>
+            <span>题型：@(q.typename)</span>
+        </div>
+        <div class="qtright">
+            <a href="javascript:void(0);" data-bind="@q.id" data-qt="@q.typename" class="addone join"><b>+</b> 加入试题篮</a>
+        </div>
+    </div>
+    @if (!string.IsNullOrEmpty(q.quesbody))
+    {
+        <div class="pbody">
+            @Html.Raw(q.quesbody)
+        </div>
+    }
+    @if (Const.OBJECTIVE_QUES_TYPES.Contains(q.ptypeid) && q.Options != null)
+    {
+        <div class="poption">
+            <span class="option">A. @Html.Raw(q.Options.optiona)</span><br />
+            <span class="option">B. @Html.Raw(q.Options.optionb)</span><br />
+            <span class="option">C. @Html.Raw(q.Options.optionc)</span><br />
+            <span class="option">D. @Html.Raw(q.Options.optiond)</span><br />
+            @if (!string.IsNullOrEmpty(q.Options.optione))
             {
-            <div class="pbody">
-                @q.quesbody
-            </div>
+                <span class="option">E. @Html.Raw(q.Options.optione)</span><br />
             }
-            @if (Const.OBJECTIVE_QUES_TYPES.Contains(q.ptypeid) && q.Options != null)
+            @if (!string.IsNullOrEmpty(q.Options.optionf))
             {
-            <div class="poption">
-                <span>A. @q.Options.optiona</span>
-                <span>B. @q.Options.optionb</span>
-                <span>C. @q.Options.optionc</span>
-                <span>D. @q.Options.optiond</span>
-                @if(!string.IsNullOrEmpty(q.Options.optione))
-                {
-                    <span>E. @q.Options.optione</span>
-                }
-                @if(!string.IsNullOrEmpty(q.Options.optionf))
-                {
-                    <span>F. @q.Options.optionf</span>
-                }
-                @if(!string.IsNullOrEmpty(q.Options.optiong))
-                {
-                    <span>G. @q.Options.optiong</span>
-                }
-            </div>
+                <span class="option">F. @Html.Raw(q.Options.optionf)</span><br />
             }
-
-            <div class="panswerparse">
-                @if (!string.IsNullOrEmpty(q.quesanswer))
-                {
-                    <span>【正确答案】@q.quesanswer</span>
-                }
-                @if (!string.IsNullOrEmpty(q.quesparse))
-                {
-                <span>【解析】@q.quesparse</span>
-                }
-            </div>
-            @if (q.haschildren && q.Children != null && q.Children.Count > 0)
+            @if (!string.IsNullOrEmpty(q.Options.optiong))
             {
-                foreach (var cq in q.Children)
-                {
+                <span class="option">G. @Html.Raw(q.Options.optiong)</span><br />
+            }
+        </div>
+    }
+    <div class="dotted">
+        <div class="show open">打开答案/解析</div>
+    </div>
+    <div class="panswerparse">
+        @if (!string.IsNullOrEmpty(q.quesanswer))
+        {
+            <span>【答案】@Html.Raw(q.quesanswer)</span>
+        }
+        else
+        {
+            <span>【答案】略</span>
+        }
+        <br /><br />
+        @if (!string.IsNullOrEmpty(q.quesparse))
+        {
+            <span>【解析】@Html.Raw(q.quesparse)</span>
+        }
+        else
+        {
+            <span>【解析】略</span>
+        }
+    </div>
+    @if (q.haschildren && q.Children != null && q.Children.Count > 0)
+    {
+        foreach (var cq in q.Children)
+        {
             <div class="cques">
                 <div class="csingleques">
-                    <div class="cbody">@cq.quesbody</div>
+                    <div class="cbody">@Html.Raw(cq.quesbody)</div>
                     @if (Const.OBJECTIVE_QUES_TYPES.Contains(cq.ptypeid) && cq.Options != null)
                     {
-                    <div class="coption">
-                        <span>A. @cq.Options.optiona</span>
-                        <span>B. @cq.Options.optionb</span>
-                        <span>C. @cq.Options.optionc</span>
-                        <span>D. @cq.Options.optiond</span>
-                        @if(!string.IsNullOrEmpty(cq.Options.optione))
-                        {
-                            <span>E. @cq.Options.optione</span>
-                        }
-                        @if(!string.IsNullOrEmpty(cq.Options.optionf))
-                        {
-                            <span>F. @cq.Options.optionf</span>
-                        }
-                        @if(!string.IsNullOrEmpty(cq.Options.optiong))
-                        {
-                            <span>G. @cq.Options.optiong</span>
-                        }
-                    </div>
+                        <div class="coption">
+                            <span class="option">A. @Html.Raw(cq.Options.optiona)</span><br />
+                            <span class="option">B. @Html.Raw(cq.Options.optionb)</span><br />
+                            <span class="option">C. @Html.Raw(cq.Options.optionc)</span><br />
+                            <span class="option">D. @Html.Raw(cq.Options.optiond)</span><br />
+                            @if (!string.IsNullOrEmpty(cq.Options.optione))
+                            {
+                                <span class="option">E. @Html.Raw(cq.Options.optione)</span><br />
+                            }
+                            @if (!string.IsNullOrEmpty(cq.Options.optionf))
+                            {
+                                <span class="option">F. @Html.Raw(cq.Options.optionf)</span><br />
+                            }
+                            @if (!string.IsNullOrEmpty(cq.Options.optiong))
+                            {
+                                <span class="option">G. @Html.Raw(cq.Options.optiong)</span><br />
+                            }
+                        </div>
                     }
                     <div class="canswerparse">
                         @if (!string.IsNullOrEmpty(cq.quesanswer))
                         {
-                            <span>【正确答案】@cq.quesanswer</span>
+                            <span>【答案】@Html.Raw(cq.quesanswer)</span>
                         }
                         else
                         {
-                            <span>【正确答案】略</span>
+                            <span>【答案】略</span>
                         }
+                        <br /><br />
                         @if (!string.IsNullOrEmpty(cq.quesparse))
                         {
-                        <span>【解析】@cq.quesparse</span>
+                            <span>【解析】@Html.Raw(cq.quesparse)</span>
                         }
                         else
                         {
-                        <span>【解析】略</span>
+                            <span>【解析】略</span>
                         }
                     </div>
                 </div>
 
             </div>
-                }
-            }
-        </div>
+        }
+    }
+</div>
     }
 }
 else

@@ -3,7 +3,20 @@
     Layout = "~/areas/create/Views/Shared/_Layout.cshtml";
 }
 <style type="text/css">
-    
+    #pager{padding:20px 0; background:#fff;overflow:hidden; margin:20px 0;}
+    .pques{border:1px solid #deedff; margin-top:10px;}
+    .qtitle, .pbody, .panswerparse{padding:10px 10px; }
+    .qtitle{background:#f4f9ff; overflow:hidden;}
+    .qtitle .qtleft{float:left;}
+    .qtitle .qtleft span{padding-right:20px;}
+    .qtitle .qtright{float:right;}
+    .qtitle .qtright .addone{padding: 3px 6px;color: #fff;}
+    .qtitle .qtright .addone.join{background: #32ca73;}
+    .qtitle .qtright .addone.remove{background:#333;}
+    .pques .poption span.option{padding:5px 10px;} 
+    .panswerparse{display:none;}
+    .pques .dotted{height: 30px;background: url(/images/dotted.png) repeat-x 0px 10px;margin: 10px 10px 0px 10px;color: #0088cc;}
+    .pques .dotted .show{width: 100px;float: left;cursor: pointer; background:#fff;}
 </style>
 <div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > 新建 > 题库作业</div>
 <div class="content-title">
@@ -67,12 +80,12 @@
             </div>
             <div class="detail">
                 <div class="title">
-                    共计10题
+                    共计<span>10</span>题
                 </div>
                 <div class="body">
-                    <div class="line"><label class="qtn">选择题</label><label class="qtc">7</label><a href="#">删除</a></div>
+                    @*<div class="line"><label class="qtn">选择题</label><label class="qtc">7</label><a href="#">删除</a></div>
                     <div class="line"><label class="qtn">填空题</label><label class="qtc">2</label><a href="#">删除</a></div>
-                    <div class="line"><label class="qtn">完形填空题</label><label class="qtc">2</label><a href="#">删除</a></div>
+                    <div class="line"><label class="qtn">完形填空题</label><label class="qtc">2</label><a href="#">删除</a></div>*@
                 </div>
                 <div class="foot">
                     <a class="clearbasket" href="#">全部清空</a><a class="viewbasket" href="#">浏览试题篮</a>
@@ -133,7 +146,7 @@
                 </div>
             </div>*@
             <div class="resulttitle">
-                <a href="#" class="chk showanswer">显示答案</a><a href="#" class="addall"><b>+</b> 全部加入试题篮</a>
+                <a href="javascript:void(0);" class="chk unchoosed showanswer">显示答案</a>@*<a href="javascript:void(0);" class="addall"><b>+</b> 全部加入试题篮</a>*@
             </div>
             <div class="queryresult">
 
@@ -162,7 +175,7 @@
         type: 0,
         nodeid: 0,
         pageindex: 1,
-        pagesize: 20
+        pagesize: 10
     }
 
     $(function () {
@@ -173,6 +186,8 @@
         }
         $(".currentkc").attr("data-bind", cur_data.default_courseId).html(cur_data.default_courseName);
         $(".stage-list li a[data-bind='" + cur_data.default_courseId + "']").addClass("active");
+        //初始化试题篮显示的试题数量
+        initBasketCount();
         //加载默认课程的题型
         LoadQuesTypes();
         //默认根据章节选题，加载教材版本
@@ -197,6 +212,7 @@
     })
 
     $(".basket").on("mouseover", function () {
+        LoadQuesBasket();
         $(".basket .detail").show();
     });
 
@@ -206,11 +222,26 @@
 
     $(".quessearch a").on("click", function () {
         $(this).addClass("active").siblings().removeClass("active");
+        cur_data.pageindex = 1;
+        SearchQuestions();
     })
 
     $(".randomcount").on("keydown", function () {
         $(".rcounttip").hide();
     })
+
+    //初始化试题篮显示数量
+    var initBasketCount = function () {
+        var i = 0;
+
+        var quesbasket = $.cookie("easyzy.quesbasket");
+        if (quesbasket) {
+            var queslist = quesbasket.split(',');
+            i = queslist.length;
+        }
+        $(".bcount").html(i);
+        $(".basket .detail .title").html("共计" + i + "题");
+    }
 
     //功能切换
     $(".page-nav .page-func").on("click", function () {
@@ -417,6 +448,8 @@
                 $(".quessearch .questype").html(html);
                 $(".quessearch .questype a").on("click", function () {
                     $(this).addClass("active").siblings().removeClass("active");
+                    cur_data.pageindex = 1;
+                    SearchQuestions();
                 })
             })
     }
@@ -436,11 +469,15 @@
         else if (cur_data.type == 1) {
             kpointid = cur_data.nodeid;
         }
+        if (cpointid == 0 && kpointid == 0) return;
+
         var typeid = $(".quessearch .questype .active").attr("data-bind");
         var difftype = $(".quessearch .difftype .active").attr("data-bind");
         var quesyear = $(".quessearch .quesyear .active").attr("data-bind");
 
         $(".queryresult").html("<div><img src='/images/loader.gif'><b>正在加载……</b></div>");
+        $("#pager").html("");
+
         $.post("/create/qdb/GetQuestions",
             { courseId: courseid, kpointId: kpointid, cpointId: cpointid, typeId: typeid, diffType: difftype, paperYear: quesyear, pageIndex: cur_data.pageindex, pageSize: cur_data.pagesize },
             function (data) {
@@ -449,6 +486,18 @@
                     $("#pager").pager({ pagenumber: cur_data.pageindex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: PageClick });
                 }
                 MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                //初始化答案/解析的显示/关闭
+                initAnswerParseShow();
+                //初始化试题选入试题篮状态
+                setQuesSelected();
+                //选择试题
+                $(".qtitle .qtright .addone").on("click", function () {
+                    chooseQues($(this));
+                })
+                //点击显示当前答案解析
+                $(".pques .dotted .show").on("click", function () {
+                    ShowAnswer($(this));
+                })
             })
     }
 
@@ -480,5 +529,211 @@
                 $(".queryresult").html(data);
                 MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             })
+    }
+
+    //加载试题后将已选试题设置为已选状态
+    var setQuesSelected = function () {
+        var queslist;
+        var quesbasket = $.cookie("easyzy.quesbasket");
+        if (quesbasket) {
+            var queslist = quesbasket.split(',');
+            
+        }
+
+        $(".queryresult").find(".join").each(function () {
+            var quesid = $(this).attr("data-bind");
+            var i = $.inArray(quesid, queslist);
+            if (i != -1) {
+                $(this).addClass("remove").removeClass("join");
+                $(this).html("<b>-</b> 移出试题篮");
+            }
+        })
+
+        $(".queryresult").find(".remove").each(function () {
+            var quesid = $(this).attr("data-bind");
+            var i = $.inArray(quesid, queslist);
+            if (i == -1) {
+                $(this).addClass("join").removeClass("remove");
+                $(this).html("<b>+</b> 加入试题篮");
+            }
+        })
+    }
+
+    //加入/移出试题篮
+    var chooseQues = function (obj) {
+        var quesid = obj.attr("data-bind");
+        var questype = obj.attr("data-qt");
+        var quesbasket = $.cookie("easyzy.quesbasket");
+        var questypebasket = $.cookie("easyzy.questypebasket");
+        var i = 0;
+        if (obj.hasClass("join")) {
+            if (quesbasket) {
+                var queslist = quesbasket.split(',');
+                queslist.push(quesid);
+                quesbasket = queslist.join(",");
+                i = queslist.length;
+                $.cookie("easyzy.quesbasket", quesbasket, { expires: 30, path: '/' });
+                $.cookie("easyzy.questypebasket", questypebasket + "," + questype, { expires: 30, path: '/' });
+            }
+            else {
+                $.cookie("easyzy.quesbasket", quesid, { expires: 30, path: '/' });
+                $.cookie("easyzy.questypebasket", questype, { expires: 30, path: '/' });
+                i = 1;
+            }
+            obj.removeClass("join").addClass("remove");
+            obj.html("<b>-</b> 移出试题篮");
+        }
+        else {
+            var queslist = quesbasket.split(',');
+            var questypelist = questypebasket.split(',');
+            for (var j = 0; j < queslist.length; j++) {
+                if (queslist[j] == quesid) {
+                    queslist.splice(j, 1);
+                    questypelist.splice(j, 1);
+                    break;
+                }
+            }
+            i = queslist.length;
+            $.cookie("easyzy.quesbasket", queslist.join(","), { expires: 30, path: '/' });
+            $.cookie("easyzy.questypebasket", questypelist.join(","), { expires: 30, path: '/' });
+            obj.removeClass("remove").addClass("join");
+            obj.html("<b>+</b> 加入试题篮");
+        }
+        $(".bcount").html(i);
+        $(".basket .detail .title").html("共计" + i + "题");
+        if (i > 9) {
+            $(".bcount").css("padding", "3px 4px");
+        }
+        else {
+            $(".bcount").css("padding", "2px 6px");
+        }
+        $.cookie("easyzy.quesscore", null);
+    }
+
+    //根据题型删除试题篮试题
+    var DeleteBasketByType = function (typename) {
+        var quesbasket = $.cookie("easyzy.quesbasket");
+        var questypebasket = $.cookie("easyzy.questypebasket");
+        var queslist = quesbasket.split(',');
+        var questypelist = questypebasket.split(',');
+        var newqueslist = [], newquestypelist = [];
+
+        for (var i = 0; i < questypelist.length; i++) {
+            if (questypelist[i] != typename) {
+                newqueslist.push(queslist[i]);
+                newquestypelist.push(questypelist[i]);
+            }
+        }
+
+        $.cookie("easyzy.quesbasket", newqueslist.join(","), { expires: 30, path: '/' });
+        $.cookie("easyzy.questypebasket", newquestypelist.join(","), { expires: 30, path: '/' });
+
+        $(".queryresult .remove").each(function () {
+            if ($(this).data("qt") == typename) {
+                $(this).addClass("join").removeClass("remove");
+                $(this).html("<b>+</b> 加入试题篮");
+            }
+        })
+
+        $(".basket .detail .title").html("共计" + newqueslist.length + "题");
+        $(".bcount").html(newqueslist.length);
+
+        var sel = "[data-bind='" + typename + "']";
+        $(".basket .detail .body").remove(sel);
+    }
+    
+    //加载试题篮中的各题型数量
+    var LoadQuesBasket = function () {
+        var questypebasket = $.cookie("easyzy.questypebasket");
+        var questypelist = [];
+        if (questypebasket) {
+            questypelist = questypebasket.split(',');
+
+            var diff = 0, totalDiff = 0;
+            var questypedistinct = [];
+            var questypeqcount = []
+            for (var i = 0; i < questypelist.length; i++) {
+                var indx = $.inArray(questypelist[i], questypedistinct);
+                if (indx == -1) {
+                    questypedistinct.push(questypelist[i]);
+                    questypeqcount.push(1);
+                }
+                else {
+                    var count = parseInt(questypeqcount[indx]);
+                    questypeqcount[indx] = count + 1;
+                }
+            }
+
+            var html = "";
+            for (var i = 0; i < questypedistinct.length; i++) {
+                var shortname = questypedistinct[i];
+                if (questypedistinct[i].length > 5) {
+                    shortname = questypedistinct[i].substring(0, 5) + "...";
+                }
+                html += "<div class='line' data-bind='" + questypedistinct[i] + "'><span class='qtn'>" + shortname + "</span><span class='qtc'>" + questypeqcount[i] + "</span><span><a href='#' class='deltype' data-bind='" + questypedistinct[i] + "'>删除</a></span></div>"
+            }
+            $(".basket .detail .body").html(html);
+            $(".basket .detail .deltype").on("click", function () {
+                alert("2");
+                DeleteBasketByType($(this).attr("data-bind"));
+            })
+        }
+        else {
+            $(".basket .detail .body").html("");
+        }
+    }
+
+    //清空试题篮
+    $(".clearbasket").on("click", function () {
+        if ($("bcount").html() == "0") return;
+        $.cookie('easyzy.quesbasket', null, { expires: -1, path: '/' });
+        $.cookie('easyzy.questypebasket', null, { expires: -1, path: '/' });
+        //删除作业分值和作业名称cookie
+        $.cookie('easyzy.quesscore', null, { expires: -1, path: '/' });
+        $.cookie('easyzy.homeworkname', null, { expires: -1, path: '/' });
+        $(".basket .detail .title").html("共计0题");
+        $(".basket .detail .body").html("");
+        $(".bcount").html("0");
+        $(".queryresult .remove").html("<b>+</b> 加入试题篮");
+        $(".queryresult .remove").removeClass("remove").addClass("join");
+    })
+
+    //显示全部答案
+    $(".resulttitle .showanswer").on("click", function () {
+        if ($(this).hasClass("unchoosed")) {
+            $(this).removeClass("unchoosed").addClass("choosed");
+            $(".queryresult .panswerparse").show();
+            $(".pques .dotted .show").removeClass("open").addClass("close").html("关闭答案/解析");
+        }
+        else {
+            $(this).removeClass("choosed").addClass("unchoosed");
+            $(".queryresult .panswerparse").hide();
+            $(".pques .dotted .show").removeClass("close").addClass("open").html("打开答案/解析");
+        }
+    })
+
+    //拉取试题后，根据chebox状态设置是否显示答案解析
+    var initAnswerParseShow = function () {
+        if ($(".resulttitle .showanswer").hasClass("unchoosed")) {
+            $(".queryresult .panswerparse").hide();
+        }
+        else {
+            $(".queryresult .panswerparse").show();
+            $(".pques .dotted .show").removeClass("open").addClass("close").html("关闭答案/解析");
+        }
+    }
+
+    //点击打开答案，显示当前试题答案
+    var ShowAnswer = function (t) {
+        if (t.hasClass("open")) {
+            t.html("关闭答案/解析")
+            t.addClass("close").removeClass("open");
+            t.parent().siblings(".panswerparse").slideDown();
+        }
+        else {
+            t.html("打开答案/解析")
+            t.addClass("open").removeClass("close");
+            t.parent().siblings(".panswerparse").slideUp();
+        }
     }
 </script>

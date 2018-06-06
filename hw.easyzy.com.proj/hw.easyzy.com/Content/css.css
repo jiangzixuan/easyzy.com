@@ -76,7 +76,7 @@ a.chart{color:#e91a53;font-weight:bold;width:30px;height:30px;line-height:30px;b
 .content .func-field .func p{padding:5px 0;text-align:center}
 .content .func-field .func p.funcname{font-size:18px}
 .func-field .func li{list-style-type:circle; padding:10px 0;}
-.content .main-content{width:1160px;background:#fff;padding:20px;min-height:600px}
+.content .main-content{width:1160px;background:#fff;padding:20px;overflow:hidden;}
 .file{font-size:16px;border:1px dashed royalblue;padding:20px 0}
 .fileupload .uploadline{clear:both;padding:10px 0 0 65px;line-height:30px}
 .fileupload .uploadline .uploadname{width:200px;text-align:right}
@@ -149,8 +149,8 @@ a.oddesc{background-position:0 -26px;}
 .page-nav .stage-list .stage li a.active{color:#ff006e}
 .page-top .page-func.active{color:#0094ff;border-bottom:2px solid #0094ff}
 
-.treeoverall{width:25%; height:500px; float:left;}
-.quesoverall{width:74%; min-height:500px;  float:right;}
+.treeoverall{width:25%; float:left; padding-bottom:20px;}
+.quesoverall{width:74%; float:right;}
 .treeoverall .jcchoose, .treeoverall .treeshow{background:#fff;}
 .treeoverall .jctip{position:relative; color:#0094ff;font-size:16px;padding:10px 10px 10px 32px; background:url("/Images/category-main-icon.png") no-repeat 5px 9px; cursor:pointer;}
 .treeoverall .jcall{position:absolute; padding:5px; background:#e9e1e1; width:800px; display:none; z-index:99;}
@@ -160,12 +160,12 @@ a.oddesc{background-position:0 -26px;}
 .treeoverall .bblist span, .treeoverall .jclist span{color:#0094ff}
 .treeoverall .bblist li, .treeoverall .jclist li{float:left; padding:5px 10px; cursor:pointer;}
 .treeoverall .jcchoose{margin-bottom: 5px;}
-.treeoverall .treeshow{min-height:454px;}
+.treeoverall .treeshow{min-height:450px;}
 
 .basket{float:right; position:relative;}
 .basket .bpic{background:url("/Images/basket.png") no-repeat; width:100px; height:50px; line-height:50px; padding-left:50px; font-size:16px; cursor:pointer;position:relative; }
 .basket .bpic .bcount{ padding:2px 6px; border-radius: 100%;  background:#0094ff; color:#fff; top: -15px; font-size: 12px; position:relative}
-.basket .detail{width: 200px; border: 1px solid #0094ff; position:absolute; right:0; display:none;}
+.basket .detail{width: 200px; border: 1px solid #0094ff; position:absolute; right:0; display:none; z-index:99; background:#f4f4f4;}
 .basket .detail .title{height:30px; background:#0094ff; line-height:30px; color:#fff; padding-left:10px; text-align:center;}
 .basket .detail .body{min-height:100px;}
 .basket .detail .foot{height:50px; line-height:50px; border-top:1px solid #0094ff}
@@ -187,7 +187,8 @@ a.oddesc{background-position:0 -26px;}
 .quesrandom input{width:100px}
 .quesrandom .rgq{padding:5px 15px;background:#0094ff;color:#fff;border-radius:3px}
 .resulttitle{margin-top:20px;background:#fff;padding:5px 10px;line-height:40px}
-.resulttitle .chk{background:url(/images/checkbox.png) no-repeat 0 2px}
+.resulttitle .unchoosed {background-position-y: 2px;}
+.resulttitle .choosed{background-position-y:-68px}
 .resulttitle .addall{float:right;background-color:#0094ff;border-radius:3px;color:#fff;padding:0 10px}
 .resulttitle .addall b{font-size:18px}
 .queryresult{margin-top:20px;background:#fff;padding:5px 10px;min-height:500px}
