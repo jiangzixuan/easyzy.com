@@ -171,8 +171,8 @@ a.oddesc{background-position:0 -26px;}
 .basket .detail .foot{height:50px; line-height:50px; border-top:1px solid #0094ff}
 .basket label{display:inline-block;}
 .basket .body .line{padding:5px 10px;}
-.basket .body .line .qtn{width: 100px; text-align:left; overflow:hidden}
-.basket .body .line .qtc{width: 30px; text-align:left;}
+.basket .body .line .qtn{width: 100px; display:inline-block;}
+.basket .body .line .qtc{width: 30px; display:inline-block;}
 .basket .body .line a{color:#0094ff; padding:3px 10px; }
 .basket .clearbasket{color:#0094ff}
 .basket .viewbasket{margin-left:30px; background:#ff006e; padding:5px 10px; color:#fff; border-radius: 5px 5px;}
@@ -193,3 +193,18 @@ a.oddesc{background-position:0 -26px;}
 .resulttitle .addall b{font-size:18px}
 .queryresult{margin-top:20px;background:#fff;padding:5px 10px;min-height:500px}
 .rcounttip{color:#ff006e;display:none}
+
+.pques, .cques{border:1px solid #deedff; margin-top:10px; line-height:28px;}
+.qtitle, .pbody, .answerparse, .cbody{padding:10px 10px; }
+.qtitle{background:#f4f9ff; overflow:hidden;}
+.qtitle .qtleft{float:left;}
+.qtitle .qtleft span{padding-right:20px;}
+.qtitle .qtright{float:right;}
+.qtitle .qtright .addone{padding: 3px 6px;color: #fff;}
+.qtitle .qtright .addone.join{background: #32ca73;}
+.qtitle .qtright .addone.remove{background:#333;}
+.pques .poption span.option{padding:5px 10px;} 
+.panswerparse{display:none;}
+.pques .dotted{height: 30px;background: url(/images/dotted.png) repeat-x 0px 13px;margin: 10px 10px 0px 10px;color: #0088cc;}
+.pques .dotted .show{width: 100px;float: left;cursor: pointer; background:#fff;}
+.pques .cquestions{padding: 10px 10px;}

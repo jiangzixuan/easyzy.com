@@ -10,5 +10,7 @@ namespace hw.easyzy.model.dto
     public class dto_CQuestion : T_CQuestions
     {
         public T_QuesOptions Options { get; set; }
+
+        public long NewId { get; set; }
     }
 }

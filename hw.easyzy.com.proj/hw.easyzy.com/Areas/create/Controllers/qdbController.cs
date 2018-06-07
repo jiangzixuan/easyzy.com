@@ -122,10 +122,14 @@ namespace hw.easyzy.com.Areas.create.Controllers
                     if (ques != null)
                     {
                         //暴露的qid重写
-                        ques.id = IdNamingHelper.Encrypt(IdNamingHelper.IdTypeEnum.Ques, ques.id);
+                        ques.NewId = IdNamingHelper.Encrypt(IdNamingHelper.IdTypeEnum.Ques, ques.id);
+                        ques.id = 0;
                         if (ques.Children != null && ques.Children.Count > 0)
                         {
-                            ques.Children.ForEach(a => a.id = IdNamingHelper.Encrypt(IdNamingHelper.IdTypeEnum.Ques, a.id));
+                            ques.Children.ForEach(a => {
+                                a.NewId = IdNamingHelper.Encrypt(IdNamingHelper.IdTypeEnum.Ques, a.id);
+                                a.id = 0;
+                            });
                         }
                         list.Add(ques);
                     }
@@ -160,10 +164,14 @@ namespace hw.easyzy.com.Areas.create.Controllers
                         if (ques != null)
                         {
                             //暴露的qid重写
-                            ques.id = IdNamingHelper.Encrypt(IdNamingHelper.IdTypeEnum.Ques, ques.id);
+                            ques.NewId = IdNamingHelper.Encrypt(IdNamingHelper.IdTypeEnum.Ques, ques.id);
+                            ques.id = 0;
                             if (ques.Children != null && ques.Children.Count > 0)
                             {
-                                ques.Children.ForEach(a => a.id = IdNamingHelper.Encrypt(IdNamingHelper.IdTypeEnum.Ques, a.id));
+                                ques.Children.ForEach(a => {
+                                    a.NewId = IdNamingHelper.Encrypt(IdNamingHelper.IdTypeEnum.Ques, a.id);
+                                    a.id = 0;
+                                });
                             }
                             list.Add(ques);
                         }
@@ -178,6 +186,29 @@ namespace hw.easyzy.com.Areas.create.Controllers
         public JsonResult GetQuesTypes(int courseId)
         {
             return Json(B_QuesBase.GetQuesTypes(courseId));
+        }
+
+        public ActionResult Preview(int courseId)
+        {
+            ViewBag.CourseId = courseId;
+            return View();
+        }
+
+        public ActionResult GetBasketQues(int courseId, string qid)
+        {
+            List<dto_Question> dql = null;
+            if (!string.IsNullOrEmpty(qid))
+            {
+                dql = new List<dto_Question>();
+                string[] ql = qid.Split(',');
+                foreach (string q in ql)
+                {
+                    dql.Add(B_QuesRedis.GetQuestion(courseId, IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Ques, long.Parse(q))));
+                }
+                dql = dql.OrderBy(a => a.typeid).ToList();
+            }
+            ViewBag.QuesList = dql;
+            return PartialView();
         }
     }
 }

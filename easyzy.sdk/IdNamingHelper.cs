@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 namespace easyzy.sdk
 {
     /// <summary>
-    /// 用最简单的方式重新计算对外的Id
+    /// 用最简单的方式重新计算对外的Id（先乘再加）
     /// </summary>
     public class IdNamingHelper
     {
-        public static int _zytimes = 375099;
-        public static int _zyadds = 478531297;
+        public static long _zytimes = 56375099;
+        public static long _zyadds = 478531297;
 
-        public static int _questimes = 902673;
-        public static int _quesadds = 260039487;
+        public static long _questimes = 45902673;
+        public static long _quesadds = 260039487;
 
         public enum IdTypeEnum
         {
@@ -24,9 +24,9 @@ namespace easyzy.sdk
             Paper
         }
 
-        public static int Encrypt(IdTypeEnum type, int id)
+        public static long Encrypt(IdTypeEnum type, int id)
         {
-            int newid = 0;
+            long newid = 0;
             if (type == IdTypeEnum.Ques)
             {
                 newid = id * _questimes + _quesadds;
@@ -39,9 +39,9 @@ namespace easyzy.sdk
             return newid;
         }
 
-        public static int Decrypt(IdTypeEnum type, int id)
+        public static int Decrypt(IdTypeEnum type, long id)
         {
-            int oldid = 0;
+            long oldid = 0;
             if (type == IdTypeEnum.Ques)
             {
                 oldid = (id - _quesadds) / _questimes;
@@ -51,7 +51,7 @@ namespace easyzy.sdk
                 oldid = (id - _zyadds) / _zytimes;
             }
 
-            return oldid;
+            return (int)oldid;
         }
         
     }

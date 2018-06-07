@@ -1,7 +1,66 @@
-﻿
-@{
-    ViewBag.Title = "Preview";
+﻿@{
+    ViewBag.Title = "易作业-试题篮";
+    Layout = "~/areas/create/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Preview</h2>
+<style type="text/css">
+    .foot-wrap{display:none;}
+    .answerparse{display:none;}
 
+    .qtypespan{padding: 20px 0 10px 0; font-weight:bold;}
+    .queslist{padding-bottom:100px;}
+    .quesop { padding: 20px 0; text-align:center; position:fixed; bottom:0; left:0; right:0; background:#fff; border:1px solid #808080; }
+    .quesop a{ padding: 10px 30px; color:#fff; background:#0094ff; border-radius:3px; font-size:16px;}
+    .quesop a.download{background-image: url(/Images/icon-tb1.png); padding-left: 70px; background-repeat: no-repeat; background-position-x: 30px; background-position-y: 6px;}
+    .quesop a.save{margin-left:50px;background-image:url("/Images/icon-tb4.png"); padding-left: 70px; background-repeat: no-repeat; background-position-x: 30px; background-position-y: 6px;}
+</style>
+
+<div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > <a href="/create/qdb">新建作业</a> > 试题篮</div>
+<div class="content">
+    <div class="main-content">
+        <div class="queslist">
+
+        </div>
+    </div>
+    <div class="quesop">
+        <a class="download" href="#">下 载</a><a class="save" href="#">保 存</a>
+    </div>
+</div>
+<div>
+
+</div>
+@section scriptlast{
+    <script type="text/javascript" src="/scripts/jquery.cookie.js"></script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+}
+
+<script type="text/javascript">
+    var cur_data = {
+        courseid: '@ViewBag.CourseId'
+    }
+
+    $(function () {
+        GetBasketQues();
+    })
+
+    
+
+    var GetBasketQues = function () {
+        var quesbasket = $.cookie("easyzy.quesbasket");
+        if (quesbasket) {
+            $.post("/create/qdb/getbasketques",
+                { qid: quesbasket, courseId: cur_data.courseid },
+                function (data) {
+                    $(".queslist").html(data);
+                })
+        }
+        else {
+            $(".queslist").html("<div style=\"padding-top:20px; text-align:center;\">试题篮是空的！</div>");
+        }
+    }
+
+    //保存
+    $(".quesop .save").on("click", function () {
+
+    })
+</script>

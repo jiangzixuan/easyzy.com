@@ -4,21 +4,10 @@
 }
 <style type="text/css">
     #pager{padding:20px 0; background:#fff;overflow:hidden; margin:20px 0;}
-    .pques{border:1px solid #deedff; margin-top:10px;}
-    .qtitle, .pbody, .panswerparse{padding:10px 10px; }
-    .qtitle{background:#f4f9ff; overflow:hidden;}
-    .qtitle .qtleft{float:left;}
-    .qtitle .qtleft span{padding-right:20px;}
-    .qtitle .qtright{float:right;}
-    .qtitle .qtright .addone{padding: 3px 6px;color: #fff;}
-    .qtitle .qtright .addone.join{background: #32ca73;}
-    .qtitle .qtright .addone.remove{background:#333;}
-    .pques .poption span.option{padding:5px 10px;} 
-    .panswerparse{display:none;}
-    .pques .dotted{height: 30px;background: url(/images/dotted.png) repeat-x 0px 10px;margin: 10px 10px 0px 10px;color: #0088cc;}
-    .pques .dotted .show{width: 100px;float: left;cursor: pointer; background:#fff;}
+
+
 </style>
-<div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > 新建 > 题库作业</div>
+<div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > 新建作业</div>
 <div class="content-title">
     <div class="page-top">
         <div class="page-nav">
@@ -88,7 +77,7 @@
                     <div class="line"><label class="qtn">完形填空题</label><label class="qtc">2</label><a href="#">删除</a></div>*@
                 </div>
                 <div class="foot">
-                    <a class="clearbasket" href="#">全部清空</a><a class="viewbasket" href="#">浏览试题篮</a>
+                    <a class="clearbasket" href="javascript:void(0);">全部清空</a><a class="viewbasket" href="javascript:void(0);">浏览试题篮</a>
                 </div>
             </div>
         </div>
@@ -211,14 +200,12 @@
         $(".treeoverall .jcall").hide();
     })
 
-    $(".basket").on("mouseover", function () {
+    $(".basket").on("mouseenter", function () {
         LoadQuesBasket();
         $(".basket .detail").show();
-    });
-
-    $(".basket").on("mouseout", function () {
+    }).on("mouseleave", function () {
         $(".basket .detail").hide();
-    })
+    });
 
     $(".quessearch a").on("click", function () {
         $(this).addClass("active").siblings().removeClass("active");
@@ -275,6 +262,10 @@
         $(".page-nav .stage-list").hide();
 
         LoadQuesTypes();
+        //清空试题篮
+        ClearBasket();
+
+        //拉知识点或者教材版本
         var type = $(".page-nav .page-func.active").attr("data-bind");
         if (type == 0) {
             LoadTextBookVersions();
@@ -611,7 +602,7 @@
     }
 
     //根据题型删除试题篮试题
-    var DeleteBasketByType = function (typename) {
+    var RemoveByType = function (typename) {
         var quesbasket = $.cookie("easyzy.quesbasket");
         var questypebasket = $.cookie("easyzy.questypebasket");
         var queslist = quesbasket.split(',');
@@ -639,7 +630,7 @@
         $(".bcount").html(newqueslist.length);
 
         var sel = "[data-bind='" + typename + "']";
-        $(".basket .detail .body").remove(sel);
+        $(".basket .detail .body .line").remove(sel);
     }
     
     //加载试题篮中的各题型数量
@@ -670,13 +661,9 @@
                 if (questypedistinct[i].length > 5) {
                     shortname = questypedistinct[i].substring(0, 5) + "...";
                 }
-                html += "<div class='line' data-bind='" + questypedistinct[i] + "'><span class='qtn'>" + shortname + "</span><span class='qtc'>" + questypeqcount[i] + "</span><span><a href='#' class='deltype' data-bind='" + questypedistinct[i] + "'>删除</a></span></div>"
+                html += "<div class='line' data-bind='" + questypedistinct[i] + "'><span class='qtn'>" + shortname + "</span><span class='qtc'>" + questypeqcount[i] + "</span><span><a href='javascript:void(0);' class='deltype' onclick=\"RemoveByType('" + questypedistinct[i] + "');\">删除</a></span></div>"
             }
             $(".basket .detail .body").html(html);
-            $(".basket .detail .deltype").on("click", function () {
-                alert("2");
-                DeleteBasketByType($(this).attr("data-bind"));
-            })
         }
         else {
             $(".basket .detail .body").html("");
@@ -685,6 +672,10 @@
 
     //清空试题篮
     $(".clearbasket").on("click", function () {
+        ClearBasket();
+    })
+
+    var ClearBasket = function () {
         if ($("bcount").html() == "0") return;
         $.cookie('easyzy.quesbasket', null, { expires: -1, path: '/' });
         $.cookie('easyzy.questypebasket', null, { expires: -1, path: '/' });
@@ -696,18 +687,18 @@
         $(".bcount").html("0");
         $(".queryresult .remove").html("<b>+</b> 加入试题篮");
         $(".queryresult .remove").removeClass("remove").addClass("join");
-    })
+    }
 
     //显示全部答案
     $(".resulttitle .showanswer").on("click", function () {
         if ($(this).hasClass("unchoosed")) {
             $(this).removeClass("unchoosed").addClass("choosed");
-            $(".queryresult .panswerparse").show();
+            $(".queryresult .answerparse").show();
             $(".pques .dotted .show").removeClass("open").addClass("close").html("关闭答案/解析");
         }
         else {
             $(this).removeClass("choosed").addClass("unchoosed");
-            $(".queryresult .panswerparse").hide();
+            $(".queryresult .answerparse").hide();
             $(".pques .dotted .show").removeClass("close").addClass("open").html("打开答案/解析");
         }
     })
@@ -715,10 +706,10 @@
     //拉取试题后，根据chebox状态设置是否显示答案解析
     var initAnswerParseShow = function () {
         if ($(".resulttitle .showanswer").hasClass("unchoosed")) {
-            $(".queryresult .panswerparse").hide();
+            $(".queryresult .answerparse").hide();
         }
         else {
-            $(".queryresult .panswerparse").show();
+            $(".queryresult .answerparse").show();
             $(".pques .dotted .show").removeClass("open").addClass("close").html("关闭答案/解析");
         }
     }
@@ -728,12 +719,18 @@
         if (t.hasClass("open")) {
             t.html("关闭答案/解析")
             t.addClass("close").removeClass("open");
-            t.parent().siblings(".panswerparse").slideDown();
+            t.parent().siblings(".answerparse").slideDown();
         }
         else {
             t.html("打开答案/解析")
             t.addClass("open").removeClass("close");
-            t.parent().siblings(".panswerparse").slideUp();
+            t.parent().siblings(".answerparse").slideUp();
         }
     }
+
+    //打开试题篮
+    $(".viewbasket").on("click", function () {
+        var courseid = $(".currentkc").attr("data-bind");
+        window.location.href = "/create/qdb/preview?courseid=" + courseid;
+    })
 </script>

@@ -15,7 +15,7 @@
             <span>题型：@(q.typename)</span>
         </div>
         <div class="qtright">
-            <a href="javascript:void(0);" data-bind="@q.id" data-qt="@q.typename" class="addone join"><b>+</b> 加入试题篮</a>
+            <a href="javascript:void(0);" data-bind="@q.NewId" data-qt="@q.typename" class="addone join"><b>+</b> 加入试题篮</a>
         </div>
     </div>
     @if (!string.IsNullOrEmpty(q.quesbody))
@@ -45,10 +45,12 @@
             }
         </div>
     }
+    @if (!q.haschildren)
+    {
     <div class="dotted">
         <div class="show open">打开答案/解析</div>
     </div>
-    <div class="panswerparse">
+    <div class="answerparse">
         @if (!string.IsNullOrEmpty(q.quesanswer))
         {
             <span>【答案】@Html.Raw(q.quesanswer)</span>
@@ -67,13 +69,18 @@
             <span>【解析】略</span>
         }
     </div>
+    }
+
     @if (q.haschildren && q.Children != null && q.Children.Count > 0)
     {
-        foreach (var cq in q.Children)
+        int cnum = 0;
+        <div class="cquestions">
+        @foreach (var cq in q.Children)
         {
+            cnum += 1;
             <div class="cques">
                 <div class="csingleques">
-                    <div class="cbody">@Html.Raw(cq.quesbody)</div>
+                    <div class="cbody">【小题@(cnum)】 @Html.Raw(cq.quesbody)</div>
                     @if (Const.OBJECTIVE_QUES_TYPES.Contains(cq.ptypeid) && cq.Options != null)
                     {
                         <div class="coption">
@@ -95,7 +102,10 @@
                             }
                         </div>
                     }
-                    <div class="canswerparse">
+                    <div class="dotted">
+                        <div class="show open">打开答案/解析</div>
+                    </div>
+                    <div class="answerparse">
                         @if (!string.IsNullOrEmpty(cq.quesanswer))
                         {
                             <span>【答案】@Html.Raw(cq.quesanswer)</span>
@@ -118,6 +128,7 @@
 
             </div>
         }
+    </div>
     }
 </div>
     }

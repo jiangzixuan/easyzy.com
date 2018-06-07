@@ -27,7 +27,7 @@ namespace hw.easyzy.bll
                         tempresult = B_Ques.GetWholeQuestion(courseId, qId);
                         if (tempresult != null)
                         {
-                            client.Set<T_Questions>(key, tempresult, ts);
+                            client.Set<dto_Question>(key, tempresult, ts);
                         }
                     }
                 }

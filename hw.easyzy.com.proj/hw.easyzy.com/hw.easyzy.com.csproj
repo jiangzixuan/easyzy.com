@@ -213,6 +213,8 @@
     <Content Include="Images\dotted.png" />
     <Content Include="Images\fangdajing.jpg" />
     <Content Include="Images\ico2.png" />
+    <Content Include="Images\icon-tb1.png" />
+    <Content Include="Images\icon-tb4.png" />
     <Content Include="Images\ico_chart.png" />
     <Content Include="Images\ico.png" />
     <Content Include="Images\icon_bg.png" />
@@ -256,6 +258,7 @@
     <Content Include="Areas\create\Views\qdb\GetQuestions.cshtml" />
     <Content Include="Areas\create\Views\qdb\RandomQuestions.cshtml" />
     <Content Include="Areas\create\Views\qdb\Preview.cshtml" />
+    <Content Include="Areas\create\Views\qdb\GetBasketQues.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="QuesBaseJson\similarcatalogs.json" />
     <Content Include="QuesBaseJson\textbooks.json" />

@@ -13,6 +13,8 @@ namespace hw.easyzy.model.dto
 
         public T_QuesOptions Options { get; set; }
 
+        public long NewId { get; set; }
+
 
     }
 }
