@@ -679,9 +679,7 @@
         if ($("bcount").html() == "0") return;
         $.cookie('easyzy.quesbasket', null, { expires: -1, path: '/' });
         $.cookie('easyzy.questypebasket', null, { expires: -1, path: '/' });
-        //删除作业分值和作业名称cookie
-        $.cookie('easyzy.quesscore', null, { expires: -1, path: '/' });
-        $.cookie('easyzy.homeworkname', null, { expires: -1, path: '/' });
+        
         $(".basket .detail .title").html("共计0题");
         $(".basket .detail .body").html("");
         $(".bcount").html("0");

@@ -4,15 +4,72 @@
 }
 
 <style type="text/css">
-    .foot-wrap{display:none;}
-    .answerparse{display:none;}
+    .foot-wrap {
+        display: none;
+    }
 
-    .qtypespan{padding: 20px 0 10px 0; font-weight:bold;}
-    .queslist{padding-bottom:100px;}
-    .quesop { padding: 20px 0; text-align:center; position:fixed; bottom:0; left:0; right:0; background:#fff; border:1px solid #808080; }
-    .quesop a{ padding: 10px 30px; color:#fff; background:#0094ff; border-radius:3px; font-size:16px;}
-    .quesop a.download{background-image: url(/Images/icon-tb1.png); padding-left: 70px; background-repeat: no-repeat; background-position-x: 30px; background-position-y: 6px;}
-    .quesop a.save{margin-left:50px;background-image:url("/Images/icon-tb4.png"); padding-left: 70px; background-repeat: no-repeat; background-position-x: 30px; background-position-y: 6px;}
+    .answerparse {
+        display: none;
+    }
+
+    .qtypespan {
+        padding: 20px 0 10px 0;
+        font-weight: bold;
+    }
+
+    .queslist {
+        padding-bottom: 100px;
+    }
+
+    .quesop {
+        padding: 20px 0;
+        text-align: center;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border: 1px solid #808080;
+    }
+
+        .quesop a {
+            padding: 10px 30px;
+            color: #fff;
+            background: #0094ff;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+
+            .quesop a.download {
+                background-image: url(/Images/icon-tb1.png);
+                padding-left: 70px;
+                background-repeat: no-repeat;
+                background-position-x: 30px;
+                background-position-y: 6px;
+            }
+
+            .quesop a.save {
+                margin-left: 50px;
+                background-image: url("/Images/icon-tb4.png");
+                padding-left: 70px;
+                background-repeat: no-repeat;
+                background-position-x: 30px;
+                background-position-y: 6px;
+            }
+
+    .savetip .popfoot a{
+        padding:5px 20px; background:#0094ff; color:#fff;
+    }
+    .calendar{background:url("/Images/calendar-icon.png") no-repeat 9px 5px;width: 32px;height: 22px;display: block;float:left;}
+    .savetip .popfoot .cancel{margin-left:40px;}
+    .savetip .popcontent{line-height:25px;}
+    .savetip .popcontent input{height:25px;}
+    .savetip .zyname {padding:10px 20px;}
+    .savetip .zyname input{width:362px;}
+    .savetip .zydate .dateinp{border:none; float:left;}
+    .savetip .zydate .datep{border: 1px solid #808080; float:left;}
+    .savetip .popcontent .zydate{clear:both;padding:10px 20px; overflow: hidden;}
+    .savetip .zydatetip p{padding: 0 40px; color:#ff006e; clear:both; background:url('/Images/gantanhao.png') no-repeat 20px;}
 </style>
 
 <div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > <a href="/create/qdb">新建作业</a> > 试题篮</div>
@@ -26,24 +83,79 @@
         <a class="download" href="#">下 载</a><a class="save" href="#">保 存</a>
     </div>
 </div>
-<div>
 
+
+<div class="savetip st-roster" style="display:none;">
+    <img src="/Images/close.png" class="popclose" style="top:-14px; right:-11px;" />
+    <div class="poptitle">
+        设置作业名称和时间
+    </div>
+    <div class="popcontent">
+        <div class="zyname">作业名称：<input value="@ViewBag.DefaultZyName" /></div>
+        <div class="zydate">
+            <span class="left">作业时间：</span>
+            <div class="left">
+                <p class="datep">
+                    <input class="dateinp" type="text" placeholder="请选择" id="inpstart" readonly value="@ViewBag.StartDate" />
+                    <b class="calendar" type="button" value="打开"></b>
+                </p>
+                <p class="left" style="padding: 0 20px;">至</p>
+                <p class="datep">
+                    <input class="dateinp" type="text" placeholder="请选择" id="inpend" readonly value="@ViewBag.EndDate" />
+                    <b class="calendar" type="button"></b>
+                </p>
+            </div>
+        </div>
+        <div class="zydatetip"><p>未到开始时间的作业，学生无法打开；提交时间超过截止时间的作业将会统计为“未按时提交”</p></div>
+    </div>
+    <div class="popfoot">
+        <a href="javascript:void(0);" class="save">保 存</a><a href="javascript:void(0);" class="cancel">取 消</a>
+    </div>
 </div>
+
 @section scriptlast{
     <script type="text/javascript" src="/scripts/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/Scripts/laydate-master/laydate.dev.js"></script>
     <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 }
 
 <script type="text/javascript">
     var cur_data = {
-        courseid: '@ViewBag.CourseId'
+        courseid: '@ViewBag.CourseId',
+        sdate: "@ViewBag.StartDate",
+        edate: "@ViewBag.EndDate"
     }
 
     $(function () {
         GetBasketQues();
+        InitDate();
+        
     })
 
-    
+    var InitDate = function () {
+        var start = {
+            elem: '#inpstart', //选择ID为START的input
+            format: 'YYYY/MM/DD hh:mm', //自动生成的时间格式
+            min: laydate.now(), //设定最小日期为当前日期
+            festival: true, //显示节日,
+            istime: true,
+            choose: function (datas) {
+                cur_data.sdate = datas;
+            }
+        };
+        var end = {
+            elem: '#inpend',
+            format: 'YYYY/MM/DD hh:mm', //自动生成的时间格式
+            min: laydate.now(), //设定最小日期为当前日期
+            festival: true, //显示节日,
+            istime: true,
+            choose: function (datas) {
+                cur_data.edate = datas;
+            }
+        };
+        laydate(start);
+        laydate(end);
+    }
 
     var GetBasketQues = function () {
         var quesbasket = $.cookie("easyzy.quesbasket");
@@ -59,8 +171,74 @@
         }
     }
 
+    //弹层关闭
+    $(".st-roster .popclose, .st-roster .cancel").click(function () {
+        $(".st-roster").hide();
+        $(".shade").hide();
+    })
+
     //保存
     $(".quesop .save").on("click", function () {
-
+        $(".savetip").show();
+        $('body').prepend('<div class="shade fixed1"></div>');
     })
+
+    $(".st-roster .save").on("click", function () {
+        //to do save
+        var hname = $(".popcontent .zyname input").val();
+        if (!hname || trim(hname) == "") {
+            alert("需要输入作业名称！");
+            $(".popcontent .zyname input").focus();
+            return false;
+        }
+        if (hname.length > 30) {
+            alert("作业名称不要超过30个字！");
+            $(".popcontent .zyname input").focus();
+            return false;
+        }
+
+        if (cur_data.sdate == "") {
+            alert("需要设置开始时间！");
+            return false;
+        }
+
+        if (cur_data.edate == "") {
+            alert("需要设置截止时间！");
+            return false;
+        }
+
+        if (cur_data.sdate > cur_data.edate) {
+            alert("开始时间不能大于截止时间！");
+            return false;
+        }
+
+        var qids = [];
+
+        $(".pques").each(function () {
+            qids.push($(this).attr("data-bind"));
+        })
+
+        if (qids.length == 0) {
+            alert("试题篮为空，先去加些试题吧！")
+            return false;
+        }
+
+        $.post("/create/qdb/savezy",
+            { courseId: cur_data.courseid, zyName: hname, startDate: cur_data.sdate, endDate: cur_data.edate, questions: qids.join(",") },
+            function (data) {
+                if (data.code == 0) {
+                    ClearBasket();
+                    window.location.href = "/list"
+                }
+                else {
+                    alert(data.message);
+                }
+            })
+    })
+
+    //清空试题篮
+    var ClearBasket = function () {
+        $.cookie('easyzy.quesbasket', null, { expires: -1, path: '/' });
+        $.cookie('easyzy.questypebasket', null, { expires: -1, path: '/' });
+    }
 </script>

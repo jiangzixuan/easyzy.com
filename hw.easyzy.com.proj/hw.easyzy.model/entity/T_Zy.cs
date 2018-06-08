@@ -12,13 +12,16 @@ namespace hw.easyzy.model.entity
 
         public int UserId { get; set; }
 
-        public string BodyWordPath { get; set; }
+        public string ZyName { get; set; }
 
-        public string BodyHtmlPath { get; set; }
+        public DateTime OpenDate { get; set; }
 
-        public string AnswerWordPath { get; set; }
+        public DateTime DueDate { get; set; }
 
-        public string AnswerHtmlPath { get; set; }
+        /// <summary>
+        /// 0: Qdb 1: Self
+        /// </summary>
+        public int Type { get; set; }
 
         public DateTime CreateDate { get; set; }
 
@@ -31,7 +34,5 @@ namespace hw.easyzy.model.entity
         public string SystemType { get; set; }
 
         public string Browser { get; set; }
-
-        public bool Structed { get; set; }
     }
 }

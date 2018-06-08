@@ -2,6 +2,7 @@
 using hw.easyzy.bll;
 using hw.easyzy.model.dto;
 using hw.easyzy.model.entity;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -191,6 +192,13 @@ namespace hw.easyzy.com.Areas.create.Controllers
         public ActionResult Preview(int courseId)
         {
             ViewBag.CourseId = courseId;
+            string courseName = "";
+            Const.Courses.TryGetValue(courseId, out courseName);
+            courseName = string.IsNullOrEmpty(courseName) ? "" : courseName.Substring(2);
+            ViewBag.DefaultZyName = DateTime.Now.ToString("yyyy-MM-dd") + courseName + "作业";
+            DateTime now = DateTime.Now;
+            ViewBag.StartDate = now.ToString("yyyy-MM-dd HH:mm");
+            ViewBag.EndDate = now.AddDays(1).ToString("yyyy-MM-dd HH:mm");
             return View();
         }
 
@@ -203,12 +211,111 @@ namespace hw.easyzy.com.Areas.create.Controllers
                 string[] ql = qid.Split(',');
                 foreach (string q in ql)
                 {
-                    dql.Add(B_QuesRedis.GetQuestion(courseId, IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Ques, long.Parse(q))));
+                    dto_Question dq = B_QuesRedis.GetQuestion(courseId, IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Ques, long.Parse(q)));
+                    dq.NewId = IdNamingHelper.Encrypt(IdNamingHelper.IdTypeEnum.Ques, dq.id);
+                    dq.id = 0;
+                    dql.Add(dq);
                 }
                 dql = dql.OrderBy(a => a.typeid).ToList();
             }
             ViewBag.QuesList = dql;
             return PartialView();
+        }
+
+        /// <summary>
+        /// 保存作业
+        /// </summary>
+        /// <param name="zyName"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="questions"></param>
+        /// <returns></returns>
+        public JsonResult SaveZy(int courseId, string zyName, string startDate, string endDate, string questions)
+        {
+            dto_AjaxJsonResult<string> result = new dto_AjaxJsonResult<string>();
+            if (zyName.Length > 30)
+            {
+                result.code = AjaxResultCodeEnum.Error;
+                result.message = "作业名称不能超过30个字！";
+                return Json(result);
+            }
+            DateTime OpenDate, DueDate;
+            if (!DateTime.TryParse(startDate, out OpenDate) || !DateTime.TryParse(endDate, out DueDate))
+            {
+                result.code = AjaxResultCodeEnum.Error;
+                result.message = "开始时间和结束时间都要设置！";
+                return Json(result);
+            }
+
+            if (OpenDate > DueDate)
+            {
+                result.code = AjaxResultCodeEnum.Error;
+                result.message = "开始时间不能大于结束时间！";
+                return Json(result);
+            }
+
+            if (string.IsNullOrEmpty(questions))
+            {
+                result.code = AjaxResultCodeEnum.Error;
+                result.message = "试题不能为空！";
+                return Json(result);
+            }
+
+            T_Zy zy = new T_Zy()
+            {
+                UserId = UserId,
+                ZyName = zyName,
+                OpenDate = OpenDate,
+                DueDate = DueDate,
+                Type = 0,
+                CreateDate = DateTime.Now,
+                Ip = ClientUtil.Ip,
+                IMEI = ClientUtil.IMEI,
+                MobileBrand = ClientUtil.MobileBrand,
+                SystemType = Request.Browser.Platform.ToString(),
+                Browser = Request.Browser.Browser.ToString()
+            };
+
+            int id = B_Zy.Create(zy);
+            if (id > 0)
+            {
+                int OrderIndex = 0;
+                List<dto_ZyQuestion> ql = new List<dto_ZyQuestion>();
+                string[] qs = questions.Split(',');
+                foreach (var qid in qs)
+                {
+                    dto_ZyQuestion q = null;
+                    dto_Question dq = B_QuesRedis.GetQuestion(courseId, IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Ques, long.Parse(qid)));
+                    if (dq.haschildren && dq.Children != null)
+                    {
+                        foreach (var cq in dq.Children)
+                        {
+                            q = new dto_ZyQuestion();
+                            OrderIndex += 1;
+                            q.PQId = dq.id;
+                            q.QId = cq.id;
+                            q.OrderIndex = OrderIndex;
+                            q.Score = 0;
+                            ql.Add(q);
+                        }
+                    }
+                    else
+                    {
+                        q = new dto_ZyQuestion();
+                        OrderIndex += 1;
+                        q.PQId = dq.id;
+                        q.QId = dq.id;
+                        q.OrderIndex = OrderIndex;
+                        q.Score = 0;
+                        ql.Add(q);
+                    }
+                }
+                B_Zy.AddQdbZyQues(id, JsonConvert.SerializeObject(ql));
+            }
+
+            result.code = AjaxResultCodeEnum.Success;
+            result.message = "";
+            return Json(result);
         }
     }
 }

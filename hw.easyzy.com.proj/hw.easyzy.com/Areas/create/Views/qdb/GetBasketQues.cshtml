@@ -9,21 +9,28 @@
         <a href="javascript:void(0);" class="chk unchoosed showanswer" style="color:#fff;">显示答案</a>
     </div>
     string ptype = "";
-    int bnum = 0;
+    int bnum = 0, snum = 0;
     foreach (var q in ql)
     {
+        snum += 1;
         if (ptype != q.typename)
         {
             bnum += 1;
             <div class="qtypespan">@Util.ToChinese(bnum)、 @q.typename</div>
         }
         ptype = q.typename;
-        <div class="pques">
+        <div class="pques" data-bind="@q.NewId">
             <div class="qtitle">
                 <div class="qtleft">
+                    <b>@(snum)、</b>
                     <span>使用：@(q.usagetimes)次</span>
                     <span>难度：@(q.difftype == 1 ? "容易" : q.difftype == 2 ? "较易" : q.difftype == 3 ? "一般" : q.difftype == 4 ? "较难" : "困难")</span>
                     <span>题型：@(q.typename)</span>
+                </div>
+                <div class="qtright">
+                    <a class="del" href="javascript:void(0)">删除</a>
+                    <a class="up" href="javascript:void(0)">上移</a>
+                    <a class="down" href="javascript:void(0)">下移</a>
                 </div>
             </div>
             @if (!string.IsNullOrEmpty(q.quesbody))

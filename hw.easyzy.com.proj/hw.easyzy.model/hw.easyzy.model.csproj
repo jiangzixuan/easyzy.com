@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="dto\dto_AjaxJsonResult.cs" />
     <Compile Include="dto\dto_Answer.cs" />
     <Compile Include="dto\dto_CQuestion.cs" />
     <Compile Include="dto\dto_Echart_pie-simple.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="dto\dto_User.cs" />
     <Compile Include="dto\dto_UserZy.cs" />
     <Compile Include="dto\dto_ZTree.cs" />
+    <Compile Include="dto\dto_ZyQuestion.cs" />
     <Compile Include="entity\T_Answer.cs" />
     <Compile Include="entity\T_CatalogNodes.cs" />
     <Compile Include="entity\T_City.cs" />

@@ -207,11 +207,13 @@
     <Content Include="Images\banner\banner3.jpg" />
     <Content Include="Images\basket.png" />
     <Content Include="Images\boshimao.png" />
+    <Content Include="Images\calendar-icon.png" />
     <Content Include="Images\category-main-icon.png" />
     <Content Include="Images\checkbox.png" />
     <Content Include="Images\close.png" />
     <Content Include="Images\dotted.png" />
     <Content Include="Images\fangdajing.jpg" />
+    <Content Include="Images\gantanhao.png" />
     <Content Include="Images\ico2.png" />
     <Content Include="Images\icon-tb1.png" />
     <Content Include="Images\icon-tb4.png" />
@@ -277,6 +279,26 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\laydate-master\laydate.dev.js" />
+    <Content Include="Scripts\laydate-master\laydate.js" />
+    <Content Include="Scripts\laydate-master\need\laydate.css" />
+    <Content Include="Scripts\laydate-master\skins\dahong\icon.png" />
+    <Content Include="Scripts\laydate-master\skins\dahong\laydate.css" />
+    <Content Include="Scripts\laydate-master\skins\danlan\icon.png" />
+    <Content Include="Scripts\laydate-master\skins\danlan\laydate.css" />
+    <Content Include="Scripts\laydate-master\skins\default\icon.png" />
+    <Content Include="Scripts\laydate-master\skins\default\laydate.css" />
+    <Content Include="Scripts\laydate-master\skins\molv\icon.png" />
+    <Content Include="Scripts\laydate-master\skins\molv\laydate.css" />
+    <Content Include="Scripts\laydate-master\skins\qianhuang\icon.png" />
+    <Content Include="Scripts\laydate-master\skins\qianhuang\laydate.css" />
+    <Content Include="Scripts\laydate-master\skins\yahui\icon.png" />
+    <Content Include="Scripts\laydate-master\skins\yahui\laydate.css" />
+    <Content Include="Scripts\laydate-master\skins\yalan\icon.png" />
+    <Content Include="Scripts\laydate-master\skins\yalan\laydate.css" />
+    <Content Include="Scripts\laydate-master\test\demo1.html" />
+    <Content Include="Scripts\laydate-master\test\demo2.html" />
+    <Content Include="Scripts\laydate-master\test\demo2.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\plupload\moxie.js" />
     <Content Include="Scripts\plupload\Moxie.swf" />
@@ -324,6 +346,9 @@
     <Content Include="Areas\list\Views\self\getstudentanswercard.cshtml" />
     <Content Include="Areas\list\Views\self\check.cshtml" />
     <Content Include="Areas\list\Views\self\zychart.cshtml" />
+    <Content Include="Scripts\laydate-master\.DS_Store" />
+    <Content Include="Scripts\laydate-master\README.md" />
+    <Content Include="Scripts\laydate-master\test\.DS_Store" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

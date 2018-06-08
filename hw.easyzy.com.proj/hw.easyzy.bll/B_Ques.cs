@@ -235,7 +235,7 @@ namespace hw.easyzy.bll
         {
             List<dto_CQuestion> model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(QuesConnString),
-                "select id, pid, typeid, typename, quesbody, quesanswer, quesparse from T_CQuestions where pid = @pid order by id",
+                "select id, pid, ptypeid, typeid, typename, quesbody, quesanswer, quesparse from T_CQuestions where pid = @pid order by id",
                 "@pid".ToInt32InPara(pId)))
             {
                 if (dr != null && dr.HasRows)
@@ -255,8 +255,8 @@ namespace hw.easyzy.bll
         {
             List<T_QuesOptions> model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(QuesConnString),
-                "select id, optiona, optionb, optionc, optiond, optione, optionf, optiong from T_QuesOptions where pid = @pid",
-                "@qid".ToInt32InPara(pId)))
+                "select id, optiona, optionb, optionc, optiond, optione, optionf, optiong, pid from T_QuesOptions where pid = @pid",
+                "@pid".ToInt32InPara(pId)))
             {
                 if (dr != null && dr.HasRows)
                 {
