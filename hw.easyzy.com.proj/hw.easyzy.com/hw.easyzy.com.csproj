@@ -233,6 +233,7 @@
     <Content Include="Images\addpic.jpg" />
     <Content Include="Images\redstar.png" />
     <Content Include="Images\type_ico.png" />
+    <Content Include="Images\v3-opera-ico.png" />
     <Content Include="Images\write.png" />
     <Content Include="RedisConfig.xml" />
     <Content Include="Scripts\artDialog\css\ui-dialog.css" />
@@ -261,6 +262,7 @@
     <Content Include="Areas\create\Views\qdb\RandomQuestions.cshtml" />
     <Content Include="Areas\create\Views\qdb\Preview.cshtml" />
     <Content Include="Areas\create\Views\qdb\GetBasketQues.cshtml" />
+    <Content Include="Areas\list\Views\home\getmyzy.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="QuesBaseJson\similarcatalogs.json" />
     <Content Include="QuesBaseJson\textbooks.json" />

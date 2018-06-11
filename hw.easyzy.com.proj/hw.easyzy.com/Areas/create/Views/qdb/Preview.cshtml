@@ -6,7 +6,11 @@
 <style type="text/css">
     .foot-wrap {display: none;}
 
-    
+    .pques .qtitle .qtright{background-color:cadetblue; display:none;}
+    .pques .qtitle .qtright .ope{background:url("/Images/v3-opera-ico.png") no-repeat; color:#fff; padding: 1px 20px; margin-left:10px; }
+    .pques .qtitle .qtright .del{background-position: -81px 2px;}
+    .pques .qtitle .qtright .up{background-position: -158px 2px;}
+    .pques .qtitle .qtright .down{background-position: -239px 2px;}
 </style>
 
 <div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > <a href="/create/qdb">新建作业</a> > 试题篮</div>
@@ -178,4 +182,8 @@
         $.cookie('easyzy.quesbasket', null, { expires: -1, path: '/' });
         $.cookie('easyzy.questypebasket', null, { expires: -1, path: '/' });
     }
+
+    $(".st-roster .download").on("click", function () {
+        dialogAlert("下载功能暂未开放！");
+    })
 </script>

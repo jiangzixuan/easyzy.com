@@ -33,6 +33,26 @@ namespace hw.easyzy.bll
             }
             return model;
         }
-        
+
+        /// <summary>
+        /// 获取被关注用户分组
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public static List<dto_RelateGroup> GetGroupedRelatedUser(int userId)
+        {
+            List<dto_RelateGroup> model = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(UserConnString),
+                "select b.GradeId, b.ClassId, count(1) TotalCount from T_UserRelate a, T_User b where a.UserId = b.Id and a.RUserId = @RUserId group by b.GradeId, b.ClassId",
+                "@RUserId".ToInt32InPara(userId)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    model = MySqlDBHelper.ConvertDataReaderToEntityList<dto_RelateGroup>(dr);
+                }
+            }
+            return model;
+        }
+
     }
 }

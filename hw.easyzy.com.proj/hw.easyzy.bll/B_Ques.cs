@@ -286,6 +286,14 @@ namespace hw.easyzy.bll
             return model;
         }
 
+        public static void IncreaseUsageTimes(int courseId, string[] questions)
+        {
+            if (questions.Length == 0) return;
+            MySqlHelper.ExecuteNonQuery(Util.GetConnectString(QuesConnString),
+                "update t_questions set usagetimes = usagetimes + 1 where courseid = @CourseId and id in (" + string.Join(",", questions) + ")",
+                "@CourseId".ToInt32InPara(courseId));
+        }
+
         #region 知识点/教材目录
 
         public static List<T_CatalogNodes> GetCatalogNodes(int textbookId)

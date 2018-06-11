@@ -34,5 +34,7 @@ namespace hw.easyzy.model.entity
         public string SystemType { get; set; }
 
         public string Browser { get; set; }
+
+        public int SubjectId { get; set; }
     }
 }

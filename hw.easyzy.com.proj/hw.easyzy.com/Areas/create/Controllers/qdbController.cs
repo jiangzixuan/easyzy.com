@@ -232,6 +232,7 @@ namespace hw.easyzy.com.Areas.create.Controllers
         /// <returns></returns>
         public JsonResult SaveZy(int courseId, string zyName, string startDate, string endDate, string questions)
         {
+            #region 参数验证
             dto_AjaxJsonResult<string> result = new dto_AjaxJsonResult<string>();
             if (zyName.Length > 30)
             {
@@ -261,6 +262,10 @@ namespace hw.easyzy.com.Areas.create.Controllers
                 return Json(result);
             }
 
+            #endregion
+            int subjectId = 0;
+            Const.CourseSubjectMapping.TryGetValue(courseId, out subjectId);
+            //保存作业信息
             T_Zy zy = new T_Zy()
             {
                 UserId = UserId,
@@ -268,6 +273,7 @@ namespace hw.easyzy.com.Areas.create.Controllers
                 OpenDate = OpenDate,
                 DueDate = DueDate,
                 Type = 0,
+                SubjectId = subjectId,
                 CreateDate = DateTime.Now,
                 Ip = ClientUtil.Ip,
                 IMEI = ClientUtil.IMEI,
@@ -275,47 +281,80 @@ namespace hw.easyzy.com.Areas.create.Controllers
                 SystemType = Request.Browser.Platform.ToString(),
                 Browser = Request.Browser.Browser.ToString()
             };
-
             int id = B_Zy.Create(zy);
+
+            //保存作业试题信息
+            string[] qs = questions.Split(',');
             if (id > 0)
             {
-                int OrderIndex = 0;
-                List<dto_ZyQuestion> ql = new List<dto_ZyQuestion>();
-                string[] qs = questions.Split(',');
-                foreach (var qid in qs)
+                SaveZyQuestions(courseId, id, qs);
+            }
+
+            //修改试题使用次数
+            IncreaseQuesUsageTimes(courseId, qs);
+
+            result.code = AjaxResultCodeEnum.Success;
+            result.message = "";
+            return Json(result);
+        }
+
+        /// <summary>
+        /// 保存作业试题
+        /// </summary>
+        /// <param name="courseId"></param>
+        /// <param name="zyId"></param>
+        /// <param name="questions"></param>
+        /// <returns></returns>
+        private bool SaveZyQuestions(int courseId, int zyId, string[] questions)
+        {
+            int OrderIndex = 0;
+            List<dto_ZyQuestion> ql = new List<dto_ZyQuestion>();
+            
+            foreach (var qid in questions)
+            {
+                dto_ZyQuestion q = null;
+                dto_Question dq = B_QuesRedis.GetQuestion(courseId, IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Ques, long.Parse(qid)));
+                if (dq.haschildren && dq.Children != null)
                 {
-                    dto_ZyQuestion q = null;
-                    dto_Question dq = B_QuesRedis.GetQuestion(courseId, IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Ques, long.Parse(qid)));
-                    if (dq.haschildren && dq.Children != null)
-                    {
-                        foreach (var cq in dq.Children)
-                        {
-                            q = new dto_ZyQuestion();
-                            OrderIndex += 1;
-                            q.PQId = dq.id;
-                            q.QId = cq.id;
-                            q.OrderIndex = OrderIndex;
-                            q.Score = 0;
-                            ql.Add(q);
-                        }
-                    }
-                    else
+                    foreach (var cq in dq.Children)
                     {
                         q = new dto_ZyQuestion();
                         OrderIndex += 1;
                         q.PQId = dq.id;
-                        q.QId = dq.id;
+                        q.QId = cq.id;
                         q.OrderIndex = OrderIndex;
                         q.Score = 0;
                         ql.Add(q);
                     }
                 }
-                B_Zy.AddQdbZyQues(id, JsonConvert.SerializeObject(ql));
+                else
+                {
+                    q = new dto_ZyQuestion();
+                    OrderIndex += 1;
+                    q.PQId = dq.id;
+                    q.QId = dq.id;
+                    q.OrderIndex = OrderIndex;
+                    q.Score = 0;
+                    ql.Add(q);
+                }
+            }
+            return B_Zy.AddQdbZyQues(zyId, JsonConvert.SerializeObject(ql));
+        }
+
+        /// <summary>
+        /// 试题使用次数加一
+        /// </summary>
+        /// <param name="courseId"></param>
+        /// <param name="questions"></param>
+        private void IncreaseQuesUsageTimes(int courseId, string[] questions)
+        {
+            
+            foreach (var q in questions)
+            {
+                B_QuesRedis.IncreaseUsageTimes(IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Ques, long.Parse(q)));
             }
 
-            result.code = AjaxResultCodeEnum.Success;
-            result.message = "";
-            return Json(result);
+            B_Ques.IncreaseUsageTimes(courseId, questions);
         }
     }
 }

@@ -1,7 +1,107 @@
-﻿
-@{
-    ViewBag.Title = "index";
+﻿@{
+    ViewBag.Title = "易作业-作业列表";
+    Layout = "~/areas/list/Views/Shared/_Layout.cshtml";
 }
 
-<h2>index</h2>
+<style type="text/css">
+    table  
+        {  
+        width:100%;
+            border-collapse: collapse;  
+            margin: 0 auto;  
+            text-align: center;  
+        }  
+        table td, table th  
+        {  
+            border: 1px solid #cad9ea;  
+            color: #666;  
+            height: 30px;  
+        }  
+        table thead th  
+        {  
+            background-color: #CCE8EB;  
+            width: 100px;  
+        }  
+        table tr:nth-child(odd)  
+        {  
+            background: #fff;  
+        }  
+        table tr:nth-child(even)  
+        {  
+            background: #F5FAFA;  
+        }
 
+        .zytable tr{cursor:pointer;}
+</style>
+
+<div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > 作业列表</div>
+<div class="content-title">
+    <div class="page-top">
+        <div class="page-nav">
+            <div class="zj page-func left active" data-bind="0">我建的作业</div>
+            <div class="kpt page-func left" data-bind="1">我关注的老师建的作业</div>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="main-content" style="background:#f4f4f4; width:1200px; padding: 0;">
+        <div class="zylist">
+            <table style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>学科</th>
+                        <th>名称</th>
+                        <th>开始时间</th>
+                        <th>截止时间</th>
+                        <th>创建时间</th>
+                        <th>类型</th>
+                    </tr>
+                </thead>
+                <tbody class="zytable"></tbody>
+            </table>
+            <div id="pager" class="zypager"></div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    var cur_data = {
+        pageindex: 1,
+        pagesize: 10
+    }
+
+    $(function () {
+        GetData();
+    })
+
+    var PageClick = function (PageIndex) {
+        cur_data.pageindex = PageIndex;
+        GetData();
+    }
+
+    var GetData = function () {
+        $(".zytable").html("<tr><td colspan='7'><img src='/images/loader.gif'><b>正在加载……</b></td></tr>");
+        $.post("/list/home/GetMyZy",
+            { pageIndex: cur_data.pageindex, pageSize: cur_data.pagesize },
+            function (data) {
+                $(".zytable").html(data);
+
+                if (parseInt($("#PageCountDiv").html()) > 1) {
+                    $("#pager").pager({ pagenumber: cur_data.pageindex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: PageClick });
+                }
+
+                $(".zytable tr").on("click", function () {
+                    GetZyStatistic($(this));
+                })
+            })
+    }
+
+    var GetZyStatistic = function (t) {
+        var zyid = t.find(".zyid").attr("data-bind");
+        var zytype = t.find(".zytype").attr("data-bind");
+
+        
+    }
+</script>

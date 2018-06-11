@@ -16,6 +16,35 @@ namespace hw.easyzy.bll
         {
             Const.DBConnStrNameDic.TryGetValue(Const.DBName.Zy, out ZyConnString);
         }
+
+        /// <summary>
+        /// 查找我新建的作业列表
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="totalCount"></param>
+        /// <returns></returns>
+        public static List<dto_Zy> GetMyZy(int userId, int pageIndex, int pageSize, out int totalCount)
+        {
+            List<dto_Zy> list = null;
+            using (MySqlDataReader dr = MySqlDBHelper.GetPageReader(Util.GetConnectString(ZyConnString),
+                "Id, UserId, ZyName, SubjectId, CreateDate, OpenDate, DueDate, Type ",
+                "T_Zy where UserId = @UserId",
+                "Id desc",
+                pageSize,
+                pageIndex, 
+                out totalCount,
+                "@UserId".ToInt32InPara(userId)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    list = MySqlDBHelper.ConvertDataReaderToEntityList<dto_Zy>(dr);
+                }
+            }
+            return list;
+        }
+
         /// <summary>
         /// 查询作业
         /// </summary>
@@ -25,7 +54,7 @@ namespace hw.easyzy.bll
         {
             T_Zy model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
-                "select Id, UserId, ZyName, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser, OpenDate, DueDate, Type from T_Zy where Id = @Id",
+                "select Id, UserId, ZyName, SubjectId, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser, OpenDate, DueDate, Type from T_Zy where Id = @Id",
                 "@Id".ToInt32InPara(id)))
             {
                 if (dr != null && dr.HasRows)
@@ -44,9 +73,10 @@ namespace hw.easyzy.bll
         public static int Create(T_Zy zy)
         {
             object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(ZyConnString),
-                "insert into T_Zy(UserId, ZyName, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser, OpenDate, DueDate, Type) values (@UserId, @ZyName, @CreateDate, @Ip, @IMEI, @MobileBrand, @SystemType, @Browser, @OpenDate, @DueDate, @Type); select last_insert_id();",
+                "insert into T_Zy(UserId, ZyName, SubjectId, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser, OpenDate, DueDate, Type) values (@UserId, @ZyName, @SubjectId, @CreateDate, @Ip, @IMEI, @MobileBrand, @SystemType, @Browser, @OpenDate, @DueDate, @Type); select last_insert_id();",
                 "@UserId".ToInt32InPara(zy.UserId),
                 "@ZyName".ToVarCharInPara(zy.ZyName),
+                "@SubjectId".ToInt32InPara(zy.SubjectId),
                 "@CreateDate".ToDateTimeInPara(zy.CreateDate),
                 "@Ip".ToVarCharInPara(zy.Ip),
                 "@IMEI".ToVarCharInPara(zy.IMEI),
@@ -60,6 +90,12 @@ namespace hw.easyzy.bll
             return o == null ? 0 : int.Parse(o.ToString());
         }
 
+        /// <summary>
+        /// 新增Qdb作业试题
+        /// </summary>
+        /// <param name="zyId"></param>
+        /// <param name="quesJson"></param>
+        /// <returns></returns>
         public static bool AddQdbZyQues(int zyId, string quesJson)
         {
             int i = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(ZyConnString),
@@ -69,6 +105,31 @@ namespace hw.easyzy.bll
                 "@CreateDate".ToDateTimeInPara(DateTime.Now)
                 );
             return i > 0;
+        }
+
+        /// <summary>
+        /// 查找作业每个班提交数量
+        /// </summary>
+        /// <param name="zyId"></param>
+        /// <returns></returns>
+        public static Dictionary<int, int> GetZySubmitCountByClass(int zyId)
+        {
+            Dictionary<int, int> d = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
+                "select GradeId, ClassId, count(1) from T_Answer where Id = @Id group by GradeId, ClassId",
+                "@Id".ToInt32InPara(zyId)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    d = new Dictionary<int, int>();
+                    while (dr.Read())
+                    {
+                        string s = string.Concat(dr[0], dr[1].ToString().PadLeft(2, '0'));
+                        d.Add(int.Parse(s), int.Parse(dr[2].ToString()));
+                    }
+                }
+            }
+            return d;
         }
     }
 }

@@ -27,13 +27,32 @@ namespace hw.easyzy.bll
                         tempresult = B_Ques.GetWholeQuestion(courseId, qId);
                         if (tempresult != null)
                         {
-                            client.Set<dto_Question>(key, tempresult, ts);
+                            client.Set(key, tempresult, ts);
                         }
                     }
                 }
             }
 
             return tempresult;
+        }
+
+        public static void IncreaseUsageTimes(int qId)
+        {
+            dto_Question tempresult = null;
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Ques, qId.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.Ques.ToString()))
+            {
+                if (client != null)
+                {
+                    tempresult = client.Get<dto_Question>(key);
+                    if (tempresult != null)
+                    {
+                        int i = tempresult.usagetimes;
+                        tempresult.usagetimes = i + 1;
+                        client.Set(key, tempresult, ts);
+                    }
+                }
+            }
         }
 
         #region 知识点/章节目录

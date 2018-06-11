@@ -19,7 +19,7 @@
             <div class="qtypespan">@Util.ToChinese(bnum)、 @q.typename</div>
         }
         ptype = q.typename;
-        <div class="pques" data-bind="@q.NewId">
+        <div class="pques" data-bind="@q.NewId" data-type="@q.typeid" data-typename="@(q.typename)">
             <div class="qtitle">
                 <div class="qtleft">
                     <b>@(snum)、</b>
@@ -28,9 +28,9 @@
                     <span>题型：@(q.typename)</span>
                 </div>
                 <div class="qtright">
-                    <a class="del" href="javascript:void(0)">删除</a>
-                    <a class="up" href="javascript:void(0)">上移</a>
-                    <a class="down" href="javascript:void(0)">下移</a>
+                    <a class="ope del" href="javascript:void(0)">删除</a>|
+                    <a class="ope up" href="javascript:void(0)">上移</a>|
+                    <a class="ope down" href="javascript:void(0)">下移</a>
                 </div>
             </div>
             @if (!string.IsNullOrEmpty(q.quesbody))
@@ -186,4 +186,67 @@ else
         }
     })
 
+    //
+    $(".pques").hover(function () {
+        $(this).find(".qtitle .qtright").show();
+    }, function () {
+        $(this).find(".qtitle .qtright").hide();
+        })
+
+    //删除
+    $(".pques .qtright .del").on("click", function () {
+        //如果大题型下面只有一道题，删除大题型
+        var bq = $(this).parents(".pques");
+        var qtype = bq.attr("data-type");
+        if (bq.siblings("[data-type=" + qtype + "]").length == 0) {
+            bq.prev(".qtypespan").remove();
+        }
+        $(this).parents(".pques").remove();
+        
+        ResetQuesNum();
+    })
+
+    //上移
+    $(".pques .qtright .up").on("click", function () {
+        var div1 = $(this).parents(".pques");
+        var div2 = div1.prev(".pques[data-type='" + div1.attr("data-type") + "']");
+        
+        if (div2) {
+            var num1 = div1.find(".qtleft b").html();
+            var num2 = div2.find(".qtleft b").html();
+            div1.find(".qtleft b").html(num2);
+            div2.find(".qtleft b").html(num1);
+            div1.after(div2);
+        }
+    })
+
+    //下移
+    $(".pques .qtright .down").on("click", function () {
+        var div1 = $(this).parents(".pques");
+        var div2 = div1.next(".pques[data-type='" + div1.attr("data-type") + "']");
+
+        if (div2) {
+            var num1 = div1.find(".qtleft b").html();
+            var num2 = div2.find(".qtleft b").html();
+            div1.find(".qtleft b").html(num2);
+            div2.find(".qtleft b").html(num1);
+            div1.before(div2);
+        }
+    })
+
+    var bq = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "二十", "二十一", "二十二", "二十三", "二十四", "二十五", "二十六", "二十七", "二十八", "二十九", "三十"]
+
+    //重置题号
+    var ResetQuesNum = function () {
+        var s = 0, b = 0;
+        $(".pques").each(function () {
+            s += 1;
+            $(this).find(".qtleft b").html(s + "、");
+        })
+
+        $(".qtypespan").each(function () {
+            $(this).html(bq[b] + "、" + $(this).next(".pques").attr("data-typename"));
+            b += 1;
+        })
+    }
 </script>
