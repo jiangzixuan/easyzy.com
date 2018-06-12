@@ -1,7 +1,62 @@
-﻿
+﻿@using hw.easyzy.model.dto;
 @{
-    ViewBag.Title = "index";
+    ViewBag.Title = "易作业-提交作业";
+    Layout = "~/areas/submit/Views/Shared/_Layout.cshtml";
 }
 
-<h2>index</h2>
+<style type="text/css">
+    .zyname{text-align:center;}
+    .zyques{margin-top:20px; padding: 10px 5px;}
+    .pques .poption span.option.single, .pques .coption span.option.single{background:url("/Images/radio.png") no-repeat 10px 7px; padding-left: 30px; cursor:pointer;}
+    .pques .poption span.option.single.active, .pques .coption span.option.single.active{background-position: 10px -25px;}
+    .pques .poption span.option.multy, .pques .coption span.option.multy{background:url("/Images/checkbox.png") no-repeat 10px 6px; padding-left: 33px; cursor:pointer;}
+    .pques .poption span.option.multy.active, .pques .coption span.option.multy.active{background-position: 10px -62px;}
 
+</style>
+
+<div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > <a href="http://hw.easyzy.com/list/home">作业列表</a> > 提交作业</div>
+
+<div class="content">
+    <div class="main-content">
+        <div class="zyname">
+            <h1></h1>
+            <h2></h2>
+        </div>
+        <div class="zyques">
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var cur_data = {
+        zyid: '@ViewBag.ZyId'
+    }
+
+    $(function () {
+        $.post("/submit/home/getzyinfo",
+            { zyId: cur_data.zyid },
+            function (data) {
+                if (data.code == "0") {
+                    $(".zyname h1").html(data.data.ZyName);
+                    $(".zyname h2").html(data.data.OpenDateStr + " - " + data.data.DueDateStr);
+                    
+                    if (data.data.Type == 0) {
+                        ShowQdbQuestions(data.data.CourseId);
+                    }
+                }
+                else {
+                    $(".zyques").html(data.message);
+                }
+            })
+    })
+
+    var ShowQdbQuestions = function (courseid) {
+        $.post("/submit/qdb/getquestions",
+            { courseId: courseid, zyId: cur_data.zyid },
+            function (data) {
+                $(".zyques").html(data);
+            })
+    }
+
+</script>

@@ -24,9 +24,10 @@ namespace hw.easyzy.com.Areas.list.Controllers
             if (list != null)
             {
                 List<dto_RelateGroup> rgl = B_User.GetGroupedRelatedUser(UserId);
-                string subName = "";
+                
                 foreach (var l in list)
                 {
+                    string subName = "";
                     Const.Subjects.TryGetValue(l.SubjectId, out subName);
                     l.SubjectName = subName;
                     l.TypeName = l.Type == 0 ? "题库" : "自传";
@@ -37,6 +38,14 @@ namespace hw.easyzy.com.Areas.list.Controllers
                             b.SubmitCount = 0;
                         });
                     }
+                    Dictionary<int, int> subl = B_Zy.GetZySubmitCountByClass(l.Id);
+                    rgl.ForEach(a =>
+                    {
+                        int c = 0;
+                        string s = string.Concat(a.GradeId, a.ClassId.ToString().PadLeft(2, '0'));
+                        subl.TryGetValue(int.Parse(s), out c);
+                        a.SubmitCount = c;
+                    });
                     l.ClassSubmitInfo = rgl;
                 }
             }

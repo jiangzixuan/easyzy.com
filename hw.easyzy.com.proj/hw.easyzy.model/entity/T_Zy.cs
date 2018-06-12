@@ -35,6 +35,8 @@ namespace hw.easyzy.model.entity
 
         public string Browser { get; set; }
 
+        public int CourseId { get; set; }
+
         public int SubjectId { get; set; }
     }
 }

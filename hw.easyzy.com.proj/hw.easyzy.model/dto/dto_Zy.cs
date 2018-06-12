@@ -14,5 +14,9 @@ namespace hw.easyzy.model.dto
         public string TypeName { get; set; }
 
         public List<dto_RelateGroup> ClassSubmitInfo { get; set; }
+
+        public string OpenDateStr { get; set; }
+
+        public string DueDateStr { get; set; }
     }
 }

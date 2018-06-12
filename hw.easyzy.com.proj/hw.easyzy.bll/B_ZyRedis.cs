@@ -22,26 +22,111 @@ namespace hw.easyzy.bll
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static T_Zy GetZy(int id)
+        public static dto_Zy GetZy(int id)
         {
-            T_Zy tempresult = null;
-            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.SelfZy, id.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.SelfZy.ToString()))
+            dto_Zy tempresult = null;
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Zy, id.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.Zy.ToString()))
             {
                 if (client != null)
                 {
-                    tempresult = client.Get<T_Zy>(key);
+                    tempresult = client.Get<dto_Zy>(key);
                     if (tempresult == null)
                     {
-                        tempresult = B_Zy.GetZy(id);
+                        T_Zy z = B_Zy.GetZy(id);
+                        string subName = "";
+                        Subjects.TryGetValue(z.SubjectId, out subName);
+                        tempresult = new dto_Zy()
+                        {
+                            Id = z.Id,
+                            UserId = z.UserId,
+                            ZyName = z.ZyName,
+                            Type = z.Type,
+                            CourseId = z.CourseId,
+                            SubjectId = z.SubjectId,
+                            CreateDate =z.CreateDate,
+                            OpenDate = z.OpenDate,
+                            DueDate = z.DueDate,
+                            OpenDateStr = z.OpenDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                            DueDateStr = z.DueDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                            SubjectName = subName,
+                            TypeName = z.Type == 0 ? "题库" : "自传"
+                        };
+
                         if (tempresult != null)
                         {
-                            client.Set<T_Zy>(key, tempresult, ts);
+                            client.Set(key, tempresult, ts);
                         }
                     }
                 }
             }
             
+            return tempresult;
+        }
+
+        /// <summary>
+        /// 获取作业的所有试题信息
+        /// </summary>
+        /// <param name="courseId"></param>
+        /// <param name="zyId"></param>
+        /// <returns></returns>
+        public static List<dto_Question> GetQdbZyQuestions(int courseId, int zyId)
+        {
+            List<dto_Question> tempresult = null;
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.QdbZyAllQuestions, zyId.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.QdbZyAllQuestions.ToString()))
+            {
+                if (client != null)
+                {
+                    tempresult = client.Get<List<dto_Question>>(key);
+                    if (tempresult == null)
+                    {
+                        string s = GetQdbZyQuesJson(zyId);
+                        if (string.IsNullOrEmpty(s)) return null;
+                        List<dto_ZyQuestion> zyql = JsonConvert.DeserializeObject<List<dto_ZyQuestion>>(s);
+                        if (zyql != null)
+                        {
+                            tempresult = new List<dto_Question>();
+                            zyql.Select(a=>a.PQId).Distinct().ToList().ForEach(b =>
+                            {
+                                tempresult.Add(B_QuesRedis.GetQuestion(courseId, b));
+                            });
+
+                            client.Set(key, tempresult, ts);
+                        }
+                    }
+                }
+            }
+
+            return tempresult;
+        }
+
+        /// <summary>
+        /// 获取作业的试题json信息
+        /// </summary>
+        /// <param name="zyId"></param>
+        /// <returns></returns>
+        public static string GetQdbZyQuesJson(int zyId)
+        {
+            string tempresult = null;
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.QdbZyQues, zyId.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.QdbZyQues.ToString()))
+            {
+                if (client != null)
+                {
+                    tempresult = client.Get<string>(key);
+                    if (tempresult == null)
+                    {
+                        tempresult = B_Zy.GetQdbZyQues(zyId);
+
+                        if (tempresult != null)
+                        {
+                            client.Set(key, tempresult, ts);
+                        }
+                    }
+                }
+            }
+
             return tempresult;
         }
 
@@ -148,8 +233,8 @@ namespace hw.easyzy.bll
         /// <param name="zyId"></param>
         public static void DeleteZyCache(int zyId)
         {
-            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.SelfZy, zyId.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.SelfZy.ToString()))
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Zy, zyId.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.Zy.ToString()))
             {
                 if (client != null)
                 {

@@ -3,6 +3,7 @@ using hw.easyzy.common;
 using hw.easyzy.model.dto;
 using hw.easyzy.model.entity;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -29,7 +30,7 @@ namespace hw.easyzy.bll
         {
             List<dto_Zy> list = null;
             using (MySqlDataReader dr = MySqlDBHelper.GetPageReader(Util.GetConnectString(ZyConnString),
-                "Id, UserId, ZyName, SubjectId, CreateDate, OpenDate, DueDate, Type ",
+                "Id, UserId, ZyName, CourseId, SubjectId, CreateDate, OpenDate, DueDate, Type ",
                 "T_Zy where UserId = @UserId",
                 "Id desc",
                 pageSize,
@@ -54,7 +55,7 @@ namespace hw.easyzy.bll
         {
             T_Zy model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
-                "select Id, UserId, ZyName, SubjectId, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser, OpenDate, DueDate, Type from T_Zy where Id = @Id",
+                "select Id, UserId, ZyName, CourseId, SubjectId, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser, OpenDate, DueDate, Type from T_Zy where Id = @Id",
                 "@Id".ToInt32InPara(id)))
             {
                 if (dr != null && dr.HasRows)
@@ -73,9 +74,10 @@ namespace hw.easyzy.bll
         public static int Create(T_Zy zy)
         {
             object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(ZyConnString),
-                "insert into T_Zy(UserId, ZyName, SubjectId, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser, OpenDate, DueDate, Type) values (@UserId, @ZyName, @SubjectId, @CreateDate, @Ip, @IMEI, @MobileBrand, @SystemType, @Browser, @OpenDate, @DueDate, @Type); select last_insert_id();",
+                "insert into T_Zy(UserId, ZyName, CourseId, SubjectId, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser, OpenDate, DueDate, Type) values (@UserId, @ZyName, @CourseId, @SubjectId, @CreateDate, @Ip, @IMEI, @MobileBrand, @SystemType, @Browser, @OpenDate, @DueDate, @Type); select last_insert_id();",
                 "@UserId".ToInt32InPara(zy.UserId),
                 "@ZyName".ToVarCharInPara(zy.ZyName),
+                "@CourseId".ToInt32InPara(zy.CourseId),
                 "@SubjectId".ToInt32InPara(zy.SubjectId),
                 "@CreateDate".ToDateTimeInPara(zy.CreateDate),
                 "@Ip".ToVarCharInPara(zy.Ip),
@@ -96,15 +98,33 @@ namespace hw.easyzy.bll
         /// <param name="zyId"></param>
         /// <param name="quesJson"></param>
         /// <returns></returns>
-        public static bool AddQdbZyQues(int zyId, string quesJson)
+        public static bool AddQdbZyQues(int id, string quesJson)
         {
             int i = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(ZyConnString),
                 "insert into T_ZyQuestions(Id, QuesJson, CreateDate) values (@Id, @QuesJson, @CreateDate)",
-                "@Id".ToInt32InPara(zyId),
+                "@Id".ToInt32InPara(id),
                 "@QuesJson".ToVarCharInPara(quesJson),
                 "@CreateDate".ToDateTimeInPara(DateTime.Now)
                 );
             return i > 0;
+        }
+
+        /// <summary>
+        /// 仅返回作业试题json信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static string GetQdbZyQues(int id)
+        {
+            string s = "";
+            object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(ZyConnString),
+                "select QuesJson from T_ZyQuestions where Id = @Id",
+                "@Id".ToInt32InPara(id));
+            if (o != null)
+            {
+                s = o.ToString();
+            }
+            return s;
         }
 
         /// <summary>

@@ -50,19 +50,22 @@ namespace easyzy.sdk
         /// </summary>
         public enum CacheCatalog
         {
-            User,    //用户
-            SelfZy,  //自传作业
-            QdbZy,   //题库作业
-            ZyQues,  //作业试题
-            Ques,    //试题
-            SelfZyStruct,  //自传作业结构
-            SelfZyAnswer,  //自传作业答案
             CheckCode,     //验证码
             Base,    //基础数据
             TextBooks,  //教材集合
             TextBookVersions, //教材版本集合
             Catalogs,   //课程下的各书本的目录
-            KnowledgePoints
+            KnowledgePoints,
+            Ques,  //单独一个试题信息
+
+            User,    //用户
+            Zy,    //作业信息
+            QdbZyQues,   //题库作业Json
+            SelfZyQues,  //作业试题Json
+            QdbZyAllQuestions,    //题库试题所有试题
+            SelfZyStruct,  //自传作业结构
+            SelfZyAnswer,  //自传作业答案
+            
 
         }
 
@@ -103,6 +106,14 @@ namespace easyzy.sdk
         /// 选择题题型ID集合
         /// </summary>
         public static readonly List<int> OBJECTIVE_QUES_TYPES = new List<int> { 2, 3, 4, 5, 6, 7 };
+        /// <summary>
+        /// 单选题题型ID集合
+        /// </summary>
+        public static readonly List<int> SINGLE_OBJECTIVE_QUES_TYPES = new List<int> { 2, 3, 6 };
+        /// <summary>
+        /// 多选题题型ID集合
+        /// </summary>
+        public static readonly List<int> MULTY_OBJECTIVE_QUES_TYPES = new List<int> { 2, 3, 6 };
 
         /// <summary>
         /// 学段枚举

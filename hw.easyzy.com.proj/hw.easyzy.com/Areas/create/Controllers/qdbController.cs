@@ -273,6 +273,7 @@ namespace hw.easyzy.com.Areas.create.Controllers
                 OpenDate = OpenDate,
                 DueDate = DueDate,
                 Type = 0,
+                CourseId = courseId,
                 SubjectId = subjectId,
                 CreateDate = DateTime.Now,
                 Ip = ClientUtil.Ip,
