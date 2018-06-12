@@ -5,13 +5,9 @@
 }
 
 <style type="text/css">
-    .zyname{text-align:center;}
-    .zyques{margin-top:20px; padding: 10px 5px;}
-    .pques .poption span.option.single, .pques .coption span.option.single{background:url("/Images/radio.png") no-repeat 10px 7px; padding-left: 30px; cursor:pointer;}
-    .pques .poption span.option.single.active, .pques .coption span.option.single.active{background-position: 10px -25px;}
-    .pques .poption span.option.multy, .pques .coption span.option.multy{background:url("/Images/checkbox.png") no-repeat 10px 6px; padding-left: 33px; cursor:pointer;}
-    .pques .poption span.option.multy.active, .pques .coption span.option.multy.active{background-position: 10px -62px;}
+    .foot-wrap {display: none;}
 
+    
 </style>
 
 <div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > <a href="http://hw.easyzy.com/list/home">作业列表</a> > 提交作业</div>
@@ -22,12 +18,23 @@
             <h1></h1>
             <h2></h2>
         </div>
-        <div class="zyques">
+        <div class="queslist">
 
+        </div>
+        <div class="quesop">
+            <!-- font-size设置为0 否则cursor：pointer无效 -->
+            <input type="file" id="myfile" onchange="uploadFile();" name="myfile" style="position:absolute; cursor:pointer; width:196px; height:51px; top:15px; font-size:0; opacity:0; filter:alpha(opacity=0); z-index:99;" accept=".jpg,.bmp,.gif,.png" />
+            <a href="javascript:void(0);" title="非选择题请将答案写到纸上拍照上传" class="uploadpic">上传答案照片</a>
+
+            <a href="javascript:void(0);" class="submit">提交</a>
         </div>
     </div>
 </div>
 
+@section scriptlast{
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="~/Scripts/ajaxfileupload.js"></script>
+}
 <script type="text/javascript">
     var cur_data = {
         zyid: '@ViewBag.ZyId'
@@ -40,13 +47,13 @@
                 if (data.code == "0") {
                     $(".zyname h1").html(data.data.ZyName);
                     $(".zyname h2").html(data.data.OpenDateStr + " - " + data.data.DueDateStr);
-                    
+
                     if (data.data.Type == 0) {
                         ShowQdbQuestions(data.data.CourseId);
                     }
                 }
                 else {
-                    $(".zyques").html(data.message);
+                    $(".queslist").html(data.message);
                 }
             })
     })
@@ -55,8 +62,42 @@
         $.post("/submit/qdb/getquestions",
             { courseId: courseid, zyId: cur_data.zyid },
             function (data) {
-                $(".zyques").html(data);
+                $(".queslist").html(data);
             })
+    }
+
+    var uploadFile = function () {
+        var allowExtention = ".jpg,.jpeg,.bmp,.gif,.png";
+        var extention = $("#myfile").val().substring($("#myfile").val().lastIndexOf(".") + 1).toLowerCase();
+        if (allowExtention.indexOf(extention) < 0) {
+            dialogAlert("请选择正确的图片格式");
+            return false;
+        }
+        $(".uploadpic").val("正在上传");
+        var HomeWorkID = $("#HomeWorkID").val();
+        var StudentID = $("#StudentID").val();
+        var ClassId = $("#ClassId").val();
+        $.ajaxFileUpload({
+            url: 'UploadAnswerImage', //用于文件上传的服务器端请求地址
+            secureuri: false, //是否需要安全协议，一般设置为false
+            fileElementId: 'myfile', //文件上传域的ID或name
+            dataType: 'json', //返回值类型 一般设置为json
+            data: { hid: HomeWorkID, classid: ClassId, sid: StudentID, t: new Date().getTime() },
+            success: function (data, status) {
+                if (data.code == 0) {
+                    $("#answerImg").append("<li id='img_" + data.id + "'><a style=\"cursor:pointer; height:auto;\" onclick=\"RecEventPicShow('" + data.osskey + "','" + data.imgwidth + "','" + data.imgheight + "',0);\" title=\"点击图片查看原图\"><em class='em-ico em-imgtype'></em>图片" + data.id + "</a><a href='javascript:;' class='delimg' onclick=\"DelAnswerImage('" + data.id + "','" + data.osskey + "')\"></a></li>");
+                    dialogAlert("上传成功！");
+                } else {
+                    dialogAlert(data.error);
+                }
+                $(".uploadpic").val("上传答案照片");
+            },
+            error: function (data, status, e) {
+                dialogAlert(e);
+                $(".uploadpic").val("上传答案照片");
+            }
+        });
+        return false;
     }
 
 </script>

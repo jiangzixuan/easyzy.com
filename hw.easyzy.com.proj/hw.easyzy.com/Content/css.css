@@ -215,10 +215,12 @@ a.oddesc{background-position:0 -26px;}
 
 .qtypespan{padding:20px 0 10px 0;font-weight:700}
 .queslist{padding-bottom:100px}
-.quesop{padding:20px 0;text-align:center;position:fixed;bottom:0;left:0;right:0;background:#fff;border:1px solid grey}
-.quesop a{padding:10px 30px;color:#fff;background:#0094ff;border-radius:3px;font-size:16px}
-.quesop a.download{background-image:url(/Images/icon-tb1.png);padding-left:70px;background-repeat:no-repeat;background-position-x:30px;background-position-y:6px}
-.quesop a.save{margin-left:50px;background-image:url(/Images/icon-tb4.png);padding-left:70px;background-repeat:no-repeat;background-position-x:30px;background-position-y:6px}
+.quesop{padding:30px 0;text-align:center;position:fixed;bottom:0;left:0;right:0;background:#fff;border:1px solid grey}
+.quesop a{padding:15px 30px;color:#fff;background:#0094ff;border-radius:3px;font-size:16px}
+.quesop a.download{background-image:url(/Images/icon-tb1.png);padding-left:70px;background-repeat:no-repeat;background-position-x:30px;background-position-y:13px}
+.quesop a.save{margin-left:50px;background-image:url(/Images/icon-tb4.png);padding-left:70px;background-repeat:no-repeat;background-position-x:30px;background-position-y:12px}
+.quesop a.uploadpic{background-image:url(/Images/uploadpic.png);padding-left:70px;background-repeat:no-repeat;background-position-x:30px;background-position-y:14px}
+.quesop a.submit{margin-left:50px;background-image:url(/Images/submit.png);padding-left:70px;background-repeat:no-repeat;background-position-x:30px;background-position-y:13px}
 .savetip .popfoot a{padding:5px 20px;background:#0094ff;color:#fff}
 .calendar{background:url(/Images/calendar-icon.png) no-repeat 9px 5px;width:32px;height:22px;display:block;float:left}
 .savetip .popfoot .cancel{margin-left:40px}
@@ -230,3 +232,10 @@ a.oddesc{background-position:0 -26px;}
 .savetip .zydate .datep{border:1px solid grey;float:left}
 .savetip .popcontent .zydate{clear:both;padding:10px 20px;overflow:hidden}
 .savetip .zydatetip p{padding:0 40px;color:#ff006e;clear:both;background:url(/Images/gantanhao.png) no-repeat 20px}
+
+.zyname {text-align:center;}
+.zyques {margin-top:20px;padding:10px 5px;}
+.pques .poption span.option.single,.pques .coption span.option.single {background:url("/Images/radio.png") no-repeat 10px 7px;padding-left:30px;cursor:pointer;}
+.pques .poption span.option.single.active,.pques .coption span.option.single.active {background-position:10px -25px;}
+.pques .poption span.option.multy,.pques .coption span.option.multy {background:url("/Images/checkbox.png") no-repeat 10px 6px;padding-left:33px;cursor:pointer;}
+.pques .poption span.option.multy.active,.pques .coption span.option.multy.active {background-position:10px -62px;}

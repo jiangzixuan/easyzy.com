@@ -234,10 +234,13 @@
     <Content Include="Images\radio.png" />
     <Content Include="Images\addpic.jpg" />
     <Content Include="Images\redstar.png" />
+    <Content Include="Images\submit.png" />
     <Content Include="Images\type_ico.png" />
+    <Content Include="Images\uploadpic.png" />
     <Content Include="Images\v3-opera-ico.png" />
     <Content Include="Images\write.png" />
     <Content Include="RedisConfig.xml" />
+    <Content Include="Scripts\ajaxfileupload.js" />
     <Content Include="Scripts\artDialog\css\ui-dialog.css" />
     <Content Include="Scripts\artDialog\dialog-plus-min.js" />
     <Content Include="Scripts\artDialog\dialog.js" />

@@ -100,5 +100,22 @@ else
 }
 
 <script type="text/javascript">
-    
+    $(".option.single").on("click", function () {
+        $(this).addClass("active").siblings().removeClass("active");
+    })
+
+    $(".option.multy").on("click", function () {
+        if ($(this).hasClass("active")) {
+            $(this).removeClass("active");
+        }
+        else {
+            $(this).addClass("active");
+        }
+    })
+
+    $(".pques, .cques").hover(function () {
+        $(this).css("border", "1px solid #0094ff");
+    }, function () {
+        $(this).css("border", "1px solid #deedff");
+        })
 </script>
