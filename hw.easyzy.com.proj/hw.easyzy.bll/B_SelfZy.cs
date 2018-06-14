@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace hw.easyzy.bll
 {
+    /// <summary>
+    /// 旧的自传作业使用
+    /// </summary>
     public class B_SelfZy
     {
         private static string ZyConnString = "";
@@ -73,24 +76,7 @@ namespace hw.easyzy.bll
         /// </summary>
         /// <param name="a"></param>
         /// <returns></returns>
-        public static int AddZyAnswer(T_Answer a)
-        {
-            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(ZyConnString),
-                "insert into T_Answer(Id, ZyId, StudentId, TrueName, AnswerJson, AnswerImg, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser) values (null, @ZyId, @StudentId, @TrueName, @AnswerJson, @AnswerImg, @CreateDate, @Ip, @IMEI, @MobileBrand, @SystemType, @Browser);",
-                "@ZyId".ToInt32InPara(a.ZyId),
-                "@StudentId".ToInt32InPara(a.StudentId),
-                "@TrueName".ToVarCharInPara(a.TrueName),
-                "@AnswerJson".ToVarCharInPara(a.AnswerJson),
-                "@AnswerImg".ToVarCharInPara(a.AnswerImg),
-                "@CreateDate".ToDateTimeInPara(a.CreateDate),
-                "@Ip".ToVarCharInPara(a.Ip),
-                "@IMEI".ToVarCharInPara(a.IMEI),
-                "@MobileBrand".ToVarCharInPara(a.MobileBrand),
-                "@SystemType".ToVarCharInPara(a.SystemType),
-                "@Browser".ToVarCharInPara(a.Browser)
-                );
-            return o == null ? 0 : int.Parse(o.ToString());
-        }
+        
 
         /// <summary>
         /// 根据真实姓名判断作业是否提交过
@@ -142,21 +128,6 @@ namespace hw.easyzy.bll
             }
             return model;
         }
-
-        public static T_Answer GetZyAnswer(int zyId, int studentId)
-        {
-            T_Answer model = null;
-            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
-                "select Id, ZyId, StudentId, TrueName, AnswerJson, AnswerImg, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser from T_Answer where ZyId = @ZyId and StudentId = @StudentId",
-                "@ZyId".ToInt32InPara(zyId),
-                "@StudentId".ToInt32InPara(studentId)))
-            {
-                if (dr != null && dr.HasRows)
-                {
-                    model = MySqlDBHelper.ConvertDataReaderToEntitySingle<T_Answer>(dr);
-                }
-            }
-            return model;
-        }
+        
     }
 }

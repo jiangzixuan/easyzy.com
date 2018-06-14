@@ -37,7 +37,6 @@ namespace upload.easyzy.com.Controllers
         [HttpPost]
         public ResponseEntity<List<string>> Post()
         {
-            LogHelper.Error("asf");
             ResponseEntity<List<string>> result = new ResponseEntity<List<string>>();
             List<string> imgPathList = null;
             string filePath = "";

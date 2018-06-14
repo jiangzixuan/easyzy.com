@@ -7,7 +7,10 @@
 <style type="text/css">
     .foot-wrap {display: none;}
 
-    
+    .quesop .a-disable{background:#808080}
+    #imgul img{cursor:pointer;}
+    #imgul li{border:1px solid #f4f9ff; margin-right: 20px; width:50px; height:50px; float:left; line-height:50px;}
+    #imgul{clear:both; overflow:hidden;}
 </style>
 
 <div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > <a href="http://hw.easyzy.com/list/home">作业列表</a> > 提交作业</div>
@@ -18,13 +21,18 @@
             <h1></h1>
             <h2></h2>
         </div>
+        <div class="answerpiclist">
+            <ul id="imgul">
+            </ul>
+        </div>
         <div class="queslist">
 
         </div>
         <div class="quesop">
+            <span></span>
             <!-- font-size设置为0 否则cursor：pointer无效 -->
-            <input type="file" id="myfile" onchange="uploadFile();" name="myfile" style="position:absolute; cursor:pointer; width:196px; height:51px; top:15px; font-size:0; opacity:0; filter:alpha(opacity=0); z-index:99;" accept=".jpg,.bmp,.gif,.png" />
-            <a href="javascript:void(0);" title="非选择题请将答案写到纸上拍照上传" class="uploadpic">上传答案照片</a>
+            <input type="file" id="myfile" title="非选择题请将答案写到纸上拍照上传" onchange="uploadFile();" name="myfile" style="position:absolute; cursor:pointer; width:196px; height:51px; top:15px; font-size:0; opacity:0; filter:alpha(opacity=0); z-index:99;" accept=".jpg,.bmp,.gif,.png" />
+            <a href="javascript:void(0);" class="uploadpic">上传答案照片</a>
 
             <a href="javascript:void(0);" class="submit">提交</a>
         </div>
@@ -33,7 +41,8 @@
 
 @section scriptlast{
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="~/Scripts/ajaxfileupload.js"></script>
+    <script type="text/javascript" src="/Scripts/ajaxfileupload.js"></script>
+    
 }
 <script type="text/javascript">
     var cur_data = {
@@ -48,12 +57,33 @@
                     $(".zyname h1").html(data.data.ZyName);
                     $(".zyname h2").html(data.data.OpenDateStr + " - " + data.data.DueDateStr);
 
+                    //如果是关闭状态，不能提交
+                    if (data.data.status == 1) {
+                        $(".quesop input").attr("disabled", true);
+                        $(".quesop a").addClass("a-disable").attr("title", "作业已被关闭，无法提交/上传图片！");
+                    }
+
                     if (data.data.Type == 0) {
                         ShowQdbQuestions(data.data.CourseId);
                     }
                 }
                 else {
                     $(".queslist").html(data.message);
+                }
+            })
+
+        $.post("/submit/home/getanswerpiclist",
+            { zyId: cur_data.zyid },
+            function (data) {
+                if (data.code == "0" && data.data != "") {
+                    var imgs = data.data.split(',');
+                    var html = "";
+                    for (var i = 0; i < imgs.length; i++) {
+                        html += "<li><img width='50' src='" + imgs[i] + "' alt='答案照片'></li>";
+                    }
+                    
+                    $("#imgul").html(html);
+                    $('#imgul').viewer();
                 }
             })
     })
@@ -73,31 +103,80 @@
             dialogAlert("请选择正确的图片格式");
             return false;
         }
-        $(".uploadpic").val("正在上传");
-        var HomeWorkID = $("#HomeWorkID").val();
-        var StudentID = $("#StudentID").val();
-        var ClassId = $("#ClassId").val();
+        $(".uploadpic").html("正在上传");
         $.ajaxFileUpload({
-            url: 'UploadAnswerImage', //用于文件上传的服务器端请求地址
+            url: '/submit/qdb/UploadAnswerImage', //用于文件上传的服务器端请求地址
             secureuri: false, //是否需要安全协议，一般设置为false
             fileElementId: 'myfile', //文件上传域的ID或name
             dataType: 'json', //返回值类型 一般设置为json
-            data: { hid: HomeWorkID, classid: ClassId, sid: StudentID, t: new Date().getTime() },
+            data: { zyId: cur_data.zyid },
             success: function (data, status) {
-                if (data.code == 0) {
-                    $("#answerImg").append("<li id='img_" + data.id + "'><a style=\"cursor:pointer; height:auto;\" onclick=\"RecEventPicShow('" + data.osskey + "','" + data.imgwidth + "','" + data.imgheight + "',0);\" title=\"点击图片查看原图\"><em class='em-ico em-imgtype'></em>图片" + data.id + "</a><a href='javascript:;' class='delimg' onclick=\"DelAnswerImage('" + data.id + "','" + data.osskey + "')\"></a></li>");
-                    dialogAlert("上传成功！");
-                } else {
-                    dialogAlert(data.error);
-                }
-                $(".uploadpic").val("上传答案照片");
+                ShowNewPic(data);
             },
             error: function (data, status, e) {
-                dialogAlert(e);
-                $(".uploadpic").val("上传答案照片");
+                ShowNewPic(data);
             }
         });
         return false;
     }
+
+    var ShowNewPic = function (data) {
+        var json = JSON.parse(data.responseText);
+        if (json.code == 0) {
+            $("#imgul").append("<li><img width='50' src='" + json.data + "' alt='答案照片'></li>");
+        } else {
+            dialogAlert(json.message);
+        }
+        $(".uploadpic").html("上传答案照片");
+        $("#myfile").attr("title", "非选择题请将答案写到纸上拍照上传");
+    }
+
+    $(".quesop .submit").on("click", function () {
+        if ($(this).hasClass("a-disable")) {
+            dialogAlert("作业已关闭，无法提交/上传图片！");
+        }
+        else {
+            //submit
+            var qlist = [], anslist = [], qanswer_temp = [];
+            var qid = 0;
+            var qanswer = "";
+
+            $(".queslist .option.active").each(function () {
+                if ($(this).parent().hasClass("coption")) {
+                    qid = $(this).parents(".cques").attr("data-bind");
+                }
+                else {
+                    qid = $(this).parents(".pques").attr("data-bind");
+                }
+
+                //一个多选题只循环一次
+                if ($.inArray(qid, qlist) == -1) {
+
+
+                    if ($(this).hasClass("single")) {
+                        qanswer = $(this).attr("data-bind");
+                    }
+                    else {
+                        qanswer_temp = [];
+
+                        $(this).siblings().each(function () {
+                            if ($(this).hasClass("active")) {
+                                qanswer_temp.push($(this).attr("data-bind"));
+                            }
+                        })
+                        qanswer = qanswer_temp.join(",");
+                    }
+                    qlist.push(qid);
+                    anslist.push(qanswer);
+                }
+            })
+
+            $.post("/submit/qdb/SubmitAnswer",
+                { zyId: cur_data.zyid, questions: qlist.join(","), answers: anslist.join(",") },
+                function (data) {
+
+                })
+        }
+    })
 
 </script>

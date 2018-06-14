@@ -50,7 +50,8 @@ namespace hw.easyzy.bll
                             OpenDateStr = z.OpenDate.ToString("yyyy-MM-dd HH:mm:ss"),
                             DueDateStr = z.DueDate.ToString("yyyy-MM-dd HH:mm:ss"),
                             SubjectName = subName,
-                            TypeName = z.Type == 0 ? "题库" : "自传"
+                            TypeName = z.Type == 0 ? "题库" : "自传",
+                            Status = z.Status
                         };
 
                         if (tempresult != null)

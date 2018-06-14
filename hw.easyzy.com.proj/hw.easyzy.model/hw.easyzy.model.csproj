@@ -53,7 +53,10 @@
     <Compile Include="dto\dto_UserZy.cs" />
     <Compile Include="dto\dto_ZTree.cs" />
     <Compile Include="dto\dto_Zy.cs" />
+    <Compile Include="dto\dto_ZyAnswer.cs" />
     <Compile Include="dto\dto_ZyQuestion.cs" />
+    <Compile Include="dto\dto_UploadResponseCode.cs" />
+    <Compile Include="dto\dto_UploadResponseEntity.cs" />
     <Compile Include="entity\T_Answer.cs" />
     <Compile Include="entity\T_CatalogNodes.cs" />
     <Compile Include="entity\T_City.cs" />

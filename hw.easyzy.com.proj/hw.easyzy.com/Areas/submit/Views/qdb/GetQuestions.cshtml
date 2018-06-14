@@ -34,21 +34,21 @@
                 string s = Const.SINGLE_OBJECTIVE_QUES_TYPES.Contains(q.ptypeid) ? "single" : "multy";
 
                 <div class="poption">
-                    <span class="option @s">A. @Html.Raw(q.Options.optiona)</span><br />
-                    <span class="option @s">B. @Html.Raw(q.Options.optionb)</span><br />
-                    <span class="option @s">C. @Html.Raw(q.Options.optionc)</span><br />
-                    <span class="option @s">D. @Html.Raw(q.Options.optiond)</span><br />
+                    <span class="option @s" data-bind="A">A. @Html.Raw(q.Options.optiona)</span><br />
+                    <span class="option @s" data-bind="B">B. @Html.Raw(q.Options.optionb)</span><br />
+                    <span class="option @s" data-bind="C">C. @Html.Raw(q.Options.optionc)</span><br />
+                    <span class="option @s" data-bind="D">D. @Html.Raw(q.Options.optiond)</span><br />
                     @if (!string.IsNullOrEmpty(q.Options.optione))
                     {
-                        <span class="option @s">E. @Html.Raw(q.Options.optione)</span><br />
+                        <span class="option @s" data-bind="E">E. @Html.Raw(q.Options.optione)</span><br />
                     }
                     @if (!string.IsNullOrEmpty(q.Options.optionf))
                     {
-                        <span class="option @s">F. @Html.Raw(q.Options.optionf)</span><br />
+                        <span class="option @s" data-bind="F">F. @Html.Raw(q.Options.optionf)</span><br />
                     }
                     @if (!string.IsNullOrEmpty(q.Options.optiong))
                     {
-                        <span class="option @s">G. @Html.Raw(q.Options.optiong)</span><br />
+                        <span class="option @s" data-bind="G">G. @Html.Raw(q.Options.optiong)</span><br />
                     }
                 </div>
             }
@@ -60,28 +60,28 @@
                     @foreach (var cq in q.Children)
                     {
                         cnum += 1;
-                        <div class="cques">
+                        <div class="cques" data-bind="@cq.NewId">
                             <div class="csingleques">
                                 <div class="cbody">【小题@(cnum)】 @Html.Raw(cq.quesbody)</div>
                                 @if (Const.OBJECTIVE_QUES_TYPES.Contains(cq.ptypeid) && cq.Options != null)
                                 {
                                     string t = Const.SINGLE_OBJECTIVE_QUES_TYPES.Contains(cq.ptypeid) ? "single" : "multy";
                                     <div class="coption">
-                                        <span class="option @t">A. @Html.Raw(cq.Options.optiona)</span><br />
-                                        <span class="option @t">B. @Html.Raw(cq.Options.optionb)</span><br />
-                                        <span class="option @t">C. @Html.Raw(cq.Options.optionc)</span><br />
-                                        <span class="option @t">D. @Html.Raw(cq.Options.optiond)</span><br />
+                                        <span class="option @t" data-bind="A">A. @Html.Raw(cq.Options.optiona)</span><br />
+                                        <span class="option @t" data-bind="B">B. @Html.Raw(cq.Options.optionb)</span><br />
+                                        <span class="option @t" data-bind="C">C. @Html.Raw(cq.Options.optionc)</span><br />
+                                        <span class="option @t" data-bind="D">D. @Html.Raw(cq.Options.optiond)</span><br />
                                         @if (!string.IsNullOrEmpty(cq.Options.optione))
                                         {
-                                            <span class="option @t">E. @Html.Raw(cq.Options.optione)</span><br />
+                                            <span class="option @t" data-bind="E">E. @Html.Raw(cq.Options.optione)</span><br />
                                         }
                                         @if (!string.IsNullOrEmpty(cq.Options.optionf))
                                         {
-                                            <span class="option @t">F. @Html.Raw(cq.Options.optionf)</span><br />
+                                            <span class="option @t" data-bind="F">F. @Html.Raw(cq.Options.optionf)</span><br />
                                         }
                                         @if (!string.IsNullOrEmpty(cq.Options.optiong))
                                         {
-                                            <span class="option @t">G. @Html.Raw(cq.Options.optiong)</span><br />
+                                            <span class="option @t" data-bind="G">G. @Html.Raw(cq.Options.optiong)</span><br />
                                         }
                                     </div>
                                 }

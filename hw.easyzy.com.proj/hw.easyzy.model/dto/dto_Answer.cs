@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace hw.easyzy.model.dto
 {
+    /// <summary>
+    /// 老的自传作业的
+    /// </summary>
     public class dto_Answer
     {
         public int StructId { get; set; }

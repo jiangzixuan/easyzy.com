@@ -1,6 +1,7 @@
 ﻿using easyzy.sdk;
 using hw.easyzy.bll;
 using hw.easyzy.model.dto;
+using hw.easyzy.model.entity;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -21,55 +22,34 @@ namespace hw.easyzy.com.Areas.submit.Controllers
             dto_Zy zy = B_ZyRedis.GetZy(id);
             zy.Id = 0;  //隐藏真实Id
             dto_AjaxJsonResult<dto_Zy> r = new dto_AjaxJsonResult<dto_Zy>();
-
+            
             dto_AjaxJsonResult<int> r1 = AccessJudge(UserId, zy);
             r.code = r1.code;
             r.message = r1.message;
             r.data = zy;
+            
             return Json(r);
         }
 
-        /// <summary>
-        /// 鉴权
-        /// </summary>
-        /// <param name="zyId"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        private dto_AjaxJsonResult<int> AccessJudge(int userId, dto_Zy zy)
+        public JsonResult GetAnswerPicList(long zyId)
         {
-            dto_AjaxJsonResult<int> r = new dto_AjaxJsonResult<int>();
-            if (zy.OpenDate > DateTime.Now)
+            int id = IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, zyId);
+            T_Answer ans = B_Zy.GetZyAnswer(id, UserId);
+            string[] imglist2 = null;
+            if (ans != null && !string.IsNullOrEmpty(ans.AnswerImg))
             {
-                r.code = AjaxResultCodeEnum.Error;
-                r.message = "作业没到开放时间";
-                r.data = 0;
-                return r;
-            }
-
-            if (zy.UserId != 0 && userId == 0)
-            {
-                r.code = AjaxResultCodeEnum.Error;
-                r.message = "未登录/试用状态，不能打开此作业。";
-                r.data = 0;
-                return r;
-            }
-
-            if (zy.UserId != 0)
-            {
-                List<dto_RelateUser> rl = B_User.GetBeRelatedUser(zy.UserId);
-                if (rl == null || !rl.Exists(a => a.UserId == userId))
+                string[] imglist = ans.AnswerImg.Split(',');
+                imglist2 = new string[imglist.Length];
+                for (int i = 0; i < imglist.Length; i++)
                 {
-                    r.code = AjaxResultCodeEnum.Error;
-                    r.message = "您尚未关注此老师，不能打开此作业。";
-                    r.data = 0;
-                    return r;
+                    imglist2[i] = Util.GetAppSetting("UploadUrlPrefix") + "/" + imglist[i];
                 }
             }
-
+            dto_AjaxJsonResult<string> r = new dto_AjaxJsonResult<string>();
             r.code = AjaxResultCodeEnum.Success;
             r.message = "";
-            r.data = 0;
-            return r;
+            r.data = ((ans == null || string.IsNullOrEmpty(ans.AnswerImg)) ? "" : string.Join(",", imglist2));
+            return Json(r);
         }
     }
 }

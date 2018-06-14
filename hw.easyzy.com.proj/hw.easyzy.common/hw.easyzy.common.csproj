@@ -40,6 +40,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\hw.easyzy.com\Bin\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="ServiceStack.Common, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\easyzy.lib\ServiceStack.Common.dll</HintPath>
@@ -69,8 +72,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileHelper.cs" />
+    <Compile Include="FileUploader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ZyImgUploader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -79,6 +83,10 @@
     <ProjectReference Include="..\..\easyzy.sdk\easyzy.sdk.csproj">
       <Project>{dffcd023-6630-48b0-909d-9996385f8716}</Project>
       <Name>easyzy.sdk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\hw.easyzy.model\hw.easyzy.model.csproj">
+      <Project>{FA74C9E4-B390-4CB3-8AFB-0D5F71AEE7A7}</Project>
+      <Name>hw.easyzy.model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

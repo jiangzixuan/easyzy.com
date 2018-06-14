@@ -280,7 +280,8 @@ namespace hw.easyzy.com.Areas.create.Controllers
                 IMEI = ClientUtil.IMEI,
                 MobileBrand = ClientUtil.MobileBrand,
                 SystemType = Request.Browser.Platform.ToString(),
-                Browser = Request.Browser.Browser.ToString()
+                Browser = Request.Browser.Browser.ToString(),
+                Status = 0
             };
             int id = B_Zy.Create(zy);
 

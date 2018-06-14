@@ -1,5 +1,4 @@
 ﻿using easyzy.sdk;
-using hw.easyzy.common;
 using hw.easyzy.model.dto;
 using hw.easyzy.model.entity;
 using MySql.Data.MySqlClient;
@@ -30,7 +29,7 @@ namespace hw.easyzy.bll
         {
             List<dto_Zy> list = null;
             using (MySqlDataReader dr = MySqlDBHelper.GetPageReader(Util.GetConnectString(ZyConnString),
-                "Id, UserId, ZyName, CourseId, SubjectId, CreateDate, OpenDate, DueDate, Type ",
+                "Id, UserId, ZyName, CourseId, SubjectId, CreateDate, OpenDate, DueDate, Type, Status ",
                 "T_Zy where UserId = @UserId",
                 "Id desc",
                 pageSize,
@@ -55,7 +54,7 @@ namespace hw.easyzy.bll
         {
             T_Zy model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
-                "select Id, UserId, ZyName, CourseId, SubjectId, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser, OpenDate, DueDate, Type from T_Zy where Id = @Id",
+                "select Id, UserId, ZyName, CourseId, SubjectId, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser, OpenDate, DueDate, Type, Status from T_Zy where Id = @Id",
                 "@Id".ToInt32InPara(id)))
             {
                 if (dr != null && dr.HasRows)
@@ -74,7 +73,7 @@ namespace hw.easyzy.bll
         public static int Create(T_Zy zy)
         {
             object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(ZyConnString),
-                "insert into T_Zy(UserId, ZyName, CourseId, SubjectId, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser, OpenDate, DueDate, Type) values (@UserId, @ZyName, @CourseId, @SubjectId, @CreateDate, @Ip, @IMEI, @MobileBrand, @SystemType, @Browser, @OpenDate, @DueDate, @Type); select last_insert_id();",
+                "insert into T_Zy(UserId, ZyName, CourseId, SubjectId, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser, OpenDate, DueDate, Type, Status) values (@UserId, @ZyName, @CourseId, @SubjectId, @CreateDate, @Ip, @IMEI, @MobileBrand, @SystemType, @Browser, @OpenDate, @DueDate, @Type, @Status); select last_insert_id();",
                 "@UserId".ToInt32InPara(zy.UserId),
                 "@ZyName".ToVarCharInPara(zy.ZyName),
                 "@CourseId".ToInt32InPara(zy.CourseId),
@@ -87,7 +86,8 @@ namespace hw.easyzy.bll
                 "@Browser".ToVarCharInPara(zy.Browser),
                 "@OpenDate".ToDateTimeInPara(zy.OpenDate),
                 "@DueDate".ToDateTimeInPara(zy.DueDate),
-                "@Type".ToInt32InPara(zy.Type)
+                "@Type".ToInt32InPara(zy.Type),
+                "@Status".ToInt32InPara(zy.Status)
                 );
             return o == null ? 0 : int.Parse(o.ToString());
         }
@@ -150,6 +150,60 @@ namespace hw.easyzy.bll
                 }
             }
             return d;
+        }
+
+        /// <summary>
+        /// 答案表已有数据的情况下，修改图片数组
+        /// </summary>
+        /// <param name="zyId"></param>
+        /// <param name="userId"></param>
+        /// <param name="imgPath"></param>
+        /// <returns></returns>
+        public static bool AddZyImg(int zyId, int userId, string imgPath)
+        {
+            int i = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(ZyConnString),
+                "update T_Answer set AnswerImg = concat(AnswerImg , ',', @imgPath) where ZyId = @ZyId and StudentId = @StudentId",
+                "@ZyId".ToInt32InPara(zyId),
+                "@StudentId".ToInt32InPara(userId),
+                "@imgPath".ToVarCharInPara(imgPath)
+                );
+            return i > 0;
+        }
+
+        public static bool AddZyAnswer(T_Answer a)
+        {
+            int i = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(ZyConnString),
+                "insert into T_Answer(ZyId, ZyType, StudentId, AnswerJson, AnswerImg, Submited, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser) values (@ZyId, @ZyType, @StudentId, @AnswerJson, @AnswerImg, @Submited, @CreateDate, @Ip, @IMEI, @MobileBrand, @SystemType, @Browser);",
+                "@ZyId".ToInt32InPara(a.ZyId),
+                "@ZyType".ToInt32InPara(a.ZyType),
+                "@StudentId".ToInt32InPara(a.StudentId),
+                "@AnswerJson".ToVarCharInPara(a.AnswerJson),
+                "@AnswerImg".ToVarCharInPara(a.AnswerImg),
+                "@Submited".ToBitInPara(a.Submited),
+                "@CreateDate".ToDateTimeInPara(a.CreateDate),
+                "@Ip".ToVarCharInPara(a.Ip),
+                "@IMEI".ToVarCharInPara(a.IMEI),
+                "@MobileBrand".ToVarCharInPara(a.MobileBrand),
+                "@SystemType".ToVarCharInPara(a.SystemType),
+                "@Browser".ToVarCharInPara(a.Browser)
+                );
+            return i > 0;
+        }
+
+        public static T_Answer GetZyAnswer(int zyId, int userId)
+        {
+            T_Answer model = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
+                "select Id, ZyId, ZyType, StudentId, AnswerJson, AnswerImg, Submited, CreateDate from T_Answer where ZyId = @ZyId and StudentId = @StudentId",
+                "@ZyId".ToInt32InPara(zyId),
+                "@StudentId".ToInt32InPara(userId)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    model = MySqlDBHelper.ConvertDataReaderToEntitySingle<T_Answer>(dr);
+                }
+            }
+            return model;
         }
     }
 }

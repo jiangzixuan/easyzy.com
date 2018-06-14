@@ -38,5 +38,10 @@ namespace hw.easyzy.model.entity
         public int CourseId { get; set; }
 
         public int SubjectId { get; set; }
+
+        /// <summary>
+        /// 0: 正常 1:已关闭（能打开不能提交） 2:已删除（不能打开）
+        /// </summary>
+        public int Status { get; set; }
     }
 }

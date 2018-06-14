@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace hw.easyzy.bll
 {
+    /// <summary>
+    /// 久的自传作业用的
+    /// </summary>
     public class B_UserZy
     {
         private static string ZyConnString = "";

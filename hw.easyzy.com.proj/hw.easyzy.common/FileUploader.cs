@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using System.Web;
 
-namespace bbs.easyzy.common
+namespace hw.easyzy.common
 {
     public class FileUploader
     {

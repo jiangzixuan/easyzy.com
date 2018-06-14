@@ -14,12 +14,13 @@
             <td>@zy.DueDate.ToString("yyyy-MM-dd HH:mm")</td>
             <td>@zy.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
             <td class="zytype" data-bind="@zy.Type">@zy.TypeName</td>
+            <td>@(zy.Status == 0 ? "正常" : "已关闭")</td>
         </tr>
     }
 }
 else
 {
-    <tr><td colspan="7">您还没有建任何作业！</td></tr>
+    <tr><td colspan="8">您还没有建任何作业！</td></tr>
 }
 
 

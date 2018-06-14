@@ -23,7 +23,7 @@ public class Upload : IHttpHandler
         }
         string result = "";
 
-        result = FileUploader.UploadToServer(imgFile);
+        result = FileUploader.UploadToServer(imgFile, Const.ImgFunc.BBSKindEditer);
         var r = Newtonsoft.Json.JsonConvert.DeserializeObject<ResponseEntity<List<string>>>(result);
         Hashtable hash = new Hashtable();
         hash["error"] = 0;
