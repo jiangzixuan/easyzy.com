@@ -57,7 +57,7 @@ namespace hw.easyzy.com.Areas.submit.Controllers
             int id = IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, zyId);
             dto_Zy zy = B_ZyRedis.GetZy(id);
             //访问权限验证
-            dto_AjaxJsonResult<int> r1 = AccessJudge(UserId, zy);
+            dto_AjaxJsonResult<dto_Zy> r1 = AccessJudge(UserId, zy);
             if (r1.code == AjaxResultCodeEnum.Error)
             {
                 r.code = AjaxResultCodeEnum.Error;
@@ -100,7 +100,7 @@ namespace hw.easyzy.com.Areas.submit.Controllers
                         SystemType = Request.Browser.Platform.ToString(),
                         Browser = Request.Browser.Browser.ToString()
                     };
-                    isok = B_Zy.AddZyAnswer(AnsAdd);
+                    isok = B_Zy.InsertZyAnswer(AnsAdd);
                 }
                 else
                 {
@@ -129,25 +129,23 @@ namespace hw.easyzy.com.Areas.submit.Controllers
         public JsonResult SubmitAnswer(long zyId, string questions, string answers)
         {
             dto_AjaxJsonResult<string> r = new dto_AjaxJsonResult<string>();
-
-            int id = IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, zyId);
-            dto_Zy zy = B_ZyRedis.GetZy(id);
-
-            //访问权限验证
-            dto_AjaxJsonResult<int> r1 = AccessJudge(UserId, zy);
-            if (r1.code == AjaxResultCodeEnum.Error)
+            if (string.IsNullOrEmpty(questions))
             {
                 r.code = AjaxResultCodeEnum.Error;
-                r.message = r1.message;
+                r.message = "提交试题信息有误！";
                 r.data = "";
                 return Json(r);
             }
 
-            //作业状态验证
-            if (zy.Status == 1)
+            int id = IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, zyId);
+            dto_Zy zy = B_ZyRedis.GetZy(id);
+            #region 验证
+            //访问权限验证
+            dto_AjaxJsonResult<dto_Zy> r1 = AccessJudge(UserId, zy);
+            if (r1.code == AjaxResultCodeEnum.Error)
             {
                 r.code = AjaxResultCodeEnum.Error;
-                r.message = "作业已关闭，不能提交！";
+                r.message = r1.message;
                 r.data = "";
                 return Json(r);
             }
@@ -160,12 +158,63 @@ namespace hw.easyzy.com.Areas.submit.Controllers
                 r.data = "";
                 return Json(r);
             }
+            #endregion
+
             //todo submit
-
-            return null;
-
+            List<string> submitQlist = questions.Split(',').ToList();
+            List<string> submitAlist = string.IsNullOrEmpty(answers) ? new List<string>() : answers.Split(',').ToList();
+            if (submitQlist.Count != submitAlist.Count)
+            {
+                r.code = AjaxResultCodeEnum.Error;
+                r.message = "试题信息有误，提交失败！";
+                r.data = "";
+                return Json(r);
+            }
+            string qjson = B_ZyRedis.GetQdbZyQuesJson(id);
+            List<dto_ZyQuestion> ql = JsonConvert.DeserializeObject<List<dto_ZyQuestion>>(qjson);
+            List<dto_ZyAnswer> al = new List<dto_ZyAnswer>();
+            ql.ForEach(a => {
+                int i = submitQlist.IndexOf(IdNamingHelper.Encrypt(IdNamingHelper.IdTypeEnum.Ques, a.QId).ToString());
+                al.Add(new dto_ZyAnswer() { QId = a.QId, PTypeId = a.PTypeId, Score = a.Score, Answer = (i == -1 ? "" : submitAlist[i]), Point = 0 });
+            });
+            bool isok = false;
+            if (ans != null)
+            {
+                isok = B_Zy.UpdateAnswerJson(id, UserId, JsonConvert.SerializeObject(al));
+            }
+            else
+            {
+                T_Answer answer = new T_Answer()
+                {
+                    ZyId = id,
+                    ZyType = zy.Type,
+                    StudentId = UserId,
+                    Submited = true,
+                    CreateDate = DateTime.Now,
+                    AnswerJson = JsonConvert.SerializeObject(al),
+                    AnswerImg = "",
+                    Ip = ClientUtil.Ip,
+                    IMEI = ClientUtil.IMEI,
+                    MobileBrand = ClientUtil.MobileBrand,
+                    SystemType = Request.Browser.Platform.ToString(),
+                    Browser = Request.Browser.Browser.ToString()
+                };
+                isok = B_Zy.InsertZyAnswer(answer);
+            }
+            if (isok)
+            {
+                r.code = AjaxResultCodeEnum.Success;
+                r.message = "";
+                r.data = "";
+                return Json(r);
+            }
+            else
+            {
+                r.code = AjaxResultCodeEnum.Error;
+                r.message = "提交入库失败！";
+                r.data = "";
+                return Json(r);
+            }
         }
-
-
     }
 }

@@ -1,0 +1,63 @@
+﻿@using hw.easyzy.model.dto;
+@{
+    ViewBag.Title = "易作业-提交作业";
+    Layout = "~/areas/list/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    
+</style>
+
+<div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > <a href="http://hw.easyzy.com/list/home">作业列表</a> > 查看作业</div>
+
+<div class="content">
+    <div class="main-content">
+        <div class="zyname-center">
+            <h1></h1>
+            <h2></h2>
+        </div>
+        
+        <div class="queslist">
+
+        </div>
+        
+    </div>
+</div>
+
+@section scriptlast{
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+}
+<script type="text/javascript">
+    var cur_data = {
+        zyid: '@ViewBag.ZyId'
+    }
+
+    $(function () {
+        $.post("/list/home/getzyinfo",
+            { zyId: cur_data.zyid },
+            function (data) {
+                $(".zyname-center h1").html(data.data.ZyName);
+                $(".zyname-center h2").html(data.data.OpenDateStr + " - " + data.data.DueDateStr);
+                if (data.code == "0") {
+                    if (data.data.Type == 0) {
+                        ShowQdbQuestions(data.data.CourseId);
+                    }
+                }
+                else {
+                    $(".queslist").html("<p style='color: #e91a53;'>" + data.message + "</p>");
+                }
+            })
+
+
+    })
+    
+    var ShowQdbQuestions = function (courseid) {
+        $.post("/list/home/getquestions",
+            { courseId: courseid, zyId: cur_data.zyid },
+            function (data) {
+                $(".queslist").html(data);
+            })
+    }
+    
+
+</script>

@@ -4,52 +4,44 @@
 }
 
 <style type="text/css">
-    table  
-        {  
-        width:100%;
-            border-collapse: collapse;  
-            margin: 0 auto;  
-            text-align: center;  
-        }  
-        table td, table th  
-        {  
-            border: 1px solid #cad9ea;  
-            color: #666;  
-            height: 30px;  
-        }  
-        table thead th  
-        {  
-            background-color: #CCE8EB;  
-            width: 100px;  
-        }  
-        table tr:nth-child(odd)  
-        {  
-            background: #fff;  
-        }  
-        table tr:nth-child(even)  
-        {  
-            background: #F5FAFA;  
-        }
-
-        .zytable tr{cursor:pointer;}
+    
+    table { border-collapse: collapse; border-spacing: 0 }
+    .table-bordered { border: 0px }
+    .table { width: 100%; }
+    .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td { border: 1px solid #cad9ea }
+    .table > thead > tr > th { background: #CCE8EB; color: #333; font-size: 16px; font-weight: bold }
+    .table > tbody > tr > td { color: #333; font-size: 14px }
+    .table > tbody > tr > td a { color: #0094ff; position: relative }
+    .table > tbody > tr > td.align-left { text-align: left; padding-left: 10px }
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td { position: relative; padding: 4px; line-height: 40px; text-align: center }
+        
 </style>
 
 <div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > 作业列表</div>
 <div class="content-title">
     <div class="page-top">
         <div class="page-nav">
-            <div class="zj page-func left active" data-bind="0">我建的作业</div>
-            <div class="kpt page-func left" data-bind="1">我关注的老师建的作业</div>
+            @if (ViewBag.UserId == 0)
+            {
+                <div class="page-func left active" data-bind="0">试用作业</div>
+                <div class="page-func left" data-bind="1">我建的作业</div>
+                <div class="page-func left" data-bind="2">我关注的老师建的作业</div>
+            }
+            else
+            {
+                <div class="page-func left active" data-bind="1">我建的作业</div>
+                <div class="page-func left" data-bind="2">我关注的老师建的作业</div>
+            }
+
         </div>
     </div>
 </div>
 <div class="content">
     <div class="main-content">
         <div class="zylist">
-            <table style="width:100%">
+            <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Id</th>
                         <th>学科</th>
                         <th>名称</th>
                         <th>开始时间</th>
@@ -57,24 +49,40 @@
                         <th>创建时间</th>
                         <th>类型</th>
                         <th>状态</th>
+                        <th>提交数</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody class="zytable"></tbody>
             </table>
             <div id="pager" class="zypager"></div>
         </div>
-
+        
     </div>
 </div>
 
 <script type="text/javascript">
     var cur_data = {
+        istrial: 0,
         pageindex: 1,
-        pagesize: 10
+        pagesize: 5
     }
 
     $(function () {
+        if ("@ViewBag.UserId" == "0") {
+            cur_data.istrial = 1;
+        }
         GetData();
+    })
+
+    $(".page-nav .page-func").on("click", function () {
+        if ($(this).attr("data-bind") != "0" && cur_data.istrial == 1) {
+            dialogAlert("未登录/试用状态不能使用此功能！");
+        }
+        else {
+            cur_data.pageindex = 1;
+            GetData();
+        }
     })
 
     var PageClick = function (PageIndex) {
@@ -83,7 +91,33 @@
     }
 
     var GetData = function () {
-        $(".zytable").html("<tr><td colspan='7'><img src='/images/loader.gif'><b>正在加载……</b></td></tr>");
+        $(".zytable").html("<tr><td colspan='9' style='text-align: left;'><img src='/images/loader.gif'><b>正在加载……</b></td></tr>");
+
+        var func = $(".page-nav .page-func.active").attr("data-bind");
+
+        if (func == "0") {
+            GetTrialZyData();
+        }
+        else if (func == "1") {
+            GetMyZyData();
+        }
+    }
+
+    var GetTrialZyData = function () {
+        $.post("/list/home/GetTrialZy",
+            { pageIndex: cur_data.pageindex, pageSize: cur_data.pagesize },
+            function (data) {
+                $(".zytable").html(data);
+
+                if (parseInt($("#PageCountDiv").html()) > 1) {
+                    $("#pager").pager({ pagenumber: cur_data.pageindex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: PageClick });
+                }
+
+                
+            })
+    }
+
+    var GetMyZyData = function () {
         $.post("/list/home/GetMyZy",
             { pageIndex: cur_data.pageindex, pageSize: cur_data.pagesize },
             function (data) {
@@ -93,16 +127,16 @@
                     $("#pager").pager({ pagenumber: cur_data.pageindex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: PageClick });
                 }
 
-                $(".zytable tr").on("click", function () {
-                    GetZyStatistic($(this));
-                })
+                
             })
     }
 
     var GetZyStatistic = function (t) {
-        var zyid = t.find(".zyid").attr("data-bind");
+        var zyid = t.attr("data-bind");
         var zytype = t.find(".zytype").attr("data-bind");
 
         
     }
+
+    
 </script>

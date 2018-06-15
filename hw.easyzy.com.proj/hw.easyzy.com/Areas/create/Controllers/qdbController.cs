@@ -324,6 +324,7 @@ namespace hw.easyzy.com.Areas.create.Controllers
                         OrderIndex += 1;
                         q.PQId = dq.id;
                         q.QId = cq.id;
+                        q.PTypeId = cq.ptypeid;
                         q.OrderIndex = OrderIndex;
                         q.Score = 0;
                         ql.Add(q);
@@ -335,6 +336,7 @@ namespace hw.easyzy.com.Areas.create.Controllers
                     OrderIndex += 1;
                     q.PQId = dq.id;
                     q.QId = dq.id;
+                    q.PTypeId = dq.ptypeid;
                     q.OrderIndex = OrderIndex;
                     q.Score = 0;
                     ql.Add(q);

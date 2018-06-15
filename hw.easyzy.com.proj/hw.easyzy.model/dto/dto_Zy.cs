@@ -18,5 +18,7 @@ namespace hw.easyzy.model.dto
         public string OpenDateStr { get; set; }
 
         public string DueDateStr { get; set; }
+
+        public long NewId { get; set; }
     }
 }

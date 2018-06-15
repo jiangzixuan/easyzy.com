@@ -9,6 +9,7 @@ label {display: block; margin-bottom: 0; font-weight:normal;}
 .left{float:left}
 .right{float:right}
 .f1{float:left;margin-left:20px}
+#pager{padding:20px 0; }
 .font-yahei{font-family:"Microsoft YaHei"}
 a.btn{border-radius:5px;cursor:pointer;background:royalblue;padding:5px 20px;color:#fff}
 a.chart{color:#e91a53;font-weight:bold;width:30px;height:30px;line-height:30px;background:url("/Images/ico_chart.png") no-repeat 0 0;padding-left:30px}
@@ -233,9 +234,13 @@ a.oddesc{background-position:0 -26px;}
 .savetip .popcontent .zydate{clear:both;padding:10px 20px;overflow:hidden}
 .savetip .zydatetip p{padding:0 40px;color:#ff006e;clear:both;background:url(/Images/gantanhao.png) no-repeat 20px}
 
-.zyname {text-align:center;}
+.zyname-center {text-align:center;}
 .zyques {margin-top:20px;padding:10px 5px;}
 .pques .poption span.option.single,.pques .coption span.option.single {background:url("/Images/radio.png") no-repeat 10px 7px;padding-left:30px;cursor:pointer;}
 .pques .poption span.option.single.active,.pques .coption span.option.single.active {background-position:10px -25px;}
 .pques .poption span.option.multy,.pques .coption span.option.multy {background:url("/Images/checkbox.png") no-repeat 10px 6px;padding-left:33px;cursor:pointer;}
 .pques .poption span.option.multy.active,.pques .coption span.option.multy.active {background-position:10px -62px;}
+.quesop .a-disable{background:#808080}
+#imgul img{cursor:pointer;}
+#imgul li{border:1px solid #f4f9ff; margin-right: 20px; width:50px; height:50px; float:left; line-height:50px;}
+#imgul{clear:both; overflow:hidden;}

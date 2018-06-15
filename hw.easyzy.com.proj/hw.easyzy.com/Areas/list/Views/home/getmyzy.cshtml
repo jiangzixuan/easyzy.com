@@ -6,8 +6,7 @@
 {
     foreach (var zy in zl)
     {
-        <tr>
-            <td class="zyid">@zy.Id</td>
+        <tr data-bind="@zy.NewId">
             <td>@zy.SubjectName</td>
             <td>@zy.ZyName</td>
             <td>@zy.OpenDate.ToString("yyyy-MM-dd HH:mm")</td>
@@ -15,12 +14,18 @@
             <td>@zy.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
             <td class="zytype" data-bind="@zy.Type">@zy.TypeName</td>
             <td>@(zy.Status == 0 ? "正常" : "已关闭")</td>
+            <td>
+                @foreach (var l in zy.ClassSubmitInfo)
+                {
+                    <span>@(l.GradeName) @(l.ClassName) (@(l.SubmitCount)/@(l.TotalCount))</span>
+                }
+            </td>
         </tr>
     }
 }
 else
 {
-    <tr><td colspan="8">您还没有建任何作业！</td></tr>
+    <tr><td colspan="9">您还没有建任何作业！</td></tr>
 }
 
 

@@ -18,14 +18,14 @@ namespace hw.easyzy.bll
         }
 
         /// <summary>
-        /// 查找我新建的作业列表
+        /// 根据UserId查找作业列表
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <param name="totalCount"></param>
         /// <returns></returns>
-        public static List<dto_Zy> GetMyZy(int userId, int pageIndex, int pageSize, out int totalCount)
+        public static List<dto_Zy> GetZyList(int userId, int pageIndex, int pageSize, out int totalCount)
         {
             List<dto_Zy> list = null;
             using (MySqlDataReader dr = MySqlDBHelper.GetPageReader(Util.GetConnectString(ZyConnString),
@@ -128,24 +128,42 @@ namespace hw.easyzy.bll
         }
 
         /// <summary>
-        /// 查找作业每个班提交数量
+        /// 查找作业有哪些人提交
         /// </summary>
         /// <param name="zyId"></param>
         /// <returns></returns>
-        public static Dictionary<int, int> GetZySubmitCountByClass(int zyId)
+        public static List<int> GetZySubmitStudents(int zyId)
         {
+            List<int> d = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
+                "select StudentId from T_Answer where ZyId = @ZyId and Submited = 1",
+                "@ZyId".ToInt32InPara(zyId)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    d = new List<int>();
+                    while (dr.Read())
+                    {
+                        d.Add(int.Parse(dr[0].ToString()));
+                    }
+                }
+            }
+            return d;
+        }
+
+        public static Dictionary<int, int> GetZySubmitStudentCount(int[] zyIds)
+        {
+            if (zyIds.Length == 0) return null;
             Dictionary<int, int> d = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
-                "select GradeId, ClassId, count(1) from T_Answer where Id = @Id group by GradeId, ClassId",
-                "@Id".ToInt32InPara(zyId)))
+                "select ZyId, count(1) c from T_Answer where ZyId in (" + string.Join(",", zyIds) + ") and Submited = 1 group by ZyId"))
             {
                 if (dr != null && dr.HasRows)
                 {
                     d = new Dictionary<int, int>();
                     while (dr.Read())
                     {
-                        string s = string.Concat(dr[0], dr[1].ToString().PadLeft(2, '0'));
-                        d.Add(int.Parse(s), int.Parse(dr[2].ToString()));
+                        d.Add(int.Parse(dr[0].ToString()), int.Parse(dr[1].ToString()));
                     }
                 }
             }
@@ -170,7 +188,12 @@ namespace hw.easyzy.bll
             return i > 0;
         }
 
-        public static bool AddZyAnswer(T_Answer a)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public static bool InsertZyAnswer(T_Answer a)
         {
             int i = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(ZyConnString),
                 "insert into T_Answer(ZyId, ZyType, StudentId, AnswerJson, AnswerImg, Submited, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser) values (@ZyId, @ZyType, @StudentId, @AnswerJson, @AnswerImg, @Submited, @CreateDate, @Ip, @IMEI, @MobileBrand, @SystemType, @Browser);",
@@ -190,6 +213,24 @@ namespace hw.easyzy.bll
             return i > 0;
         }
 
+        /// <summary>
+        /// 修改作业的AnswerJson并提交作业
+        /// </summary>
+        /// <param name="zyId"></param>
+        /// <param name="userId"></param>
+        /// <param name="answerJson"></param>
+        /// <returns></returns>
+        public static bool UpdateAnswerJson(int zyId, int userId, string answerJson)
+        {
+            int i = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(ZyConnString),
+                "update T_Answer set AnswerJson = @AnswerJson, Submited = 1 where ZyId = @ZyId and StudentId = @StudentId",
+                "@ZyId".ToInt32InPara(zyId),
+                "@StudentId".ToInt32InPara(userId),
+                "@AnswerJson".ToVarCharInPara(answerJson)
+                );
+            return i > 0;
+        }
+
         public static T_Answer GetZyAnswer(int zyId, int userId)
         {
             T_Answer model = null;
@@ -204,6 +245,16 @@ namespace hw.easyzy.bll
                 }
             }
             return model;
+        }
+
+        public static bool UpdateZyStatus(int zyId, int status)
+        {
+            int i = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(ZyConnString),
+                "update T_Zy set Status = @Status where Id = @Id",
+                "@Id".ToInt32InPara(zyId),
+                "@Status".ToInt32InPara(status)
+                );
+            return i > 0;
         }
     }
 }

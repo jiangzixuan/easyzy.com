@@ -1,6 +1,7 @@
 ﻿using easyzy.sdk;
 using hw.easyzy.bll;
 using hw.easyzy.common;
+using hw.easyzy.model.dto;
 using hw.easyzy.model.entity;
 using System;
 using System.Collections.Generic;

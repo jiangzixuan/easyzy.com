@@ -146,6 +146,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\LoginFilter.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\analyze\analyzeAreaRegistration.cs" />
+    <Compile Include="Areas\analyze\Controllers\homeController.cs" />
     <Compile Include="Areas\create\Controllers\baseController.cs" />
     <Compile Include="Areas\create\Controllers\qdbController.cs" />
     <Compile Include="Areas\create\Controllers\selfController.cs" />
@@ -272,6 +274,13 @@
     <Content Include="Areas\create\Views\qdb\GetBasketQues.cshtml" />
     <Content Include="Areas\list\Views\home\getmyzy.cshtml" />
     <Content Include="Areas\submit\Views\qdb\GetQuestions.cshtml" />
+    <Content Include="Areas\analyze\Views\web.config" />
+    <Content Include="Areas\analyze\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\analyze\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\analyze\Views\home\index.cshtml" />
+    <Content Include="Areas\list\Views\home\gettrialzy.cshtml" />
+    <Content Include="Areas\list\Views\home\info.cshtml" />
+    <Content Include="Areas\list\Views\home\GetQuestions.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="QuesBaseJson\similarcatalogs.json" />
     <Content Include="QuesBaseJson\textbooks.json" />
@@ -363,6 +372,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\analyze\Models\" />
     <Folder Include="Areas\create\Models\" />
     <Folder Include="Areas\list\Models\" />
     <Folder Include="Areas\submit\Models\" />

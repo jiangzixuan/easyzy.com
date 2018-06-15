@@ -7,17 +7,14 @@
 <style type="text/css">
     .foot-wrap {display: none;}
 
-    .quesop .a-disable{background:#808080}
-    #imgul img{cursor:pointer;}
-    #imgul li{border:1px solid #f4f9ff; margin-right: 20px; width:50px; height:50px; float:left; line-height:50px;}
-    #imgul{clear:both; overflow:hidden;}
+    
 </style>
 
 <div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > <a href="http://hw.easyzy.com/list/home">作业列表</a> > 提交作业</div>
 
 <div class="content">
     <div class="main-content">
-        <div class="zyname">
+        <div class="zyname-center">
             <h1></h1>
             <h2></h2>
         </div>
@@ -53,25 +50,40 @@
         $.post("/submit/home/getzyinfo",
             { zyId: cur_data.zyid },
             function (data) {
+                $(".zyname-center h1").html(data.data.ZyName);
+                $(".zyname-center h2").html(data.data.OpenDateStr + " - " + data.data.DueDateStr);
                 if (data.code == "0") {
-                    $(".zyname h1").html(data.data.ZyName);
-                    $(".zyname h2").html(data.data.OpenDateStr + " - " + data.data.DueDateStr);
-
-                    //如果是关闭状态，不能提交
-                    if (data.data.status == 1) {
-                        $(".quesop input").attr("disabled", true);
-                        $(".quesop a").addClass("a-disable").attr("title", "作业已被关闭，无法提交/上传图片！");
-                    }
-
                     if (data.data.Type == 0) {
                         ShowQdbQuestions(data.data.CourseId);
-                    }
+                        LoadAnswerPicList
+                    } 
                 }
                 else {
-                    $(".queslist").html(data.message);
+                    //关闭状态，能打开不能提交
+                    //删除状态，不能打开
+                    if (data.data.Status == 2) {
+                        $(".queslist").html("<p style='color: #e91a53;'>" + data.message + "</p>");
+                        $(".quesop input").attr("disabled", true);
+                        $(".quesop a").addClass("a-disable").attr("title", "作业已被删除，无法提交/上传图片！");
+                    }
+                    else {
+                        if (data.data.Status == 1) {
+                            if (data.data.Type == 0) {
+                                ShowQdbQuestions(data.data.CourseId);
+                                LoadAnswerPicList
+                            }
+
+                            $(".quesop input").attr("disabled", true);
+                            $(".quesop a").addClass("a-disable").attr("title", "作业已被关闭，无法提交/上传图片！");
+                        }
+                    }
                 }
             })
 
+        
+    })
+
+    var LoadAnswerPicList = function () {
         $.post("/submit/home/getanswerpiclist",
             { zyId: cur_data.zyid },
             function (data) {
@@ -81,12 +93,12 @@
                     for (var i = 0; i < imgs.length; i++) {
                         html += "<li><img width='50' src='" + imgs[i] + "' alt='答案照片'></li>";
                     }
-                    
+
                     $("#imgul").html(html);
                     $('#imgul').viewer();
                 }
             })
-    })
+    }
 
     var ShowQdbQuestions = function (courseid) {
         $.post("/submit/qdb/getquestions",
@@ -133,50 +145,60 @@
 
     $(".quesop .submit").on("click", function () {
         if ($(this).hasClass("a-disable")) {
-            dialogAlert("作业已关闭，无法提交/上传图片！");
+            dialogAlert("作业已关闭/删除，无法提交/上传图片！");
         }
         else {
-            //submit
-            var qlist = [], anslist = [], qanswer_temp = [];
-            var qid = 0;
-            var qanswer = "";
-
-            $(".queslist .option.active").each(function () {
-                if ($(this).parent().hasClass("coption")) {
-                    qid = $(this).parents(".cques").attr("data-bind");
-                }
-                else {
-                    qid = $(this).parents(".pques").attr("data-bind");
-                }
-
-                //一个多选题只循环一次
-                if ($.inArray(qid, qlist) == -1) {
-
-
-                    if ($(this).hasClass("single")) {
-                        qanswer = $(this).attr("data-bind");
-                    }
-                    else {
-                        qanswer_temp = [];
-
-                        $(this).siblings().each(function () {
-                            if ($(this).hasClass("active")) {
-                                qanswer_temp.push($(this).attr("data-bind"));
-                            }
-                        })
-                        qanswer = qanswer_temp.join(",");
-                    }
-                    qlist.push(qid);
-                    anslist.push(qanswer);
-                }
-            })
-
-            $.post("/submit/qdb/SubmitAnswer",
-                { zyId: cur_data.zyid, questions: qlist.join(","), answers: anslist.join(",") },
-                function (data) {
-
-                })
+            dialogConfirm("确定要提交吗？", SubmitOK, "");
         }
     })
+
+    var SubmitOK = function () {
+        //submit
+        var qlist = [], anslist = [], qanswer_temp = [];
+        var qid = 0;
+        var qanswer = "";
+
+        $(".queslist .option.active").each(function () {
+            if ($(this).parent().hasClass("coption")) {
+                qid = $(this).parents(".cques").attr("data-bind");
+            }
+            else {
+                qid = $(this).parents(".pques").attr("data-bind");
+            }
+
+            //一个多选题只循环一次
+            if ($.inArray(qid, qlist) == -1) {
+                if ($(this).hasClass("single")) {
+                    qanswer = $(this).attr("data-bind");
+                }
+                else {
+                    qanswer_temp = [];
+                    qanswer_temp.push($(this).attr("data-bind"));
+                    $(this).siblings(".option").each(function () {
+                        if ($(this).hasClass("active")) {
+                            qanswer_temp.push($(this).attr("data-bind"));
+                        }
+                    })
+                    qanswer = qanswer_temp.join("");
+                }
+                qlist.push(qid);
+                anslist.push(qanswer);
+            }
+        })
+
+        var questions = qlist.length > 0 ? qlist.join(",") : "";
+        var answers = anslist.length > 0 ? anslist.join(",") : "";
+
+        $.post("/submit/qdb/SubmitAnswer",
+            { zyId: cur_data.zyid, questions: questions, answers: answers },
+            function (data) {
+                if (data.code == "0") {
+                    window.location.href = "/analyze/home?zyid=" + cur_data.zyid;
+                }
+                else {
+                    dialogAlert(data.message);
+                }
+            })
+    }
 
 </script>

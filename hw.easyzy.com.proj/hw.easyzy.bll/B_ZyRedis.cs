@@ -232,14 +232,20 @@ namespace hw.easyzy.bll
         /// 删除作业缓存
         /// </summary>
         /// <param name="zyId"></param>
-        public static void DeleteZyCache(int zyId)
+        public static void UpdateZyStatus(int zyId, int status)
         {
+            dto_Zy tempresult = null;
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Zy, zyId.ToString());
             using (var client = RedisHelper.GetRedisClient(CacheCatalog.Zy.ToString()))
             {
                 if (client != null)
                 {
-                    client.Remove(key);
+                    tempresult = client.Get<dto_Zy>(key);
+                    if (tempresult != null)
+                    {
+                        tempresult.Status = status;
+                        client.Set(key, tempresult, ts);
+                    }
                 }
             }
         }

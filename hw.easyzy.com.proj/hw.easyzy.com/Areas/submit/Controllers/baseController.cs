@@ -36,22 +36,30 @@ namespace hw.easyzy.com.Areas.submit.Controllers
         /// <param name="zyId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        protected dto_AjaxJsonResult<int> AccessJudge(int userId, dto_Zy zy)
+        protected dto_AjaxJsonResult<dto_Zy> AccessJudge(int userId, dto_Zy zy)
         {
-            dto_AjaxJsonResult<int> r = new dto_AjaxJsonResult<int>();
-
+            dto_AjaxJsonResult<dto_Zy> r = new dto_AjaxJsonResult<dto_Zy>();
+            //如果状态有问题，只返回少数信息给客户端
+            dto_Zy zy2 = new dto_Zy() { ZyName = zy.ZyName, OpenDate = zy.OpenDate, DueDate = zy.DueDate, OpenDateStr = zy.OpenDateStr, DueDateStr = zy.DueDateStr, Status = zy.Status, Type = zy.Type };
             if (zy.Status == 2)
             {
                 r.code = AjaxResultCodeEnum.Error;
                 r.message = "作业已删除，不能打开！";
-                r.data = 0;
+                r.data = zy2;
+                return r;
             }
-
+            if (zy.Status == 1)
+            {
+                r.code = AjaxResultCodeEnum.Error;
+                r.message = "作业已关闭，不能提交！";
+                r.data = zy2;
+                return r;
+            }
             if (zy.OpenDate > DateTime.Now)
             {
                 r.code = AjaxResultCodeEnum.Error;
                 r.message = "作业没到开放时间！";
-                r.data = 0;
+                r.data = zy2;
                 return r;
             }
 
@@ -59,7 +67,7 @@ namespace hw.easyzy.com.Areas.submit.Controllers
             {
                 r.code = AjaxResultCodeEnum.Error;
                 r.message = "未登录/试用状态，不能打开由正式用户创建的作业，请您先登录！";
-                r.data = 0;
+                r.data = zy2;
                 return r;
             }
 
@@ -70,14 +78,14 @@ namespace hw.easyzy.com.Areas.submit.Controllers
                 {
                     r.code = AjaxResultCodeEnum.Error;
                     r.message = "您尚未关注此老师，不能打开这个作业。您可在个人中心添加关注老师！";
-                    r.data = 0;
+                    r.data = zy2;
                     return r;
                 }
             }
 
             r.code = AjaxResultCodeEnum.Success;
             r.message = "";
-            r.data = 0;
+            r.data = zy;
             return r;
         }
     }

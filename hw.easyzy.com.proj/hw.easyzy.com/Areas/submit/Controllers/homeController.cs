@@ -21,12 +21,7 @@ namespace hw.easyzy.com.Areas.submit.Controllers
             int id = IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, zyId);
             dto_Zy zy = B_ZyRedis.GetZy(id);
             zy.Id = 0;  //隐藏真实Id
-            dto_AjaxJsonResult<dto_Zy> r = new dto_AjaxJsonResult<dto_Zy>();
-            
-            dto_AjaxJsonResult<int> r1 = AccessJudge(UserId, zy);
-            r.code = r1.code;
-            r.message = r1.message;
-            r.data = zy;
+            dto_AjaxJsonResult<dto_Zy> r = AccessJudge(UserId, zy);
             
             return Json(r);
         }
