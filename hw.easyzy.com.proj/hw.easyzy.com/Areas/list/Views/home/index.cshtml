@@ -4,17 +4,58 @@
 }
 
 <style type="text/css">
-    
-    table { border-collapse: collapse; border-spacing: 0 }
-    .table-bordered { border: 0px }
-    .table { width: 100%; }
-    .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td { border: 1px solid #cad9ea }
-    .table > thead > tr > th { background: #CCE8EB; color: #333; font-size: 16px; font-weight: bold }
-    .table > tbody > tr > td { color: #333; font-size: 14px }
-    .table > tbody > tr > td a { color: #0094ff; position: relative }
-    .table > tbody > tr > td.align-left { text-align: left; padding-left: 10px }
-    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td { position: relative; padding: 4px; line-height: 40px; text-align: center }
-        
+
+    table {
+        border-collapse: collapse;
+        border-spacing: 0
+    }
+
+    .table-bordered {
+        border: 0px
+    }
+
+    .table {
+        width: 100%;
+    }
+
+    .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+        border: 1px solid #cad9ea
+    }
+
+    .table > thead > tr > th {
+        background: #CCE8EB;
+        color: #333;
+        font-size: 16px;
+        font-weight: bold
+    }
+
+    .table > tbody > tr > td {
+        color: #333;
+        font-size: 14px
+    }
+
+        .table > tbody > tr > td a {
+            color: #0094ff;
+            position: relative
+        }
+
+        .table > tbody > tr > td.align-left {
+            text-align: left;
+            padding-left: 10px
+        }
+
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+        position: relative;
+        padding: 4px;
+        line-height: 40px;
+        text-align: center
+    }
+    .table .zytable tr{cursor:pointer;}
+    .table .zytable tr.active td{font-weight:bold; color:#ff006e}
+    .submitbar .tab{clear:both; overflow:hidden; margin-top:20px; border-top:1px dashed #ff006e}
+    .submitbar .tab li{float: left; font-size:16px; padding: 10px 20px; cursor:pointer;}
+    .submitbar .tab li.active{color:#0094ff; border-bottom:2px solid #0094ff;}
+    .submitbar .barchart{padding: 10px;}
 </style>
 
 <div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > 作业列表</div>
@@ -25,12 +66,14 @@
             {
                 <div class="page-func left active" data-bind="0">试用作业</div>
                 <div class="page-func left" data-bind="1">我建的作业</div>
-                <div class="page-func left" data-bind="2">我关注的老师建的作业</div>
+                <div class="page-func left" data-bind="2">提交的作业</div>
+                <div class="page-func left" data-bind="3">已关注老师</div>
             }
             else
             {
                 <div class="page-func left active" data-bind="1">我建的作业</div>
-                <div class="page-func left" data-bind="2">我关注的老师建的作业</div>
+                <div class="page-func left" data-bind="2">提交的作业</div>
+                <div class="page-func left" data-bind="3">已关注老师</div>
             }
 
         </div>
@@ -57,9 +100,30 @@
             </table>
             <div id="pager" class="zypager"></div>
         </div>
-        
+        <div class="submitbar" id="submitbar">
+            <div class="tab">
+                <ul>
+                    <li class="active" data-bind="0">时间排序</li>
+                    <li data-bind="1">得分排序</li>
+                </ul>
+            </div>
+            <div class="barchart-submit"></div>
+        </div>
+        <div class="quesbar">
+            <div class="tab">
+                <ul>
+                    <li class="active" data-bind="0">题序排序</li>
+                    <li data-bind="1">正确率排序</li>
+                </ul>
+            </div>
+            <div class="barchart-ques"></div>
+        </div>
     </div>
 </div>
+
+@section scriptlast{
+    <script type="text/javascript" src="/scripts/echarts/echarts.min.js"></script>
+}
 
 <script type="text/javascript">
     var cur_data = {
@@ -94,7 +158,6 @@
         $(".zytable").html("<tr><td colspan='9' style='text-align: left;'><img src='/images/loader.gif'><b>正在加载……</b></td></tr>");
 
         var func = $(".page-nav .page-func.active").attr("data-bind");
-
         if (func == "0") {
             GetTrialZyData();
         }
@@ -103,6 +166,7 @@
         }
     }
 
+    //查询试用作业
     var GetTrialZyData = function () {
         $.post("/list/home/GetTrialZy",
             { pageIndex: cur_data.pageindex, pageSize: cur_data.pagesize },
@@ -113,7 +177,34 @@
                     $("#pager").pager({ pagenumber: cur_data.pageindex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: PageClick });
                 }
 
-                
+                GetSubmitBar();
+
+                $(".zytable tr .analyzy").on("click", function () {
+                    $(this).parents("tr").addClass("active").siblings().removeClass("active");
+                    AnalyzeZy();
+                })
+            })
+    }
+    //统计-All
+    var AnalyzeZy = function () {
+        GetSubmitBar();
+    }
+
+    //统计-提交-切换
+    $(".submitbar .tab li").on("click", function () {
+        $(this).addClass("active").siblings().removeClass("active");
+        GetSubmitBar();
+    })
+
+    //统计-提交
+    var GetSubmitBar = function () {
+        $(".barchart-submit").html("<img src='/images/loader.gif'><b>正在加载……</b>");
+        var zyid = $(".zytable tr.active").attr("data-bind");
+        var ordertype = $(".submitbar .tab li.active").attr("data-bind");
+        $.post("/list/home/GetSubmitBar",
+            { zyId: zyid, orderType: ordertype},
+            function (data) {
+                $(".barchart-submit").html(data);
             })
     }
 
@@ -127,7 +218,7 @@
                     $("#pager").pager({ pagenumber: cur_data.pageindex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: PageClick });
                 }
 
-                
+
             })
     }
 
@@ -135,8 +226,8 @@
         var zyid = t.attr("data-bind");
         var zytype = t.find(".zytype").attr("data-bind");
 
-        
+
     }
 
-    
+
 </script>

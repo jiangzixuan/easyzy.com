@@ -281,6 +281,7 @@
     <Content Include="Areas\list\Views\home\gettrialzy.cshtml" />
     <Content Include="Areas\list\Views\home\info.cshtml" />
     <Content Include="Areas\list\Views\home\GetQuestions.cshtml" />
+    <Content Include="Areas\list\Views\home\getsubmitbar.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="QuesBaseJson\similarcatalogs.json" />
     <Content Include="QuesBaseJson\textbooks.json" />

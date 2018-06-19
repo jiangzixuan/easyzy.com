@@ -29,7 +29,7 @@ namespace hw.easyzy.com.Areas.submit.Controllers
         public JsonResult GetAnswerPicList(long zyId)
         {
             int id = IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, zyId);
-            T_Answer ans = B_Zy.GetZyAnswer(id, UserId);
+            T_Answer ans = B_Answer.GetAnswer(id, UserId);
             string[] imglist2 = null;
             if (ans != null && !string.IsNullOrEmpty(ans.AnswerImg))
             {

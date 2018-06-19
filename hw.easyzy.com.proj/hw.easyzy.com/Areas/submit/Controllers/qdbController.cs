@@ -67,7 +67,7 @@ namespace hw.easyzy.com.Areas.submit.Controllers
             }
 
             //作业状态验证
-            T_Answer ans = B_Zy.GetZyAnswer(id, UserId);
+            T_Answer ans = B_Answer.GetAnswer(id, UserId);
             if (ans != null && ans.Submited)
             {
                 r.code = AjaxResultCodeEnum.Error;
@@ -100,11 +100,11 @@ namespace hw.easyzy.com.Areas.submit.Controllers
                         SystemType = Request.Browser.Platform.ToString(),
                         Browser = Request.Browser.Browser.ToString()
                     };
-                    isok = B_Zy.InsertZyAnswer(AnsAdd);
+                    isok = B_Answer.InsertZyAnswer(AnsAdd);
                 }
                 else
                 {
-                    isok = B_Zy.AddZyImg(zy.Id, UserId, r.data);
+                    isok = B_Answer.AddZyImg(zy.Id, UserId, r.data);
                 }
             }
             if (!isok)
@@ -149,15 +149,18 @@ namespace hw.easyzy.com.Areas.submit.Controllers
                 r.data = "";
                 return Json(r);
             }
+
+            //试用作业允许多次提交
+            T_Answer ans = B_Answer.GetAnswer(id, UserId);
             
-            T_Answer ans = B_Zy.GetZyAnswer(id, UserId);
-            if (ans != null && ans.Submited)
+            if (zy.UserId != 0 && ans != null && ans.Submited)
             {
                 r.code = AjaxResultCodeEnum.Error;
                 r.message = "作业已提交，不能重复提交！";
                 r.data = "";
                 return Json(r);
             }
+            
             #endregion
 
             //todo submit
@@ -172,15 +175,20 @@ namespace hw.easyzy.com.Areas.submit.Controllers
             }
             string qjson = B_ZyRedis.GetQdbZyQuesJson(id);
             List<dto_ZyQuestion> ql = JsonConvert.DeserializeObject<List<dto_ZyQuestion>>(qjson);
-            List<dto_ZyAnswer> al = new List<dto_ZyAnswer>();
+            List<dto_UserAnswer> al = new List<dto_UserAnswer>();
             ql.ForEach(a => {
+                string CAnswer = "";
+                if (Const.OBJECTIVE_QUES_TYPES.Contains(a.PTypeId))
+                {
+                    CAnswer = B_QuesRedis.GetQuestion(zy.CourseId, a.QId).quesanswer;
+                }
                 int i = submitQlist.IndexOf(IdNamingHelper.Encrypt(IdNamingHelper.IdTypeEnum.Ques, a.QId).ToString());
-                al.Add(new dto_ZyAnswer() { QId = a.QId, PTypeId = a.PTypeId, Score = a.Score, Answer = (i == -1 ? "" : submitAlist[i]), Point = 0 });
+                al.Add(new dto_UserAnswer() { QId = a.QId, PTypeId = a.PTypeId, Score = a.Score, Answer = (i == -1 ? "" : submitAlist[i]), CAnswer = CAnswer, Point = 0 });
             });
             bool isok = false;
-            if (ans != null)
+            if (zy.UserId != 0 && ans != null)
             {
-                isok = B_Zy.UpdateAnswerJson(id, UserId, JsonConvert.SerializeObject(al));
+                isok = B_Answer.UpdateAnswerJson(id, UserId, JsonConvert.SerializeObject(al));
             }
             else
             {
@@ -199,7 +207,7 @@ namespace hw.easyzy.com.Areas.submit.Controllers
                     SystemType = Request.Browser.Platform.ToString(),
                     Browser = Request.Browser.Browser.ToString()
                 };
-                isok = B_Zy.InsertZyAnswer(answer);
+                isok = B_Answer.InsertZyAnswer(answer);
             }
             if (isok)
             {

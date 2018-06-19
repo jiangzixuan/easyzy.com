@@ -4,11 +4,15 @@
 
 @if (zl != null && zl.Count > 0)
 {
+    int i = 0;
+    string a = "";
     foreach (var zy in zl)
     {
-        <tr data-bind="@zy.NewId">
+        a = i == 0 ? "active" : "";
+        i = 1;
+        <tr data-bind="@zy.NewId" class="@a">
             <td>@zy.SubjectName</td>
-            <td class="align-left"><a href="/list/home/info?zyid=@zy.NewId">@zy.ZyName</a></td>
+            <td class="align-left" title="点击查看作业内容"><a href="/list/home/info?zyid=@zy.NewId">@zy.ZyName</a></td>
             <td>@zy.OpenDate.ToString("yyyy-MM-dd HH:mm")</td>
             <td>@zy.DueDate.ToString("yyyy-MM-dd HH:mm")</td>
             <td>@zy.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
@@ -21,10 +25,10 @@
                 }
             </td>
             <td>
-                <a href="/list/home/info?zyid=@zy.NewId">查看</a>
+                <a href="#submitbar" class="analyzy" data-bind="@zy.NewId" title="查看作业统计信息">统计</a>
                 <a href="#" class="closezy" data-bind="@zy.NewId" title="关闭后任何人无法提交此作业答案">关闭</a>
                 <a href="#" class="deletezy" data-bind="@zy.NewId" title="删除后任何人无法打开查看此作业内容">删除</a>
-                <a href="/submit/home?zyid=@zy.NewId">提交答案</a>
+                <a href="/submit/home?zyid=@zy.NewId" title="试用作业可多次提交，正式作业一个人只能提交一次">提交答案</a>
             </td>
         </tr>
     }
