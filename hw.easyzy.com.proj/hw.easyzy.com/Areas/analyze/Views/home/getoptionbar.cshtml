@@ -1,0 +1,113 @@
+﻿<div id="chart_option" style="height:500px;">
+
+</div>
+
+<script type="text/javascript">
+    var catagoryDataStr = "", aDataStr = "", bDataStr = "", cDataStr = "", dDataStr = "";
+    var catagoryData = [], aData = [], bData = [], cData = [], dData = [];
+
+    $(function () {
+        catagoryDataStr = '@ViewBag.Category';
+        aDataStr = '@ViewBag.AData';
+        bDataStr = '@ViewBag.BData';
+        cDataStr = '@ViewBag.CData';
+        dDatastr = '@ViewBag.DData';
+
+        catagoryData = catagoryDataStr.split(",");
+        aData = aDataStr.split(",");
+        bData = bDataStr.split(",");
+        cData = cDataStr.split(",");
+        dData = dDatastr.split(",");
+    })
+
+    var bar = function (elem) {
+        var genchart = echarts.init(document.getElementById(elem));
+
+        var o = {
+            title: {
+                text: '各选项选择率统计 共@(ViewBag.SubmitCount)人提交了作业',
+                subtext: 'X轴：各选项选择的人数  Y轴：试题题号',
+                textStyle: {
+                    fontSize: 16,
+                    fontWeight: 'bolder',
+                    color: '#333'
+                },
+                subtextStyle: {
+                    fontSize: 16,
+                    color: '#333'
+                }
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            legend: {
+                show: true,
+                data: ['选A人数', '选B人数', '选C人数', '选D人数']
+            },
+            xAxis: {
+                type: 'value'
+            },
+            yAxis: {
+                type: 'category',
+                data: catagoryData
+            },
+            series: [
+                {
+                    name: '选A人数',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight'
+                        }
+                    },
+                    data: aData
+                },
+                {
+                    name: '选B人数',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight'
+                        }
+                    },
+                    data: bData
+                },
+                {
+                    name: '选C人数',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight'
+                        }
+                    },
+                    data: cData
+                },
+                {
+                    name: '选D人数',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight'
+                        }
+                    },
+                    data: dData
+                }
+            ]
+        };
+        
+        genchart.setOption(o);
+    }
+
+    bar("chart_option");
+</script>

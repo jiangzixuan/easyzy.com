@@ -1,0 +1,70 @@
+﻿<div id="chart_ques" style="height:500px;">
+
+</div>
+
+<script type="text/javascript">
+    var xBarDataStr = "", yBarDataStr = "";
+    var xBarData = [], yBarData = [];
+
+    $(function () {
+        xBarDataStr = '@ViewBag.xData';
+        yBarDataStr = '@ViewBag.yData';
+
+        xBarData = xBarDataStr.split(",");
+        yBarData = yBarDataStr.split(",");
+    })
+
+    var bar = function (elem) {
+        var genchart = echarts.init(document.getElementById(elem));
+        var o = {
+            title: {
+                text: '试题答对人数统计 共@(ViewBag.SubmitCount)人提交了作业',
+                subtext: 'X轴：试题题号  Y轴：答对人数',
+                textStyle: {
+                    fontSize: 16,
+                    fontWeight: 'bolder',
+                    color: '#333'          // 主标题文字颜色
+                },
+                subtextStyle: {
+                    fontSize: 16,
+                    color: '#333'          // 副标题文字颜色
+                }
+            },
+            color: ['#e91a53'],
+            legend: {
+                data: ['答对数']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: { show: true },
+                    magicType: { show: true, type: ['line', 'bar'] },
+                    restore: { show: true },
+                    saveAsImage: { show: true }
+                }
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            xAxis: {
+                type: 'category',
+                data: xBarData
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: yBarData,
+                type: 'bar',
+                name:'答对数'
+            }]
+        };
+
+        genchart.setOption(o);
+    }
+
+    bar("chart_ques");
+</script>

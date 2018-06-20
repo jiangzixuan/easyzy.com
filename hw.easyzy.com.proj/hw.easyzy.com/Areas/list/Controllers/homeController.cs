@@ -251,45 +251,6 @@ namespace hw.easyzy.com.Areas.list.Controllers
             ViewBag.QuesList = ql;
             return PartialView();
         }
-
-        public ActionResult GetSubmitBar(long zyId, int orderType)
-        {
-            int id = IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, zyId);
-            List<dto_Answer> al = B_Answer.GetAnswers(id);
-            
-            int ObjectiveCount = JsonConvert.DeserializeObject<List<dto_ZyQuestion>>(B_ZyRedis.GetQdbZyQuesJson(id)).Count(a=> Const.OBJECTIVE_QUES_TYPES.Contains(a.PTypeId));
-            if (al != null)
-            {
-                al.ForEach(a =>
-                {
-                    if (a.StudentId == 0)
-                    {
-                        a.StudentName = "试用账号";
-                    }
-                    else
-                    {
-                        dto_User du = B_UserRedis.GetUser(a.StudentId);
-                        a.StudentName = (du == null || string.IsNullOrEmpty(du.TrueName)) ? "未知姓名" : du.TrueName;
-                    }
-
-                    var ansl = JsonConvert.DeserializeObject<List<dto_UserAnswer>>(a.AnswerJson);
-                    a.ObjectCorrectCount = (ansl.Count(ans => Const.OBJECTIVE_QUES_TYPES.Contains(ans.PTypeId) && ans.Answer == ans.CAnswer));
-                    
-                });
-                if (orderType == 0)
-                {
-                    al = al.OrderBy(a => a.CreateDate).ToList();
-                }
-                else
-                {
-                    al = al.OrderByDescending(a => a.ObjectCorrectCount).ToList();
-                }
-
-                ViewBag.xData = string.Join(",", al.Select(a => string.Concat(a.StudentName, "", a.CreateDate.ToString("yyyy-MM-dd HH:mm:ss"))).ToArray());
-                ViewBag.yData = string.Join(",", al.Select(a => a.ObjectCorrectCount).ToArray());
-            }
-            ViewBag.ObjectiveCount = ObjectiveCount;
-            return PartialView();
-        }
+        
     }
 }

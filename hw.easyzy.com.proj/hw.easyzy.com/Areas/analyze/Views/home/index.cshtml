@@ -1,7 +1,107 @@
-﻿
+﻿@using hw.easyzy.model.dto;
 @{
-    ViewBag.Title = "index";
+    ViewBag.Title = "易作业-作业统计";
+    Layout = "~/areas/analyze/Views/Shared/_Layout.cshtml";
 }
 
-<h2>index</h2>
+@{var zy = Model as dto_Zy;}
 
+<style type="text/css">
+    
+</style>
+
+<div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > <a href="http://local.hw.easyzy.com/list/home">作业列表</a> > 统计</div>
+
+<div class="content">
+    <div class="main-content">
+        <div class="zyname-center">
+            <h1>@zy.ZyName</h1>
+            <h2>@zy.OpenDateStr - @zy.DueDateStr</h2>
+            <h3 style="color:#ff006e">注：本功能只包含客观题作答情况</h3>
+        </div>
+
+        <div class="submitbar" id="submitbar">
+            <div class="tab">
+                <ul>
+                    <li class="active" data-bind="0">提交时间排序</li>
+                    <li data-bind="1">得分排序</li>
+                </ul>
+            </div>
+            <div class="barchart-submit"></div>
+        </div>
+
+        <div class="quesbar">
+            <div class="tab">
+                <ul>
+                    <li class="active" data-bind="0">题序排序</li>
+                    <li data-bind="1">正确数排序</li>
+                </ul>
+            </div>
+            <div class="barchart-ques"></div>
+        </div>
+
+        <div class="optionbar">
+            <div class="barchart-option"></div>
+        </div>
+    </div>
+</div>
+
+@section scriptlast{
+    <script type="text/javascript" src="/scripts/echarts/echarts.min.js"></script>
+}
+
+<script type="text/javascript">
+    var cur_data = {
+        zyid: '@ViewBag.ZyId'
+    }
+    //统计-All
+    $(function () {
+        GetSubmitBar();
+        GetQuesBar();
+        GetOptionBar();
+    })
+
+    //统计-提交-切换
+    $(".submitbar .tab li").on("click", function () {
+        $(this).addClass("active").siblings().removeClass("active");
+        GetSubmitBar();
+    })
+
+    //统计-提交
+    var GetSubmitBar = function () {
+        $(".barchart-submit").html("<img src='/images/loader.gif'><b>正在加载……</b>");
+        var ordertype = $(".submitbar .tab li.active").attr("data-bind");
+        $.post("/analyze/home/GetSubmitBar",
+            { zyId: cur_data.zyid, orderType: ordertype },
+            function (data) {
+                $(".barchart-submit").html(data);
+            })
+    }
+
+    //统计-试题-切换
+    $(".quesbar .tab li").on("click", function () {
+        $(this).addClass("active").siblings().removeClass("active");
+        GetQuesBar();
+    })
+
+    //统计-试题
+    var GetQuesBar = function () {
+        $(".barchart-ques").html("<img src='/images/loader.gif'><b>正在加载……</b>");
+        var ordertype = $(".quesbar .tab li.active").attr("data-bind");
+        $.post("/analyze/home/GetQuesBar",
+            { zyId: cur_data.zyid, orderType: ordertype },
+            function (data) {
+                $(".barchart-ques").html(data);
+            })
+    }
+
+    //统计-选项
+    var GetOptionBar = function () {
+        $(".barchart-option").html("<img src='/images/loader.gif'><b>正在加载……</b>");
+        $.post("/analyze/home/GetOptionBar",
+            { zyId: cur_data.zyid},
+            function (data) {
+                $(".barchart-option").html(data);
+            })
+    }
+</script>

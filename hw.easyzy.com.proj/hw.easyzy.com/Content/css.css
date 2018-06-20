@@ -244,3 +244,19 @@ a.oddesc{background-position:0 -26px;}
 #imgul img{cursor:pointer;}
 #imgul li{border:1px solid #f4f9ff; margin-right: 20px; width:50px; height:50px; float:left; line-height:50px;}
 #imgul{clear:both; overflow:hidden;}
+
+table{border-collapse:collapse;border-spacing:0}
+.table-bordered{border:0px}
+.table{width:100%}
+.table-bordered > thead > tr > th,.table-bordered > tbody > tr > th,.table-bordered > tfoot > tr > th,.table-bordered > thead > tr > td,.table-bordered > tbody > tr > td,.table-bordered > tfoot > tr > td{border:1px solid #cad9ea}
+.table > thead > tr > th{background:#CCE8EB;color:#333;font-size:16px;font-weight:bold}
+.table > tbody > tr > td{color:#333;font-size:14px}
+.table > tbody > tr > td a{color:#0094ff;position:relative}
+.table > tbody > tr > td.align-left{text-align:left;padding-left:10px}
+.table > thead > tr > th,.table > tbody > tr > th,.table > tfoot > tr > th,.table > thead > tr > td,.table > tbody > tr > td,.table > tfoot > tr > td{position:relative;padding:4px;line-height:40px;text-align:center}
+
+#submitbar{margin-top:50px;}
+.quesbar .tab, .submitbar .tab{clear:both; overflow:hidden; margin-top:20px; }
+.quesbar .tab li,.submitbar .tab li{float: left; font-size:16px; padding: 10px 20px; cursor:pointer;color:#fff; background:#aacbf3}
+.quesbar .tab li.active,.submitbar .tab li.active{ background:#0094ff}
+.quesbar .barchart-ques, .submitbar .barchart-submit{padding: 10px;}

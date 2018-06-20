@@ -147,6 +147,7 @@
     <Compile Include="App_Start\LoginFilter.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\analyze\analyzeAreaRegistration.cs" />
+    <Compile Include="Areas\analyze\Controllers\baseController.cs" />
     <Compile Include="Areas\analyze\Controllers\homeController.cs" />
     <Compile Include="Areas\create\Controllers\baseController.cs" />
     <Compile Include="Areas\create\Controllers\qdbController.cs" />
@@ -281,7 +282,9 @@
     <Content Include="Areas\list\Views\home\gettrialzy.cshtml" />
     <Content Include="Areas\list\Views\home\info.cshtml" />
     <Content Include="Areas\list\Views\home\GetQuestions.cshtml" />
-    <Content Include="Areas\list\Views\home\getsubmitbar.cshtml" />
+    <Content Include="Areas\analyze\Views\home\getsubmitbar.cshtml" />
+    <Content Include="Areas\analyze\Views\home\getquesbar.cshtml" />
+    <Content Include="Areas\analyze\Views\home\getoptionbar.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="QuesBaseJson\similarcatalogs.json" />
     <Content Include="QuesBaseJson\textbooks.json" />
@@ -374,6 +377,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\analyze\Models\" />
+    <Folder Include="Areas\analyze\Views\base\" />
     <Folder Include="Areas\create\Models\" />
     <Folder Include="Areas\list\Models\" />
     <Folder Include="Areas\submit\Models\" />

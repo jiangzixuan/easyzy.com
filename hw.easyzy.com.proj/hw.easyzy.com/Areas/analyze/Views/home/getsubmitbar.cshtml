@@ -1,0 +1,70 @@
+﻿<div id="chart_submit" style="height:500px;">
+
+</div>
+
+<script type="text/javascript">
+    var xBarDataStr = "", yBarDataStr = "";
+    var xBarData = [], yBarData = [];
+
+    $(function () {
+        xBarDataStr = '@ViewBag.xData';
+        yBarDataStr = '@ViewBag.yData';
+
+        xBarData = xBarDataStr.split(",");
+        yBarData = yBarDataStr.split(",");
+    })
+    
+    var bar = function (elem) {
+        var genchart = echarts.init(document.getElementById(elem));
+        var o = {
+            title: {
+                text: '提交及得分情况统计-本作业中客观题共@(ViewBag.ObjectiveCount)个',
+                subtext: 'X轴：学生+提交时间  Y轴：客观题答对题数',
+                textStyle: {
+                    fontSize: 16,
+                    fontWeight: 'bolder',
+                    color: '#333'          // 主标题文字颜色
+                },
+                subtextStyle: {
+                    fontSize: 16,
+                    color: '#333'          // 副标题文字颜色
+                }
+            },
+            color: ['#3398DB'],
+            legend: {
+                data: ['答对数']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: { show: true },
+                    magicType: { show: true, type: ['line', 'bar'] },
+                    restore: { show: true },
+                    saveAsImage: { show: true }
+                }
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            xAxis: {
+                type: 'category',
+                data: xBarData
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: yBarData,
+                type: 'bar',
+                name: '答对数'
+            }]
+        };
+
+        genchart.setOption(o);
+    }
+
+    bar("chart_submit");
+</script>

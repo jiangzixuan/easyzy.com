@@ -10,14 +10,11 @@
     <link rel="stylesheet" href="/Content/css.css?v=20171107" />
     <link rel="stylesheet" href="/Content/jquery.pager.css" />
     <link href="/Scripts/artDialog/css/ui-dialog.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/Content/viewer.min.css">
     <script type="text/javascript" src="/Scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="/Scripts/jquery.pager.js"></script>
-    <script type="text/javascript" src="/Scripts/viewer-jquery.min.js"></script>
     <script src="/Scripts/artDialog/dialog.js"></script>
     <script type="text/javascript" src="/Scripts/uaredirect.js"></script>
     <script type="text/javascript" src="/Scripts/easyzy.common.js"></script>
-
     @RenderSection("scriptfirst", false)
 </head>
 <body>
@@ -31,9 +28,8 @@
                     </div>
                     <div class="left navigate">
                         <a href="http://local.easyzy.com">首页</a>
-                        <a href="http://local.easyzy.com/list">查看作业</a>
-                        <a href="http://local.easyzy.com/create/qdb">题库作业</a>
-                        <a href="http://local.hw.easyzy.com/create/self">自传作业</a>
+                        <a href="http://local.hw.easyzy.com/list/home">作业列表</a>
+                        <a href="http://local.hw.easyzy.com/create/qdb">新建作业</a>
                         <a href="http://local.bbs.easyzy.com">师生论坛</a>
                     </div>
                     <div class="right">
@@ -75,8 +71,10 @@
             <div class="foot-wrap">
                 <div class="foot">
                     <p>&copy; @DateTime.Now.Year - 易作业 | 超级简单、易用的作业平台</p>
-                    <p>京ICP备17073793
-                    <script type="text/javascript" src="http://easyzy.com/Scripts/umeng.js"></script></p>
+                    <p>
+                        京ICP备17073793
+                        <script type="text/javascript" src="http://easyzy.com/Scripts/umeng.js"></script>
+                    </p>
                     @*<p>联系我们 QQ:260031297 |</p>*@
 
                 </div>
