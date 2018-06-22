@@ -66,9 +66,9 @@ namespace hw.easyzy.com.Areas.submit.Controllers
                 return JsonConvert.SerializeObject(r);
             }
 
-            //作业状态验证
+            //作业提交验证
             T_Answer ans = B_Answer.GetAnswer(id, UserId);
-            if (ans != null && ans.Submited)
+            if (zy.UserId != 0 && ans != null && ans.Submited)
             {
                 r.code = AjaxResultCodeEnum.Error;
                 r.message = "作业已提交，不能再上传答案图片！";
@@ -100,11 +100,11 @@ namespace hw.easyzy.com.Areas.submit.Controllers
                         SystemType = Request.Browser.Platform.ToString(),
                         Browser = Request.Browser.Browser.ToString()
                     };
-                    isok = B_Answer.InsertZyAnswer(AnsAdd);
+                    isok = zy.UserId == 0 ? B_TrailAnswer.InsertZyAnswer(AnsAdd) : B_Answer.InsertZyAnswer(AnsAdd);
                 }
                 else
                 {
-                    isok = B_Answer.AddZyImg(zy.Id, UserId, r.data);
+                    isok = zy.UserId == 0 ? B_TrailAnswer.AddZyImg(zy.Id, UserId, r.data) : B_Answer.AddZyImg(zy.Id, UserId, r.data);
                 }
             }
             if (!isok)
@@ -152,7 +152,6 @@ namespace hw.easyzy.com.Areas.submit.Controllers
 
             //试用作业允许多次提交
             T_Answer ans = B_Answer.GetAnswer(id, UserId);
-            
             if (zy.UserId != 0 && ans != null && ans.Submited)
             {
                 r.code = AjaxResultCodeEnum.Error;
@@ -188,7 +187,7 @@ namespace hw.easyzy.com.Areas.submit.Controllers
             bool isok = false;
             if (zy.UserId != 0 && ans != null)
             {
-                isok = B_Answer.UpdateAnswerJson(id, UserId, JsonConvert.SerializeObject(al));
+                isok = zy.UserId == 0 ? B_TrailAnswer.UpdateAnswerJson(id, UserId, JsonConvert.SerializeObject(al)) : B_Answer.UpdateAnswerJson(id, UserId, JsonConvert.SerializeObject(al));
             }
             else
             {
@@ -207,7 +206,9 @@ namespace hw.easyzy.com.Areas.submit.Controllers
                     SystemType = Request.Browser.Platform.ToString(),
                     Browser = Request.Browser.Browser.ToString()
                 };
-                isok = B_Answer.InsertZyAnswer(answer);
+                isok = zy.UserId == 0 ? B_TrailAnswer.InsertZyAnswer(answer) : B_Answer.InsertZyAnswer(answer);
+                //写统计表
+                B_Analyze.GenerateAnalyze(answer);
             }
             if (isok)
             {

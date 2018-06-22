@@ -16,39 +16,24 @@
             @if (ViewBag.UserId == 0)
             {
                 <div class="page-func left active" data-bind="0">试用作业</div>
-                <div class="page-func left" data-bind="1">我建的作业</div>
-                <div class="page-func left" data-bind="2">提交的作业</div>
+                <div class="page-func left" data-bind="1">已提交作业</div>
+                <div class="page-func left" data-bind="2">我建的作业</div>
                 <div class="page-func left" data-bind="3">已关注老师</div>
             }
             else
             {
-                <div class="page-func left active" data-bind="1">我建的作业</div>
-                <div class="page-func left" data-bind="2">提交的作业</div>
+                <div class="page-func left active" data-bind="1">已提交作业</div>
+                <div class="page-func left" data-bind="2">我建的作业</div>
                 <div class="page-func left" data-bind="3">已关注老师</div>
             }
-
         </div>
     </div>
 </div>
 <div class="content">
     <div class="main-content">
         <div class="zylist">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>学科</th>
-                        <th>名称</th>
-                        <th>开始时间</th>
-                        <th>截止时间</th>
-                        <th>创建时间</th>
-                        <th>类型</th>
-                        <th>状态</th>
-                        <th>提交数</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody class="zytable"></tbody>
-            </table>
+            <div class="zytable"></div>
+            
             <div id="pager" class="zypager"></div>
         </div>
     </div>
@@ -69,10 +54,11 @@
     })
 
     $(".page-nav .page-func").on("click", function () {
-        if ($(this).attr("data-bind") != "0" && cur_data.istrial == 1) {
+        if ($(this).attr("data-bind") > 1 && cur_data.istrial == 1) {
             dialogAlert("未登录/试用状态不能使用此功能！");
         }
         else {
+            $(this).addClass("active").siblings().removeClass("active");
             cur_data.pageindex = 1;
             GetData();
         }
@@ -91,13 +77,16 @@
             GetTrialZyData();
         }
         else if (func == "1") {
+            GetSubmitedZyData();
+        }
+        else if (func == "2") {
             GetMyZyData();
         }
     }
 
     //查询试用作业
     var GetTrialZyData = function () {
-        $.post("/list/home/GetTrialZy",
+        $.post("/list/trail",
             { pageIndex: cur_data.pageindex, pageSize: cur_data.pagesize },
             function (data) {
                 $(".zytable").html(data);
@@ -105,11 +94,27 @@
                 if (parseInt($("#PageCountDiv").html()) > 1) {
                     $("#pager").pager({ pagenumber: cur_data.pageindex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: PageClick });
                 }
+
+                init();
+            })
+    }
+
+    var GetSubmitedZyData = function () {
+        $.post("/list/down",
+            { pageIndex: cur_data.pageindex, pageSize: cur_data.pagesize },
+            function (data) {
+                $(".zytable").html(data);
+
+                if (parseInt($("#PageCountDiv").html()) > 1) {
+                    $("#pager").pager({ pagenumber: cur_data.pageindex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: PageClick });
+                }
+
+                init();
             })
     }
 
     var GetMyZyData = function () {
-        $.post("/list/home/GetMyZy",
+        $.post("/list/mine",
             { pageIndex: cur_data.pageindex, pageSize: cur_data.pagesize },
             function (data) {
                 $(".zytable").html(data);
@@ -118,16 +123,48 @@
                     $("#pager").pager({ pagenumber: cur_data.pageindex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: PageClick });
                 }
 
-
+                init();
             })
     }
 
-    var GetZyStatistic = function (t) {
-        var zyid = t.attr("data-bind");
-        var zytype = t.find(".zytype").attr("data-bind");
+    var init = function () {
+        var closezyid = 0;
+        var deletezyid = 0;
 
+        $(".closezy").on("click", function () {
+            closezyid = $(this).attr("data-bind");
+            dialogConfirm("关闭后学生可以打开作业但是无法提交。<br/>确认要关闭作业吗？", CloseOK, "")
+        })
 
+        var CloseOK = function () {
+            $.post("/list/common/CloseZy",
+                { zyId: closezyid },
+                function (data) {
+                    if (data.code == "0") {
+                        $("tr[data-bind='" + closezyid + "']").find(".zystatus").html("已关闭")
+                    }
+                    else {
+                        dialogAlert(data.message);
+                    }
+                })
+        }
+
+        $(".deletezy").on("click", function () {
+            deletezyid = $(this).attr("data-bind");
+            dialogConfirm("删除后学生将无法打开作业。<br/>确认要删除作业吗？", DeleteOK, "")
+        })
+
+        var DeleteOK = function () {
+            $.post("/list/common/DeleteZy",
+                { zyId: deletezyid },
+                function (data) {
+                    if (data.code == "0") {
+                        $("tr[data-bind='" + deletezyid + "']").find(".zystatus").html("已删除")
+                    }
+                    else {
+                        dialogAlert(data.message);
+                    }
+                })
+        }
     }
-
-
 </script>

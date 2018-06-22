@@ -25,15 +25,10 @@
 
         var o = {
             title: {
-                text: '各选项选择率统计 共@(ViewBag.SubmitCount)人提交了作业',
-                subtext: 'X轴：各选项选择的人数  Y轴：试题题号',
+                text: '共@(ViewBag.SubmitCount)人提交了作业',
                 textStyle: {
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: 'bolder',
-                    color: '#333'
-                },
-                subtextStyle: {
-                    fontSize: 16,
                     color: '#333'
                 }
             },
@@ -41,6 +36,15 @@
                 trigger: 'axis',
                 axisPointer: {
                     type: 'shadow'
+                }
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: { show: true },
+                    magicType: { show: true, type: ['line', 'bar'] },
+                    restore: { show: true },
+                    saveAsImage: { show: true }
                 }
             },
             legend: {

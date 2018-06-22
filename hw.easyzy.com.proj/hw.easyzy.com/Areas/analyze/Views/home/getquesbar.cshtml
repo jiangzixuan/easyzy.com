@@ -18,16 +18,11 @@
         var genchart = echarts.init(document.getElementById(elem));
         var o = {
             title: {
-                text: '试题答对人数统计 共@(ViewBag.SubmitCount)人提交了作业',
-                subtext: 'X轴：试题题号  Y轴：答对人数',
+                text: '共@(ViewBag.SubmitCount)人提交了作业',
                 textStyle: {
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: 'bolder',
-                    color: '#333'          // 主标题文字颜色
-                },
-                subtextStyle: {
-                    fontSize: 16,
-                    color: '#333'          // 副标题文字颜色
+                    color: '#333'
                 }
             },
             color: ['#e91a53'],

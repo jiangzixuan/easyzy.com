@@ -1,0 +1,48 @@
+﻿@using hw.easyzy.model.dto;
+
+@{List<dto_Zy> zl = ViewBag.ZyList;}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>学科</th>
+            <th>名称</th>
+            <th>提交时间</th>
+            <th>状态</th>
+            <th>提交数</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (zl != null && zl.Count > 0)
+        {
+            int i = 0;
+            string a = "";
+            foreach (var zy in zl)
+            {
+                a = i == 0 ? "active" : "";
+                i = 1;
+                <tr data-bind="@zy.NewId" class="@a">
+                    <td>@zy.SubjectName</td>
+                    <td class="align-left" title="点击查看作业内容"><a href="/list/common/info?zyid=@zy.NewId">@zy.ZyName</a></td>
+                    <td>@zy.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td class="zystatus">@(zy.Status == 0 ? "正常" : zy.Status == 1 ? "已关闭" : "已删除")</td>
+                    <td>
+                        @foreach (var l in zy.ClassSubmitInfo)
+                        {
+                            <span>@(l.ClassName) (@(l.SubmitCount)/n)</span>
+                        }
+                    </td>
+                    <td>
+                        <a href="/analyze/home?zyid=@zy.NewId" title="查看作业统计信息">统计</a>
+                        <a href="/list/down/info?zyid=@zy.NewId" title="查看作答详情信息">作答详情</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr><td colspan="9">没有任何作业！</td></tr>
+        }
+        <tr style="display:none"><td id="PageCountDiv">@ViewBag.PageCount</td></tr>
+    </tbody>
+</table>

@@ -33,7 +33,7 @@
     }
 
     $(function () {
-        $.post("/list/home/getzyinfo",
+        $.post("/list/common/getzyinfo",
             { zyId: cur_data.zyid },
             function (data) {
                 $(".zyname-center h1").html(data.data.ZyName);
@@ -52,7 +52,7 @@
     })
     
     var ShowQdbQuestions = function (courseid) {
-        $.post("/list/home/getquestions",
+        $.post("/list/common/getquestions",
             { courseId: courseid, zyId: cur_data.zyid },
             function (data) {
                 $(".queslist").html(data);

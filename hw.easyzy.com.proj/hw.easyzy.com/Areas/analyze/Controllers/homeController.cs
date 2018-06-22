@@ -17,52 +17,98 @@ namespace hw.easyzy.com.Areas.analyze.Controllers
             int id = IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, zyId);
             dto_Zy zy = B_ZyRedis.GetZy(id);
             ViewBag.ZyId = zyId;
+            List<dto_ClassSubmitCount> Classes = B_Analyze.GetSubmitClasses(id);
+            if (Classes != null)
+            {
+                Classes.ForEach(a =>
+                {
+                    if (a.SchoolId == 0 && a.GradeId == 0 && a.ClassId == 0)
+                    {
+                        a.SchoolName = "试用学校";
+                        a.GradeName = "试用年级";
+                        a.ClassName = "试用班";
+                    }
+                    else
+                    {
+                        a.SchoolName = B_BaseRedis.GetSchool(a.SchoolId).SchoolName;
+                        a.GradeName = Const.Grades[a.GradeId];
+                        a.ClassName = a.ClassId + "班";
+                    }
+                });
+            }
+            ViewBag.Classes = Classes;
             return View(zy);
+        }
+
+        public ActionResult GetClassBar(long zyId)
+        {
+            int id = IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, zyId);
+            dto_Echart_Bar3 deb = null;
+
+            List<dto_ClassSubmitCount> Classes = B_Analyze.GetSubmitClasses(id);
+            if (Classes != null)
+            {
+                deb = new dto_Echart_Bar3();
+                deb.data = new List<dto_Echart_Bar3_Data>();
+                dto_Echart_Bar3_Data debd = null;
+                foreach (var c in Classes)
+                {
+                    debd = new dto_Echart_Bar3_Data();
+                    string cname = "";
+                    if (c.SchoolId == 0 && c.GradeId == 0 && c.ClassId == 0)
+                    {
+                        cname = "试用学校试用班";
+                    }
+                    else
+                    {
+                        cname = Const.Grades[c.GradeId] + c.ClassId + "班";
+                    }
+                    debd.name = cname;
+                    debd.value = c.SubmitCount;
+                    deb.data.Add(debd);
+                }
+            }
+            ViewBag.xData = string.Join(",", deb.data.Select(a=>a.name).ToArray());
+            string[] s = new string[deb.data.Count];
+            for (int i = 0; i < deb.data.Count; i++)
+            {
+                s[i] = "{value:" + deb.data[i].value + ", name:'" + deb.data[i].name + "'}";
+            }
+            ViewBag.yData = string.Join("||", s);
+            ViewBag.ClassCount = Classes.Count;
+            return PartialView();
         }
 
         /// <summary>
         /// 提交统计
         /// </summary>
         /// <param name="zyId"></param>
-        /// <param name="orderType">0：按照提交时间排序（默认）1：按照客观题正确数排序</param>
         /// <returns></returns>
-        public ActionResult GetSubmitBar(long zyId, int orderType)
+        public ActionResult GetSubmitBar(long zyId, int schoolId, int gradeId, int classId)
         {
             int id = IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, zyId);
-            List<dto_Answer> al = B_Answer.GetAnswers(id);
-
-            int ObjectiveCount = JsonConvert.DeserializeObject<List<dto_ZyQuestion>>(B_ZyRedis.GetQdbZyQuesJson(id)).Count(a => Const.OBJECTIVE_QUES_TYPES.Contains(a.PTypeId));
-            if (al != null)
+            
+            dto_Echart_Bar deb = B_Analyze.GetStudentPoint(id, schoolId, gradeId, classId);
+            if (deb != null)
             {
-                al.ForEach(a =>
+                for (int i = 0; i< deb.x.Count; i++)
                 {
-                    if (a.StudentId == 0)
+                    if (deb.x[i] == "0")
                     {
-                        a.StudentName = "试用账号";
+                        deb.x[i] = "试用学生";
                     }
                     else
                     {
-                        dto_User du = B_UserRedis.GetUser(a.StudentId);
-                        a.StudentName = (du == null || string.IsNullOrEmpty(du.TrueName)) ? "未知姓名" : du.TrueName;
+                        deb.x[i] = B_UserRedis.GetUser(int.Parse(deb.x[i])).TrueName;
                     }
-
-                    var ansl = JsonConvert.DeserializeObject<List<dto_UserAnswer>>(a.AnswerJson);
-                    a.ObjectCorrectCount = (ansl.Count(ans => Const.OBJECTIVE_QUES_TYPES.Contains(ans.PTypeId) && ans.Answer == ans.CAnswer));
-
-                });
-                if (orderType == 0)
-                {
-                    al = al.OrderBy(a => a.CreateDate).ToList();
                 }
-                else
-                {
-                    al = al.OrderByDescending(a => a.ObjectCorrectCount).ToList();
-                }
-
-                ViewBag.xData = string.Join(",", al.Select(a => string.Concat(a.StudentName, "", a.CreateDate.ToString("yyyy-MM-dd HH:mm:ss"))).ToArray());
-                ViewBag.yData = string.Join(",", al.Select(a => a.ObjectCorrectCount).ToArray());
+                
+                ViewBag.xData = string.Join(",", deb.x);
+                ViewBag.yData = string.Join(",", deb.y);
             }
+            int ObjectiveCount = JsonConvert.DeserializeObject<List<dto_ZyQuestion>>(B_ZyRedis.GetQdbZyQuesJson(id)).Count(a => Const.OBJECTIVE_QUES_TYPES.Contains(a.PTypeId));
             ViewBag.ObjectiveCount = ObjectiveCount;
+            
             return PartialView();
         }
 
@@ -70,176 +116,43 @@ namespace hw.easyzy.com.Areas.analyze.Controllers
         /// 试题统计
         /// </summary>
         /// <param name="zyId"></param>
-        /// <param name="orderType">0：按照题序排序 1：按照错误数排序</param>
         /// <returns></returns>
-        public ActionResult GetQuesBar(long zyId, int orderType)
+        public ActionResult GetQuesBar(long zyId, int schoolId, int gradeId, int classId)
         {
             int id = IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, zyId);
+
+            dto_Echart_Bar deb = B_Analyze.GetQuesCorrectCount(id, schoolId, gradeId, classId);
+            if (deb != null)
+            {
+                ViewBag.xData = string.Join(",", deb.x);
+                ViewBag.yData = string.Join(",", deb.y);
+            }
             
-            //X轴题号
-            List<string> ObjectiveQuesNum = new List<string>();
-            List<dto_ZyQuestion> ql = JsonConvert.DeserializeObject<List<dto_ZyQuestion>>(B_ZyRedis.GetQdbZyQuesJson(id));
-            int s = 0, t = 0, lastPQId = 0;
-            if (ql != null)
-            {
-                foreach (var q in ql)
-                {
-                    if (Const.OBJECTIVE_QUES_TYPES.Contains(q.PTypeId))
-                    {
-                        if (q.PQId != lastPQId)
-                        {
-                            s += 1;
-                            t = 1;
-                            lastPQId = q.PQId;
-                        }
-                        else
-                        {
-                            t += 1;
-                        }
-                        if (q.PQId == q.QId)
-                        {
-                            ObjectiveQuesNum.Add(s.ToString());
-                        }
-                        else
-                        {
-                            ObjectiveQuesNum.Add(string.Concat(s, "-", t));
-                        }
-                    }
-                }
-            }
-            //Y轴正确数
-            int[] CorrectCount = new int[ObjectiveQuesNum.Count];
-            List<dto_Answer> al = B_Answer.GetAnswers(id);
-            int k = 0;
-            if (al != null)
-            {
-                al.ForEach(a =>
-                {
-                    k = 0;
-                    var ansl = JsonConvert.DeserializeObject<List<dto_UserAnswer>>(a.AnswerJson);
-                    ansl.ForEach(b =>
-                    {
-
-                        if (Const.OBJECTIVE_QUES_TYPES.Contains(b.PTypeId))
-                        {
-                            if (b.Answer == b.CAnswer)
-                            {
-                                CorrectCount[k] = CorrectCount[k] + 1;
-                            }
-                            k += 1;
-                        }
-                    });
-
-                });
-
-             }
-            //排序
-            string[] xData = null;
-            int[] yData = null;
-            if (orderType == 0)
-            {
-                xData = ObjectiveQuesNum.ToArray();
-                yData = CorrectCount;
-            }
-            else
-            {
-                Dictionary<string, int> d = new Dictionary<string, int>();
-                for (int i = 0; i < ObjectiveQuesNum.Count; i++)
-                {
-                    d.Add(ObjectiveQuesNum[i], CorrectCount[i]);
-                }
-                xData = d.OrderBy(a => a.Value).Select(a => a.Key).ToArray();
-                yData = d.OrderBy(a => a.Value).Select(a => a.Value).ToArray();
-            }
-
-            ViewBag.xData = string.Join(",", xData);
-            ViewBag.yData = string.Join(",", yData);
-            
-            ViewBag.SubmitCount = al == null ? 0 : al.Count;
+            ViewBag.SubmitCount = B_Analyze.GetZySubmitCount(id, schoolId, gradeId, classId);
             return PartialView();
         }
 
-        public ActionResult GetOptionBar(long zyId)
+        /// <summary>
+        /// 选项统计
+        /// </summary>
+        /// <param name="zyId"></param>
+        /// <param name="schoolId"></param>
+        /// <param name="gradeId"></param>
+        /// <param name="classId"></param>
+        /// <returns></returns>
+        public ActionResult GetOptionBar(long zyId, int schoolId, int gradeId, int classId)
         {
             int id = IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, zyId);
-
-            //题号
-            List<string> ObjectiveQuesNum = new List<string>();
-            List<dto_ZyQuestion> ql = JsonConvert.DeserializeObject<List<dto_ZyQuestion>>(B_ZyRedis.GetQdbZyQuesJson(id));
-            int s = 0, t = 0, lastPQId = 0;
-            if (ql != null)
+            dto_Echart_Bar2 deb = B_Analyze.GetOptionSelectCount(id, schoolId, gradeId, classId);
+            if (deb != null)
             {
-                foreach (var q in ql)
-                {
-                    if (Const.OBJECTIVE_QUES_TYPES.Contains(q.PTypeId))
-                    {
-                        if (q.PQId != lastPQId)
-                        {
-                            s += 1;
-                            t = 1;
-                            lastPQId = q.PQId;
-                        }
-                        else
-                        {
-                            t += 1;
-                        }
-                        if (q.PQId == q.QId)
-                        {
-                            ObjectiveQuesNum.Add(s.ToString());
-                        }
-                        else
-                        {
-                            ObjectiveQuesNum.Add(string.Concat(s, "-", t));
-                        }
-                    }
-                }
+                ViewBag.Category = string.Join(",", deb.category);
+                ViewBag.AData = string.Join(",", deb.optiona);
+                ViewBag.BData = string.Join(",", deb.optionb);
+                ViewBag.CData = string.Join(",", deb.optionc);
+                ViewBag.DData = string.Join(",", deb.optiond);
             }
-
-            List<dto_Answer> al = B_Answer.GetAnswers(id);
-            int[] ACount = new int[ObjectiveQuesNum.Count];
-            int[] BCount = new int[ObjectiveQuesNum.Count];
-            int[] CCount = new int[ObjectiveQuesNum.Count];
-            int[] DCount = new int[ObjectiveQuesNum.Count];
-            int k = 0;
-            if (al != null)
-            {
-                al.ForEach(a =>
-                {
-                    k = 0;
-                    var ansl = JsonConvert.DeserializeObject<List<dto_UserAnswer>>(a.AnswerJson);
-                    ansl.ForEach(b =>
-                    {
-                        if (Const.OBJECTIVE_QUES_TYPES.Contains(b.PTypeId))
-                        {
-                            //兼容多选题
-                            if (b.Answer.Contains("A"))
-                            {
-                                ACount[k] = ACount[k] + 1; 
-                            }
-                            if (b.Answer.Contains("B"))
-                            {
-                                BCount[k] = BCount[k] + 1;
-                            }
-                            if (b.Answer.Contains("C"))
-                            {
-                                CCount[k] = CCount[k] + 1;
-                            }
-                            if (b.Answer.Contains("D"))
-                            {
-                                DCount[k] = DCount[k] + 1;
-                            }
-                            k += 1;
-                        }
-                    });
-                });
-            }
-            ViewBag.Category = string.Join(",", ObjectiveQuesNum.ToArray());
-            ViewBag.AData = string.Join(",", ACount);
-            ViewBag.BData = string.Join(",", BCount);
-            ViewBag.CData = string.Join(",", CCount);
-            ViewBag.DData = string.Join(",", DCount);
-
-            ViewBag.SubmitCount = al == null ? 0 : al.Count;
+            ViewBag.SubmitCount = B_Analyze.GetZySubmitCount(id, schoolId, gradeId, classId);
             return PartialView();
         }
     }

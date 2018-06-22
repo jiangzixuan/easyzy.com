@@ -87,7 +87,8 @@ namespace easyzy.sdk
             Ques,
             Zy,
             User,
-            BBS
+            BBS,
+            Analyze
         }
 
         public static Dictionary<DBName, string> DBConnStrNameDic = new Dictionary<DBName, string>()
@@ -97,7 +98,8 @@ namespace easyzy.sdk
             { DBName.Home, "EasyZy_Home" },
             { DBName.User, "EasyZy_User" },
             { DBName.Zy, "EasyZy_Zy" },
-            { DBName.BBS, "EasyZy_BBS" }
+            { DBName.BBS, "EasyZy_BBS" },
+            { DBName.Analyze, "EasyZy_Analyze" }
         };
 
         #endregion

@@ -71,6 +71,14 @@ namespace hw.easyzy.com.Areas.submit.Controllers
                 return r;
             }
 
+            if (zy.UserId != 0 && UserInfo != null && (UserInfo.GradeId == 0 || UserInfo.ClassId == 0))
+            {
+                r.code = AjaxResultCodeEnum.Error;
+                r.message = "请先到个人中心设置自己所在的学校、年级、班级等信息！";
+                r.data = zy2;
+                return r;
+            }
+
             if (zy.UserId != 0)
             {
                 List<dto_RelateUser> rl = B_User.GetBeRelatedUser(zy.UserId);

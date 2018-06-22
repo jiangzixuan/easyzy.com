@@ -43,8 +43,9 @@
   <ItemGroup>
     <Compile Include="dto\dto_AjaxJsonResult.cs" />
     <Compile Include="dto\dto_Answer.cs" />
+    <Compile Include="dto\dto_ClassSubmitCount.cs" />
     <Compile Include="dto\dto_CQuestion.cs" />
-    <Compile Include="dto\dto_Echart_pie-simple.cs" />
+    <Compile Include="dto\dto_Echart_Bar.cs" />
     <Compile Include="dto\dto_Question.cs" />
     <Compile Include="dto\dto_RelateGroup.cs" />
     <Compile Include="dto\dto_RelateUser.cs" />

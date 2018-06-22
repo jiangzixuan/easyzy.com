@@ -18,16 +18,11 @@
         var genchart = echarts.init(document.getElementById(elem));
         var o = {
             title: {
-                text: '提交及得分情况统计-本作业中客观题共@(ViewBag.ObjectiveCount)个',
-                subtext: 'X轴：学生+提交时间  Y轴：客观题答对题数',
+                text: '本作业中客观题共@(ViewBag.ObjectiveCount)个',
                 textStyle: {
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: 'bolder',
-                    color: '#333'          // 主标题文字颜色
-                },
-                subtextStyle: {
-                    fontSize: 16,
-                    color: '#333'          // 副标题文字颜色
+                    color: '#333'
                 }
             },
             color: ['#3398DB'],
@@ -59,7 +54,12 @@
             series: [{
                 data: yBarData,
                 type: 'bar',
-                name: '答对数'
+                name: '答对数',
+                markLine: {
+                    data: [
+                        { type: 'average', name: '平均值' }
+                    ]
+                }
             }]
         };
 

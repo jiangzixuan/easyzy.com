@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace hw.easyzy.com.App_Start
+namespace hw.easyzy.com
 {
     /// <summary>
     /// 登录验证过滤器

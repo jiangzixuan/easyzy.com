@@ -10,36 +10,15 @@ using System.Threading.Tasks;
 
 namespace hw.easyzy.bll
 {
-    public class B_Answer
+    /// <summary>
+    /// 试用作业答案T_TrailAnswer表，同一个作业StudentId全为0
+    /// </summary>
+    public class B_TrailAnswer
     {
         private static string ZyConnString = "";
-        static B_Answer()
+        static B_TrailAnswer()
         {
             Const.DBConnStrNameDic.TryGetValue(Const.DBName.Zy, out ZyConnString);
-        }
-
-        /// <summary>
-        /// 查找作业有哪些人提交
-        /// </summary>
-        /// <param name="zyId"></param>
-        /// <returns></returns>
-        public static List<int> GetZySubmitStudents(int zyId)
-        {
-            List<int> d = null;
-            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
-                "select StudentId from T_Answer where ZyId = @ZyId and Submited = 1",
-                "@ZyId".ToInt32InPara(zyId)))
-            {
-                if (dr != null && dr.HasRows)
-                {
-                    d = new List<int>();
-                    while (dr.Read())
-                    {
-                        d.Add(int.Parse(dr[0].ToString()));
-                    }
-                }
-            }
-            return d;
         }
 
         /// <summary>
@@ -52,7 +31,7 @@ namespace hw.easyzy.bll
             if (zyIds.Length == 0) return null;
             Dictionary<int, int> d = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
-                "select ZyId, count(1) c from T_Answer where ZyId in (" + string.Join(",", zyIds) + ") and Submited = 1 group by ZyId"))
+                "select ZyId, count(1) c from T_TrailAnswer where ZyId in (" + string.Join(",", zyIds) + ") and Submited = 1 group by ZyId"))
             {
                 if (dr != null && dr.HasRows)
                 {
@@ -76,7 +55,7 @@ namespace hw.easyzy.bll
         public static bool AddZyImg(int zyId, int userId, string imgPath)
         {
             int i = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(ZyConnString),
-                "update T_Answer set AnswerImg = concat(AnswerImg , ',', @imgPath) where ZyId = @ZyId and StudentId = @StudentId",
+                "update T_TrailAnswer set AnswerImg = concat(AnswerImg , ',', @imgPath) where ZyId = @ZyId and StudentId = @StudentId",
                 "@ZyId".ToInt32InPara(zyId),
                 "@StudentId".ToInt32InPara(userId),
                 "@imgPath".ToVarCharInPara(imgPath)
@@ -92,7 +71,7 @@ namespace hw.easyzy.bll
         public static bool InsertZyAnswer(T_Answer a)
         {
             int i = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(ZyConnString),
-                "insert into T_Answer(ZyId, ZyType, StudentId, AnswerJson, AnswerImg, Submited, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser) values (@ZyId, @ZyType, @StudentId, @AnswerJson, @AnswerImg, @Submited, @CreateDate, @Ip, @IMEI, @MobileBrand, @SystemType, @Browser);",
+                "insert into T_TrailAnswer(ZyId, ZyType, StudentId, AnswerJson, AnswerImg, Submited, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser) values (@ZyId, @ZyType, @StudentId, @AnswerJson, @AnswerImg, @Submited, @CreateDate, @Ip, @IMEI, @MobileBrand, @SystemType, @Browser);",
                 "@ZyId".ToInt32InPara(a.ZyId),
                 "@ZyType".ToInt32InPara(a.ZyType),
                 "@StudentId".ToInt32InPara(a.StudentId),
@@ -119,7 +98,7 @@ namespace hw.easyzy.bll
         public static bool UpdateAnswerJson(int zyId, int userId, string answerJson)
         {
             int i = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(ZyConnString),
-                "update T_Answer set CreateDate = now(), AnswerJson = @AnswerJson, Submited = 1 where ZyId = @ZyId and StudentId = @StudentId",
+                "update T_TrailAnswer set CreateDate = now(), AnswerJson = @AnswerJson, Submited = 1 where ZyId = @ZyId and StudentId = @StudentId",
                 "@ZyId".ToInt32InPara(zyId),
                 "@StudentId".ToInt32InPara(userId),
                 "@AnswerJson".ToVarCharInPara(answerJson)
@@ -131,7 +110,7 @@ namespace hw.easyzy.bll
         {
             List<dto_Answer> model = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
-                "select Id, ZyId, ZyType, StudentId, AnswerJson, AnswerImg, Submited, CreateDate from T_Answer where ZyId = @ZyId and Submited = 1",
+                "select Id, ZyId, ZyType, StudentId, AnswerJson, AnswerImg, Submited, CreateDate from T_TrailAnswer where ZyId = @ZyId and Submited = 1",
                 "@ZyId".ToInt32InPara(zyId)))
             {
                 if (dr != null && dr.HasRows)
@@ -141,59 +120,6 @@ namespace hw.easyzy.bll
             }
             return model;
         }
-
-        /// <summary>
-        /// 获取答案
-        /// </summary>
-        /// <param name="zyId"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public static T_Answer GetAnswer(int zyId, int userId)
-        {
-            T_Answer model = null;
-            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
-                "select Id, ZyId, ZyType, StudentId, AnswerJson, AnswerImg, Submited, CreateDate from T_Answer where ZyId = @ZyId and StudentId = @StudentId",
-                "@ZyId".ToInt32InPara(zyId),
-                "@StudentId".ToInt32InPara(userId)))
-            {
-                if (dr != null && dr.HasRows)
-                {
-                    model = MySqlDBHelper.ConvertDataReaderToEntitySingle<T_Answer>(dr);
-                }
-            }
-            return model;
-        }
-
-        /// <summary>
-        /// 根据UserId查找作业列表
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="totalCount"></param>
-        /// <returns></returns>
-        public static List<int> GetSubmitedZyIds(int userId, int pageIndex, int pageSize, out int totalCount)
-        {
-            List<int> list = null;
-            using (MySqlDataReader dr = MySqlDBHelper.GetPageReader(Util.GetConnectString(ZyConnString),
-                "ZyId ",
-                "T_Answer where StudentId = @StudentId",
-                "Id desc",
-                pageSize,
-                pageIndex,
-                out totalCount,
-                "@StudentId".ToInt32InPara(userId)))
-            {
-                if (dr != null && dr.HasRows)
-                {
-                    list = new List<int>();
-                    while (dr.Read())
-                    {
-                        list.Add(int.Parse(dr[0].ToString()));
-                    }
-                }
-            }
-            return list;
-        }
+        
     }
 }

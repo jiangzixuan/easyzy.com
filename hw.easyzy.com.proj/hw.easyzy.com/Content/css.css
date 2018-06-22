@@ -255,8 +255,10 @@ table{border-collapse:collapse;border-spacing:0}
 .table > tbody > tr > td.align-left{text-align:left;padding-left:10px}
 .table > thead > tr > th,.table > tbody > tr > th,.table > tfoot > tr > th,.table > thead > tr > td,.table > tbody > tr > td,.table > tfoot > tr > td{position:relative;padding:4px;line-height:40px;text-align:center}
 
-#submitbar{margin-top:50px;}
-.quesbar .tab, .submitbar .tab{clear:both; overflow:hidden; margin-top:20px; }
-.quesbar .tab li,.submitbar .tab li{float: left; font-size:16px; padding: 10px 20px; cursor:pointer;color:#fff; background:#aacbf3}
-.quesbar .tab li.active,.submitbar .tab li.active{ background:#0094ff}
-.quesbar .barchart-ques, .submitbar .barchart-submit{padding: 10px;}
+#optionbar{margin-top:50px;}
+#submitbar, #quesbar{margin-top:50px; border-bottom: 1px solid #33ca73}
+.quesbar .tab, .submitbar .tab, .optionbar .tab{clear:both; overflow:hidden; padding: 10px 0;}
+.quesbar .tab li, .submitbar .tab li, .optionbar .tab li{float: left; font-size:12px; padding: 10px 10px; cursor:pointer;color:#fff; background:#aacbf3}
+.quesbar .tab li.active, .submitbar .tab li.active, .optionbar .tab li.active{ background:#0094ff}
+.bartitle{font-size: 14px; color:#fff; background:#808080; padding: 10px 10px;}
+.barsummary{color:#e91a53; padding: 10px 0; font-weight:bold; font-size:14px;}

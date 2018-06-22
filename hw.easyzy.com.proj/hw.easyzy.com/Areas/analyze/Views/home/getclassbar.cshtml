@@ -1,0 +1,71 @@
+﻿<div id="chart_class" style="height:500px;">
+
+</div>
+
+<script type="text/javascript">
+    var xBarDataStr = "", yBarDataStr = "";
+    var xBarData = [], yBarData = [];
+
+    $(function () {
+        xBarDataStr = '@ViewBag.xData';
+        yBarDataStr = '@ViewBag.yData';
+        
+        xBarData = xBarDataStr.split(",");
+        yBarData = yBarDataStr.split("||");
+        
+    })
+
+    var bar = function (elem) {
+        var genchart = echarts.init(document.getElementById(elem));
+        var o = {
+            title: {
+                text: '共@(ViewBag.ClassCount)个班有学生提交了作业',
+                textStyle: {
+                    fontSize: 14,
+                    fontWeight: 'bolder',
+                    color: '#333'
+                }
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c}"
+            },
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+                data: xBarData
+            },
+            series: [
+                {
+                    name:'班级名称',
+                    type:'pie',
+                    radius: ['50%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                fontSize: '30',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: yBarData
+                }
+            ]
+        };
+
+        genchart.setOption(o);
+    }
+
+    bar("chart_class");
+</script>

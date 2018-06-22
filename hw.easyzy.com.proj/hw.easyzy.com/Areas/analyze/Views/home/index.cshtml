@@ -20,27 +20,66 @@
             <h3 style="color:#ff006e">注：本功能只包含客观题作答情况</h3>
         </div>
 
+        <div class="classbar" id="classbar">
+            <div class="bartitle">一、各班提交人数对比</div>
+            <div class="barsummary">一共xx个班xx个学生提交了本作业</div>
+            <div class="barchart-class"></div>
+        </div>
+
         <div class="submitbar" id="submitbar">
+            <div class="bartitle">二、提交及得分情况统计</div>
             <div class="tab">
                 <ul>
-                    <li class="active" data-bind="0">提交时间排序</li>
-                    <li data-bind="1">得分排序</li>
+                    @if (ViewBag.Classes != null)
+                    {
+                        int i = 0;
+                        foreach (var c in ViewBag.Classes)
+                        {
+                            <li data-school="@c.SchoolId" data-grade="@c.GradeId" data-class="@c.ClassId" class=@(i == 0 ? "active" : "")>@c.GradeName @c.ClassName</li>
+                            i = 1;
+                        }
+                    }
                 </ul>
             </div>
+            <div class="barsummary">本班共有xx人提交，总体正确率不高，平均得分xx，xx人按时提交了作业，xx人未按时提交，xx人未提交，点击图表查看学生提交详情</div>
             <div class="barchart-submit"></div>
         </div>
-
-        <div class="quesbar">
+        
+        <div class="quesbar" id="quesbar">
+            <div class="bartitle">三、试题答对人数统计</div>
             <div class="tab">
                 <ul>
-                    <li class="active" data-bind="0">题序排序</li>
-                    <li data-bind="1">正确数排序</li>
+                    @if (ViewBag.Classes != null)
+                    {
+                        int j = 0;
+                        foreach (var c in ViewBag.Classes)
+                        {
+                            <li data-school="@c.SchoolId" data-grade="@c.GradeId" data-class="@c.ClassId" class=@(j == 0 ? "active" : "")>@c.GradeName @c.ClassName</li>
+                            j = 1;
+                        }
+                    }
                 </ul>
             </div>
+            <div class="barsummary">本次作业客观题共XX个，第xx题得分情况不理想，点击图表查看试题内容</div>
             <div class="barchart-ques"></div>
         </div>
-
-        <div class="optionbar">
+        
+        <div class="optionbar" id="optionbar">
+            <div class="bartitle">四、各选项选择率统计</div>
+            <div class="tab">
+                <ul>
+                    @if (ViewBag.Classes != null)
+                    {
+                        int k = 0;
+                        foreach (var c in ViewBag.Classes)
+                        {
+                            <li data-school="@c.SchoolId" data-grade="@c.GradeId" data-class="@c.ClassId" class=@(k == 0 ? "active" : "")>@c.GradeName @c.ClassName</li>
+                            k = 1;
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="barsummary">第xx题错误率最高，正确答案A，错误答案中选B最多</div>
             <div class="barchart-option"></div>
         </div>
     </div>
@@ -56,40 +95,46 @@
     }
     //统计-All
     $(function () {
+        GetClassBar();
         GetSubmitBar();
         GetQuesBar();
         GetOptionBar();
+        
     })
 
-    //统计-提交-切换
-    $(".submitbar .tab li").on("click", function () {
-        $(this).addClass("active").siblings().removeClass("active");
-        GetSubmitBar();
-    })
+    //统计-班级
+    var GetClassBar = function () {
+        $(".barchart-class").html("<img src='/images/loader.gif'><b>正在加载……</b>");
+        $.post("/analyze/home/GetClassBar",
+            { zyId: cur_data.zyid },
+            function (data) {
+                $(".barchart-class").html(data);
+            })
+    }
 
     //统计-提交
     var GetSubmitBar = function () {
         $(".barchart-submit").html("<img src='/images/loader.gif'><b>正在加载……</b>");
-        var ordertype = $(".submitbar .tab li.active").attr("data-bind");
+        var c = $(".submitbar .tab li.active");
+        var sid = c.attr("data-school");
+        var gid = c.attr("data-grade");
+        var cid = c.attr("data-class");
         $.post("/analyze/home/GetSubmitBar",
-            { zyId: cur_data.zyid, orderType: ordertype },
+            { zyId: cur_data.zyid, schoolId: sid, gradeId: gid, classId: cid },
             function (data) {
                 $(".barchart-submit").html(data);
             })
     }
 
-    //统计-试题-切换
-    $(".quesbar .tab li").on("click", function () {
-        $(this).addClass("active").siblings().removeClass("active");
-        GetQuesBar();
-    })
-
     //统计-试题
     var GetQuesBar = function () {
         $(".barchart-ques").html("<img src='/images/loader.gif'><b>正在加载……</b>");
-        var ordertype = $(".quesbar .tab li.active").attr("data-bind");
+        var c = $(".quesbar .tab li.active");
+        var sid = c.attr("data-school");
+        var gid = c.attr("data-grade");
+        var cid = c.attr("data-class");
         $.post("/analyze/home/GetQuesBar",
-            { zyId: cur_data.zyid, orderType: ordertype },
+            { zyId: cur_data.zyid, schoolId: sid, gradeId: gid, classId: cid },
             function (data) {
                 $(".barchart-ques").html(data);
             })
@@ -98,8 +143,12 @@
     //统计-选项
     var GetOptionBar = function () {
         $(".barchart-option").html("<img src='/images/loader.gif'><b>正在加载……</b>");
+        var c = $(".optionbar .tab li.active");
+        var sid = c.attr("data-school");
+        var gid = c.attr("data-grade");
+        var cid = c.attr("data-class");
         $.post("/analyze/home/GetOptionBar",
-            { zyId: cur_data.zyid},
+            { zyId: cur_data.zyid, schoolId: sid, gradeId: gid, classId: cid},
             function (data) {
                 $(".barchart-option").html(data);
             })
