@@ -26,18 +26,11 @@ namespace hw.easyzy.com.Areas.list.Controllers
             dto_Zy zy = B_ZyRedis.GetZy(id);
             zy.Id = 0;  //隐藏真实Id
             dto_AjaxJsonResult<dto_Zy> r = new dto_AjaxJsonResult<dto_Zy>();
-            if (zy.UserId != UserId)
-            {
-                r.code = AjaxResultCodeEnum.Error;
-                r.message = "这不是您新建的作业，无权查看！";
-                r.data = null;
-            }
-            else
-            {
-                r.code = AjaxResultCodeEnum.Success;
-                r.message = "";
-                r.data = zy;
-            }
+           
+            r.code = AjaxResultCodeEnum.Success;
+            r.message = "";
+            r.data = zy;
+            
             return Json(r);
         }
 
@@ -75,6 +68,13 @@ namespace hw.easyzy.com.Areas.list.Controllers
             dto_AjaxJsonResult<string> r = new dto_AjaxJsonResult<string>();
             int id = IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, zyId);
             dto_Zy zy = B_ZyRedis.GetZy(id);
+            if (zy.UserId == 0)
+            {
+                r.code = AjaxResultCodeEnum.Error;
+                r.message = "试用作业仅用于数据展示，不允许进行操作！";
+                r.data = "";
+                return Json(r);
+            }
             if (zy.Status == 2)
             {
                 r.code = AjaxResultCodeEnum.Error;
@@ -120,6 +120,13 @@ namespace hw.easyzy.com.Areas.list.Controllers
             dto_AjaxJsonResult<string> r = new dto_AjaxJsonResult<string>();
             int id = IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, zyId);
             dto_Zy zy = B_ZyRedis.GetZy(id);
+            if (zy.UserId == 0)
+            {
+                r.code = AjaxResultCodeEnum.Error;
+                r.message = "试用作业仅用于数据展示，不允许进行操作！";
+                r.data = "";
+                return Json(r);
+            }
             if (zy.Status == 2)
             {
                 r.code = AjaxResultCodeEnum.Success;

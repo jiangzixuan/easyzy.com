@@ -4,11 +4,14 @@
 <table class="table table-bordered">
     <thead>
         <tr>
+            <th>老师</th>
             <th>学科</th>
             <th>名称</th>
-            <th>提交时间</th>
+            <th>开始时间</th>
+            <th>截止时间</th>
+            <th>创建时间</th>
+            <th>类型</th>
             <th>状态</th>
-            <th>提交数</th>
             <th>操作</th>
         </tr>
     </thead>
@@ -22,26 +25,24 @@
                 a = i == 0 ? "active" : "";
                 i = 1;
                 <tr data-bind="@zy.NewId" class="@a">
+                    <td>@zy.UserName【@zy.TrueName】</td>
                     <td>@zy.SubjectName</td>
                     <td class="align-left" title="点击查看作业内容"><a href="/list/common/info?zyid=@zy.NewId">@zy.ZyName</a></td>
+                    <td>@zy.OpenDate.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@zy.DueDate.ToString("yyyy-MM-dd HH:mm")</td>
                     <td>@zy.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td class="zytype" data-bind="@zy.Type">@zy.TypeName</td>
                     <td class="zystatus">@(zy.Status == 0 ? "正常" : zy.Status == 1 ? "已关闭" : "已删除")</td>
                     <td>
-                        @foreach (var l in zy.ClassSubmitInfo)
-                        {
-                            <span>@(l.ClassName) (@(l.SubmitCount)/n)</span>
-                        }
-                    </td>
-                    <td>
+                        <a href="/list/submited/desc?zyid=@zy.NewId" title="已提交，点击查看答案">查看答案</a>
                         <a href="/analyze/home?zyid=@zy.NewId" title="查看作业统计信息">统计</a>
-                        <a href="/list/down/info?zyid=@zy.NewId" title="查看作答详情信息">作答详情</a>
                     </td>
                 </tr>
             }
         }
         else
         {
-            <tr><td colspan="9">没有任何作业！</td></tr>
+            <tr><td colspan="8">没有任何作业！</td></tr>
         }
         <tr style="display:none"><td id="PageCountDiv">@ViewBag.PageCount</td></tr>
     </tbody>

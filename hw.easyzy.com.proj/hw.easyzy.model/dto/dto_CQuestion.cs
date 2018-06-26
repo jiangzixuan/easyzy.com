@@ -12,5 +12,10 @@ namespace hw.easyzy.model.dto
         public T_QuesOptions Options { get; set; }
 
         public long NewId { get; set; }
+
+        /// <summary>
+        /// 学生答案，兼容查看已完成作业
+        /// </summary>
+        public string SAnswer { get; set; }
     }
 }

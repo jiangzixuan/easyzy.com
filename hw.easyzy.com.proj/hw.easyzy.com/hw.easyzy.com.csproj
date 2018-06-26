@@ -155,11 +155,9 @@
     <Compile Include="Areas\create\createAreaRegistration.cs" />
     <Compile Include="Areas\list\Controllers\baseController.cs" />
     <Compile Include="Areas\list\Controllers\commonController.cs" />
-    <Compile Include="Areas\list\Controllers\downController.cs" />
+    <Compile Include="Areas\list\Controllers\submitedController.cs" />
     <Compile Include="Areas\list\Controllers\homeController.cs" />
-    <Compile Include="Areas\list\Controllers\mineController.cs" />
     <Compile Include="Areas\list\Controllers\selfController.cs" />
-    <Compile Include="Areas\list\Controllers\trailController.cs" />
     <Compile Include="Areas\list\listAreaRegistration.cs" />
     <Compile Include="Areas\submit\Controllers\baseController.cs" />
     <Compile Include="Areas\submit\Controllers\homeController.cs" />
@@ -277,20 +275,23 @@
     <Content Include="Areas\create\Views\qdb\RandomQuestions.cshtml" />
     <Content Include="Areas\create\Views\qdb\Preview.cshtml" />
     <Content Include="Areas\create\Views\qdb\GetBasketQues.cshtml" />
-    <Content Include="Areas\list\Views\mine\index.cshtml" />
+    <Content Include="Areas\list\Views\home\GetMyZy.cshtml" />
     <Content Include="Areas\submit\Views\qdb\GetQuestions.cshtml" />
     <Content Include="Areas\analyze\Views\web.config" />
     <Content Include="Areas\analyze\Views\_ViewStart.cshtml" />
     <Content Include="Areas\analyze\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\analyze\Views\home\index.cshtml" />
-    <Content Include="Areas\list\Views\trail\index.cshtml" />
+    <Content Include="Areas\list\Views\home\GetTrailZy.cshtml" />
     <Content Include="Areas\list\Views\common\info.cshtml" />
     <Content Include="Areas\list\Views\common\GetQuestions.cshtml" />
     <Content Include="Areas\analyze\Views\home\getsubmitbar.cshtml" />
     <Content Include="Areas\analyze\Views\home\getquesbar.cshtml" />
     <Content Include="Areas\analyze\Views\home\getoptionbar.cshtml" />
-    <Content Include="Areas\list\Views\down\index.cshtml" />
+    <Content Include="Areas\list\Views\home\GetSubmitedZy.cshtml" />
     <Content Include="Areas\analyze\Views\home\getclassbar.cshtml" />
+    <Content Include="Areas\list\Views\submited\desc.cshtml" />
+    <Content Include="Areas\list\Views\submited\getquestionandanswers.cshtml" />
+    <Content Include="Areas\list\Views\home\GetRelatedUserZy.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="QuesBaseJson\similarcatalogs.json" />
     <Content Include="QuesBaseJson\textbooks.json" />
@@ -379,6 +380,7 @@
     <Content Include="Scripts\laydate-master\.DS_Store" />
     <Content Include="Scripts\laydate-master\README.md" />
     <Content Include="Scripts\laydate-master\test\.DS_Store" />
+    <Content Include="Views\Home\Index - 备份.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

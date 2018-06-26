@@ -1,0 +1,45 @@
+﻿@using hw.easyzy.model.dto;
+
+@{List<dto_Zy> zl = ViewBag.ZyList;}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>学科</th>
+            <th>名称</th>
+            <th>开始时间</th>
+            <th>截止时间</th>
+            <th>创建时间</th>
+            <th>类型</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (zl != null && zl.Count > 0)
+        {
+            foreach (var zy in zl)
+            {
+                <tr data-bind="@zy.NewId">
+                    <td>@zy.SubjectName</td>
+                    <td>@zy.ZyName</td>
+                    <td>@zy.OpenDate.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@zy.DueDate.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@zy.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td class="zytype" data-bind="@zy.Type">@zy.TypeName</td>
+                    <td>@(zy.Status == 0 ? "正常" : "已关闭")</td>
+                    <td>
+                        <a href="/analyze/home?zyid=@zy.NewId" title="查看作业统计信息">统计</a>
+                        <a href="#" class="closezy" data-bind="@zy.NewId" title="关闭后任何人无法提交此作业答案">关闭</a>
+                        <a href="#" class="deletezy" data-bind="@zy.NewId" title="删除后任何人无法打开查看此作业内容">删除</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr><td colspan="8">您还没有建任何作业！</td></tr>
+        }
+        <tr style="display:none"><td id="PageCountDiv">@ViewBag.PageCount</td></tr>
+    </tbody>
+</table>

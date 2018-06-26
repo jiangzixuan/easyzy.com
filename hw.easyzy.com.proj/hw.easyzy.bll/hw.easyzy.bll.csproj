@@ -78,7 +78,6 @@
     <Compile Include="B_TrailAnswer.cs" />
     <Compile Include="B_User.cs" />
     <Compile Include="B_UserRedis.cs" />
-    <Compile Include="B_UserZy.cs" />
     <Compile Include="B_Zy.cs" />
     <Compile Include="B_ZyRedis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

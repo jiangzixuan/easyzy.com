@@ -1,4 +1,6 @@
-﻿<div id="chart_class" style="height:500px;">
+﻿
+<div class="barsummary">一共@(ViewBag.ClassCount)个班@(ViewBag.StuCount)个学生提交了本次作业</div>
+<div id="chart_class" style="height:500px;">
 
 </div>
 
@@ -8,11 +10,15 @@
 
     $(function () {
         xBarDataStr = '@ViewBag.xData';
-        yBarDataStr = '@ViewBag.yData';
-        
         xBarData = xBarDataStr.split(",");
-        yBarData = yBarDataStr.split("||");
-        
+
+        var ys = "@ViewBag.yData";
+        ys = ys.replace(/&quot;/g, "\"");
+        var y = JSON.parse(ys);
+
+        for (var i = 0; i < y.length; i++) {
+            yBarData.push({ name: y[i].name, value: y[i].value });
+        }
     })
 
     var bar = function (elem) {
@@ -31,13 +37,12 @@
                 formatter: "{a} <br/>{b}: {c}"
             },
             legend: {
-                orient: 'vertical',
-                x: 'left',
+                padding: 30,
                 data: xBarData
             },
             series: [
                 {
-                    name:'班级名称',
+                    name:'提交人数',
                     type:'pie',
                     radius: ['50%', '70%'],
                     avoidLabelOverlap: false,

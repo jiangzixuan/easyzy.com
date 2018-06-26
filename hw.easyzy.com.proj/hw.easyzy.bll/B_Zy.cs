@@ -46,6 +46,39 @@ namespace hw.easyzy.bll
         }
 
         /// <summary>
+        /// 根据一组Userid获取他们新建的作业
+        /// </summary>
+        /// <param name="userIds"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="totalCount"></param>
+        /// <returns></returns>
+        public static List<dto_Zy> GetZyList(int[] userIds, int pageIndex, int pageSize, out int totalCount)
+        {
+
+            if (userIds == null || userIds.Length == 0)
+            {
+                totalCount = 0;
+                return null;
+            } 
+            List<dto_Zy> list = null;
+            using (MySqlDataReader dr = MySqlDBHelper.GetPageReader(Util.GetConnectString(ZyConnString),
+                "Id, UserId, ZyName, CourseId, SubjectId, CreateDate, OpenDate, DueDate, Type, Status ",
+                "T_Zy where UserId in (" + string.Join(",", userIds) + ")",
+                "Id desc",
+                pageSize,
+                pageIndex,
+                out totalCount))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    list = MySqlDBHelper.ConvertDataReaderToEntityList<dto_Zy>(dr);
+                }
+            }
+            return list;
+        }
+
+        /// <summary>
         /// 查询作业
         /// </summary>
         /// <param name="id"></param>

@@ -16,15 +16,17 @@
             @if (ViewBag.UserId == 0)
             {
                 <div class="page-func left active" data-bind="0">试用作业</div>
-                <div class="page-func left" data-bind="1">已提交作业</div>
-                <div class="page-func left" data-bind="2">我建的作业</div>
-                <div class="page-func left" data-bind="3">已关注老师</div>
+                
+                <div class="page-func left" data-bind="1">我建的作业</div>
+                <div class="page-func left" data-bind="2">我关注的老师的作业</div>
+                <div class="page-func left" data-bind="3">我提交的作业</div>
             }
             else
             {
-                <div class="page-func left active" data-bind="1">已提交作业</div>
-                <div class="page-func left" data-bind="2">我建的作业</div>
-                <div class="page-func left" data-bind="3">已关注老师</div>
+                
+                <div class="page-func left active" data-bind="1">我建的作业</div>
+                <div class="page-func left" data-bind="2">我关注的老师的作业</div>
+                <div class="page-func left" data-bind="3">我提交的作业</div>
             }
         </div>
     </div>
@@ -77,30 +79,19 @@
             GetTrialZyData();
         }
         else if (func == "1") {
-            GetSubmitedZyData();
+            GetMyZyData();
         }
         else if (func == "2") {
-            GetMyZyData();
+            GetRelatedUserZy();
+        }
+        else if (func == "3") {
+            GetSubmitedZyData();
         }
     }
 
     //查询试用作业
     var GetTrialZyData = function () {
-        $.post("/list/trail",
-            { pageIndex: cur_data.pageindex, pageSize: cur_data.pagesize },
-            function (data) {
-                $(".zytable").html(data);
-
-                if (parseInt($("#PageCountDiv").html()) > 1) {
-                    $("#pager").pager({ pagenumber: cur_data.pageindex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: PageClick });
-                }
-
-                init();
-            })
-    }
-
-    var GetSubmitedZyData = function () {
-        $.post("/list/down",
+        $.post("/list/home/GetTrailZy",
             { pageIndex: cur_data.pageindex, pageSize: cur_data.pagesize },
             function (data) {
                 $(".zytable").html(data);
@@ -114,7 +105,7 @@
     }
 
     var GetMyZyData = function () {
-        $.post("/list/mine",
+        $.post("/list/home/GetMyZy",
             { pageIndex: cur_data.pageindex, pageSize: cur_data.pagesize },
             function (data) {
                 $(".zytable").html(data);
@@ -124,6 +115,30 @@
                 }
 
                 init();
+            })
+    }
+
+    var GetRelatedUserZy = function () {
+        $.post("/list/home/GetRelatedUserZy",
+            { pageIndex: cur_data.pageindex, pageSize: cur_data.pagesize },
+            function (data) {
+                $(".zytable").html(data);
+
+                if (parseInt($("#PageCountDiv").html()) > 1) {
+                    $("#pager").pager({ pagenumber: cur_data.pageindex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: PageClick });
+                }
+            })
+    }
+
+    var GetSubmitedZyData = function () {
+        $.post("/list/home/GetSubmitedZy",
+            { pageIndex: cur_data.pageindex, pageSize: cur_data.pagesize },
+            function (data) {
+                $(".zytable").html(data);
+
+                if (parseInt($("#PageCountDiv").html()) > 1) {
+                    $("#pager").pager({ pagenumber: cur_data.pageindex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: PageClick });
+                }
             })
     }
 

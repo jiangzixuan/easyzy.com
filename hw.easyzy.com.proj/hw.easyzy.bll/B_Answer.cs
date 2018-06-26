@@ -195,5 +195,32 @@ namespace hw.easyzy.bll
             }
             return list;
         }
+
+        /// <summary>
+        /// 根据一个作业Id数组，返回已提交的作业Id列表
+        /// </summary>
+        /// <param name="studentId"></param>
+        /// <param name="zyIds"></param>
+        /// <returns></returns>
+        public static List<int> GetSubmitedZyIds(int studentId, int[] zyIds)
+        {
+            if (zyIds == null || zyIds.Length == 0) return null;
+            List<int> ids = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
+                "select ZyId from T_Answer where ZyId in (" + string.Join(",", zyIds) + ") and StudentId = @StudentId",
+                "@StudentId".ToInt32InPara(studentId)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    ids = new List<int>();
+                    while (dr.Read())
+                    {
+                        ids.Add(int.Parse(dr[0].ToString()));
+                    }
+                }
+            }
+
+            return ids;
+        }
     }
 }

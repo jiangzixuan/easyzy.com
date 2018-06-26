@@ -216,7 +216,8 @@ namespace hw.easyzy.com.Areas.create.Controllers
                     dq.id = 0;
                     dql.Add(dq);
                 }
-                dql = dql.OrderBy(a => a.typeid).ToList();
+                //因为二级题型是6位的，int型比1级题型大排序会排到后面，所以转化为字符型排序
+                dql = dql.OrderBy(a => a.typeid.ToString()).ToList();
             }
             ViewBag.QuesList = dql;
             return PartialView();

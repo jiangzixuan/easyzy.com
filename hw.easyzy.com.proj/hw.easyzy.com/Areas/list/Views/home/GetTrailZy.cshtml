@@ -11,7 +11,6 @@
             <th>创建时间</th>
             <th>类型</th>
             <th>状态</th>
-            <th>提交数</th>
             <th>操作</th>
         </tr>
     </thead>
@@ -33,23 +32,17 @@
                     <td class="zytype" data-bind="@zy.Type">@zy.TypeName</td>
                     <td class="zystatus">@(zy.Status == 0 ? "正常" : zy.Status == 1 ? "已关闭" : "已删除")</td>
                     <td>
-                        @foreach (var l in zy.ClassSubmitInfo)
-                        {
-                            <span>@(l.ClassName) (@(l.SubmitCount)/n)</span>
-                        }
-                    </td>
-                    <td>
                         <a href="/analyze/home?zyid=@zy.NewId" title="查看作业统计信息">统计</a>
                         <a href="#" class="closezy" data-bind="@zy.NewId" title="关闭后任何人无法提交此作业答案">关闭</a>
                         <a href="#" class="deletezy" data-bind="@zy.NewId" title="删除后任何人无法打开查看此作业内容">删除</a>
-                        <a href="/submit/home?zyid=@zy.NewId" title="试用作业可多次提交，正式作业一个人只能提交一次">提交答案</a>
+                        <a href="/submit/home?zyid=@zy.NewId">提交答案</a>
                     </td>
                 </tr>
             }
         }
         else
         {
-            <tr><td colspan="9">没有任何作业！</td></tr>
+            <tr><td colspan="8">没有任何作业！</td></tr>
         }
         <tr style="display:none"><td id="PageCountDiv">@ViewBag.PageCount</td></tr>
     </tbody>

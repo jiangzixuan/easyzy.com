@@ -35,43 +35,51 @@ namespace hw.easyzy.bll
         }
 
         /// <summary>
-        /// 获取被关注用户数，按照年级&班级分组
+        /// 查询用户被哪些人关注
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public static List<dto_RelateGroup> GetGroupedRelatedUser(int userId)
+        public static int[] GetBeRelatedUser(int userId)
         {
-            List<dto_RelateGroup> model = null;
+            List<int> result = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(UserConnString),
-                "select b.GradeId, b.ClassId, count(1) TotalCount from T_UserRelate a, T_User b where a.UserId = b.Id and a.RUserId = @RUserId group by b.GradeId, b.ClassId",
+                "select UserId from T_UserRelate where RUserId = @RUserId",
                 "@RUserId".ToInt32InPara(userId)))
             {
                 if (dr != null && dr.HasRows)
                 {
-                    model = MySqlDBHelper.ConvertDataReaderToEntityList<dto_RelateGroup>(dr);
+                    result = new List<int>();
+                    while (dr.Read())
+                    {
+                        result.Add(int.Parse(dr[0].ToString()));
+                    }
                 }
             }
-            return model;
+            return result.ToArray();
         }
 
         /// <summary>
-        /// 获取被关注用户列表
+        /// 查询用户关注了哪些人
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public static List<dto_RelateUser> GetBeRelatedUser(int userId)
+        public static int[] GetRelatedUser(int userId)
         {
-            List<dto_RelateUser> model = null;
+            List<int> result = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(UserConnString),
-                "select Id, UserId, RUserId, CreateDate from T_UserRelate where RUserId = @RUserId",
-                "@RUserId".ToInt32InPara(userId)))
+                "select RUserId from T_UserRelate where UserId = @UserId",
+                "@UserId".ToInt32InPara(userId)))
             {
                 if (dr != null && dr.HasRows)
                 {
-                    model = MySqlDBHelper.ConvertDataReaderToEntityList<dto_RelateUser>(dr);
+                    result = new List<int>();
+                    while (dr.Read())
+                    {
+                        result.Add(int.Parse(dr[0].ToString()));
+                    }
                 }
             }
-            return model;
+            return result.ToArray();
         }
     }
 }

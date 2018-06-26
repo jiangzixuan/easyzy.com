@@ -17,7 +17,8 @@ namespace hw.easyzy.com.Areas.submit
             context.MapRoute(
                 "submit_default",
                 "submit/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { action = "Index", id = UrlParameter.Optional },
+                new string[] { "hw.easyzy.com.areas.submit.Controllers" }
             );
         }
     }

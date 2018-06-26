@@ -22,7 +22,6 @@
 
         <div class="classbar" id="classbar">
             <div class="bartitle">一、各班提交人数对比</div>
-            <div class="barsummary">一共xx个班xx个学生提交了本作业</div>
             <div class="barchart-class"></div>
         </div>
 
@@ -41,7 +40,7 @@
                     }
                 </ul>
             </div>
-            <div class="barsummary">本班共有xx人提交，总体正确率不高，平均得分xx，xx人按时提交了作业，xx人未按时提交，xx人未提交，点击图表查看学生提交详情</div>
+            
             <div class="barchart-submit"></div>
         </div>
         
@@ -60,7 +59,7 @@
                     }
                 </ul>
             </div>
-            <div class="barsummary">本次作业客观题共XX个，第xx题得分情况不理想，点击图表查看试题内容</div>
+            
             <div class="barchart-ques"></div>
         </div>
         
@@ -79,7 +78,7 @@
                     }
                 </ul>
             </div>
-            <div class="barsummary">第xx题错误率最高，正确答案A，错误答案中选B最多</div>
+            
             <div class="barchart-option"></div>
         </div>
     </div>
@@ -91,7 +90,8 @@
 
 <script type="text/javascript">
     var cur_data = {
-        zyid: '@ViewBag.ZyId'
+        zyid: '@ViewBag.ZyId',
+        ccount: '@ViewBag.ClassCount'
     }
     //统计-All
     $(function () {
@@ -104,6 +104,10 @@
 
     //统计-班级
     var GetClassBar = function () {
+        if (cur_data.ccount == 0) {
+            $(".barchart-class").html("暂无学生提交！");
+            return;
+        }
         $(".barchart-class").html("<img src='/images/loader.gif'><b>正在加载……</b>");
         $.post("/analyze/home/GetClassBar",
             { zyId: cur_data.zyid },
@@ -114,6 +118,10 @@
 
     //统计-提交
     var GetSubmitBar = function () {
+        if (cur_data.ccount == 0) {
+            $(".barchart-submit").html("暂无学生提交！");
+            return;
+        }
         $(".barchart-submit").html("<img src='/images/loader.gif'><b>正在加载……</b>");
         var c = $(".submitbar .tab li.active");
         var sid = c.attr("data-school");
@@ -128,6 +136,10 @@
 
     //统计-试题
     var GetQuesBar = function () {
+        if (cur_data.ccount == 0) {
+            $(".barchart-ques").html("暂无学生提交！");
+            return;
+        }
         $(".barchart-ques").html("<img src='/images/loader.gif'><b>正在加载……</b>");
         var c = $(".quesbar .tab li.active");
         var sid = c.attr("data-school");
@@ -142,6 +154,10 @@
 
     //统计-选项
     var GetOptionBar = function () {
+        if (cur_data.ccount == 0) {
+            $(".barchart-option").html("暂无学生提交！");
+            return;
+        }
         $(".barchart-option").html("<img src='/images/loader.gif'><b>正在加载……</b>");
         var c = $(".optionbar .tab li.active");
         var sid = c.attr("data-school");

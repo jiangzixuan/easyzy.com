@@ -19,25 +19,142 @@ namespace hw.easyzy.com.Areas.list.Controllers
             return View();
         }
 
-        
-
-        private List<dto_RelateGroup> GetGroupedRelatedUser()
+        /// <summary>
+        /// 获取试用的作业列表
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public ActionResult GetTrailZy(int pageIndex, int pageSize)
         {
-            //查询关注自己的人的各班级数量
-            List<dto_RelateGroup> ul = B_User.GetGroupedRelatedUser(UserId);
-            if (ul != null)
+            int totalCount = 0;
+            List<dto_Zy> list = B_Zy.GetZyList(0, pageIndex, pageSize, out totalCount);
+            if (list != null)
             {
-                string GName = "";
-                ul.ForEach(a => {
-                    Const.Grades.TryGetValue(a.GradeId, out GName);
-                    a.GradeName = GName;
-                    a.ClassName = a.ClassId + "班";
-                });
+                foreach (var l in list)
+                {
+                    //隐藏真实Id
+                    l.NewId = IdNamingHelper.Encrypt(IdNamingHelper.IdTypeEnum.Zy, l.Id);
+
+                    string subName = "";
+                    Const.Subjects.TryGetValue(l.SubjectId, out subName);
+                    l.SubjectName = subName;
+                    l.TypeName = l.Type == 0 ? "题库" : "自传";
+                    l.Id = 0;
+                }
             }
-            return ul;
+
+            ViewBag.ZyList = list;
+            ViewBag.PageCount = Util.GetTotalPageCount(totalCount, pageSize);
+            return PartialView();
         }
 
-        
-        
+        /// <summary>
+        /// 获取我新建的作业列表
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [LoginFilter]
+        public ActionResult GetMyZy(int pageIndex, int pageSize)
+        {
+            int totalCount = 0;
+            List<dto_Zy> list = B_Zy.GetZyList(UserId, pageIndex, pageSize, out totalCount);
+            if (list != null)
+            {
+                foreach (var l in list)
+                {
+                    //隐藏真实Id
+                    l.NewId = IdNamingHelper.Encrypt(IdNamingHelper.IdTypeEnum.Zy, l.Id);
+                    string subName = "";
+                    Const.Subjects.TryGetValue(l.SubjectId, out subName);
+                    l.SubjectName = subName;
+                    l.TypeName = l.Type == 0 ? "题库" : "自传";
+                    l.Id = 0;
+                }
+            }
+            
+            ViewBag.ZyList = list;
+            ViewBag.PageCount = Util.GetTotalPageCount(totalCount, pageSize);
+            return PartialView();
+        }
+
+        /// <summary>
+        /// 获取已提交作业
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [LoginFilter]
+        public ActionResult GetRelatedUserZy(int pageIndex, int pageSize)
+        {
+            int totalCount = 0;
+            
+            int[] RUsers = B_User.GetRelatedUser(UserId);
+            List<dto_Zy>  list = B_Zy.GetZyList(RUsers, pageIndex, pageSize, out totalCount);
+            if (list != null)
+            {
+                List<int> ids = B_Answer.GetSubmitedZyIds(UserId, list.Select(a => a.Id).ToArray());
+                foreach (var l in list)
+                {
+                    l.NewId = IdNamingHelper.Encrypt(IdNamingHelper.IdTypeEnum.Zy, l.Id);
+                    string subName = "";
+                    Const.Subjects.TryGetValue(l.SubjectId, out subName);
+                    l.SubjectName = subName;
+                    l.TypeName = l.Type == 0 ? "题库" : "自传";
+                    dto_User u = B_UserRedis.GetUser(l.UserId);
+                    l.UserName = u.UserName;
+                    l.TrueName = u.TrueName;
+                    l.Submited = ids.Exists(a => a == l.Id);
+                    //隐藏真实Id
+                    l.Id = 0;
+                }
+            }
+            ViewBag.RelateUserCount = RUsers == null ? 0 : RUsers.Length;
+            ViewBag.ZyList = list;
+            ViewBag.PageCount = Util.GetTotalPageCount(totalCount, pageSize);
+            return PartialView();
+        }
+
+        /// <summary>
+        /// 获取已提交作业
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [LoginFilter]
+        public ActionResult GetSubmitedZy(int pageIndex, int pageSize)
+        {
+            int totalCount = 0;
+            List<dto_Zy> list = null;
+            List<int> ids = B_Answer.GetSubmitedZyIds(UserId, pageIndex, pageSize, out totalCount);
+            if (ids != null)
+            {
+                list = new List<dto_Zy>();
+                ids.ForEach(a =>
+                {
+                    list.Add(B_ZyRedis.GetZy(a));
+                });
+            }
+            if (list != null)
+            {
+                Dictionary<int, int> d = B_Answer.GetZySubmitStudentCount(ids.ToArray());
+
+                foreach (var l in list)
+                {
+                    //隐藏真实Id
+                    l.NewId = IdNamingHelper.Encrypt(IdNamingHelper.IdTypeEnum.Zy, l.Id);
+                    
+                    dto_User u = B_UserRedis.GetUser(l.UserId);
+                    l.UserName = u.UserName;
+                    l.TrueName = u.TrueName;
+                    l.Id = 0;
+                }
+            }
+
+            ViewBag.ZyList = list;
+            ViewBag.PageCount = Util.GetTotalPageCount(totalCount, pageSize);
+            return PartialView();
+        }
     }
 }

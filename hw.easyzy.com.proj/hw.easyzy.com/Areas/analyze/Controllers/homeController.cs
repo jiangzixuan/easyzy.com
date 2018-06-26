@@ -37,6 +37,7 @@ namespace hw.easyzy.com.Areas.analyze.Controllers
                 });
             }
             ViewBag.Classes = Classes;
+            ViewBag.ClassCount = Classes == null ? 0 : Classes.Count;
             return View(zy);
         }
 
@@ -69,13 +70,9 @@ namespace hw.easyzy.com.Areas.analyze.Controllers
                 }
             }
             ViewBag.xData = string.Join(",", deb.data.Select(a=>a.name).ToArray());
-            string[] s = new string[deb.data.Count];
-            for (int i = 0; i < deb.data.Count; i++)
-            {
-                s[i] = "{value:" + deb.data[i].value + ", name:'" + deb.data[i].name + "'}";
-            }
-            ViewBag.yData = string.Join("||", s);
+            ViewBag.yData = JsonConvert.SerializeObject(deb.data);
             ViewBag.ClassCount = Classes.Count;
+            ViewBag.StuCount = Classes.Sum(a => a.SubmitCount);
             return PartialView();
         }
 
@@ -108,7 +105,14 @@ namespace hw.easyzy.com.Areas.analyze.Controllers
             }
             int ObjectiveCount = JsonConvert.DeserializeObject<List<dto_ZyQuestion>>(B_ZyRedis.GetQdbZyQuesJson(id)).Count(a => Const.OBJECTIVE_QUES_TYPES.Contains(a.PTypeId));
             ViewBag.ObjectiveCount = ObjectiveCount;
-            
+            int SubmitCount = deb == null ? 0 : deb.x.Count;
+            ViewBag.SubmitCount = SubmitCount;
+            double ScoreRate = 0;
+            ScoreRate = (SubmitCount == 0 || ObjectiveCount == 0 || deb == null) ? 0 : Math.Round((deb.y.Sum(a => int.Parse(a)) * 1.0 / (ObjectiveCount * SubmitCount)), 4) * 100;
+            ViewBag.ScoreRate = ScoreRate;
+            dto_Zy zy = B_ZyRedis.GetZy(id);
+            ViewBag.InTime = deb == null ? 0 : deb.o.Count(a => a <= zy.DueDate);
+            ViewBag.OverTime = deb == null ? 0 : deb.o.Count(a => a > zy.DueDate);
             return PartialView();
         }
 
@@ -127,8 +131,9 @@ namespace hw.easyzy.com.Areas.analyze.Controllers
                 ViewBag.xData = string.Join(",", deb.x);
                 ViewBag.yData = string.Join(",", deb.y);
             }
-            
-            ViewBag.SubmitCount = B_Analyze.GetZySubmitCount(id, schoolId, gradeId, classId);
+
+            ViewBag.ObjectiveCount = deb == null ? 0 : deb.x.Count;
+            ViewBag.Worst = deb == null ? "" : deb.x[deb.y.IndexOf(deb.y.Min(a => a))];
             return PartialView();
         }
 

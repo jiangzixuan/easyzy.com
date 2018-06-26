@@ -13,12 +13,18 @@ namespace hw.easyzy.model.dto
 
         public string TypeName { get; set; }
 
-        public List<dto_RelateGroup> ClassSubmitInfo { get; set; }
-
         public string OpenDateStr { get; set; }
 
         public string DueDateStr { get; set; }
 
         public long NewId { get; set; }
+
+        public string UserName { get; set; }
+        public string TrueName { get; set; }
+
+        /// <summary>
+        /// 是否提交过
+        /// </summary>
+        public bool Submited { get; set; }
     }
 }

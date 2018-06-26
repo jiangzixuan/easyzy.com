@@ -77,6 +77,7 @@ namespace hw.easyzy.bll
             dto_Echart_Bar deb = null;
             List<string> x = null;
             List<string> y = null;
+            List<DateTime> o = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(AnalyzeConnString),
                 "select StudentId, SubmitDate, Score from T_StudentPoint where ZyId = @ZyId and SchoolId = @SchoolId and GradeId = @GradeId and ClassId = @ClassId order by SubmitDate",
                 "@ZyId".ToInt32InPara(zyId),
@@ -89,13 +90,16 @@ namespace hw.easyzy.bll
                     deb = new dto_Echart_Bar();
                     x = new List<string>();
                     y = new List<string>();
+                    o = new List<DateTime>();
                     while (dr.Read())
                     {
                         x.Add(string.Concat(dr[0].ToString()));
                         y.Add(dr[2].ToString());
+                        o.Add(DateTime.Parse(dr[1].ToString()));
                     }
                     deb.x = x;
                     deb.y = y;
+                    deb.o = o;
                 }
             }
             

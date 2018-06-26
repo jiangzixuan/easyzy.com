@@ -55,7 +55,7 @@
                 if (data.code == "0") {
                     if (data.data.Type == 0) {
                         ShowQdbQuestions(data.data.CourseId);
-                        LoadAnswerPicList
+                        LoadAnswerPicList();
                     } 
                 }
                 else {
@@ -141,6 +141,7 @@
         }
         $(".uploadpic").html("上传答案照片");
         $("#myfile").attr("title", "非选择题请将答案写到纸上拍照上传");
+        $('#imgul').viewer("update");
     }
 
     $(".quesop .submit").on("click", function () {
@@ -193,7 +194,7 @@
             { zyId: cur_data.zyid, questions: questions, answers: answers },
             function (data) {
                 if (data.code == "0") {
-                    window.location.href = "/analyze/home?zyid=" + cur_data.zyid;
+                    window.location.href = "/list/submited/desc?zyid=" + cur_data.zyid;
                 }
                 else {
                     dialogAlert(data.message);

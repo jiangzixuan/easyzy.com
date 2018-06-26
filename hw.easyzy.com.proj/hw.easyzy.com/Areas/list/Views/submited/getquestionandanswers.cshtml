@@ -1,0 +1,124 @@
+﻿@using hw.easyzy.model.dto;
+@using easyzy.sdk;
+
+@{List<dto_Question> ql = ViewBag.QuesList;}
+@{List<dto_UserAnswer> al = ViewBag.Answers;}
+
+<div class="answerpiclist">
+    <ul id="imgul">
+        @if (!string.IsNullOrEmpty(ViewBag.AnswerImg))
+        {
+            string[] imgl = ViewBag.AnswerImg.Split(',');
+            foreach (var img in imgl)
+            {
+                <li><img width='50' src='@(ViewBag.PicPrefix)@(img)' alt='答案照片'></li>
+            }
+        }
+    </ul>
+</div>
+
+@if (ql != null && ql.Count > 0)
+{
+    string ptype = "";
+    int bnum = 0, snum = 0;
+    foreach (var q in ql)
+    {
+        snum += 1;
+        if (ptype != q.typename)
+        {
+            bnum += 1;
+            <div class="qtypespan">@Util.ToChinese(bnum)、 @q.typename</div>
+        }
+        ptype = q.typename;
+        <div class="pques" data-bind="@q.NewId" data-type="@q.typeid" data-typename="@(q.typename)">
+            <div class="qtitle">
+                <div class="qtleft">
+                    <b>@(snum)、</b>
+                    <span>题型：@(q.typename)</span>
+                </div>
+            </div>
+            @if (!string.IsNullOrEmpty(q.quesbody))
+            {
+                <div class="pbody">
+                    @Html.Raw(q.quesbody)
+                </div>
+            }
+            @if (Const.OBJECTIVE_QUES_TYPES.Contains(q.ptypeid) && q.Options != null)
+            {
+                string s = Const.SINGLE_OBJECTIVE_QUES_TYPES.Contains(q.ptypeid) ? "single" : "multy";
+                <div class="poption">
+                    <span class="option @s @(q.SAnswer.Contains("A")?"active":"")" data-bind="A">A. @Html.Raw(q.Options.optiona)</span><br />
+                    <span class="option @s @(q.SAnswer.Contains("B")?"active":"")" data-bind="B">B. @Html.Raw(q.Options.optionb)</span><br />
+                    <span class="option @s @(q.SAnswer.Contains("C")?"active":"")" data-bind="C">C. @Html.Raw(q.Options.optionc)</span><br />
+                    <span class="option @s @(q.SAnswer.Contains("D")?"active":"")" data-bind="D">D. @Html.Raw(q.Options.optiond)</span><br />
+                    @if (!string.IsNullOrEmpty(q.Options.optione))
+                    {
+                        <span class="option @s @(q.SAnswer.Contains("E")?"active":"")" data-bind="E">E. @Html.Raw(q.Options.optione)</span><br />
+                    }
+                    @if (!string.IsNullOrEmpty(q.Options.optionf))
+                    {
+                        <span class="option @s @(q.SAnswer.Contains("F")?"active":"")" data-bind="F">F. @Html.Raw(q.Options.optionf)</span><br />
+                    }
+                    @if (!string.IsNullOrEmpty(q.Options.optiong))
+                    {
+                        <span class="option @s @(q.SAnswer.Contains("G")?"active":"")" data-bind="G">G. @Html.Raw(q.Options.optiong)</span><br />
+                    }
+                </div>
+                <div class="panswer @(q.SAnswer == q.quesanswer?"":"error")">正确答案：@q.quesanswer</div>
+            }
+
+            @if (q.haschildren && q.Children != null && q.Children.Count > 0)
+            {
+                int cnum = 0;
+                <div class="cquestions">
+                    @foreach (var cq in q.Children)
+                    {
+                        cnum += 1;
+                        <div class="cques" data-bind="@cq.NewId">
+                            <div class="csingleques">
+                                <div class="cbody">【小题@(cnum)】 @Html.Raw(cq.quesbody)</div>
+                                @if (Const.OBJECTIVE_QUES_TYPES.Contains(cq.ptypeid) && cq.Options != null)
+                                {
+                                    string t = Const.SINGLE_OBJECTIVE_QUES_TYPES.Contains(cq.ptypeid) ? "single" : "multy";
+                                    <div class="coption">
+                                        <span class="option @t @(cq.SAnswer.Contains("A")?"active":"")" data-bind="A">A. @Html.Raw(cq.Options.optiona)</span><br />
+                                        <span class="option @t @(cq.SAnswer.Contains("B")?"active":"")" data-bind="B">B. @Html.Raw(cq.Options.optionb)</span><br />
+                                        <span class="option @t @(cq.SAnswer.Contains("C")?"active":"")" data-bind="C">C. @Html.Raw(cq.Options.optionc)</span><br />
+                                        <span class="option @t @(cq.SAnswer.Contains("D")?"active":"")" data-bind="D">D. @Html.Raw(cq.Options.optiond)</span><br />
+                                        @if (!string.IsNullOrEmpty(cq.Options.optione))
+                                        {
+                                            <span class="option @t @(cq.SAnswer.Contains("E")?"active":"")" data-bind="E">E. @Html.Raw(cq.Options.optione)</span><br />
+                                        }
+                                        @if (!string.IsNullOrEmpty(cq.Options.optionf))
+                                        {
+                                            <span class="option @t @(cq.SAnswer.Contains("F")?"active":"")" data-bind="F">F. @Html.Raw(cq.Options.optionf)</span><br />
+                                        }
+                                        @if (!string.IsNullOrEmpty(cq.Options.optiong))
+                                        {
+                                            <span class="option @t @(cq.SAnswer.Contains("G")?"active":"")" data-bind="G">G. @Html.Raw(cq.Options.optiong)</span><br />
+                                        }
+                                    </div>
+                                    <div class="canswer @(cq.SAnswer == cq.quesanswer?"":"error")">正确答案：@cq.quesanswer</div>
+                                }
+
+                            </div>
+                        </div>
+                    }
+                </div>
+                
+            }
+        </div>
+    }
+}
+else
+{
+    <div style="padding-top:20px; text-align:center;">未找到作业内容！</div>
+}
+
+<script type="text/javascript">
+    $(".pques, .cques").hover(function () {
+        $(this).css("border", "1px solid #0094ff");
+    }, function () {
+        $(this).css("border", "1px solid #deedff");
+        })
+</script>

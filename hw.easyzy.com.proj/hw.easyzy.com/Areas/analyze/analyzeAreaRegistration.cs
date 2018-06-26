@@ -17,7 +17,8 @@ namespace hw.easyzy.com.Areas.analyze
             context.MapRoute(
                 "analyze_default",
                 "analyze/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { action = "Index", id = UrlParameter.Optional },
+                new string[] { "hw.easyzy.com.areas.analyze.Controllers" }
             );
         }
     }

@@ -199,7 +199,7 @@ a.oddesc{background-position:0 -26px;}
 .rcounttip{color:#ff006e;display:none}
 
 .pques, .cques{border:1px solid #deedff; margin-top:10px; line-height:28px;}
-.qtitle, .pbody, .answerparse, .cbody, .coption{padding:10px 10px; }
+.qtitle, .pbody, .answerparse, .cbody, .poption, .coption{padding:10px 10px; }
 .qtitle{background:#f4f9ff; overflow:hidden;}
 .qtitle .qtleft{float:left;}
 .qtitle .qtleft span{padding-right:20px;}
@@ -207,12 +207,13 @@ a.oddesc{background-position:0 -26px;}
 .qtitle .qtright .addone{padding: 3px 6px;color: #fff;}
 .qtitle .qtright .addone.join{background: #32ca73;}
 .qtitle .qtright .addone.remove{background:#333;}
-.pques .poption span.option{padding:5px 10px;}
-.cques .coption span.option{padding:5px 10px;}
+.pques .panswer, .cques .canswer, .pques .poption span.option, .cques .coption span.option{padding:5px 10px;}
+.pques .panswer.error, .cques .canswer.error{color:#e91a53; font-weight:bold;}
 .answerparse{display:none;}
 .pques .dotted{height: 30px;background: url(/images/dotted.png) repeat-x 0px 13px;margin: 10px 10px 0px 10px;color: #0088cc;}
 .pques .dotted .show{width: 100px;float: left;cursor: pointer; background:#fff;}
 .pques .cquestions{padding: 10px 10px;}
+
 
 .qtypespan{padding:20px 0 10px 0;font-weight:700}
 .queslist{padding-bottom:100px}
@@ -255,8 +256,7 @@ table{border-collapse:collapse;border-spacing:0}
 .table > tbody > tr > td.align-left{text-align:left;padding-left:10px}
 .table > thead > tr > th,.table > tbody > tr > th,.table > tfoot > tr > th,.table > thead > tr > td,.table > tbody > tr > td,.table > tfoot > tr > td{position:relative;padding:4px;line-height:40px;text-align:center}
 
-#optionbar{margin-top:50px;}
-#submitbar, #quesbar{margin-top:50px; border-bottom: 1px solid #33ca73}
+#classbar, #submitbar, #quesbar, #optionbar{margin-top:50px;}
 .quesbar .tab, .submitbar .tab, .optionbar .tab{clear:both; overflow:hidden; padding: 10px 0;}
 .quesbar .tab li, .submitbar .tab li, .optionbar .tab li{float: left; font-size:12px; padding: 10px 10px; cursor:pointer;color:#fff; background:#aacbf3}
 .quesbar .tab li.active, .submitbar .tab li.active, .optionbar .tab li.active{ background:#0094ff}

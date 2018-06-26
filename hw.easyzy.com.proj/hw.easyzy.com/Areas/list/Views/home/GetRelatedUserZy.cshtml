@@ -1,0 +1,63 @@
+﻿@using hw.easyzy.model.dto;
+
+@{List<dto_Zy> zl = ViewBag.ZyList;}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>老师</th>
+            <th>学科</th>
+            <th>名称</th>
+            <th>开始时间</th>
+            <th>截止时间</th>
+            <th>创建时间</th>
+            <th>类型</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (zl != null && zl.Count > 0)
+        {
+            int i = 0;
+            string a = "";
+            foreach (var zy in zl)
+            {
+                a = i == 0 ? "active" : "";
+                i = 1;
+                <tr data-bind="@zy.NewId" class="@a">
+                    <td>@zy.UserName【@zy.TrueName】</td>
+                    <td>@zy.SubjectName</td>
+                    <td class="align-left" title="点击查看作业内容"><a href="/list/common/info?zyid=@zy.NewId">@zy.ZyName</a></td>
+                    <td>@zy.OpenDate.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@zy.DueDate.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@zy.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td class="zytype" data-bind="@zy.Type">@zy.TypeName</td>
+                    <td class="zystatus">@(zy.Status == 0 ? "正常" : zy.Status == 1 ? "已关闭" : "已删除")</td>
+                    <td>
+                        <a href="/analyze/home?zyid=@zy.NewId" title="查看作业统计信息">统计</a>
+                        @if (zy.Submited)
+                        {
+                        <a href="/list/submited/desc?zyid=@zy.NewId" title="已提交，点击查看答案">查看答案</a>
+                        }
+                        else
+                        {
+                        <a style="color:#ff006e;" href="/submit/home?zyid=@zy.NewId" title="未提交，点击提交答案">提交答案</a>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            if (ViewBag.RelateUserCount == 0)
+            {
+                <tr><td colspan="8">您还未关注任何老师，请先到个人中心关注您的老师！<a style="color:#ff006e" href="http://local.user.easyzy.com/personal">传送门</a></td></tr>
+            }
+            else
+            {
+            <tr><td colspan="8">没有任何作业！</td></tr>
+            }
+        }
+        <tr style="display:none"><td id="PageCountDiv">@ViewBag.PageCount</td></tr>
+    </tbody>
+</table>

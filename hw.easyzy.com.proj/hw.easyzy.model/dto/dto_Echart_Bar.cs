@@ -15,7 +15,7 @@ namespace hw.easyzy.model.dto
 
         public List<string> y { get; set; }
 
-
+        public List<DateTime> o { get; set; }
     }
 
     public class dto_Echart_Bar2

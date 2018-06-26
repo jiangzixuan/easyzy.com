@@ -41,6 +41,14 @@ namespace hw.easyzy.com.Areas.submit.Controllers
             dto_AjaxJsonResult<dto_Zy> r = new dto_AjaxJsonResult<dto_Zy>();
             //如果状态有问题，只返回少数信息给客户端
             dto_Zy zy2 = new dto_Zy() { ZyName = zy.ZyName, OpenDate = zy.OpenDate, DueDate = zy.DueDate, OpenDateStr = zy.OpenDateStr, DueDateStr = zy.DueDateStr, Status = zy.Status, Type = zy.Type };
+
+            if (zy.UserId == 0)
+            {
+                r.code = AjaxResultCodeEnum.Error;
+                r.message = "试用作业仅用于数据展示，不允许进行操作！";
+                r.data = zy2;
+                return r;
+            }
             if (zy.Status == 2)
             {
                 r.code = AjaxResultCodeEnum.Error;
@@ -81,8 +89,8 @@ namespace hw.easyzy.com.Areas.submit.Controllers
 
             if (zy.UserId != 0)
             {
-                List<dto_RelateUser> rl = B_User.GetBeRelatedUser(zy.UserId);
-                if (rl == null || !rl.Exists(a => a.UserId == userId))
+                int[] rl = B_User.GetBeRelatedUser(zy.UserId);
+                if (rl == null || !rl.Any(a => a == userId))
                 {
                     r.code = AjaxResultCodeEnum.Error;
                     r.message = "您尚未关注此老师，不能打开这个作业。您可在个人中心添加关注老师！";

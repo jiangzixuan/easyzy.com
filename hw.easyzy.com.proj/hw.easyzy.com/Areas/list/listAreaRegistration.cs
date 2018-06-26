@@ -17,7 +17,8 @@ namespace hw.easyzy.com.Areas.list
             context.MapRoute(
                 "list_default",
                 "list/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { action = "Index", id = UrlParameter.Optional },
+                new string[] { "hw.easyzy.com.areas.list.Controllers" }
             );
         }
     }
