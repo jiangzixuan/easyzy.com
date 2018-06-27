@@ -28,14 +28,7 @@ a.chart{color:#e91a53;font-weight:bold;width:30px;height:30px;line-height:30px;b
 .prop-suggest input{width:94%;float:left;padding:12px 10px;line-height:20px;font-size:15px;border:1px solid #e8e8e8;outline:0;margin-bottom:10px}
 .prop-suggest button{display:block;width:100%;height:40px;line-height:40px;text-align:center;color:#FFF !important;background-color:#33ca73;border:0;outline:0;font-size:18px;border-radius:2px;-webkit-border-radius:2px;-moz-border-radius:2px;cursor:pointer}
 .prop-suggest .thanks{font-size:14px;color:red;margin-top:20px;display:none;border:1px solid royalblue;padding:5px}
-.tab-default{line-height:40px;background:#d7d7d7;font-size:14px;width:100%}
-.tab-default th{background:#f4f4f4}
-.tab-default tr{background:#FFF}
-.tab-default tr td{background:#FFF;text-align:center}
-.tab-default tr td a{color:#00aeff}
-.tab-default tr td a:hover{color:#333}
-.tab-default tr td select{width:90px;height:24px;border:solid 1px #dfdfdf;padding-left:14px}
-.tab-default select,.tab-default input{width:70px;height:22px;border:1px solid #dfdfdf;background:#f4f4f4;text-align:center}
+
 .shade{width:100%;height:100%;position:fixed;background:#000;filter:alpha(opacity=20);-moz-opacity:0.2;-khtml-opacity:0.5;opacity:0.5;z-index:9}
 .st-roster{width:1000px;position:fixed;top:50%;left:43%;background:#fff;margin-top:-308px;margin-left:-377px;padding:0;z-index:9999;border-radius:5px}
 .st-roster .poptitle{padding: 10px; color:#fff; background:#0094ff; font-size: 16px;}

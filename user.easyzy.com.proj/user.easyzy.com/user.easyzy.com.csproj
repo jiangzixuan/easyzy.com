@@ -219,6 +219,9 @@
     <Content Include="Views\Personal\Index.cshtml" />
     <Content Include="Views\Personal\GetUserInfo.cshtml" />
     <Content Include="Views\Personal\RequestModify.cshtml" />
+    <Content Include="Views\Personal\MyRelation.cshtml" />
+    <Content Include="Views\Personal\RelateMe.cshtml" />
+    <Content Include="Views\Personal\MyClassmates.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

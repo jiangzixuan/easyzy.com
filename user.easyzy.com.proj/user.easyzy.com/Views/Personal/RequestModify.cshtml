@@ -3,20 +3,11 @@
     ViewBag.Title = "易作业-修改学校请求";
 }
 <style type="text/css">
-    .inner-content .tselect{padding:20px 10px; line-height:40px;}
-    .inner-content .tselect select{width: 100px;height: 24px;border: solid 1px #dfdfdf;padding-left: 2px;background: #f4f4f4;}
-    .inner-content .tselect select.long{width:250px;}
-    .inner-content a{padding: 5px 20px; background:#e91a53; color:#fff;}
-    .inner-content .rearea{width:100%; height:100px;}
-    .inner-content .requests{clear:both; padding: 20px 0;}
-    .inner-content .requests .req{float:left; width:90%}
-    .inner-content .requests .req span{padding-right: 20px; }
-    .inner-content .requests .creq{float:right;}
-    .inner-content .requests label{color:#e91a53; padding:0 10px;}
+    
 </style>
 
-<div class="inner-title" style="line-height: 38px;background: #f7f7f7; color: #669fc7; border: 1px solid #CCC; border-bottom: 1px solid #DDD; padding: 5px 12px; font-size:16px">
-    申请修改学校信息
+<div class="inner-title">
+    申请修改学校信息<label>【转学/学校选错的情况下，可以在这里申请修改学校信息】</label>
 </div>
 <div class="inner-content">
     @if (ViewBag.Model != null)

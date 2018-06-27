@@ -1,0 +1,60 @@
+﻿<div class="inner-title">
+    关注了我<label>【只有关注了您的人，才有权打开您新建的作业！锁定之后任何人都不能再关注您。】</label>
+</div>
+<div class="inner-line">
+    @if (ViewBag.Extend == null || !ViewBag.Extend.Locked)
+    {
+        <a href="javascript:void(0);" class="btn lock" title="未锁定 可被关注">锁定</a>
+    }
+    else
+    {
+        <a href="javascript:void(0);" class="btn lock active" title="已锁定 不能被关注">解锁</a>
+    }
+</div>
+<div class="inner-line berelated">
+    @if (ViewBag.List != null)
+    {
+        foreach (var u in ViewBag.List)
+        {
+            <label href="javascript:void(0);" class="ql">@(u.UserName)【@(u.TrueName)】</label>
+        }
+    }
+    else
+    {
+        <label>暂无</label>
+    }
+</div>
+
+<script type="text/javascript">
+    $(".lock").on("click", function () {
+        var t = $(this);
+        if (t.hasClass("active")) {
+            $.post("/personal/UnLock",
+                {},
+                function (data) {
+                    if (data == "0") {
+                        t.removeClass("active");
+                        t.attr("title", "未锁定 可被关注");
+                        t.html("锁定")
+                    }
+                    else {
+                        dialogAlert("解锁失败！");
+                    }
+                })
+        }
+        else {
+            $.post("/personal/Lock",
+                {},
+                function (data) {
+                    if (data == "0") {
+                        t.addClass("active");
+                        t.attr("title", "已锁定 不能被关注");
+                        t.html("解锁")
+                    }
+                    else {
+                        dialogAlert("锁定失败！");
+                    }
+                })
+        }
+    })
+</script>

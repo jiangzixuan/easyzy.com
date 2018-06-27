@@ -331,5 +331,22 @@ namespace user.easyzy.bll
                 );
             return o == null ? false : true;
         }
+
+        public static List<T_User> GetClassmates(int schoolId, int gradeId, int classId)
+        {
+            List<T_User> model = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(UserConnString),
+                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, ZyPsd, ZyPrice, ProvinceId, CityId, DistrictId, SchoolId, GradeId, ClassId from T_User where SchoolId = @SchoolId and GradeId = @GradeId and ClassId = @ClassId",
+                "@SchoolId".ToInt32InPara(schoolId),
+                "@GradeId".ToInt32InPara(gradeId),
+                "@ClassId".ToInt32InPara(classId)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    model = MySqlDBHelper.ConvertDataReaderToEntityList<T_User>(dr);
+                }
+            }
+            return model;
+        }
     }
 }

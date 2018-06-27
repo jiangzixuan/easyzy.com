@@ -9,11 +9,12 @@
         <div class="personal-funcs">
             <ul>
                 <li><a href="javascript:void(0);" class="userinfo active">个人信息</a></li>
-                <li><a href="javascript:void(0);" class="requestmodify" style="border-bottom:none;">修改请求</a></li>
+                <li><a href="javascript:void(0);" class="requestmodify">修改请求</a></li>
+                <li><a href="javascript:void(0);" class="myrelation">我的关注</a></li>
+                <li><a href="javascript:void(0);" class="relateme">关注了我</a></li>
+                <li><a href="javascript:void(0);" class="myclassmates" style="border-bottom:none;">本班同学</a></li>
             </ul>
-            
         </div>
-
         <div class="personal-info">
 
         </div>
@@ -52,6 +53,45 @@
         $(".requestmodify").addClass("active").parent("li").siblings().find("a").removeClass("active");
         $.post("/personal/RequestModify",
             {  },
+            function (data) {
+                $(".personal-info").html(data);
+            })
+    }
+
+    $(".myrelation").on("click", function () {
+        MyRelation();
+    })
+
+    var MyRelation = function () {
+        $(".myrelation").addClass("active").parent("li").siblings().find("a").removeClass("active");
+        $.post("/personal/MyRelation",
+            {},
+            function (data) {
+                $(".personal-info").html(data);
+            })
+    }
+
+    $(".relateme").on("click", function () {
+        RelateMe();
+    })
+
+    var RelateMe = function () {
+        $(".relateme").addClass("active").parent("li").siblings().find("a").removeClass("active");
+        $.post("/personal/RelateMe",
+            {},
+            function (data) {
+                $(".personal-info").html(data);
+            })
+    }
+
+    $(".myclassmates").on("click", function () {
+        MyClassmates();
+    })
+
+    var MyClassmates = function () {
+        $(".myclassmates").addClass("active").parent("li").siblings().find("a").removeClass("active");
+        $.post("/personal/MyClassmates",
+            {},
             function (data) {
                 $(".personal-info").html(data);
             })

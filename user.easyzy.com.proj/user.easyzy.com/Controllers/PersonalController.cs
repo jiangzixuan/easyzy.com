@@ -10,7 +10,7 @@ using user.easyzy.model.entity;
 
 namespace user.easyzy.com.Controllers
 {
-    [LoginFilterAttribute]
+    [LoginFilter]
     public class PersonalController : BaseController
     {
         public ActionResult Index()
@@ -33,34 +33,6 @@ namespace user.easyzy.com.Controllers
             }
 
             ViewBag.Grades = Const.Grades;
-            
-            //关注列表
-            List<dto_RelateUser> list = B_User.GetRelateUser(UserId);
-            if (list != null)
-            {
-                foreach (var l in list)
-                {
-                    T_User u = B_UserRedis.GetUser(l.RUserId);
-                    l.RUserName = u.UserName;
-                    l.RTrueName = u.TrueName;
-                }
-            }
-            ViewBag.RelateUser = list;
-            //被关注列表
-            List<dto_RelateUser> list2 = B_User.GetBeRelatedUser(UserId);
-            if (list2 != null)
-            {
-                foreach (var l in list2)
-                {
-                    T_User u = B_UserRedis.GetUser(l.UserId);
-                    l.UserName = u.UserName;
-                    l.TrueName = u.TrueName;
-                }
-            }
-            ViewBag.BeRelatedUser = list2;
-            
-            T_UserExtend tue = B_User.GetUserExtend(UserId);
-            ViewBag.Extend = tue;
 
             return PartialView();
         }
@@ -135,7 +107,52 @@ namespace user.easyzy.com.Controllers
             List<T_District> dl = B_BaseRedis.GetDistricts(cityId);
             return Json(dl);
         }
-        
+
+        /// <summary>
+        /// 我的关注
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MyRelation()
+        {
+            //关注列表
+            List<dto_RelateUser> list = B_User.GetRelateUser(UserId);
+            if (list != null)
+            {
+                foreach (var l in list)
+                {
+                    T_User u = B_UserRedis.GetUser(l.RUserId);
+                    l.RUserName = u.UserName;
+                    l.RTrueName = u.TrueName;
+                }
+            }
+            ViewBag.List = list;
+            return PartialView();
+        }
+
+        /// <summary>
+        /// 关注我的
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult RelateMe()
+        {
+            //被关注列表
+            List<dto_RelateUser> list = B_User.GetBeRelatedUser(UserId);
+            if (list != null)
+            {
+                foreach (var l in list)
+                {
+                    T_User u = B_UserRedis.GetUser(l.UserId);
+                    l.UserName = u.UserName;
+                    l.TrueName = u.TrueName;
+                }
+            }
+            ViewBag.List = list;
+
+            T_UserExtend tue = B_User.GetUserExtend(UserId);
+            ViewBag.Extend = tue;
+            return PartialView();
+        }
+
         public JsonResult SearchUser(string keyWords)
         {
             List<T_User> list = B_User.SearchUser(keyWords, UserId);
@@ -262,6 +279,18 @@ namespace user.easyzy.com.Controllers
             b = B_User.UpdateUserExtend(ue);
             
             return b ? 0 : 1;
+        }
+
+        /// <summary>
+        /// 本班同学
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MyClassmates()
+        {
+            dto_User u = B_UserRedis.GetUser(UserId);
+            List<T_User> list = B_User.GetClassmates(u.SchoolId, u.GradeId, u.ClassId);
+            ViewBag.List = list;
+            return PartialView();
         }
     }
 }

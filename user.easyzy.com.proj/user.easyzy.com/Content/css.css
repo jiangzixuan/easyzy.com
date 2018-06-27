@@ -11,17 +11,16 @@ li{list-style-type:none}
 .tleft{text-align:left}
 .tright{text-align:right}
 .font-yahei{font-family:"Microsoft YaHei"}
-a.btn{border:0;border-radius:5px;cursor:pointer;background:#9585bf;padding:5px 20px;color:#fff}
-.tab-default{line-height:40px;background:#d7d7d7;font-size:14px;width:100%}
-.tab-default th{background:#f4f4f4}
-.tab-default tr{background:#FFF}
-.tab-default tr td{background:#FFF;padding:5px 10px;text-align:center}
-.tab-default tr td.tleft{text-align:left}
-.tab-default tr td.tright{text-align:right}
-.tab-default tr td a{color:#333}
-.tab-default tr td a:hover{color:#0088cc}
-.tab-default tr td select{width:90px;height:24px;border:solid 1px #dfdfdf;padding-left:2px}
-.tab-default select,.tab-default input{width:70px;height:22px;border:1px solid #dfdfdf;background:#f4f4f4}
+a.btn{border:0;border-radius:2px;cursor:pointer;background:#9585bf;padding:5px 20px;color:#fff;}
+table{border-collapse:collapse;border-spacing:0}
+.table-bordered{border:0px}
+.table{width:100%}
+.table-bordered > thead > tr > th,.table-bordered > tbody > tr > th,.table-bordered > tfoot > tr > th,.table-bordered > thead > tr > td,.table-bordered > tbody > tr > td,.table-bordered > tfoot > tr > td{border:1px solid #cad9ea}
+.table > thead > tr > th{background:#CCE8EB;color:#333;font-size:16px;font-weight:bold}
+.table > tbody > tr > td{color:#333;font-size:14px}
+.table > tbody > tr > td a{color:#0094ff;position:relative}
+.table > tbody > tr > td.align-left{text-align:left;padding-left:10px}
+.table > thead > tr > th,.table > tbody > tr > th,.table > tfoot > tr > th,.table > thead > tr > td,.table > tbody > tr > td,.table > tfoot > tr > td{position:relative;padding:4px;line-height:40px;text-align:center}
 .fixed{position:fixed;top:500px;right:250px}
 .topfixed{position:fixed;right:20px;bottom:200px;width:50px}
 .topfixed li{color:#fff;border-radius:2px;margin-bottom:3px;cursor:pointer;position:relative}
@@ -96,18 +95,17 @@ a.btn{border:0;border-radius:5px;cursor:pointer;background:#9585bf;padding:5px 2
 .reg .line .help.choose{background-position:1px -49px}
 .personal-funcs{width:18%;float:left;background:#f4f4f4;border:1px solid #e7e7e7}
 .personal-funcs li a{display:inline-block;text-align:center;width:100%;padding:20px 0;border-bottom:1px dashed #a19999;font-size:16px}
-.personal-funcs li a:hover{color:royalblue}
-.personal-funcs .active{color:royalblue}
+.personal-funcs li a:hover{color:#33ca73}
+.personal-funcs .active{color:#33ca73}
 .personal-info{width:80%;float:left;margin-left:10px}
 .tab-default .icoedit{width:30px;height:30px;background:url("/Images/v3-bg.png") no-repeat 0 -8px;padding-left:20px}
 .tab-default .icoedit.save{background-position:-31px -8px}
 .tab-default .icoapply{width:30px;height:30px;background:url("/Images/icon_bg.png") no-repeat -51px -261px;padding-left:20px}
 .tab-default td .cedit{font-size:14px;color:red}
 .tab-default .classinfo{width:180px}
-.tab-default .relate{width:80%}
-.tab-default .relate .del{padding-left:17px;background:url("/Images/v3-bg.png") no-repeat -30px -71px;margin-right:20px}
-.tab-default .icoadd{width:30px;height:30px;background:url("/Images/icon-reg.png") no-repeat;padding-left:20px}
-.tab-default .berelated .ql{margin-right:20px}
+.personal-info .inner-line{margin-top: 10px;overflow: hidden;line-height: 30px;}
+.personal-info .relate .del{padding-left:17px;background:url("/Images/v3-bg.png") no-repeat -30px -71px;margin-right:20px}
+.personal-info .berelated .ql{margin-right:20px}
 .queryrelate{text-align:center;padding:10px 0 20px 0}
 .queryrelate input{height:25px;width:250px}
 .queryrelate .btn{margin-left:20px}
@@ -123,5 +121,20 @@ a.btn{border:0;border-radius:5px;cursor:pointer;background:#9585bf;padding:5px 2
 .sselecter option{padding:5px;}
 .sselecter option .q{border:1px solid #e91a53}
 .inner-content input{width:70px;height:22px;border:1px solid #dfdfdf;background:#f4f4f4}
-.tab-default .icolock{width:30px;height:30px;background:url("/Images/login_icon.png") no-repeat -3px -50px;padding-left:20px}
-.tab-default .icolock.active{background:url("/Images/login_icon.png") no-repeat -53px -50px;}
+.personal-info .icolock{width:30px;height:30px;background:url("/Images/login_icon.png") no-repeat -3px -50px;padding-left:20px}
+.personal-info .icolock.active{background:url("/Images/login_icon.png") no-repeat -53px -50px;}
+
+.personal-info .inner-title{line-height: 38px;background: #f7f7f7; color: #333; border: 1px solid #CCC; border-bottom: 1px solid #DDD; padding: 5px 12px; font-size:16px}
+.personal-info .inner-title label{color:#ff0000}
+.personal-info .inner-content .tselect{padding:20px 0; line-height:40px;}
+.personal-info .inner-content .tselect select{width: 100px;height: 24px;border: solid 1px #dfdfdf;padding-left: 2px;background: #f4f4f4;}
+.personal-info .inner-content .tselect select.long{width:250px;}
+.personal-info .inner-content a{padding: 5px 20px; background:#e91a53; color:#fff;}
+.personal-info .inner-content .rearea{width:100%; height:100px;}
+.personal-info .inner-content .requests{clear:both; padding: 20px 0;}
+.personal-info .inner-content .requests .req{float:left; width:90%}
+.personal-info .inner-content .requests .req span{padding-right: 20px; }
+.personal-info .inner-content .requests .creq{float:right;}
+.personal-info .inner-content .requests label{color:#e91a53; padding:0 10px;}
+
+.classmates label{width: 220px; text-align:left; display:inline-block; }

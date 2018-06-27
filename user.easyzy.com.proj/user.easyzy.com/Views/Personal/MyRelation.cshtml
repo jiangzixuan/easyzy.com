@@ -1,0 +1,121 @@
+﻿<div class="inner-title">
+    我的关注<label>【关注了老师后才能收到老师发布的作业】</label>
+</div>
+<div class="inner-line"><a href="javascript:void(0);" class="btn" title="添加" onclick="AddRelate();">添加关注</a></div>
+<div class="inner-line relate">
+    @if (ViewBag.List != null)
+    {
+        foreach (var l in ViewBag.List)
+        {
+            <a href="javascript:void(0);" data-bind="@l.RUserId" class="ql">@(l.RUserName)【@(l.RTrueName)】</a>
+            <a href="javascript:void(0);" data-bind="@l.RUserId" class="del" onclick="CancelRelate(@l.RUserId);"></a>
+        }
+    }
+</div>
+
+<div class="Relate st-roster" style="display:none; padding: 20px 10px; height:500px;">
+    <img src="/Images/close.png" class="popclose" />
+    <div class="queryrelate">
+        <input id="keywords" placeholder="模糊搜索（用户名/真实姓名）" /><a class="btn" onclick="query();">查询</a>
+    </div>
+    <div class="chooserelate">
+        <div style="color:red; padding-bottom:5px;">（最多返回20条记录）</div>
+        <table border="0" cellspacing="1" cellpadding="0" class="tab-default">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>用户名</th>
+                    <th>真实姓名</th>
+                    <th>学校</th>
+                    <th>年级</th>
+                    <th>班级</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tbody2"></tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //添加关注
+    var AddRelate = function () {
+        $("#keywords").val("");
+        $("#tbody2").html("");
+        $(".Relate").show();
+        $('input').placeholder();
+        $('body').prepend('<div class="shade fixed1"></div>');
+    }
+
+    $(".st-roster .popclose").click(function () {
+        $(".Relate").hide();
+        $(".shade").hide();
+    })
+
+    var query = function () {
+        var html = "";
+        $("#tbody2").html("<div><img style='vertical-align: middle;' src='/images/loader.gif'><b>正在查询中……</b></div>");
+        var keywords = $("#keywords").val();
+        $.post("/personal/SearchUser",
+            { keyWords: keywords },
+            function (json) {
+                if (json.length != 0) {
+                    for (var i = 0; i < json.length; i++) {
+                        html += "<tr><td>" + (i + 1) + "</td><td>" + json[i].UserName + "</td><td>" + json[i].TrueName + "</td><td>" + json[i].SchoolName + "</td><td>" + json[i].GradeName + "</td><td>" + json[i].ClassName + "</td>";
+                        if (!json[i].Locked) {
+                            html += "<td><a href='javascript:void(0);' style='color:royalblue' onclick=\"relate('" + json[i].Id + "','" + json[i].UserName + "','" + json[i].TrueName + "'); \">关注</a></td >";
+                        }
+                        else {
+                            html += "<td title='被锁定，不能关注'>-</td >";
+                        }
+                        html += "</tr > ";
+                    }
+                    $("#tbody2").html(html);
+                }
+                else {
+                    $("#tbody2").html("<tr><td colspan='6'>没有查询到用户！</td></tr>");
+                }
+            })
+    }
+
+    var relate = function (userid, username, truename) {
+        $.post("/personal/Relate",
+            { userId: userid },
+            function (data) {
+                if (data == "") {
+                    $(".relate").prepend("<a href='javascript:void(0);' data-bind='" + userid + "' class='ql' onclick='QueryRZy(" + userid + ");'>" + username + "【" + truename + "】</a><a href='javascript:void(0);' data-bind='" + userid + "' class='del' onclick=\"CancelRelate(" + userid + ");\"></a>");
+                    $(".Relate").hide();
+                    $(".shade").hide();
+                }
+                else {
+                    alert(data);
+                }
+            })
+    }
+
+    var CancelRelate = function (userid) {
+        Cancel_Data.UserId = userid;
+        dialogConfirm("确定要取消关注吗？", CancelRelateOK, "");
+    }
+
+    var Cancel_Data = {
+        UserId: 0
+    }
+
+    var CancelRelateOK = function () {
+        $.post("/personal/CancelRelate",
+            { userId: Cancel_Data.UserId },
+            function (data) {
+                if (data == "") {
+                    $(".relate a").each(function () {
+                        if ($(this).attr("data-bind") == Cancel_Data.UserId) {
+                            $(this).hide();
+                        }
+                    })
+                }
+                else {
+                    dialogAlert(data);
+                }
+            })
+    }
+</script>

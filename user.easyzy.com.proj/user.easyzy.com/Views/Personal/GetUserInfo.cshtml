@@ -1,187 +1,125 @@
-﻿
-<div style="font-size:16px;">
-    <table class="tab-default">
-        <tr>
-            <td class="tright">用户名：</td>
-            <td class="tleft">@ViewBag.UserInfo.UserName</td>
-            <td class=""></td>
-        </tr>
-        <tr>
-            <td class="tright">真实姓名：</td>
-            <td class="tleft"><input type="text" id="TrueNameInput" value="@ViewBag.UserInfo.TrueName" /></td>
-            <td class=""><a href="javascript:void(0);" class="truenamebtn icoedit save" title="保存"></a>@*<label class="cedit">（5位以内。修改后，您提交作业时将会默认使用此姓名）</label>*@</td>
-        </tr>
-        <tr>
-            <td class="tright">学校信息：</td>
-            <td class="tleft">
-                @*<b id="ClassB">@ViewBag.UserInfo.Class</b>
-                <input class="classinfo" type="text" id="ClassInput" value="" style="display:none" />*@
-                <div class="tpanal">
-                    <p class="panal_title">学校信息设置之后不能修改，请谨慎选择！</p>
+﻿<div class="inner-title">
+    个人信息<label>【修改个人信息后需要点击右边的保存按钮才能生效】</label>
+</div>
+<div style="font-size:16px; margin-top:10px;">
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <td>用户名：</td>
+                <td class="align-left">@ViewBag.UserInfo.UserName</td>
+                <td class=""></td>
+            </tr>
+            <tr>
+                <td>真实姓名：</td>
+                <td class="align-left"><input type="text" id="TrueNameInput" value="@ViewBag.UserInfo.TrueName" /></td>
+                <td class=""><a href="javascript:void(0);" class="truenamebtn icoedit save" title="保存"></a>@*<label class="cedit">（5位以内。修改后，您提交作业时将会默认使用此姓名）</label>*@</td>
+            </tr>
+            <tr>
+                <td>学校信息：</td>
+                <td class="align-left">
+                    @*<b id="ClassB">@ViewBag.UserInfo.Class</b>
+                    <input class="classinfo" type="text" id="ClassInput" value="" style="display:none" />*@
+                    <div class="tpanal">
+                        <p class="panal_title">学校信息设置之后不能修改，请谨慎选择！</p>
                     
-                    <div class="tselect">
-                        @if (ViewBag.UserInfo.SchoolId == 0)
-                        {
-                            <label class="tselect_tip">省：</label>
-                            <select class="pselecter short">
-                                <option value="0"></option>
-                                @foreach (var p in ViewBag.Provinces)
-                                {
-                                    <option value="@p.Key">@p.Value</option>
-                                }
-                            </select>
-                            <label class="tselect_tip">市：</label>
-                            <select class="cselecter short">
-                                <option value="0"></option>
-                            </select>
-                            <label class="tselect_tip">区：</label>
-                            <select class="dselecter long">
-                                <option value="0"></option>
-                            </select>
-                            
-                            <div class="ss">
-                                <label>学校：</label>
-                                <input class="schinput long" placeholder="在结果中搜索、点右边箭头展开" />
-                                <select class="sselecter long" style="position:relative;">
+                        <div class="tselect">
+                            @if (ViewBag.UserInfo.SchoolId == 0)
+                            {
+                                <label class="tselect_tip">省：</label>
+                                <select class="pselecter short">
+                                    <option value="0"></option>
+                                    @foreach (var p in ViewBag.Provinces)
+                                    {
+                                        <option value="@p.Key">@p.Value</option>
+                                    }
+                                </select>
+                                <label class="tselect_tip">市：</label>
+                                <select class="cselecter short">
                                     <option value="0"></option>
                                 </select>
-                            </div>
-                        }
-                        else
-                        {
-                            <label class="tselect_tip">省：</label>
-                            <select disabled class="pselecter short">
-                                <option value="@ViewBag.UserInfo.ProvinceId">@ViewBag.UserInfo.ProvinceName</option>
-                            </select>
-                            <label class="tselect_tip">市：</label>
-                            <select disabled class="cselecter short">
-                                <option value="@ViewBag.UserInfo.CityId">@ViewBag.UserInfo.CityName</option>
-                            </select>
-                            <label class="tselect_tip">区：</label>
-                            <select disabled class="dselecter long">
-                                <option value="@ViewBag.UserInfo.DistrictId">@ViewBag.UserInfo.DistrictName</option>
-                            </select>
-                            <div>
-                                <label>学校：</label>
-                                <select disabled class="sselecter long">
-                                    <option value="@ViewBag.UserInfo.SchoolId">@ViewBag.UserInfo.SchoolName</option>
+                                <label class="tselect_tip">区：</label>
+                                <select class="dselecter long">
+                                    <option value="0"></option>
                                 </select>
-                            </div>
-                        }
+                            
+                                <div class="ss">
+                                    <label>学校：</label>
+                                    <input class="schinput long" placeholder="在结果中搜索、点右边箭头展开" />
+                                    <select class="sselecter long" style="position:relative;">
+                                        <option value="0"></option>
+                                    </select>
+                                </div>
+                            }
+                            else
+                            {
+                                <label class="tselect_tip">省：</label>
+                                <select disabled class="pselecter short">
+                                    <option value="@ViewBag.UserInfo.ProvinceId">@ViewBag.UserInfo.ProvinceName</option>
+                                </select>
+                                <label class="tselect_tip">市：</label>
+                                <select disabled class="cselecter short">
+                                    <option value="@ViewBag.UserInfo.CityId">@ViewBag.UserInfo.CityName</option>
+                                </select>
+                                <label class="tselect_tip">区：</label>
+                                <select disabled class="dselecter long">
+                                    <option value="@ViewBag.UserInfo.DistrictId">@ViewBag.UserInfo.DistrictName</option>
+                                </select>
+                                <div>
+                                    <label>学校：</label>
+                                    <select disabled class="sselecter long">
+                                        <option value="@ViewBag.UserInfo.SchoolId">@ViewBag.UserInfo.SchoolName</option>
+                                    </select>
+                                </div>
+                            }
+                        </div>
                     </div>
-                </div>
-            </td>
-            <td>
-                @if (ViewBag.UserInfo.SchoolId == 0)
-                {
-                    <a href="javascript:void(0);" class="schoolbtn icoedit save" title="保存"></a>
-                }
-                else
-                {
-                    <a href="javascript:void(0);" class="applybtn icoapply" onclick="RequestModify();" title="提交修改申请"></a>
-                }
-            </td>
-        </tr>
-        <tr>
-            <td class="tright">班级信息：</td>
-            <td class="tleft">
-                <div class="tpanal">
-                    年级：
-                    <select class="gselecter short">
-                        <option value="0"></option>
-                        @foreach (var c in ViewBag.Grades)
-                        {
-                            <option value="@c.Key">@c.Value</option>
-                        }
-                    </select>
-                    班级：
-                    <select class="clsselecter short">
-                        <option value="0"></option>
-                        @for (int i = 1; i < 100; i++)
-                        {
-                            <option value=@i>@(i)班</option>
-                        }
-                    </select>
-                </div>
-            </td>
-            <td>
-                <a href="javascript:void(0);" class="classbtn icoedit save" title="保存"></a>
-            </td>
-        </tr>
-        
-        <tr>
-            <td class="tright">作业收费：</td>
-            <td class="tleft">0元</td>
-            <td class="">暂未开放<br/>@*（作为对您提供优质内容的回馈，学生只有付款后才能打开/查看您新建的作业）*@</td>
-        </tr>
-        <tr>
-            <td class="tright">关注了谁：</td>
-            <td class="tleft relate">
-                @if (ViewBag.RelateUser != null)
-                {
-                    foreach (var u in ViewBag.RelateUser)
+                </td>
+                <td>
+                    @if (ViewBag.UserInfo.SchoolId == 0)
                     {
-                        <a href="javascript:void(0);" data-bind="@u.RUserId" class="ql">@(u.RUserName)【@(u.RTrueName)】</a>
-                        <a href="javascript:void(0);" data-bind="@u.RUserId" class="del" onclick="CancelRelate(@u.RUserId);"></a>
-                    }
-                }
-            </td>
-            <td><a href="javascript:void(0);" class="icoadd" title="添加" onclick="AddRelate();"></a></td>
-        </tr>
-        <tr>
-            <td class="tright">被谁关注：</td>
-            <td class="tleft berelated">
-                <p class="panal_title">只有关注了您的人，才有权打开您新建的作业！锁定之后任何人都不能再关注您。</p>
-                <div style="height:50px;">
-                    @if (ViewBag.BeRelatedUser != null)
-                    {
-                        foreach (var u in ViewBag.BeRelatedUser)
-                        {
-                            <label href="javascript:void(0);" class="ql">@(u.UserName)【@(u.TrueName)】</label>
-                        }
+                        <a href="javascript:void(0);" class="schoolbtn icoedit save" title="保存"></a>
                     }
                     else
                     {
-                        <label>暂无</label>
+                        <a href="javascript:void(0);" class="applybtn icoapply" onclick="RequestModify();" title="提交修改申请"></a>
                     }
-                </div>
-            </td>
-            <td>
-                @if (ViewBag.Extend == null || !ViewBag.Extend.Locked)
-                {
-                    <a href="javascript:void(0);" class="icolock lock" title="未锁定 可被关注"></a>
-                }
-                else
-                {
-                    <a href="javascript:void(0);" class="icolock lock active" title="已锁定 不能被关注"></a>
-                }
-            </td>
-        </tr>
+                </td>
+            </tr>
+            <tr>
+                <td>班级信息：</td>
+                <td class="align-left">
+                    <div class="tpanal">
+                        年级：
+                        <select class="gselecter short">
+                            <option value="0"></option>
+                            @foreach (var c in ViewBag.Grades)
+                            {
+                                <option value="@c.Key">@c.Value</option>
+                            }
+                        </select>
+                        班级：
+                        <select class="clsselecter short">
+                            <option value="0"></option>
+                            @for (int i = 1; i < 100; i++)
+                            {
+                                <option value=@i>@(i)班</option>
+                            }
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <a href="javascript:void(0);" class="classbtn icoedit save" title="保存"></a>
+                </td>
+            </tr>
+            <tr>
+                <td>作业收费：</td>
+                <td class="align-left">0元</td>
+                <td class="">暂未开放<br/>@*（作为对您提供优质内容的回馈，学生只有付款后才能打开/查看您新建的作业）*@</td>
+            </tr>
+        </tbody>
     </table>
 </div>
-<div class="Relate st-roster" style="display:none; padding: 20px 10px; height:500px;">
-    <img src="/Images/close.png" class="popclose" />
-    <div class="queryrelate">
-        <input id="keywords" placeholder="模糊搜索（用户名/真实姓名）" /><a class="btn" onclick="query();">查询</a>
-    </div>
-    <div class="chooserelate">
-        <div style="color:red; padding-bottom:5px;">（最多返回20条记录）</div>
-        <table border="0" cellspacing="1" cellpadding="0" class="tab-default">
-            <thead>
-                <tr>
-                    <th>序号</th>
-                    <th>用户名</th>
-                    <th>真实姓名</th>
-                    <th>学校</th>
-                    <th>年级</th>
-                    <th>班级</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody id="tbody2"></tbody>
-        </table>
-    </div>
-</div>
+
 
 <script type="text/javascript">
     $(function () {
@@ -366,118 +304,5 @@
                     dialogAlert("修改失败！");
                 }
             })
-    })
-
-    //添加关注
-    var AddRelate = function () {
-        $("#keywords").val("");
-        $("#tbody2").html("");
-        $(".Relate").show();
-        $('input').placeholder();
-        $('body').prepend('<div class="shade fixed1"></div>');
-    }
-
-    $(".st-roster .popclose").click(function () {
-        $(".Relate").hide();
-        $(".shade").hide();
-    })
-
-    var query = function () {
-        var html = "";
-        $("#tbody2").html("<div><img style='vertical-align: middle;' src='/images/loader.gif'><b>正在查询中……</b></div>");
-        var keywords = $("#keywords").val();
-        $.post("/personal/SearchUser",
-            { keyWords: keywords },
-            function (json) {
-                if (json.length != 0) {
-                    for (var i = 0; i < json.length; i++) {
-                        html += "<tr><td>" + (i + 1) + "</td><td>" + json[i].UserName + "</td><td>" + json[i].TrueName + "</td><td>" + json[i].SchoolName + "</td><td>" + json[i].GradeName + "</td><td>" + json[i].ClassName + "</td>";
-                        if (!json[i].Locked) {
-                            html += "<td><a href='javascript:void(0);' style='color:royalblue' onclick=\"relate('" + json[i].Id + "','" + json[i].UserName + "','" + json[i].TrueName + "'); \">关注</a></td >";
-                        }
-                        else {
-                            html += "<td title='被锁定，不能关注'>-</td >";
-                        }
-                        html += "</tr > ";
-                    }
-                    $("#tbody2").html(html);
-                }
-                else {
-                    $("#tbody2").html("<tr><td colspan='6'>没有查询到用户！</td></tr>");
-                }
-            })
-    }
-
-    var relate = function (userid, username, truename)
-    {
-        $.post("/personal/Relate",
-            { userId: userid },
-            function (data) {
-                if (data == "") {
-                    $("td.relate").prepend("<a href='javascript:void(0);' data-bind='" + userid + "' class='ql' onclick='QueryRZy(" + userid + ");'>" + username + "【" + truename + "】</a><a href='javascript:void(0);' data-bind='" + userid + "' class='del' onclick=\"CancelRelate(" + userid + ");\"></a>");
-                    $(".Relate").hide();
-                    $(".shade").hide();
-                }
-                else {
-                    alert(data);
-                }
-            })
-    }
-
-    var CancelRelate = function (userid)
-    {
-        Cancel_Data.UserId = userid;
-        dialogConfirm("确定要取消关注吗？", CancelRelateOK, "");
-    }
-
-    var Cancel_Data = {
-        UserId: 0
-    }
-
-    var CancelRelateOK = function () {
-        $.post("/personal/CancelRelate",
-            { userId: Cancel_Data.UserId },
-            function (data) {
-                if (data == "") {
-                    $(".relate a").each(function () {
-                        if ($(this).attr("data-bind") == Cancel_Data.UserId) {
-                            $(this).hide();
-                        }
-                    })
-                }
-                else {
-                    dialogAlert(data);
-                }
-            })
-    }
-
-    $(".lock").on("click", function () {
-        var t = $(this);
-        if (t.hasClass("active")) {
-            $.post("/personal/UnLock",
-                {},
-                function (data) {
-                    if (data == "0") {
-                        t.removeClass("active");
-                        t.attr("title", "未锁定 可被关注");
-                    }
-                    else {
-                        dialogAlert("解锁失败！");
-                    }
-                })
-        }
-        else {
-            $.post("/personal/Lock",
-                {},
-                function (data) {
-                    if (data == "0") {
-                        t.addClass("active");
-                        t.attr("title", "已锁定 不能被关注");
-                    }
-                    else {
-                        dialogAlert("锁定失败！");
-                    }
-                })
-        }
     })
 </script>

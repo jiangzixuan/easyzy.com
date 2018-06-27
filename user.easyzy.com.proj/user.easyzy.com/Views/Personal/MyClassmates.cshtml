@@ -1,0 +1,12 @@
+﻿<div class="inner-title">
+    本班同学
+</div>
+<div class="inner-line classmates">
+    @if (ViewBag.List != null)
+    {
+        foreach (var l in ViewBag.List)
+        {
+            <label>@(l.UserName)【@(l.TrueName)】</label>
+        }
+    }
+</div>
