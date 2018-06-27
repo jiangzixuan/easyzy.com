@@ -13,13 +13,17 @@
 
         xBarData = xBarDataStr.split(",");
         yBarData = yBarDataStr.split(",");
+
+        for (var i = 0; i < xBarData.length; i++) {
+            xBarData[i] = xBarData[i].split("").join("\n");
+        }
     })
 
     var bar = function (elem) {
         var genchart = echarts.init(document.getElementById(elem));
         var o = {
             title: {
-                text: '共@(ViewBag.SubmitCount)人提交了作业',
+                text: '本班总提交数：@(ViewBag.SubmitCount)',
                 textStyle: {
                     fontSize: 14,
                     fontWeight: 'bolder',
@@ -49,6 +53,9 @@
                 type: 'category',
                 data: xBarData
             },
+            axisLabel: {
+                interval: 0
+            },
             yAxis: {
                 type: 'value'
             },
@@ -60,6 +67,9 @@
         };
 
         genchart.setOption(o);
+        genchart.on("click", function (p) {
+            alert(p.name);
+        });
     }
 
     bar("chart_ques");

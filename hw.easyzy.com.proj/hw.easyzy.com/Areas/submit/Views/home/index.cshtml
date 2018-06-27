@@ -18,6 +18,7 @@
             <h1></h1>
             <h2></h2>
         </div>
+        <div class="zyopenmessage"></div>
         <div class="answerpiclist">
             <ul id="imgul">
             </ul>
@@ -53,12 +54,14 @@
                 $(".zyname-center h1").html(data.data.ZyName);
                 $(".zyname-center h2").html(data.data.OpenDateStr + " - " + data.data.DueDateStr);
                 if (data.code == "0") {
+                    $(".zyopenmessage").hide();
                     if (data.data.Type == 0) {
                         ShowQdbQuestions(data.data.CourseId);
                         LoadAnswerPicList();
                     } 
                 }
                 else {
+                    $(".zyopenmessage").html(data.message);
                     //关闭状态，能打开不能提交
                     //删除状态，不能打开
                     if (data.data.Status == 2) {
@@ -79,8 +82,6 @@
                     }
                 }
             })
-
-        
     })
 
     var LoadAnswerPicList = function () {

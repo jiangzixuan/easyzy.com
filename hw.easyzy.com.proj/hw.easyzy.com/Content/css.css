@@ -59,7 +59,7 @@ a.chart{color:#e91a53;font-weight:bold;width:30px;height:30px;line-height:30px;b
 .head .uprop li a{color:#fff;padding:10px 26px}
 .head .navigate{padding-top:1px; padding-left:50px; font-size:18px;}
 .head .navigate a{padding:5px 10px; color:#333;}
-.head .navigate a:hover{color:#e91a53}
+.head .navigate a:hover, .head .navigate a.active{color:#e91a53; font-weight:bold;}
 .topnav{height:40px; background:#e91a53; line-height:40px;color:#fff; margin-top:10px;}
 .topnav-list{width:1200px; margin:auto;}
 .topnav .notice{float:left; }
@@ -122,6 +122,8 @@ a.chart{color:#e91a53;font-weight:bold;width:30px;height:30px;line-height:30px;b
 .answercard span{height:30px;line-height:30px}
 .answercard .ques span a{margin-left:10px}
 .answercard .ques .left{padding:5px 10px}
+.zyopenmessage{margin-top:10px; padding: 5px 20px; color:#ff006e; background:url("/Images/gantanhao.png") no-repeat 0 7px;}
+
 .answercard .anspic,.answercard .anspiclist{padding:5px 10px;clear:both}
 .answercard .anspiclist img{margin-left:10px}
 .answercard .func{padding:5px 10px}

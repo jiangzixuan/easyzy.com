@@ -38,7 +38,7 @@ $(function () {
 
     //退出
     $(".exit").on("click", function () {
-        $.post("Exit",
+        $.post("/home/exit",
             {},
             function () {
                 window.location.reload();

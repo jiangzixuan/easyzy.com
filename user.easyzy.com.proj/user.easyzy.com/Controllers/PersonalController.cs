@@ -135,31 +135,7 @@ namespace user.easyzy.com.Controllers
             List<T_District> dl = B_BaseRedis.GetDistricts(cityId);
             return Json(dl);
         }
-
-        public ActionResult GetCreatedZy(int pageIndex, int pageSize)
-        {
-            int totalCount = 0;
-            List<dto_UserZy> list = B_UserZy.GetUserZy(UserId, pageIndex, pageSize, out totalCount);
-            if (list != null)
-            {
-                list.ForEach(a => a.ZyNum = Const.GetZyNum(a.ZyId));
-            }
-            ViewBag.PageCount = Util.GetTotalPageCount(totalCount, pageSize);
-            return PartialView(list);
-        }
-
-        public ActionResult GetSubmitedZy(int pageIndex, int pageSize)
-        {
-            int totalCount = 0;
-            List<dto_UserZy> list = B_UserZy.GetSubmitedZy(UserId, pageIndex, pageSize, out totalCount);
-            if (list != null)
-            {
-                list.ForEach(a => a.ZyNum = Const.GetZyNum(a.ZyId));
-            }
-            ViewBag.PageCount = Util.GetTotalPageCount(totalCount, pageSize);
-            return PartialView(list);
-        }
-
+        
         public JsonResult SearchUser(string keyWords)
         {
             List<T_User> list = B_User.SearchUser(keyWords, UserId);
@@ -209,21 +185,7 @@ namespace user.easyzy.com.Controllers
         {
             return B_User.CancelRelate(UserId, userId) ? "" : "操作失败！";
         }
-
-        public ActionResult QueryRZy(int userId, int pageIndex, int pageSize)
-        {
-            int totalCount = 0;
-            List<dto_UserZy> list = B_UserZy.GetUserZy(userId, pageIndex, pageSize, out totalCount);
-            if (list != null)
-            {
-                list.ForEach(a => a.ZyNum = Const.GetZyNum(a.ZyId));
-            }
-            T_User u = B_UserRedis.GetUser(userId);
-            ViewBag.RTrueName = u == null ? "" : (u.UserName + "【" + u.TrueName + "】");
-            ViewBag.PageCount = Util.GetTotalPageCount(totalCount, pageSize);
-            return PartialView(list);
-        }
-
+        
         public JsonResult SearchSchools(int districtId, string keywords)
         {
             List<T_School> sl = B_BaseRedis.GetSchools(districtId);

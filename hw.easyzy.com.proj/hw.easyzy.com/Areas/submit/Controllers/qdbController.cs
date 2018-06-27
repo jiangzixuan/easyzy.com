@@ -184,34 +184,37 @@ namespace hw.easyzy.com.Areas.submit.Controllers
                 al.Add(new dto_UserAnswer() { QId = a.QId, PTypeId = a.PTypeId, Score = a.Score, Answer = (i == -1 ? "" : submitAlist[i]), CAnswer = CAnswer, Point = 0 });
             });
             bool isok = false;
-            
+
+            T_Answer answer = new T_Answer()
+            {
+                ZyId = id,
+                ZyType = zy.Type,
+                StudentId = UserId,
+                Submited = true,
+                CreateDate = DateTime.Now,
+                AnswerJson = JsonConvert.SerializeObject(al),
+                AnswerImg = "",
+                Ip = ClientUtil.Ip,
+                IMEI = ClientUtil.IMEI,
+                MobileBrand = ClientUtil.MobileBrand,
+                SystemType = Request.Browser.Platform.ToString(),
+                Browser = Request.Browser.Browser.ToString()
+            };
+
             if (ans != null)
             {
-                isok = B_Answer.UpdateAnswerJson(id, UserId, JsonConvert.SerializeObject(al));
+                isok = B_Answer.UpdateAnswerJson(id, UserId, answer.AnswerJson);
             }
             else
             {
-                T_Answer answer = new T_Answer()
-                {
-                    ZyId = id,
-                    ZyType = zy.Type,
-                    StudentId = UserId,
-                    Submited = true,
-                    CreateDate = DateTime.Now,
-                    AnswerJson = JsonConvert.SerializeObject(al),
-                    AnswerImg = "",
-                    Ip = ClientUtil.Ip,
-                    IMEI = ClientUtil.IMEI,
-                    MobileBrand = ClientUtil.MobileBrand,
-                    SystemType = Request.Browser.Platform.ToString(),
-                    Browser = Request.Browser.Browser.ToString()
-                };
                 isok = B_Answer.InsertZyAnswer(answer);
-                //写统计表
-                B_Analyze.GenerateAnalyze(answer);
             }
+            
             if (isok)
             {
+                //写统计表
+                B_Analyze.GenerateAnalyze(answer);
+
                 r.code = AjaxResultCodeEnum.Success;
                 r.message = "";
                 r.data = "";

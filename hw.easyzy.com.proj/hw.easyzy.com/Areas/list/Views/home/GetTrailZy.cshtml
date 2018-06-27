@@ -28,7 +28,7 @@
                     <td class="align-left" title="点击查看作业内容"><a href="/list/common/info?zyid=@zy.NewId">@zy.ZyName</a></td>
                     <td>@zy.OpenDate.ToString("yyyy-MM-dd HH:mm")</td>
                     <td>@zy.DueDate.ToString("yyyy-MM-dd HH:mm")</td>
-                    <td>@zy.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td>@zy.CreateDate.ToString("yyyy-MM-dd HH:mm")</td>
                     <td class="zytype" data-bind="@zy.Type">@zy.TypeName</td>
                     <td class="zystatus">@(zy.Status == 0 ? "正常" : zy.Status == 1 ? "已关闭" : "已删除")</td>
                     <td>

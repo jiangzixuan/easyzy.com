@@ -143,8 +143,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\ExceptionFilterAttribute.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\LoginFilter.cs" />
+    <Compile Include="App_Start\LoginFilterAttribute.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\analyze\analyzeAreaRegistration.cs" />
     <Compile Include="Areas\analyze\Controllers\baseController.cs" />

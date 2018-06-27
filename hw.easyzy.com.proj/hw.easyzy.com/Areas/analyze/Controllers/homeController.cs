@@ -96,7 +96,8 @@ namespace hw.easyzy.com.Areas.analyze.Controllers
                     }
                     else
                     {
-                        deb.x[i] = B_UserRedis.GetUser(int.Parse(deb.x[i])).TrueName;
+                        string tname = B_UserRedis.GetUser(int.Parse(deb.x[i])).TrueName;
+                        deb.x[i] = string.IsNullOrEmpty(tname) ? "未设姓名" : tname;
                     }
                 }
                 
@@ -133,6 +134,7 @@ namespace hw.easyzy.com.Areas.analyze.Controllers
             }
 
             ViewBag.ObjectiveCount = deb == null ? 0 : deb.x.Count;
+            ViewBag.SubmitCount = B_Analyze.GetZySubmitCount(id, schoolId, gradeId, classId);
             ViewBag.Worst = deb == null ? "" : deb.x[deb.y.IndexOf(deb.y.Min(a => a))];
             return PartialView();
         }

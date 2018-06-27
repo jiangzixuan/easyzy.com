@@ -1,5 +1,4 @@
-﻿using easyzy.sdk;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 
 namespace user.easyzy.com

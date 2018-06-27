@@ -38,7 +38,7 @@ namespace hw.easyzy.bll
                         if (u != null)
                         {
                             tempresult = TransUserToDtoUser(u);
-                            client.Set<dto_User>(key, tempresult, ts);
+                            client.Set(key, tempresult, ts);
                         }
                     }
                 }

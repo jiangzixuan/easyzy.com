@@ -24,14 +24,6 @@
     var bar = function (elem) {
         var genchart = echarts.init(document.getElementById(elem));
         var o = {
-            title: {
-                text: '共@(ViewBag.ClassCount)个班有学生提交了作业',
-                textStyle: {
-                    fontSize: 14,
-                    fontWeight: 'bolder',
-                    color: '#333'
-                }
-            },
             tooltip: {
                 trigger: 'item',
                 formatter: "{a} <br/>{b}: {c}"

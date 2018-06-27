@@ -79,7 +79,7 @@ namespace hw.easyzy.bll
                     }
                 }
             }
-            return result.ToArray();
+            return result == null ? null : result.ToArray();
         }
     }
 }

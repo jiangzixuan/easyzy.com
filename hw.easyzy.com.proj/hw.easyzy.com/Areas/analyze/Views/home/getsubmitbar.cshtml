@@ -13,13 +13,17 @@
 
         xBarData = xBarDataStr.split(",");
         yBarData = yBarDataStr.split(",");
+
+        for (var i = 0; i < xBarData.length; i++) {
+            xBarData[i] = xBarData[i].split("").join("\n");
+        }
     })
     
     var bar = function (elem) {
         var genchart = echarts.init(document.getElementById(elem));
         var o = {
             title: {
-                text: '本作业中客观题共@(ViewBag.ObjectiveCount)个',
+                text: '本作业中客观题总数：@(ViewBag.ObjectiveCount)',
                 textStyle: {
                     fontSize: 14,
                     fontWeight: 'bolder',
@@ -47,7 +51,11 @@
             },
             xAxis: {
                 type: 'category',
-                data: xBarData
+                data: xBarData,
+                triggerEvent: true
+            },
+            axisLabel: {
+                interval: 0
             },
             yAxis: {
                 type: 'value'
@@ -65,7 +73,13 @@
         };
 
         genchart.setOption(o);
+        genchart.on("click", function (p) {
+            if (p.componentType == "xAxis") {
+                alert(p.value.split("\n").join(""));
+            }
+        });
     }
 
     bar("chart_submit");
+    
 </script>

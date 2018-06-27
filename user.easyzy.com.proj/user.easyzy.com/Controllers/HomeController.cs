@@ -68,7 +68,7 @@ namespace user.easyzy.com.Controllers
         public string IsCheckCodeCorrect(string token, string checkCode)
         {
             string CorrectCode = B_CheckCodeRedis.GetCheckCode(token);
-            return CorrectCode == checkCode.ToUpper() ? "0" : "1";
+            return CorrectCode.ToLower() == checkCode.ToLower() ? "0" : "1";
         }
 
         /// <summary>
@@ -77,11 +77,24 @@ namespace user.easyzy.com.Controllers
         /// <param name="userName"></param>
         /// <param name="passWord"></param>
         /// <returns></returns>
-        public string RegistUser(string userName, string passWord, string token, string checkCode)
+        public JsonResult RegistUser(string userName, string passWord, string token, string checkCode)
         {
             string CorrectCode = B_CheckCodeRedis.GetCheckCode(token);
-            if (checkCode != CorrectCode) return "1";
-            if (IsUserNameExists(userName) == "1") return "1";
+            dto_AjaxJsonResult<bool> result = new dto_AjaxJsonResult<bool>();
+            if (checkCode.ToLower() != CorrectCode.ToLower())
+            {
+                result.code = AjaxResultCodeEnum.Error;
+                result.message = "验证码错误";
+                result.data = false;
+                return Json(result);
+            }
+            if (IsUserNameExists(userName) == "1")
+            {
+                result.code = AjaxResultCodeEnum.Error;
+                result.message = "用户名已被使用";
+                result.data = false;
+                return Json(result);
+            }
 
             T_User u = new T_User()
             {
@@ -101,7 +114,21 @@ namespace user.easyzy.com.Controllers
                 GradeId = 0,
                 ClassId = 0
             };
-            return B_User.Create(u) > 0 ? "0" : "1";
+            int i = B_User.Create(u);
+            if (i > 0)
+            {
+                result.code = AjaxResultCodeEnum.Success;
+                result.message = "";
+                result.data = true;
+            }
+            else
+            {
+                result.code = AjaxResultCodeEnum.Error;
+                result.message = "入库失败";
+                result.data = false;
+                
+            }
+            return Json(result);
         }
 
         public ActionResult Login(string from)

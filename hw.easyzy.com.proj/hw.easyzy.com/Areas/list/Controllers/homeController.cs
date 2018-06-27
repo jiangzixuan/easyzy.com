@@ -105,7 +105,7 @@ namespace hw.easyzy.com.Areas.list.Controllers
                     dto_User u = B_UserRedis.GetUser(l.UserId);
                     l.UserName = u.UserName;
                     l.TrueName = u.TrueName;
-                    l.Submited = ids.Exists(a => a == l.Id);
+                    l.Submited = ids == null ? false : ids.Exists(a => a == l.Id);
                     //隐藏真实Id
                     l.Id = 0;
                 }

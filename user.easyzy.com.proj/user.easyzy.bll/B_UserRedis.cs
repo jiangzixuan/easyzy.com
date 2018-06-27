@@ -33,7 +33,7 @@ namespace user.easyzy.bll
                         if (u != null)
                         {
                             tempresult = TransUserToDtoUser(u);
-                            client.Set<dto_User>(key, tempresult, ts);
+                            client.Set(key, tempresult, ts);
                         }
                     }
                 }
@@ -87,7 +87,7 @@ namespace user.easyzy.bll
                     if (tempresult != null)
                     {
                         tempresult.TrueName = trueName;
-                        client.Set<dto_User>(key, tempresult, ts);
+                        client.Set(key, tempresult, ts);
                     }
                 }
             }
@@ -108,7 +108,7 @@ namespace user.easyzy.bll
                         tempresult.GradeName = gradeName;
                         tempresult.ClassId = classId;
                         tempresult.ClassName = className;
-                        client.Set<dto_User>(key, tempresult, ts);
+                        client.Set(key, tempresult, ts);
                     }
                 }
             }
@@ -125,7 +125,7 @@ namespace user.easyzy.bll
             {
                 if (client != null)
                 {
-                    client.Set<dto_User>(key, result, ts);
+                    client.Set(key, result, ts);
                 }
             }
         }
@@ -142,7 +142,7 @@ namespace user.easyzy.bll
                     if (tempresult != null)
                     {
                         tempresult.FirstLoginDate = firstLoginDate;
-                        client.Set<dto_User>(key, tempresult, ts);
+                        client.Set(key, tempresult, ts);
                     }
                 }
             }

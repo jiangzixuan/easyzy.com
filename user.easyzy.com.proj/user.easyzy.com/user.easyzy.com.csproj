@@ -218,9 +218,6 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Personal\Index.cshtml" />
     <Content Include="Views\Personal\GetUserInfo.cshtml" />
-    <Content Include="Views\Personal\GetCreatedZy.cshtml" />
-    <Content Include="Views\Personal\GetSubmitedZy.cshtml" />
-    <Content Include="Views\Personal\QueryRZy.cshtml" />
     <Content Include="Views\Personal\RequestModify.cshtml" />
   </ItemGroup>
   <ItemGroup>

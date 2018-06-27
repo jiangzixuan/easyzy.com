@@ -9,8 +9,6 @@
         <div class="personal-funcs">
             <ul>
                 <li><a href="javascript:void(0);" class="userinfo active">个人信息</a></li>
-                <li><a href="javascript:void(0);" class="created">已建作业</a></li>
-                <li><a href="javascript:void(0);" class="submited">已做作业</a></li>
                 <li><a href="javascript:void(0);" class="requestmodify" style="border-bottom:none;">修改请求</a></li>
             </ul>
             
@@ -46,65 +44,6 @@
             })
     }
 
-    //查询自己新建的作业列表
-    var Zy_data = {
-        PageSize: 10,
-        PageIndex: 1
-    };
-
-    /*分页事件*/
-    function ZyPageClick(PageIndex) {
-        Zy_data.PageIndex = PageIndex;
-        QueryCreatedZy();
-    }
-
-    $(".created").on("click", function () {
-        $(this).addClass("active").parent("li").siblings().find("a").removeClass("active");
-        QueryCreatedZy();
-    })
-
-    var QueryCreatedZy = function () {
-        $(".personal-info").html("<div class='loading' style='text-align:center; padding-top:50px;'><img style='vertical-align: middle;' src='/images/loader.gif'><b>正在查询中……</b></div>");
-        $.post("/personal/GetCreatedZy",
-            { pageIndex: Zy_data.PageIndex, pageSize: Zy_data.PageSize },
-            function (data) {
-                $(".personal-info").html(data);
-                if (parseInt($("#PageCountDiv").html()) > 1) {
-                    $("#pager").pager({ pagenumber: Zy_data.PageIndex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: ZyPageClick });
-                }
-            })
-    }
-
-    //查询自己提交的作业列表
-    var Sub_data = {
-        PageSize: 10,
-        PageIndex: 1
-    };
-
-    /*分页事件*/
-    function SubPageClick(PageIndex) {
-        Sub_data.PageIndex = PageIndex;
-        QuerySubmitedZy();
-    }
-
-    $(".submited").on("click", function () {
-        $(this).addClass("active").parent("li").siblings().find("a").removeClass("active");
-        QuerySubmitedZy();
-    })
-
-
-    var QuerySubmitedZy = function () {
-        $(".personal-info").html("<div class='loading' style='text-align:center; padding-top:50px;'><img style='vertical-align: middle;' src='/images/loader.gif'><b>正在查询中……</b></div>");
-        $.post("/personal/GetSubmitedZy",
-            { pageIndex: Sub_data.PageIndex, pageSize: Sub_data.PageSize},
-            function (data) {
-                $(".personal-info").html(data);
-                if (parseInt($("#PageCountDiv").html()) > 1) {
-                    $("#pager").pager({ pagenumber: Sub_data.PageIndex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: SubPageClick });
-                }
-            })
-    }
-
     $(".requestmodify").on("click", function () {
         RequestModify();
     })
@@ -115,38 +54,6 @@
             {  },
             function (data) {
                 $(".personal-info").html(data);
-            })
-    }
-
-    //查询已关注人新建的作业列表
-    var RZy_data = {
-        UserId: 0,
-        PageSize: 10,
-        PageIndex: 1
-    };
-
-    var QueryRZy = function (userid) {
-        RZy_data.UserId = userid;
-        RZy_data.PageSize = 10;
-        RZy_data.PageIndex = 1;
-        QueryRZyData();
-    }
-
-    /*分页事件*/
-    function RZyPageClick(PageIndex) {
-        RZy_data.PageIndex = PageIndex;
-        QueryRZyData();
-    }
-    
-    var QueryRZyData = function () {
-        $(".personal-info").html("<div class='loading' style='text-align:center; padding-top:50px;'><img style='vertical-align: middle;' src='/images/loader.gif'><b>正在查询中……</b></div>");
-        $.post("/personal/QueryRZy",
-            { userId: RZy_data.UserId, pageIndex: RZy_data.PageIndex, pageSize: RZy_data.PageSize },
-            function (data) {
-                $(".personal-info").html(data);
-                if (parseInt($("#PageCountDiv").html()) > 1) {
-                    $("#pager").pager({ pagenumber: RZy_data.PageIndex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: RZyPageClick });
-                }
             })
     }
 </script>

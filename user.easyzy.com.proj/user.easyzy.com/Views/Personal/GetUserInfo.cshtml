@@ -121,7 +121,7 @@
                 {
                     foreach (var u in ViewBag.RelateUser)
                     {
-                        <a href="javascript:void(0);" data-bind="@u.RUserId" class="ql" onclick="QueryRZy(@u.RUserId);">@(u.RUserName)【@(u.RTrueName)】</a>
+                        <a href="javascript:void(0);" data-bind="@u.RUserId" class="ql">@(u.RUserName)【@(u.RTrueName)】</a>
                         <a href="javascript:void(0);" data-bind="@u.RUserId" class="del" onclick="CancelRelate(@u.RUserId);"></a>
                     }
                 }

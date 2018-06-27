@@ -197,13 +197,13 @@
         $.post("RegistUser",
             { userName: $(".username").val(), passWord: $(".password").val(), token: token, checkCode: $(".checkcode").val()},
             function (data) {
-                if (data == "0") {
+                if (data.code == "0") {
                     dialogAlert("注册成功，3秒后自动跳转到登录页！");
                     setTimeout("window.location.href = 'login'", 3000);
                     
                 }
                 else {
-                    dialogAlert("注册失败！");
+                    dialogAlert(data.message);
                 }
             })
     })
