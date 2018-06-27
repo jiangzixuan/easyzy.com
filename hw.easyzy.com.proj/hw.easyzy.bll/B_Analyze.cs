@@ -107,6 +107,33 @@ namespace hw.easyzy.bll
         }
 
         /// <summary>
+        /// 查看学生提交情况以及得分情况
+        /// </summary>
+        /// <param name="zyId"></param>
+        /// <param name="schoolId"></param>
+        /// <param name="gradeId"></param>
+        /// <param name="classId"></param>
+        /// <returns></returns>
+        public static List<dto_StudentPoint> GetStudentPoint2(int zyId, int schoolId, int gradeId, int classId)
+        {
+            List<dto_StudentPoint> result = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(AnalyzeConnString),
+                "select ZyId, StudentId, SubmitDate, Score from T_StudentPoint where ZyId = @ZyId and SchoolId = @SchoolId and GradeId = @GradeId and ClassId = @ClassId order by SubmitDate",
+                "@ZyId".ToInt32InPara(zyId),
+                "@SchoolId".ToInt32InPara(schoolId),
+                "@GradeId".ToInt32InPara(gradeId),
+                "@ClassId".ToInt32InPara(classId)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    result = MySqlDBHelper.ConvertDataReaderToEntityList<dto_StudentPoint>(dr);
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// 作业试题正确数报表
         /// </summary>
         /// <param name="zyId"></param>

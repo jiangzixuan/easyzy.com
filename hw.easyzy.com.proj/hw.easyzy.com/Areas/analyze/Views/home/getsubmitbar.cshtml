@@ -1,4 +1,4 @@
-﻿<div class="barsummary">本班共有@(ViewBag.SubmitCount)人提交了此作业，其中@(ViewBag.InTime)人是按时提交，@(ViewBag.OverTime)人是在截止日期之后提交，其余未提交。平均正确率为@(ViewBag.ScoreRate)%，点击图表可以查看学生提交详情。</div>
+﻿<div class="barsummary">本班共有@(ViewBag.SubmitCount)人提交了此作业，其中@(ViewBag.InTime)人是按时提交，@(ViewBag.OverTime)人是在截止日期之后提交，其余未提交。平均正确率为@(ViewBag.ScoreRate)%。</div>
 <div id="chart_submit" style="height:500px;">
 
 </div>
@@ -73,11 +73,11 @@
         };
 
         genchart.setOption(o);
-        genchart.on("click", function (p) {
-            if (p.componentType == "xAxis") {
-                alert(p.value.split("\n").join(""));
-            }
-        });
+        //genchart.on("click", function (p) {
+        //    if (p.componentType == "xAxis") {
+        //        alert(p.value.split("\n").join(""));
+        //    }
+        //});
     }
 
     bar("chart_submit");

@@ -293,6 +293,8 @@
     <Content Include="Areas\list\Views\submited\desc.cshtml" />
     <Content Include="Areas\list\Views\submited\getquestionandanswers.cshtml" />
     <Content Include="Areas\list\Views\home\GetRelatedUserZy.cshtml" />
+    <Content Include="Areas\analyze\Views\home\submitdetail.cshtml" />
+    <Content Include="Areas\analyze\Views\home\getsubmitdetails.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="QuesBaseJson\similarcatalogs.json" />
     <Content Include="QuesBaseJson\textbooks.json" />

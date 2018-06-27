@@ -50,6 +50,7 @@
     <Compile Include="dto\dto_RelateGroup.cs" />
     <Compile Include="dto\dto_RelateUser.cs" />
     <Compile Include="dto\dto_SimilarCatalogs.cs" />
+    <Compile Include="dto\dto_StudentPoint.cs" />
     <Compile Include="dto\dto_User.cs" />
     <Compile Include="dto\dto_UserZy.cs" />
     <Compile Include="dto\dto_ZTree.cs" />

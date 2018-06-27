@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "易作业-作业提交详情";
+    Layout = "~/areas/analyze/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+</style>
+
+<div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > <a href="/list/home">作业列表</a> > <a href="/analyze/home?zyid=@ViewBag.ZyId">统计</a> > 查看明细</div>
+<div class="content-title">
+    <div class="page-top">
+        <div class="page-nav">
+            @{int i = 0;}
+            @foreach (var c in ViewBag.Classes)
+            {
+                <div class="page-func left @(i==0?"active":"")" title="@c.SchoolName" data-school="@c.SchoolId" data-grade="@c.GradeId" data-class="@c.ClassId">@c.GradeName @c.ClassName</div>
+                i += 1;
+            }
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="main-content">
+        <div class="zylist">
+            <div class="zytable"></div>
+
+            <div id="pager" class="zypager"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var cur_data = {
+        zyid: '@ViewBag.ZyId'
+    }
+
+    $(function () {
+        GetSubmitDetails();
+    })
+
+    $(".page-nav .page-func").on("click", function () {
+        $(this).addClass("active").siblings().removeClass("active");
+        GetSubmitDetails();
+    })
+
+    //查询试用作业
+    var GetSubmitDetails = function () {
+        $(".zytable").html("<img src='/images/loader.gif'><b>正在加载……</b>");
+        var c = $(".page-func.active");
+        var sid = c.attr("data-school");
+        var gid = c.attr("data-grade");
+        var cid = c.attr("data-class");
+        $.post("/analyze/home/GetSubmitDetails",
+            { zyId: cur_data.zyid, schoolId: sid, gradeId: gid, classId: cid },
+            function (data) {
+                $(".zytable").html(data);
+            })
+    }
+</script>

@@ -11,7 +11,7 @@ label {display: block; margin-bottom: 0; font-weight:normal;}
 .f1{float:left;margin-left:20px}
 #pager{padding:20px 0; }
 .font-yahei{font-family:"Microsoft YaHei"}
-a.btn{border-radius:5px;cursor:pointer;background:royalblue;padding:5px 20px;color:#fff}
+a.btn{border-radius:2px;cursor:pointer;background:royalblue;padding:5px 20px;color:#fff}
 a.chart{color:#e91a53;font-weight:bold;width:30px;height:30px;line-height:30px;background:url("/Images/ico_chart.png") no-repeat 0 0;padding-left:30px}
 .fixed{position:fixed;top:500px;right:250px}
 .topfixed{position:fixed;right:20px;bottom:200px;width:50px}

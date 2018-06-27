@@ -73,6 +73,7 @@ namespace hw.easyzy.com.Areas.analyze.Controllers
             ViewBag.yData = JsonConvert.SerializeObject(deb.data);
             ViewBag.ClassCount = Classes.Count;
             ViewBag.StuCount = Classes.Sum(a => a.SubmitCount);
+            ViewBag.ZyId = zyId;
             return PartialView();
         }
 
@@ -160,6 +161,57 @@ namespace hw.easyzy.com.Areas.analyze.Controllers
                 ViewBag.DData = string.Join(",", deb.optiond);
             }
             ViewBag.SubmitCount = B_Analyze.GetZySubmitCount(id, schoolId, gradeId, classId);
+            return PartialView();
+        }
+
+        /// <summary>
+        /// 各班级提交详情
+        /// </summary>
+        /// <param name="zyId"></param>
+        /// <returns></returns>
+        public ActionResult SubmitDetail(long zyId)
+        {
+            int id = IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, zyId);
+            List<dto_ClassSubmitCount> Classes = B_Analyze.GetSubmitClasses(id);
+            if (Classes != null)
+            {
+                Classes.ForEach(a =>
+                {
+                    if (a.SchoolId == 0 && a.GradeId == 0 && a.ClassId == 0)
+                    {
+                        a.SchoolName = "试用学校";
+                        a.GradeName = "试用年级";
+                        a.ClassName = "试用班";
+                    }
+                    else
+                    {
+                        a.SchoolName = B_BaseRedis.GetSchool(a.SchoolId).SchoolName;
+                        a.GradeName = Const.Grades[a.GradeId];
+                        a.ClassName = a.ClassId + "班";
+                    }
+                });
+            }
+            ViewBag.Classes = Classes;
+            ViewBag.ZyId = zyId;
+            return View();
+        }
+
+        public ActionResult GetSubmitDetails(long zyId, int schoolId, int gradeId, int classId)
+        {
+            int id = IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, zyId);
+            List<dto_StudentPoint> list = B_Analyze.GetStudentPoint2(id, schoolId, gradeId, classId);
+            if (list != null)
+            {
+                foreach (var l in list)
+                {
+                    dto_User u = B_UserRedis.GetUser(l.StudentId);
+                    l.UserName = u.UserName;
+                    l.TrueName = u.TrueName;
+                    l.NewId = zyId;
+                    l.ZyId = 0;
+                }
+            }
+            ViewBag.List = list;
             return PartialView();
         }
     }

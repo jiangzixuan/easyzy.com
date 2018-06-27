@@ -1,0 +1,33 @@
+﻿@using hw.easyzy.model.dto;
+
+@{List<dto_StudentPoint> sl = ViewBag.List;}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th></th>
+            <th>用户名【姓名】</th>
+            <th>提交时间</th>
+            <th>客观题正确数</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (sl != null && sl.Count > 0)
+        {
+            int i = 0;
+            foreach (var s in sl)
+            {
+                i += 1;
+                <tr>
+                    <td>@i</td>
+                    <td><a href="/list/submited/desc?zyid=@(s.NewId)&studentid=@(s.StudentId)" target="_blank" title="点击查看学生提交详情">@s.UserName【@s.TrueName】</a></td>
+                    <td>@s.SubmitDate.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@s.Score</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr><td colspan="4">没有人提交！</td></tr>
+        }
+    </tbody>
+</table>

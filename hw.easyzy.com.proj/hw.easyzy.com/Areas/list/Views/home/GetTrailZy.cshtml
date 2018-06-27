@@ -17,13 +17,9 @@
     <tbody>
         @if (zl != null && zl.Count > 0)
         {
-            int i = 0;
-            string a = "";
             foreach (var zy in zl)
             {
-                a = i == 0 ? "active" : "";
-                i = 1;
-                <tr data-bind="@zy.NewId" class="@a">
+                <tr data-bind="@zy.NewId">
                     <td>@zy.SubjectName</td>
                     <td class="align-left" title="点击查看作业内容"><a href="/list/common/info?zyid=@zy.NewId">@zy.ZyName</a></td>
                     <td>@zy.OpenDate.ToString("yyyy-MM-dd HH:mm")</td>
