@@ -98,11 +98,11 @@ table{border-collapse:collapse;border-spacing:0}
 .personal-funcs li a:hover{color:#33ca73}
 .personal-funcs .active{color:#33ca73}
 .personal-info{width:80%;float:left;margin-left:10px}
-.tab-default .icoedit{width:30px;height:30px;background:url("/Images/v3-bg.png") no-repeat 0 -8px;padding-left:20px}
-.tab-default .icoedit.save{background-position:-31px -8px}
-.tab-default .icoapply{width:30px;height:30px;background:url("/Images/icon_bg.png") no-repeat -51px -261px;padding-left:20px}
-.tab-default td .cedit{font-size:14px;color:red}
-.tab-default .classinfo{width:180px}
+.table .icoedit{width:30px;height:30px;background:url("/Images/v3-bg.png") no-repeat 0 -8px;padding-left:20px}
+.table .icoedit.save{background-position:-31px -8px}
+.table .icoapply{width:30px;height:30px;background:url("/Images/icon_bg.png") no-repeat -51px -261px;padding-left:20px}
+.table td .cedit{font-size:14px;color:red}
+.table .classinfo{width:180px}
 .personal-info .inner-line{margin-top: 10px;overflow: hidden;line-height: 30px;}
 .personal-info .relate .del{padding-left:17px;background:url("/Images/v3-bg.png") no-repeat -30px -71px;margin-right:20px}
 .personal-info .berelated .ql{margin-right:20px}
