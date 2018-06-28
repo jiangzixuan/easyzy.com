@@ -21,7 +21,7 @@
                 <tr>
                     <td class="td-1">邀请回复</td>
                     <td class="td-2">
-                        <input id="invites" name="invites" class="txt" type="text" placeholder="想邀请谁回答请@他，最多5人（老版本的IE浏览器不支持此功能）" oninput="GetSuggest();" onkeydown="return(keyd());" />
+                        <input id="invites" name="invites" class="txt" type="text" placeholder="想邀请谁回答请@他，最多5人（部分IE浏览器不支持此功能）" oninput="GetSuggest();" onkeydown="return(keyd());" />
                         <div class="suggests">
                             <ul></ul>
                         </div>
@@ -33,7 +33,7 @@
                 </tr>
                 <tr>
                     <td class="td-1">内容</td>
-                    <td class="td-2"><textarea id="topic" name="topic"></textarea></td>
+                    <td class="td-2"><textarea id="topic" name="topic">@ViewBag.TopicContent</textarea></td>
                 </tr>
                 <tr>
                     <td class="td-1">标签</td>
@@ -66,6 +66,9 @@
 </div>
 
 <script type="text/javascript">
+    var cur_data = {
+        subjectid : '@ViewBag.SubjectId'
+    }
 
     var editor1;
     KindEditor.ready(function (K) {
@@ -80,6 +83,10 @@
 
     $(function () {
         $('input').placeholder();
+        if (cur_data.subjectid != "0") {
+            $("#SubjectSelecter").val(cur_data.subjectid);
+            $("#SubjectSelecter").attr("disabled", true);
+        }
     });
 
     var keyd = function () {

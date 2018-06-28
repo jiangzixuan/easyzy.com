@@ -36,6 +36,9 @@
                     <b>@(snum)、</b>
                     <span>题型：@(q.typename)</span>
                 </div>
+                <div class="qtright">
+                    <a class="bbshelper" href="http://local.bbs.easyzy.com/topic/add?quesid=@(q.NewId)&courseid=@(q.courseid)" target="_blank">论坛求助</a>
+                </div>
             </div>
             @if (!string.IsNullOrEmpty(q.quesbody))
             {

@@ -20,7 +20,7 @@ table{border-collapse:collapse;border-spacing:0}
 .table-1 { border: 1px solid #ddd; text-align: center; background-color: #fff; }
 .table-1 th { border: 1px solid #ddd; text-align: center; height: 25px; background: #e7f1fc url(../img/bg-table-th-1.gif) 0 0 repeat-x;}
 .table-1 th.tl { text-align: left; padding-left: 10px;}
-.table-1 td { border: 1px solid #ddd; height: 25px;}
+.table-1 td { border: 1px solid #ddd; }
 .table-1 td.pb5 { padding-bottom: 0; *padding-bottom: 5px;}
 .table-1 .editor td { border: none; height: auto;}
 .table-1 td a { color: #227dbc;}
@@ -70,3 +70,4 @@ table.add-topic{width:100%;}
 .search-condition a.active{color:crimson;}
 .search-condition a:hover{color:crimson;}
 .search-condition b{color:#fff;}
+.table-con.no-minhight{min-height:0;}

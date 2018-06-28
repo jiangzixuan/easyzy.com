@@ -257,3 +257,4 @@ table{border-collapse:collapse;border-spacing:0}
 .quesbar .tab li.active, .submitbar .tab li.active, .optionbar .tab li.active{ background:#0094ff}
 .bartitle{font-size: 14px; color:#fff; background:#808080; padding: 10px 10px;}
 .barsummary{color:#e91a53; padding: 10px 0; font-weight:bold; font-size:14px;}
+.bbshelper{background:url("/Images/gantanhao.png") no-repeat 0 2px; padding-left:20px;}

@@ -217,6 +217,7 @@
     <Content Include="Images\banner\banner2.jpg" />
     <Content Include="Images\banner\banner3.jpg" />
     <Content Include="Images\basket.png" />
+    <Content Include="Images\bbs.png" />
     <Content Include="Images\boshimao.png" />
     <Content Include="Images\calendar-icon.png" />
     <Content Include="Images\category-main-icon.png" />

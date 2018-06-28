@@ -1,6 +1,7 @@
 ﻿using bbs.easyzy.bll;
 using bbs.easyzy.model.dto;
 using bbs.easyzy.model.entity;
+using bbs.easyzy.model.ques;
 using easyzy.sdk;
 using System;
 using System.Collections.Generic;
@@ -69,12 +70,15 @@ namespace bbs.easyzy.com.Controllers
         {
             DateTime FirstCycleDay = DateTime.Now.AddDays(1 - Convert.ToInt32(DateTime.Now.DayOfWeek.ToString("d"))).Date;
             List<dto_Topic> tl = B_Topic.GetTop5Topics(FirstCycleDay);
-            foreach (var t in tl)
+            if (tl != null)
             {
-                t.CreateDateString = t.CreateDate.ToString("yyyy-MM-dd HH:mm:ss");
-                T_User u = B_UserRedis.GetUser(t.UserId);
-                t.UserName = u == null ? "" : u.UserName;
-                t.TrueName = u == null ? "" : u.TrueName;
+                foreach (var t in tl)
+                {
+                    t.CreateDateString = t.CreateDate.ToString("yyyy-MM-dd HH:mm:ss");
+                    T_User u = B_UserRedis.GetUser(t.UserId);
+                    t.UserName = u == null ? "" : u.UserName;
+                    t.TrueName = u == null ? "" : u.TrueName;
+                }
             }
             return Json(tl);
         }
@@ -82,10 +86,42 @@ namespace bbs.easyzy.com.Controllers
         /// <summary>
         /// 打开添加话题页
         /// </summary>
+        /// <param name="quesId">从作业中引用到此处的试题Id</param>
         /// <returns></returns>
         [LoginFilterAttribute]
-        public ActionResult add()
+        public ActionResult add(long quesId = 0, int courseId = 0)
         {
+            if (quesId != 0)
+            {
+                int qid = IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Ques, quesId);
+                dto_Question q = B_QuesRedis.GetQuestion(courseId, qid);
+                string cont = "";
+                if (q != null)
+                {
+                    cont = q.quesbody + "\n\r";
+                    if (Const.OBJECTIVE_QUES_TYPES.Contains(q.ptypeid) && q.Options != null)
+                    {
+                        cont = string.Concat(cont, "<p>A. ", q.Options.optiona, "</p><p>B. ", q.Options.optionb, "</p><p>C. ", q.Options.optionc, "</p><p>D. ", q.Options.optiond, "</p>");
+                        if (!string.IsNullOrEmpty(q.Options.optione))
+                        {
+                            cont = string.Concat(cont, "<p>E.", q.Options.optione, "</p>");
+                        }
+                        if (!string.IsNullOrEmpty(q.Options.optionf))
+                        {
+                            cont = string.Concat(cont, "<p>F.", q.Options.optionf, "</p>");
+                        }
+                        if (!string.IsNullOrEmpty(q.Options.optiong))
+                        {
+                            cont = string.Concat(cont, "<p>G.", q.Options.optiong, "</p>");
+                        }
+                    }
+                } 
+                
+                ViewBag.TopicContent = cont;
+                int subjectId = Const.CourseSubjectMapping[courseId];
+                ViewBag.SubjectId = subjectId;
+            }
+
             ViewBag.Grades = Const.Grades;
             ViewBag.Subjects = Const.Subjects;
             return View();

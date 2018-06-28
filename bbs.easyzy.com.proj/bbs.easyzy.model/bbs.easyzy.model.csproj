@@ -40,12 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ques\dto_CQuestion.cs" />
     <Compile Include="dto\dto_KeyValue.cs" />
+    <Compile Include="ques\dto_Question.cs" />
     <Compile Include="dto\dto_Reply.cs" />
     <Compile Include="dto\dto_Topic.cs" />
     <Compile Include="dto\dto_User.cs" />
     <Compile Include="entity\T_City.cs" />
+    <Compile Include="ques\T_CQuestion.cs" />
     <Compile Include="entity\T_District.cs" />
+    <Compile Include="ques\T_QuesOptions.cs" />
+    <Compile Include="ques\T_Questions.cs" />
     <Compile Include="entity\T_School.cs" />
     <Compile Include="entity\T_Topic.cs" />
     <Compile Include="entity\T_Reply.cs" />
