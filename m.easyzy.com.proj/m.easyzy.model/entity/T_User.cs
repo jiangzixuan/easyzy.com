@@ -14,7 +14,17 @@ namespace m.easyzy.model.entity
 
         public string TrueName { get; set; }
 
-        public string Class { get; set; }
+        public int ProvinceId { get; set; }
+
+        public int CityId { get; set; }
+
+        public int DistrictId { get; set; }
+
+        public int SchoolId { get; set; }
+
+        public int GradeId { get; set; }
+
+        public int ClassId { get; set; }
 
         public string Psd { get; set; }
 

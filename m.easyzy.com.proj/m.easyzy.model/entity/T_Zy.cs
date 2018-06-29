@@ -12,13 +12,16 @@ namespace m.easyzy.model.entity
 
         public int UserId { get; set; }
 
-        public string BodyWordPath { get; set; }
+        public string ZyName { get; set; }
 
-        public string BodyHtmlPath { get; set; }
+        public DateTime OpenDate { get; set; }
 
-        public string AnswerWordPath { get; set; }
+        public DateTime DueDate { get; set; }
 
-        public string AnswerHtmlPath { get; set; }
+        /// <summary>
+        /// 0: Qdb 1: Self
+        /// </summary>
+        public int Type { get; set; }
 
         public DateTime CreateDate { get; set; }
 
@@ -32,6 +35,13 @@ namespace m.easyzy.model.entity
 
         public string Browser { get; set; }
 
-        public bool Structed { get; set; }
+        public int CourseId { get; set; }
+
+        public int SubjectId { get; set; }
+
+        /// <summary>
+        /// 0: 正常 1:已关闭（能打开不能提交） 2:已删除（不能打开）
+        /// </summary>
+        public int Status { get; set; }
     }
 }

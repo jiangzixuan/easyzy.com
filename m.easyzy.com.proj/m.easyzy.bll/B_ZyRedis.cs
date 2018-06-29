@@ -1,4 +1,5 @@
 ﻿using easyzy.sdk;
+using m.easyzy.model.dto;
 using m.easyzy.model.entity;
 using Newtonsoft.Json;
 using System;
@@ -18,247 +19,234 @@ namespace m.easyzy.bll
         /// <summary>
         /// 获取作业信息
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        public static T_Zy GetZy(int Id)
+        public static dto_Zy GetZy(int id)
         {
-            Dictionary<string, string> tempresult = null;
-            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Zy, Id.ToString());
+            dto_Zy tempresult = null;
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Zy, id.ToString());
             using (var client = RedisHelper.GetRedisClient(CacheCatalog.Zy.ToString()))
             {
                 if (client != null)
                 {
-                    tempresult = client.GetAllEntriesFromHash(key);
-                }
-            }
-            T_Zy result = null;
-            if (tempresult.Count != 0)
-            {
-                result = RedisHelper.ConvertDicToEntitySingle<T_Zy>(tempresult);
-            }
-            else
-            {
-                result = B_Zy.GetZy(Id);
-                if (result != null)
-                {
-                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.Zy.ToString()))
+                    tempresult = client.Get<dto_Zy>(key);
+                    if (tempresult == null)
                     {
-                        if (cl != null)
+                        T_Zy z = B_Zy.GetZy(id);
+                        string subName = "";
+                        Subjects.TryGetValue(z.SubjectId, out subName);
+                        tempresult = new dto_Zy()
                         {
-                            cl.SetRangeInHash(key, GetZyKeyValuePairs(result));
-                            cl.ExpireEntryIn(key, ts);
+                            Id = z.Id,
+                            UserId = z.UserId,
+                            ZyName = z.ZyName,
+                            Type = z.Type,
+                            CourseId = z.CourseId,
+                            SubjectId = z.SubjectId,
+                            CreateDate = z.CreateDate,
+                            OpenDate = z.OpenDate,
+                            DueDate = z.DueDate,
+                            OpenDateStr = z.OpenDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                            DueDateStr = z.DueDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                            SubjectName = subName,
+                            TypeName = z.Type == 0 ? "题库" : "自传",
+                            Status = z.Status
+                        };
+
+                        if (tempresult != null)
+                        {
+                            client.Set(key, tempresult, ts);
                         }
                     }
                 }
             }
-            return result;
+
+            return tempresult;
+        }
+
+        /// <summary>
+        /// 获取作业的所有试题信息
+        /// </summary>
+        /// <param name="courseId"></param>
+        /// <param name="zyId"></param>
+        /// <returns></returns>
+        public static List<dto_Question> GetQdbZyQuestions(int courseId, int zyId)
+        {
+            List<dto_Question> tempresult = null;
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.QdbZyAllQuestions, zyId.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.QdbZyAllQuestions.ToString()))
+            {
+                if (client != null)
+                {
+                    tempresult = client.Get<List<dto_Question>>(key);
+                    if (tempresult == null)
+                    {
+                        string s = GetQdbZyQuesJson(zyId);
+                        if (string.IsNullOrEmpty(s)) return null;
+                        List<dto_ZyQuestion> zyql = JsonConvert.DeserializeObject<List<dto_ZyQuestion>>(s);
+                        if (zyql != null)
+                        {
+                            tempresult = new List<dto_Question>();
+                            zyql.Select(a => a.PQId).Distinct().ToList().ForEach(b =>
+                            {
+                                tempresult.Add(B_QuesRedis.GetQuestion(courseId, b));
+                            });
+
+                            client.Set(key, tempresult, ts);
+                        }
+                    }
+                }
+            }
+
+            return tempresult;
+        }
+
+        /// <summary>
+        /// 获取作业的试题json信息
+        /// </summary>
+        /// <param name="zyId"></param>
+        /// <returns></returns>
+        public static string GetQdbZyQuesJson(int zyId)
+        {
+            string tempresult = null;
+            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.QdbZyQues, zyId.ToString());
+            using (var client = RedisHelper.GetRedisClient(CacheCatalog.QdbZyQues.ToString()))
+            {
+                if (client != null)
+                {
+                    tempresult = client.Get<string>(key);
+                    if (tempresult == null)
+                    {
+                        tempresult = B_Zy.GetQdbZyQues(zyId);
+
+                        if (tempresult != null)
+                        {
+                            client.Set(key, tempresult, ts);
+                        }
+                    }
+                }
+            }
+
+            return tempresult;
         }
 
         /// <summary>
         /// 获取作业结构信息
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="zyId"></param>
         /// <returns></returns>
-        public static List<T_ZyStruct> GetZyStruct(int ZyId)
-        {
-            string tempresult = null;
+        //public static List<T_ZyStruct> GetZyStruct(int zyId)
+        //{
+        //    List<T_ZyStruct> tempresult = null;
 
-            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.ZyStruct, ZyId.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.ZyStruct.ToString()))
-            {
-                if (client != null)
-                {
-                    tempresult = client.Get<string>(key);
-                }
-            }
-            List<T_ZyStruct> result = null;
-            if (!string.IsNullOrEmpty(tempresult))
-            {
-                result = JsonConvert.DeserializeObject<List<T_ZyStruct>>(tempresult);
-            }
-            else
-            {
-                result = B_Zy.GetZyStruct(ZyId);
-                if (result != null)
-                {
-                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.ZyStruct.ToString()))
-                    {
-                        if (cl != null)
-                        {
-                            cl.Set<string>(key, JsonConvert.SerializeObject(result), ts);
-                        }
-                    }
-                }
-            }
-            return result;
-        }
+        //    string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.SelfZyStruct, zyId.ToString());
+        //    using (var client = RedisHelper.GetRedisClient(CacheCatalog.SelfZyStruct.ToString()))
+        //    {
+        //        if (client != null)
+        //        {
+        //            tempresult = client.Get<List<T_ZyStruct>>(key);
+        //            if (tempresult == null)
+        //            {
+        //                tempresult = B_Zy.GetZyStruct(zyId);
+        //                if (tempresult != null && tempresult.Count > 0)
+        //                {
+        //                    client.Set<List<T_ZyStruct>>(key, tempresult);
+        //                }
+        //            }
+        //        }
+        //    }
 
-        public static T_Answer GetZyAnswer(int zyId, string trueName)
-        {
-            Dictionary<string, string> tempresult = null;
-            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.ZyAnswer, zyId.ToString() + trueName);
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.ZyAnswer.ToString()))
-            {
-                if (client != null)
-                {
-                    tempresult = client.GetAllEntriesFromHash(key);
-                }
-            }
-            T_Answer result = null;
-            if (tempresult.Count != 0)
-            {
-                result = RedisHelper.ConvertDicToEntitySingle<T_Answer>(tempresult);
-            }
-            else
-            {
-                result = B_Zy.GetZyAnswer(zyId, trueName);
-                if (result != null)
-                {
-                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.ZyAnswer.ToString()))
-                    {
-                        if (cl != null)
-                        {
-                            cl.SetRangeInHash(key, GetZyAnswerKeyValuePairs(result));
-                            cl.ExpireEntryIn(key, ts);
-                        }
-                    }
-                }
-            }
-            return result;
-        }
+        //    return tempresult;
+        //}
 
-        public static T_Answer GetZyAnswer(int zyId, int studentId)
-        {
-            Dictionary<string, string> tempresult = null;
-            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.ZyAnswer, zyId.ToString() + studentId.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.ZyAnswer.ToString()))
-            {
-                if (client != null)
-                {
-                    tempresult = client.GetAllEntriesFromHash(key);
-                }
-            }
-            T_Answer result = null;
-            if (tempresult.Count != 0)
-            {
-                result = RedisHelper.ConvertDicToEntitySingle<T_Answer>(tempresult);
-            }
-            else
-            {
-                result = B_Zy.GetZyAnswer(zyId, studentId);
-                if (result != null)
-                {
-                    using (var cl = RedisHelper.GetRedisClient(CacheCatalog.ZyAnswer.ToString()))
-                    {
-                        if (cl != null)
-                        {
-                            cl.SetRangeInHash(key, GetZyAnswerKeyValuePairs(result));
-                            cl.ExpireEntryIn(key, ts);
-                        }
-                    }
-                }
-            }
-            return result;
-        }
+        //public static T_Answer GetZyAnswer(int zyId, string trueName)
+        //{
+        //    T_Answer tempresult = null;
+        //    string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.SelfZyAnswer, zyId.ToString() + trueName);
+        //    using (var client = RedisHelper.GetRedisClient(CacheCatalog.SelfZyAnswer.ToString()))
+        //    {
+        //        if (client != null)
+        //        {
+        //            tempresult = client.Get<T_Answer>(key);
+        //            if (tempresult == null)
+        //            {
+        //                tempresult = B_Zy.GetZyAnswer(zyId, trueName);
+        //                if (tempresult != null)
+        //                {
+        //                    client.Set<T_Answer>(key, tempresult, ts);
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //    return tempresult;
+        //}
+
+        //public static T_Answer GetZyAnswer(int zyId, int studentId)
+        //{
+        //    T_Answer tempresult = null;
+        //    string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.SelfZyAnswer, zyId.ToString() + studentId.ToString());
+        //    using (var client = RedisHelper.GetRedisClient(CacheCatalog.SelfZyAnswer.ToString()))
+        //    {
+        //        if (client != null)
+        //        {
+        //            tempresult = client.Get<T_Answer>(key);
+        //            if (tempresult == null)
+        //            {
+        //                tempresult = B_Zy.GetZyAnswer(zyId, studentId);
+        //                if (tempresult != null)
+        //                {
+        //                    client.Set<T_Answer>(key, tempresult, ts);
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //    return tempresult;
+        //}
 
         /// <summary>
         /// 修改作业为已建答题卡
         /// </summary>
         /// <param name="zyId"></param>
-        public static void UpdateZyStructed(int zyId)
-        {
-            Dictionary<string, string> tempresult = null;
-            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Zy, zyId.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.Zy.ToString()))
-            {
-                if (client != null)
-                {
-                    tempresult = client.GetAllEntriesFromHash(key);
-                }
-            }
-            T_Zy result = null;
-            if (tempresult.Count != 0)
-            {
-                result = RedisHelper.ConvertDicToEntitySingle<T_Zy>(tempresult);
-                result.Structed = true;
-                using (var cl = RedisHelper.GetRedisClient(CacheCatalog.Zy.ToString()))
-                {
-                    if (cl != null)
-                    {
-                        cl.SetRangeInHash(key, GetZyKeyValuePairs(result));
-                        cl.ExpireEntryIn(key, ts);
-                    }
-                }
-            }
-        }
+        //public static void UpdateZyStructed(int zyId)
+        //{
+        //    T_Zy tempresult = null;
+        //    string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.SelfZy, zyId.ToString());
+        //    using (var client = RedisHelper.GetRedisClient(CacheCatalog.SelfZy.ToString()))
+        //    {
+        //        if (client != null)
+        //        {
+        //            tempresult = client.Get<T_Zy>(key);
+        //            if (tempresult != null)
+        //            {
+        //                tempresult.Structed = true;
+        //                client.Set<T_Zy>(key, tempresult, ts);
+        //            }
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// 删除作业缓存
         /// </summary>
         /// <param name="zyId"></param>
-        public static void DeleteZyCache(int zyId)
+        public static void UpdateZyStatus(int zyId, int status)
         {
+            dto_Zy tempresult = null;
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Zy, zyId.ToString());
             using (var client = RedisHelper.GetRedisClient(CacheCatalog.Zy.ToString()))
             {
                 if (client != null)
                 {
-                    client.Remove(key);
+                    tempresult = client.Get<dto_Zy>(key);
+                    if (tempresult != null)
+                    {
+                        tempresult.Status = status;
+                        client.Set(key, tempresult, ts);
+                    }
                 }
             }
-        }
-
-        static List<KeyValuePair<string, string>> GetZyKeyValuePairs(T_Zy m)
-        {
-            var result = new List<KeyValuePair<string, string>>() {
-                            new KeyValuePair<string, string>("Id",m.Id.ToString()),
-                            new KeyValuePair<string, string>("UserId",m.UserId.ToString()),
-                            new KeyValuePair<string, string>("BodyWordPath",m.AnswerWordPath.ToString()),
-                            new KeyValuePair<string, string>("BodyHtmlPath",m.BodyHtmlPath.ToString()),
-                            new KeyValuePair<string, string>("AnswerWordPath",m.AnswerWordPath.ToString()),
-                            new KeyValuePair<string, string>("AnswerHtmlPath",m.AnswerHtmlPath.ToString()),
-                            new KeyValuePair<string, string>("Ip",m.Ip.ToString()),
-                            new KeyValuePair<string, string>("IMEI",m.IMEI.ToString()),
-                            new KeyValuePair<string, string>("MobileBrand",m.MobileBrand.ToString()),
-                            new KeyValuePair<string, string>("SystemType",m.SystemType.ToString()),
-                            new KeyValuePair<string, string>("Browser",m.Browser.ToString()),
-                            new KeyValuePair<string, string>("CreateDate",m.CreateDate.ToString()),
-                            new KeyValuePair<string, string>("Structed",m.Structed.ToString())
-                        };
-            return result;
-        }
-
-        static List<KeyValuePair<string, string>> GetZyStructKeyValuePairs(T_ZyStruct m)
-        {
-            var result = new List<KeyValuePair<string, string>>() {
-                            new KeyValuePair<string, string>("Id",m.Id.ToString()),
-                            new KeyValuePair<string, string>("ZyId",m.ZyId.ToString()),
-                            new KeyValuePair<string, string>("BqNum",m.BqNum.ToString()),
-                            new KeyValuePair<string, string>("SqNum",m.SqNum.ToString()),
-                            new KeyValuePair<string, string>("QuesType",m.QuesType.ToString()),
-                            new KeyValuePair<string, string>("QuesAnswer",m.QuesAnswer.ToString()),
-                            new KeyValuePair<string, string>("CreateDate",m.CreateDate.ToString())
-                        };
-            return result;
-        }
-
-        static List<KeyValuePair<string, string>> GetZyAnswerKeyValuePairs(T_Answer m)
-        {
-            var result = new List<KeyValuePair<string, string>>() {
-                            new KeyValuePair<string, string>("Id",m.Id.ToString()),
-                            new KeyValuePair<string, string>("ZyId",m.ZyId.ToString()),
-                            new KeyValuePair<string, string>("StudentId",m.StudentId.ToString()),
-                            new KeyValuePair<string, string>("TrueName",m.TrueName.ToString()),
-                            new KeyValuePair<string, string>("AnswerJson",m.AnswerJson.ToString()),
-                            new KeyValuePair<string, string>("AnswerImg",m.AnswerImg.ToString()),
-                            new KeyValuePair<string, string>("Ip",m.Ip.ToString()),
-                            new KeyValuePair<string, string>("IMEI",m.IMEI.ToString()),
-                            new KeyValuePair<string, string>("MobileBrand",m.MobileBrand.ToString()),
-                            new KeyValuePair<string, string>("SystemType",m.SystemType.ToString()),
-                            new KeyValuePair<string, string>("Browser",m.Browser.ToString()),
-                            new KeyValuePair<string, string>("CreateDate",m.CreateDate.ToString())
-                        };
-            return result;
         }
     }
 }

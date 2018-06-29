@@ -41,10 +41,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="dto\dto_Answer.cs" />
+    <Compile Include="dto\dto_CQuestion.cs" />
     <Compile Include="dto\dto_Echart_pie-simple.cs" />
+    <Compile Include="dto\dto_Question.cs" />
     <Compile Include="dto\dto_RelateUser.cs" />
-    <Compile Include="dto\dto_UserZy.cs" />
+    <Compile Include="dto\dto_User.cs" />
+    <Compile Include="dto\dto_Zy.cs" />
+    <Compile Include="dto\dto_ZyQuestion.cs" />
     <Compile Include="entity\T_Answer.cs" />
+    <Compile Include="entity\T_City.cs" />
+    <Compile Include="entity\T_CQuestions.cs" />
+    <Compile Include="entity\T_District.cs" />
+    <Compile Include="entity\T_QuesOptions.cs" />
+    <Compile Include="entity\T_Questions.cs" />
+    <Compile Include="entity\T_School.cs" />
     <Compile Include="entity\T_Suggestion.cs" />
     <Compile Include="entity\T_User.cs" />
     <Compile Include="entity\T_UserRelate.cs" />
