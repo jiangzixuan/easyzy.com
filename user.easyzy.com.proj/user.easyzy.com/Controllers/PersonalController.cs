@@ -198,6 +198,11 @@ namespace user.easyzy.com.Controllers
             return B_User.AddRelate(UserId, userId, DateTime.Now) ? "" : "操作失败！";
         }
 
+        /// <summary>
+        /// 取消关注某人
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public string CancelRelate(int userId)
         {
             return B_User.CancelRelate(UserId, userId) ? "" : "操作失败！";
@@ -255,6 +260,10 @@ namespace user.easyzy.com.Controllers
             return null;
         }
 
+        /// <summary>
+        /// 锁定
+        /// </summary>
+        /// <returns></returns>
         public int Lock()
         {
             T_UserExtend ue = B_User.GetUserExtend(UserId);
@@ -272,6 +281,10 @@ namespace user.easyzy.com.Controllers
             return b ? 0 : 1;
         }
 
+        /// <summary>
+        /// 解锁
+        /// </summary>
+        /// <returns></returns>
         public int UnLock()
         {
             bool b = false;
@@ -279,6 +292,30 @@ namespace user.easyzy.com.Controllers
             b = B_User.UpdateUserExtend(ue);
             
             return b ? 0 : 1;
+        }
+
+        /// <summary>
+        /// 删除关注我的人
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public JsonResult DeleteRelate(int userId)
+        {
+            dto_AjaxJsonResult<bool> result = new dto_AjaxJsonResult<bool>();
+            bool b = B_User.DeleteRelate(UserId, userId);
+            if (b)
+            {
+                result.code = AjaxResultCodeEnum.Success;
+                result.message = "";
+                result.data = true;
+            }
+            else
+            {
+                result.code = AjaxResultCodeEnum.Error;
+                result.message = "删除失败！";
+                result.data = false;
+            }
+            return Json(result);
         }
 
         /// <summary>

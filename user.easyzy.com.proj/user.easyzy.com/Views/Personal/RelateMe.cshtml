@@ -11,12 +11,13 @@
         <a href="javascript:void(0);" class="btn lock active" title="已锁定 不能被关注">解锁</a>
     }
 </div>
-<div class="inner-line berelated">
+<div class="inner-line related">
     @if (ViewBag.List != null)
     {
         foreach (var u in ViewBag.List)
         {
-            <label href="javascript:void(0);" class="ql">@(u.UserName)【@(u.TrueName)】</label>
+            <label class="ql" data-bind="@u.UserId">@(u.UserName)【@(u.TrueName)】</label>
+            <a href="javascript:void(0);" data-bind="@u.UserId" class="del" onclick="DeleteRelate(@u.UserId);"></a>
         }
     }
     else
@@ -57,4 +58,30 @@
                 })
         }
     })
+
+    var DeleteRelate = function (userid) {
+        Delete_Data.UserId = userid;
+        dialogConfirm("确定要删除此学生吗？", DeleteRelateOK, "");
+    }
+
+    var Delete_Data = {
+        UserId: 0
+    }
+
+    var DeleteRelateOK = function () {
+        $.post("/personal/DeleteRelate",
+            { userId: Delete_Data.UserId },
+            function (data) {
+                if (data.code == "0") {
+                    $(".related a, .related label").each(function () {
+                        if ($(this).attr("data-bind") == Delete_Data.UserId) {
+                            $(this).hide();
+                        }
+                    })
+                }
+                else {
+                    dialogAlert(data.message);
+                }
+            })
+    }
 </script>

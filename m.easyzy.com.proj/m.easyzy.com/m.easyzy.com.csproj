@@ -140,7 +140,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\ExceptionFilterAttribute.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\LoginFilterAttribute.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -210,21 +212,23 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\index.cshtml" />
-    <Content Include="Views\Home\open.cshtml" />
-    <Content Include="Views\Home\getzystruct.cshtml" />
+    <Content Include="Views\Home\backup\open.cshtml" />
+    <Content Include="Views\Home\backup\getzystruct.cshtml" />
     <Content Include="Scripts\plupload\Moxie.xap" />
-    <Content Include="Views\Home\query.cshtml" />
-    <Content Include="Views\Home\querysubmitedstudents.cshtml" />
-    <Content Include="Views\Home\getstudentanswercard.cshtml" />
-    <Content Include="Views\Home\down.cshtml" />
+    <Content Include="Views\Home\backup\query.cshtml" />
+    <Content Include="Views\Home\backup\querysubmitedstudents.cshtml" />
+    <Content Include="Views\Home\backup\getstudentanswercard.cshtml" />
+    <Content Include="Views\Home\backup\down.cshtml" />
     <Content Include="Views\Home\login.cshtml" />
-    <Content Include="Views\Home\created.cshtml" />
-    <Content Include="Views\Home\zychart.cshtml" />
+    <Content Include="Views\Home\backup\created.cshtml" />
+    <Content Include="Views\Home\backup\zychart.cshtml" />
+    <Content Include="Views\hw\myzy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\user\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

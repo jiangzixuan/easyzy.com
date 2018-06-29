@@ -7,7 +7,7 @@
     {
         foreach (var l in ViewBag.List)
         {
-            <a href="javascript:void(0);" data-bind="@l.RUserId" class="ql">@(l.RUserName)【@(l.RTrueName)】</a>
+            <label class="ql" data-bind="@l.RUserId">@(l.RUserName)【@(l.RTrueName)】</label>
             <a href="javascript:void(0);" data-bind="@l.RUserId" class="del" onclick="CancelRelate(@l.RUserId);"></a>
         }
     }
@@ -20,7 +20,7 @@
     </div>
     <div class="chooserelate">
         <div style="color:red; padding-bottom:5px;">（最多返回20条记录）</div>
-        <table border="0" cellspacing="1" cellpadding="0" class="tab-default">
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>序号</th>
@@ -107,7 +107,7 @@
             { userId: Cancel_Data.UserId },
             function (data) {
                 if (data == "") {
-                    $(".relate a").each(function () {
+                    $(".relate a, .relate label").each(function () {
                         if ($(this).attr("data-bind") == Cancel_Data.UserId) {
                             $(this).hide();
                         }

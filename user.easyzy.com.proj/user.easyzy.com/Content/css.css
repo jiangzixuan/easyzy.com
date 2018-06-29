@@ -104,7 +104,7 @@ table{border-collapse:collapse;border-spacing:0}
 .table td .cedit{font-size:14px;color:red}
 .table .classinfo{width:180px}
 .personal-info .inner-line{margin-top: 10px;overflow: hidden;line-height: 30px;}
-.personal-info .relate .del{padding-left:17px;background:url("/Images/v3-bg.png") no-repeat -30px -71px;margin-right:20px}
+.personal-info .relate .del, .personal-info .related .del{padding-left:17px;background:url("/Images/v3-bg.png") no-repeat -30px -71px;margin-right:20px}
 .personal-info .berelated .ql{margin-right:20px}
 .queryrelate{text-align:center;padding:10px 0 20px 0}
 .queryrelate input{height:25px;width:250px}

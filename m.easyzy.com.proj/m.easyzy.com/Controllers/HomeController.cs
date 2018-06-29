@@ -30,15 +30,15 @@ namespace m.easyzy.com.Controllers
             if (u == null) return "1";
             if (u.Psd == Util.MD5(passWord))
             {
-                //如果未登录过，则修改首次登陆时间
-                if (u.FirstLoginDate == DateTime.Parse("2000-01-01 00:00:00"))
-                {
-                    DateTime dtFLD = DateTime.Now;
-                    if (B_User.UpdateFirstLoginDate(u.Id, dtFLD))
-                    {
-                        B_UserRedis.UpdateFirstLoginDate(u.Id, dtFLD);
-                    }
-                }
+                ////如果未登录过，则修改首次登陆时间
+                //if (u.FirstLoginDate == DateTime.Parse("2000-01-01 00:00:00"))
+                //{
+                //    DateTime dtFLD = DateTime.Now;
+                //    if (B_User.UpdateFirstLoginDate(u.Id, dtFLD))
+                //    {
+                //        B_UserRedis.UpdateFirstLoginDate(u.Id, dtFLD);
+                //    }
+                //}
                 DateTime dt = DateTime.Now.AddDays(30);
                 UserCookieHelper.UserCookieModel m = new UserCookieHelper.UserCookieModel() { _id = u.Id, _uname = u.UserName, _ip = ClientUtil.Ip, _timestamp = Util.GetTimeStamp() };
                 string uidentity = UserCookieHelper.EncryptUserCookie(m, Util.GetAppSetting("DesKey"));
@@ -52,6 +52,8 @@ namespace m.easyzy.com.Controllers
                 return "1";
             }
         }
+
+
 
         #region 老的自传作业代码
         //public ActionResult Open()

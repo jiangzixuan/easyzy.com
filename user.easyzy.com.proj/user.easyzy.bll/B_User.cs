@@ -213,12 +213,34 @@ namespace user.easyzy.bll
             return o == null ? false : true;
         }
 
+        /// <summary>
+        /// 取消关注某人
+        /// </summary>
+        /// <param name="userId">关注人</param>
+        /// <param name="rUserId">被关注人</param>
+        /// <returns></returns>
         public static bool CancelRelate(int userId, int rUserId)
         {
             object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString),
                 "delete from T_UserRelate where UserId = @UserId and RUserId = @RUserId",
                 "@UserId".ToInt32InPara(userId),
                 "@RUserId".ToInt32InPara(rUserId)
+                );
+            return o == null ? false : true;
+        }
+
+        /// <summary>
+        /// 删除关注我的人
+        /// </summary>
+        /// <param name="userId">被关注人</param>
+        /// <param name="rUserId">关注人</param>
+        /// <returns></returns>
+        public static bool DeleteRelate(int userId, int rUserId)
+        {
+            object o = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(UserConnString),
+                "delete from T_UserRelate where UserId = @UserId and RUserId = @RUserId",
+                "@UserId".ToInt32InPara(rUserId),
+                "@RUserId".ToInt32InPara(userId)
                 );
             return o == null ? false : true;
         }
