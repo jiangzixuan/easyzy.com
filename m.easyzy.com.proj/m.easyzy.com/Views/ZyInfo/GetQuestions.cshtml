@@ -1,0 +1,121 @@
+﻿@using m.easyzy.model.dto;
+@using easyzy.sdk;
+
+@{List<dto_Question> ql = ViewBag.QuesList;}
+
+@if (ql != null && ql.Count > 0)
+{
+    string ptype = "";
+    int bnum = 0, snum = 0;
+    foreach (var q in ql)
+    {
+        snum += 1;
+        if (ptype != q.typename)
+        {
+            bnum += 1;
+            <div class="qtypespan">@Util.ToChinese(bnum)、 @q.typename</div>
+        }
+        ptype = q.typename;
+        <div class="pques" data-bind="@q.NewId" data-type="@q.typeid" data-typename="@(q.typename)">
+            <div class="qtitle">
+                <div class="qtleft">
+                    <b>@(snum)、</b>
+                    <span>题型：@(q.typename)</span>
+                </div>
+            </div>
+            @if (!string.IsNullOrEmpty(q.quesbody))
+            {
+                <div class="pbody">
+                    @Html.Raw(q.quesbody)
+                </div>
+            }
+            @if (Const.OBJECTIVE_QUES_TYPES.Contains(q.ptypeid) && q.Options != null)
+            {
+                string s = Const.SINGLE_OBJECTIVE_QUES_TYPES.Contains(q.ptypeid) ? "single" : "multy";
+
+                <div class="poption">
+                    <span class="option @s" data-bind="A">A. @Html.Raw(q.Options.optiona)</span><br />
+                    <span class="option @s" data-bind="B">B. @Html.Raw(q.Options.optionb)</span><br />
+                    <span class="option @s" data-bind="C">C. @Html.Raw(q.Options.optionc)</span><br />
+                    <span class="option @s" data-bind="D">D. @Html.Raw(q.Options.optiond)</span><br />
+                    @if (!string.IsNullOrEmpty(q.Options.optione))
+                    {
+                        <span class="option @s" data-bind="E">E. @Html.Raw(q.Options.optione)</span><br />
+                    }
+                    @if (!string.IsNullOrEmpty(q.Options.optionf))
+                    {
+                        <span class="option @s" data-bind="F">F. @Html.Raw(q.Options.optionf)</span><br />
+                    }
+                    @if (!string.IsNullOrEmpty(q.Options.optiong))
+                    {
+                        <span class="option @s" data-bind="G">G. @Html.Raw(q.Options.optiong)</span><br />
+                    }
+                </div>
+            }
+
+            @if (q.haschildren && q.Children != null && q.Children.Count > 0)
+            {
+                int cnum = 0;
+                <div class="cquestions">
+                    @foreach (var cq in q.Children)
+                    {
+                        cnum += 1;
+                        <div class="cques" data-bind="@cq.NewId">
+                            <div class="csingleques">
+                                <div class="cbody">【小题@(cnum)】 @Html.Raw(cq.quesbody)</div>
+                                @if (Const.OBJECTIVE_QUES_TYPES.Contains(cq.ptypeid) && cq.Options != null)
+                                {
+                                    string t = Const.SINGLE_OBJECTIVE_QUES_TYPES.Contains(cq.ptypeid) ? "single" : "multy";
+                                    <div class="coption">
+                                        <span class="option @t" data-bind="A">A. @Html.Raw(cq.Options.optiona)</span><br />
+                                        <span class="option @t" data-bind="B">B. @Html.Raw(cq.Options.optionb)</span><br />
+                                        <span class="option @t" data-bind="C">C. @Html.Raw(cq.Options.optionc)</span><br />
+                                        <span class="option @t" data-bind="D">D. @Html.Raw(cq.Options.optiond)</span><br />
+                                        @if (!string.IsNullOrEmpty(cq.Options.optione))
+                                        {
+                                            <span class="option @t" data-bind="E">E. @Html.Raw(cq.Options.optione)</span><br />
+                                        }
+                                        @if (!string.IsNullOrEmpty(cq.Options.optionf))
+                                        {
+                                            <span class="option @t" data-bind="F">F. @Html.Raw(cq.Options.optionf)</span><br />
+                                        }
+                                        @if (!string.IsNullOrEmpty(cq.Options.optiong))
+                                        {
+                                            <span class="option @t" data-bind="G">G. @Html.Raw(cq.Options.optiong)</span><br />
+                                        }
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    }
+}
+else
+{
+    <div style="padding-top:20px; text-align:center;">未找到作业内容！</div>
+}
+
+<script type="text/javascript">
+    $(".option.single").on("click", function () {
+        $(this).addClass("active").siblings().removeClass("active");
+    })
+
+    $(".option.multy").on("click", function () {
+        if ($(this).hasClass("active")) {
+            $(this).removeClass("active");
+        }
+        else {
+            $(this).addClass("active");
+        }
+    })
+
+    $(".pques, .cques").hover(function () {
+        $(this).css("border", "1px solid #0094ff");
+    }, function () {
+        $(this).css("border", "1px solid #deedff");
+        })
+</script>

@@ -50,8 +50,8 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -146,7 +146,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\hwController.cs" />
+    <Compile Include="Controllers\HWController.cs" />
+    <Compile Include="Controllers\ZyInfoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -225,12 +226,15 @@
     <Content Include="Views\Home\login.cshtml" />
     <Content Include="Views\Home\backup\created.cshtml" />
     <Content Include="Views\Home\backup\zychart.cshtml" />
-    <Content Include="Views\hw\myzy.cshtml" />
-    <Content Include="Views\hw\GetMyZy.cshtml" />
-    <Content Include="Views\hw\relateduserzy.cshtml" />
-    <Content Include="Views\hw\GetRelatedUserZy.cshtml" />
-    <Content Include="Views\hw\submitedzy.cshtml" />
-    <Content Include="Views\hw\GetSubmitedZy.cshtml" />
+    <Content Include="Views\HW\myzy.cshtml" />
+    <Content Include="Views\HW\GetMyZy.cshtml" />
+    <Content Include="Views\HW\relateduserzy.cshtml" />
+    <Content Include="Views\HW\GetRelatedUserZy.cshtml" />
+    <Content Include="Views\HW\submitedzy.cshtml" />
+    <Content Include="Views\HW\GetSubmitedZy.cshtml" />
+    <Content Include="Views\Analyze\Index.cshtml" />
+    <Content Include="Views\ZyInfo\info.cshtml" />
+    <Content Include="Views\ZyInfo\GetQuestions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace m.easyzy.com.Controllers
 {
     [LoginFilter]
-    public class hwController : BaseController
+    public class HWController : BaseController
     {
         public ActionResult MyZy()
         {

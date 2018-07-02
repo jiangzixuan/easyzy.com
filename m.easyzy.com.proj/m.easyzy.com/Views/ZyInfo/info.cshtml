@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "易作业移动端-已建作业";
+}
+
+
+<div class="content-wrap">
+    <div class="zyname-center">
+        <h1></h1>
+        <h2></h2>
+    </div>
+
+    <div class="queslist">
+
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+}
+
+<script type="text/javascript">
+    var cur_data = {
+        zyid: '@ViewBag.ZyId'
+    }
+
+    $(function () {
+        $.post("/zyinfo/getzyinfo",
+            { zyId: cur_data.zyid },
+            function (data) {
+                $(".zyname-center h1").html(data.data.ZyName);
+                $(".zyname-center h2").html(data.data.OpenDateStr + " - " + data.data.DueDateStr);
+                if (data.code == "0") {
+                    if (data.data.Type == 0) {
+                        ShowQdbQuestions(data.data.CourseId);
+                    }
+                }
+                else {
+                    $(".queslist").html("<p style='color: #e91a53;'>" + data.message + "</p>");
+                }
+            })
+
+
+    })
+
+    var ShowQdbQuestions = function (courseid) {
+        $.post("/zyinfo/getquestions",
+            { courseId: courseid, zyId: cur_data.zyid },
+            function (data) {
+                $(".queslist").html(data);
+            })
+    }
+
+
+</script>

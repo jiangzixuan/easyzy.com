@@ -56,3 +56,27 @@ a.odasc{background-position:-23px -27px;}
 a.oddesc{background-position:0 -26px;}
 .loading{background: url(/images/loader.gif) no-repeat 0 6px;padding-left: 30px;line-height: 35px;}
 .nomore{text-align:center; color:#b3b5b4}
+
+.pques, .cques{border:1px solid #deedff; margin-top:10px; line-height:28px;}
+.qtitle, .pbody, .answerparse, .cbody, .poption, .coption{padding:10px 10px; }
+.qtitle{background:#f4f9ff; overflow:hidden;}
+.qtitle .qtleft{float:left;}
+.qtitle .qtleft span{padding-right:20px;}
+.qtitle .qtright{float:right;}
+.qtitle .qtright .addone{padding: 3px 6px;color: #fff;}
+.qtitle .qtright .addone.join{background: #32ca73;}
+.qtitle .qtright .addone.remove{background:#333;}
+.pques .panswer, .cques .canswer, .pques .poption span.option, .cques .coption span.option{padding:5px 10px;}
+.pques .panswer.error, .cques .canswer.error{color:#e91a53; font-weight:bold;}
+.answerparse{display:none;}
+.pques .dotted{height: 30px;background: url(/images/dotted.png) repeat-x 0px 13px;margin: 10px 10px 0px 10px;color: #0088cc;}
+.pques .dotted .show{width: 100px;float: left;cursor: pointer; background:#fff;}
+.pques .cquestions{padding: 10px 10px;}
+.zyname-center {text-align:center;}
+.zyques {margin-top:20px;padding:10px 5px;}
+.qtypespan{padding:20px 0 10px 0;font-weight:700}
+.queslist{padding-bottom:100px}
+.pques .poption span.option.single,.pques .coption span.option.single {background:url("/Images/radio.png") no-repeat 10px 7px;padding-left:30px;cursor:pointer;}
+.pques .poption span.option.single.active,.pques .coption span.option.single.active {background-position:10px -25px;}
+.pques .poption span.option.multy,.pques .coption span.option.multy {background:url("/Images/checkbox.png") no-repeat 10px 6px;padding-left:33px;cursor:pointer;}
+.pques .poption span.option.multy.active,.pques .coption span.option.multy.active {background-position:10px -62px;}
