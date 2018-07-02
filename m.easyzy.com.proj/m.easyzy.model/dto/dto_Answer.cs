@@ -7,15 +7,19 @@ using System.Threading.Tasks;
 
 namespace m.easyzy.model.dto
 {
-    public class dto_Answer
+    public class dto_Answer : T_Answer
     {
-        public int StructId { get; set; }
+        public string StudentName { get; set; }
 
-        public int BqNum { get; set; }
+        public int GradeId { get; set; }
 
-        public int SqNum { get; set; }
+        public string GradeName { get; set; }
 
-        public string Answer { get; set; }
+        public int ClassId { get; set; }
+
+        public string ClassName { get; set; }
+
+        public int ObjectCorrectCount { get; set; }
     }
 
     /// <summary>

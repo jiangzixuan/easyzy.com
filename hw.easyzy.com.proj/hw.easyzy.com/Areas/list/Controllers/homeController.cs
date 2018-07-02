@@ -80,7 +80,7 @@ namespace hw.easyzy.com.Areas.list.Controllers
         }
 
         /// <summary>
-        /// 获取已提交作业
+        /// 获取关注老师的作业
         /// </summary>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>

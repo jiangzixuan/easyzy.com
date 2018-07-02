@@ -12,13 +12,15 @@ namespace m.easyzy.model.entity
 
         public int ZyId { get; set; }
 
-        public int StudentId { get; set; }
+        public int ZyType { get; set; }
 
-        public string TrueName { get; set; }
+        public int StudentId { get; set; }
 
         public string AnswerJson { get; set; }
 
         public string AnswerImg { get; set; }
+
+        public bool Submited { get; set; }
 
         public DateTime CreateDate { get; set; }
 

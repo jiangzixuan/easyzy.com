@@ -146,12 +146,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\hwController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\app.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css.css" />
@@ -167,6 +169,7 @@
     <Content Include="Images\ico_chart.png" />
     <Content Include="Images\loader.gif" />
     <Content Include="Images\logo.jpg" />
+    <Content Include="Images\no-pic.png" />
     <Content Include="Images\radio.png" />
     <Content Include="Images\run-back.png" />
     <Content Include="RedisConfig.xml" />
@@ -223,6 +226,9 @@
     <Content Include="Views\Home\backup\created.cshtml" />
     <Content Include="Views\Home\backup\zychart.cshtml" />
     <Content Include="Views\hw\myzy.cshtml" />
+    <Content Include="Views\hw\GetMyZy.cshtml" />
+    <Content Include="Views\hw\relateduserzy.cshtml" />
+    <Content Include="Views\hw\GetRelatedUserZy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

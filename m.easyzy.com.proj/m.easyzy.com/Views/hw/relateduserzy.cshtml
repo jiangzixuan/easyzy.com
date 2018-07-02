@@ -1,12 +1,11 @@
 ﻿@{
-    ViewBag.Title = "易作业移动端-已建作业";
+    ViewBag.Title = "易作业移动端-关注老师的作业";
 }
-
 
 <div class="content-wrap">
     <div class="am-g">
         <div class="newsList">
-            
+
 
         </div>
     </div>
@@ -15,13 +14,12 @@
 
 <script type="text/javascript">
     var cur_data = {
-        istrial: 0,
         pageindex: 1,
         pagesize: 10
     }
 
-    var GetMyZyData = function () {
-        $.post("/hw/GetMyZy",
+    var GetRelatedUserZy = function () {
+        $.post("/hw/GetRelatedUserZy",
             { pageIndex: cur_data.pageindex, pageSize: cur_data.pagesize },
             function (data) {
                 $(".newsList").html(data);
@@ -29,9 +27,9 @@
                 //if (parseInt($("#PageCountDiv").html()) > 1) {
                 //    $("#pager").pager({ pagenumber: cur_data.pageindex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: PageClick });
                 //}
-                
+
             })
     }
 
-    GetMyZyData();
+    GetRelatedUserZy();
 </script>

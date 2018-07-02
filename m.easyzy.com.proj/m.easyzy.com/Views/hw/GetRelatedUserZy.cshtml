@@ -1,0 +1,61 @@
+﻿@using m.easyzy.model.dto;
+@{List<dto_Zy> zl = ViewBag.ZyList;}
+
+@if (zl != null && zl.Count > 0)
+{
+    foreach (var zy in zl)
+    {
+        <div class="newsListBlock">
+            <div class="newsListTextInfo">
+                <i class="am-icon-heart active"></i> <i class="am-icon-comment-o active"></i>
+                <div class="newsListTextInfoNum">
+                    <span>状态</span>
+                    @(zy.Status == 0 ? "正常" : "已关闭")
+                </div>
+                <div class="newsListTextInfoNum">
+                    <span>类型</span>
+                    @zy.TypeName
+                </div>
+                <div class="newsListTextInfoNum">
+                    <span>学科</span>
+                    @zy.SubjectName
+                </div>
+            </div>
+            <div class="newsListTitle">
+                <div class="newsListTitleLeft">
+                    <div class="userHead">
+                        <img src="/Images/no-pic.png">
+                    </div>
+                    <div class="userName">@zy.UserName【@zy.TrueName】</div>
+                </div>
+                <div class="newsListTitleRight">
+                    <div class="newsListTitleRightMap">
+                        <i class="am-icon-map-o"></i> @zy.CreateDate.ToString("yyyy-MM-dd HH:mm")
+                    </div>
+                </div>
+            </div>
+
+            <div class="newsListText">
+                @zy.ZyName
+            </div>
+
+            <div class="newsListTextInfo bt-line">
+                <i class="am-icon-heart active"></i> <i class="am-icon-comment-o active"></i>
+
+                <div class="newsListTextInfoNum">
+                    <span>截止</span>
+                    @zy.DueDate.ToString("yyyy-MM-dd HH:mm")
+                </div>
+                <div class="newsListTextInfoNum">
+                    <span>开始</span>
+                    @zy.OpenDate.ToString("yyyy-MM-dd HH:mm")
+                </div>
+
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="newsListBlock">暂无数据！</div>
+}
