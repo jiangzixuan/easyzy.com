@@ -15,23 +15,35 @@
 
 <script type="text/javascript">
     var cur_data = {
-        istrial: 0,
-        pageindex: 1,
+        lastid: 0,
         pagesize: 10
     }
 
-    var GetMyZyData = function () {
-        $.post("/hw/GetMyZy",
-            { pageIndex: cur_data.pageindex, pageSize: cur_data.pagesize },
-            function (data) {
-                $(".newsList").html(data);
+    var GetLastId = function () {
+        if ($(".newsList .newsListBlock").length == 0) return 0;
+        cur_data.lastid = $('.newsList .newsListBlock').eq(-1).attr("data-bind");
+    }
 
-                //if (parseInt($("#PageCountDiv").html()) > 1) {
-                //    $("#pager").pager({ pagenumber: cur_data.pageindex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: PageClick });
-                //}
-                
+    var GetMyZyData = function () {
+        $(".newsList").append("<div class='loading'>加载中...</div>");
+        GetLastId();
+        $.post("/hw/GetMyZy",
+            { lastId: cur_data.lastid, count: cur_data.pagesize },
+            function (data) {
+                $(".newsList .loading").remove();
+                $(".newsList .nomore").remove();
+                $(".newsList").append(data);
             })
     }
 
-    GetMyZyData();
+    $(function () {
+        GetMyZyData();
+    })
+    
+    window.onscroll = function () {
+        if (getScrollHeight() == getWindowHeight() + getDocumentTop()) {
+            GetMyZyData();
+        }
+    };
+    
 </script>

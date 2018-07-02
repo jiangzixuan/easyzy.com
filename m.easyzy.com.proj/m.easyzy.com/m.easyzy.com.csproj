@@ -229,6 +229,8 @@
     <Content Include="Views\hw\GetMyZy.cshtml" />
     <Content Include="Views\hw\relateduserzy.cshtml" />
     <Content Include="Views\hw\GetRelatedUserZy.cshtml" />
+    <Content Include="Views\hw\submitedzy.cshtml" />
+    <Content Include="Views\hw\GetSubmitedZy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

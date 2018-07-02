@@ -20,13 +20,13 @@ namespace m.easyzy.com.Controllers
         /// <summary>
         /// 获取我新建的作业
         /// </summary>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
+        /// <param name="lastId"></param>
+        /// <param name="count"></param>
         /// <returns></returns>
-        public ActionResult GetMyZy(int pageIndex, int pageSize)
+        public ActionResult GetMyZy(long lastId, int count)
         {
-            int totalCount = 0;
-            List<dto_Zy> list = B_Zy.GetZyList(UserId, pageIndex, pageSize, out totalCount);
+            int last = lastId == 0 ? 99999999 : IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, lastId);
+            List<dto_Zy> list = B_Zy.GetZyList(UserId, last, count);
             if (list != null)
             {
                 foreach (var l in list)
@@ -42,7 +42,6 @@ namespace m.easyzy.com.Controllers
             }
 
             ViewBag.ZyList = list;
-            ViewBag.PageCount = Util.GetTotalPageCount(totalCount, pageSize);
             return PartialView();
         }
 
@@ -54,15 +53,14 @@ namespace m.easyzy.com.Controllers
         /// <summary>
         /// 获取关注老师的作业
         /// </summary>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
+        /// <param name="lastId"></param>
+        /// <param name="count"></param>
         /// <returns></returns>
-        public ActionResult GetRelatedUserZy(int pageIndex, int pageSize)
+        public ActionResult GetRelatedUserZy(long lastId, int count)
         {
-            int totalCount = 0;
-
+            int last = lastId == 0 ? 99999999 : IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, lastId);
             int[] RUsers = B_User.GetRelatedUser(UserId);
-            List<dto_Zy> list = B_Zy.GetZyList(RUsers, pageIndex, pageSize, out totalCount);
+            List<dto_Zy> list = B_Zy.GetZyList(RUsers, last, count);
             if (list != null)
             {
                 List<int> ids = B_Answer.GetSubmitedZyIds(UserId, list.Select(a => a.Id).ToArray());
@@ -83,7 +81,48 @@ namespace m.easyzy.com.Controllers
             }
             ViewBag.RelateUserCount = RUsers == null ? 0 : RUsers.Length;
             ViewBag.ZyList = list;
-            ViewBag.PageCount = Util.GetTotalPageCount(totalCount, pageSize);
+            return PartialView();
+        }
+
+        public ActionResult SubmitedZy()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 获取已提交作业
+        /// </summary>
+        /// <param name="lastId"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public ActionResult GetSubmitedZy(long lastId, int count)
+        {
+            int last = lastId == 0 ? 99999999 : IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, lastId);
+            List<dto_Zy> list = null;
+            List<int> ids = B_Answer.GetSubmitedZyIds(UserId, last, count);
+            if (ids != null)
+            {
+                list = new List<dto_Zy>();
+                ids.ForEach(a =>
+                {
+                    list.Add(B_ZyRedis.GetZy(a));
+                });
+            }
+            if (list != null)
+            {
+                foreach (var l in list)
+                {
+                    //隐藏真实Id
+                    l.NewId = IdNamingHelper.Encrypt(IdNamingHelper.IdTypeEnum.Zy, l.Id);
+
+                    dto_User u = B_UserRedis.GetUser(l.UserId);
+                    l.UserName = u.UserName;
+                    l.TrueName = u.TrueName;
+                    l.Id = 0;
+                }
+            }
+
+            ViewBag.ZyList = list;
             return PartialView();
         }
     }

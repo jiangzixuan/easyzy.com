@@ -138,8 +138,6 @@ namespace hw.easyzy.com.Areas.list.Controllers
             }
             if (list != null)
             {
-                Dictionary<int, int> d = B_Answer.GetZySubmitStudentCount(ids.ToArray());
-
                 foreach (var l in list)
                 {
                     //隐藏真实Id

@@ -172,17 +172,14 @@ namespace m.easyzy.bll
         /// <param name="pageSize"></param>
         /// <param name="totalCount"></param>
         /// <returns></returns>
-        public static List<int> GetSubmitedZyIds(int userId, int pageIndex, int pageSize, out int totalCount)
+        public static List<int> GetSubmitedZyIds(int userId, int lastId, int count)
         {
             List<int> list = null;
-            using (MySqlDataReader dr = MySqlDBHelper.GetPageReader(Util.GetConnectString(ZyConnString),
-                "ZyId ",
-                "T_Answer where StudentId = @StudentId",
-                "Id desc",
-                pageSize,
-                pageIndex,
-                out totalCount,
-                "@StudentId".ToInt32InPara(userId)))
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
+                "select ZyId from T_Answer where StudentId = @StudentId and ZyId < @ZyId order by ZyId desc limit @Count",
+                "@StudentId".ToInt32InPara(userId),
+                "@ZyId".ToInt32InPara(lastId),
+                "@Count".ToInt32InPara(count)))
             {
                 if (dr != null && dr.HasRows)
                 {

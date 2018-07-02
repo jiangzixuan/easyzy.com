@@ -5,7 +5,7 @@
 {
     foreach (var zy in zl)
     {
-        <div class="newsListBlock">
+        <div class="newsListBlock" data-bind="@zy.NewId">
 
             @*头部的“like this、comment this”
                             <div class="newsListTextInfo">
@@ -68,4 +68,8 @@
             </div>
         </div>
     }
+}
+else
+{
+<div class="nomore">没有更多数据！</div>
 }

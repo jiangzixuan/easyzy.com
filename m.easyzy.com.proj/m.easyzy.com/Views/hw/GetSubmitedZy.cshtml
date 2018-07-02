@@ -5,7 +5,7 @@
 {
     foreach (var zy in zl)
     {
-        <div class="newsListBlock">
+        <div class="newsListBlock" data-bind="@zy.NewId">
             <div class="newsListTextInfo">
                 <i class="am-icon-heart active"></i> <i class="am-icon-comment-o active"></i>
                 <div class="newsListTextInfoNum">
@@ -57,5 +57,5 @@
 }
 else
 {
-    <div class="nomore">没有更多数据！@if (ViewBag.RelateUserCount == 0) { <span>您还未关注任何老师！</span>}</div>
+    <div class="nomore">没有更多数据！</div>
 }

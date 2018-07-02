@@ -54,3 +54,5 @@ a.chart{color:#e91a53;font-weight:bold;width:30px;height:30px;line-height:30px;b
 a.order{margin-left:10px; padding-right:15px; background:url('/Images/ico.png') no-repeat;}
 a.odasc{background-position:-23px -27px;}
 a.oddesc{background-position:0 -26px;}
+.loading{background: url(/images/loader.gif) no-repeat 0 6px;padding-left: 30px;line-height: 35px;}
+.nomore{text-align:center; color:#b3b5b4}

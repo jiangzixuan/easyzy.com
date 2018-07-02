@@ -1,6 +1,7 @@
 ﻿@{
-    ViewBag.Title = "易作业移动端-关注老师的作业";
+    ViewBag.Title = "易作业移动端-已建作业";
 }
+
 
 <div class="content-wrap">
     <div class="am-g">
@@ -23,10 +24,10 @@
         cur_data.lastid = $('.newsList .newsListBlock').eq(-1).attr("data-bind");
     }
 
-    var GetRelatedUserZy = function () {
+    var GetSubmitedZy = function () {
         $(".newsList").append("<div class='loading'>加载中...</div>");
         GetLastId();
-        $.post("/hw/GetRelatedUserZy",
+        $.post("/hw/GetSubmitedZy",
             { lastId: cur_data.lastid, count: cur_data.pagesize },
             function (data) {
                 $(".newsList .loading").remove();
@@ -36,12 +37,13 @@
     }
 
     $(function () {
-        GetRelatedUserZy();
+        GetSubmitedZy();
     })
 
     window.onscroll = function () {
         if (getScrollHeight() == getWindowHeight() + getDocumentTop()) {
-            GetMyZyData();
+            GetSubmitedZy();
         }
     };
+
 </script>

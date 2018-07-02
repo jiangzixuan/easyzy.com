@@ -20,21 +20,17 @@ namespace m.easyzy.bll
         /// 根据UserId查找作业列表
         /// </summary>
         /// <param name="userId"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="totalCount"></param>
+        /// <param name="lastId"></param>
+        /// <param name="count"></param>
         /// <returns></returns>
-        public static List<dto_Zy> GetZyList(int userId, int pageIndex, int pageSize, out int totalCount)
+        public static List<dto_Zy> GetZyList(int userId, int lastId, int count)
         {
             List<dto_Zy> list = null;
-            using (MySqlDataReader dr = MySqlDBHelper.GetPageReader(Util.GetConnectString(ZyConnString),
-                "Id, UserId, ZyName, CourseId, SubjectId, CreateDate, OpenDate, DueDate, Type, Status ",
-                "T_Zy where UserId = @UserId",
-                "Id desc",
-                pageSize,
-                pageIndex,
-                out totalCount,
-                "@UserId".ToInt32InPara(userId)))
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
+                "select Id, UserId, ZyName, CourseId, SubjectId, CreateDate, OpenDate, DueDate, Type, Status from T_Zy where UserId = @UserId and Id < @Id order by Id desc limit @Count",
+                "@UserId".ToInt32InPara(userId),
+                "@Id".ToInt32InPara(lastId),
+                "@Count".ToInt32InPara(count)))
             {
                 if (dr != null && dr.HasRows)
                 {
@@ -48,26 +44,21 @@ namespace m.easyzy.bll
         /// 根据一组Userid获取他们新建的作业
         /// </summary>
         /// <param name="userIds"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="totalCount"></param>
+        /// <param name="lastId"></param>
+        /// <param name="count"></param>
         /// <returns></returns>
-        public static List<dto_Zy> GetZyList(int[] userIds, int pageIndex, int pageSize, out int totalCount)
+        public static List<dto_Zy> GetZyList(int[] userIds, int lastId, int count)
         {
 
             if (userIds == null || userIds.Length == 0)
             {
-                totalCount = 0;
                 return null;
             }
             List<dto_Zy> list = null;
-            using (MySqlDataReader dr = MySqlDBHelper.GetPageReader(Util.GetConnectString(ZyConnString),
-                "Id, UserId, ZyName, CourseId, SubjectId, CreateDate, OpenDate, DueDate, Type, Status ",
-                "T_Zy where UserId in (" + string.Join(",", userIds) + ")",
-                "Id desc",
-                pageSize,
-                pageIndex,
-                out totalCount))
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(ZyConnString),
+                "select Id, UserId, ZyName, CourseId, SubjectId, CreateDate, OpenDate, DueDate, Type, Status from T_Zy where UserId in (" + string.Join(",", userIds) + ") and Id < @Id order by Id desc limit @Count",
+                "@Id".ToInt32InPara(lastId),
+                "@Count".ToInt32InPara(count)))
             {
                 if (dr != null && dr.HasRows)
                 {
