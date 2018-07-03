@@ -56,7 +56,7 @@
     })
 
     $(".page-nav .page-func").on("click", function () {
-        if ($(this).attr("data-bind") > 1 && cur_data.istrial == 1) {
+        if ($(this).attr("data-bind") > 0 && cur_data.istrial == 1) {
             dialogAlert("未登录/试用状态不能使用此功能！");
         }
         else {

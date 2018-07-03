@@ -89,7 +89,9 @@
                 <td>班级信息：</td>
                 <td class="align-left">
                     <div class="tpanal">
-                        年级：
+                        <p class="panal_title">修改年级/班级信息会对作业的提交报表产生影响，请勿随意修改！</p>
+                        <div class="tselect">
+                            <label class="tselect_tip">年级：</label>
                         <select class="gselecter short">
                             <option value="0"></option>
                             @foreach (var c in ViewBag.Grades)
@@ -97,7 +99,7 @@
                                 <option value="@c.Key">@c.Value</option>
                             }
                         </select>
-                        班级：
+                        <label class="tselect_tip">班级：</label>
                         <select class="clsselecter short">
                             <option value="0"></option>
                             @for (int i = 1; i < 100; i++)
@@ -105,6 +107,7 @@
                                 <option value=@i>@(i)班</option>
                             }
                         </select>
+                        </div>
                     </div>
                 </td>
                 <td>

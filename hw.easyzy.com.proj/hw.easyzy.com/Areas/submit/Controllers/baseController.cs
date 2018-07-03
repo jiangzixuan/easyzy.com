@@ -41,14 +41,14 @@ namespace hw.easyzy.com.Areas.submit.Controllers
             dto_AjaxJsonResult<dto_Zy> r = new dto_AjaxJsonResult<dto_Zy>();
             //如果状态有问题，只返回少数信息给客户端
             dto_Zy zy2 = new dto_Zy() { ZyName = zy.ZyName, OpenDate = zy.OpenDate, DueDate = zy.DueDate, OpenDateStr = zy.OpenDateStr, DueDateStr = zy.DueDateStr, Status = zy.Status, Type = zy.Type };
-
-            if (zy.UserId == 0)
-            {
-                r.code = AjaxResultCodeEnum.Error;
-                r.message = "试用作业仅用于数据展示，不允许进行操作！";
-                r.data = zy2;
-                return r;
-            }
+            //打开作业时，为了能把作业内容显示出来，不在此处做试用作业判断
+            //if (zy.UserId == 0)
+            //{
+            //    r.code = AjaxResultCodeEnum.Error;
+            //    r.message = "试用作业仅用于数据展示，不允许进行操作！";
+            //    r.data = zy2;
+            //    return r;
+            //}
             if (zy.Status == 2)
             {
                 r.code = AjaxResultCodeEnum.Error;

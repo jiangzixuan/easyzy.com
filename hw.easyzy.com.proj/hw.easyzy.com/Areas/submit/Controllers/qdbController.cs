@@ -56,6 +56,14 @@ namespace hw.easyzy.com.Areas.submit.Controllers
 
             int id = IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, zyId);
             dto_Zy zy = B_ZyRedis.GetZy(id);
+            //试用作业验证
+            if (zy.UserId == 0)
+            {
+                r.code = AjaxResultCodeEnum.Error;
+                r.message = "试用作业仅用于数据展示，不允许进行操作！";
+                r.data = "";
+                return JsonConvert.SerializeObject(r);
+            }
             #region 访问权限验证
             dto_AjaxJsonResult<dto_Zy> r1 = AccessJudge(UserId, zy);
             if (r1.code == AjaxResultCodeEnum.Error)
@@ -66,7 +74,7 @@ namespace hw.easyzy.com.Areas.submit.Controllers
                 return JsonConvert.SerializeObject(r);
             }
             #endregion
-
+            
             //作业提交验证
             T_Answer ans = B_Answer.GetAnswer(id, UserId);
             if (ans != null && ans.Submited)
@@ -132,7 +140,14 @@ namespace hw.easyzy.com.Areas.submit.Controllers
             dto_AjaxJsonResult<string> r = new dto_AjaxJsonResult<string>();
             int id = IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, zyId);
             dto_Zy zy = B_ZyRedis.GetZy(id);
-
+            //试用作业验证
+            if (zy.UserId == 0)
+            {
+                r.code = AjaxResultCodeEnum.Error;
+                r.message = "试用作业仅用于数据展示，不允许进行操作！";
+                r.data = "";
+                return Json(r);
+            }
             #region 访问权限验证
             dto_AjaxJsonResult<dto_Zy> r1 = AccessJudge(UserId, zy);
             if (r1.code == AjaxResultCodeEnum.Error)
