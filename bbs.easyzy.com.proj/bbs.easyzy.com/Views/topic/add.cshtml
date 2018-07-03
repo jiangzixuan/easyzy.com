@@ -83,7 +83,7 @@
 
     $(function () {
         $('input').placeholder();
-        if (cur_data.subjectid != "0") {
+        if (cur_data.subjectid != "0" && cur_data.subjectid != "") {
             $("#SubjectSelecter").val(cur_data.subjectid);
             $("#SubjectSelecter").attr("disabled", true);
         }

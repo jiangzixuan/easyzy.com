@@ -6,6 +6,7 @@
     <title>@ViewBag.Title</title>
     <meta name="keywords" content="易作业,easy作业,题库作业,文件作业,简单,易用,免费,好用,作业平台,作业工具,文件上传作业,线上作业,无需注册,上传作业图片">
     <meta name="description" content="易作业，简单、稳定、高效的作业工具，线上布置，线上完成作业，无需登录即可体验，登录后更可解锁更多功能！">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="stylesheet" href="/Content/css.css?v=20171107" />
     <link href="/Scripts/artDialog/css/ui-dialog.css" rel="stylesheet" />
     @RenderSection("css", required: false)
@@ -23,8 +24,11 @@
     <div class="foot-wrap">
         <div class="foot">
             <p>&copy; @DateTime.Now.Year - 易作业 | 简单、易用、随用随走</p>
-            <p>京ICP备17073793</p>
-            <p>联系我们 QQ:260031297 | <script type="text/javascript" src="~/Scripts/umeng.js"></script></p>
+            <p>
+                京ICP备17073793
+                <script type="text/javascript" src="http://easyzy.com/Scripts/umeng.js"></script>
+            </p>
+            @*<p>联系我们 QQ:260031297 |</p>*@
         </div>
     </div>
 </body>

@@ -42,7 +42,7 @@ $(function () {
         $.post("/Common/Exit",
             {},
             function () {
-                window.location.href = "http://local.user.easyzy.com/home/login?from=http://local.hw.easyzy.com/list/home";
+                window.location.href = "http://user.easyzy.com/home/login?from=http://hw.easyzy.com/list/home";
             });
     })
 })

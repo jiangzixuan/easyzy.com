@@ -31,10 +31,10 @@ namespace hw.easyzy.com
                 //}
                 //else
                 //{
-                //    filterContext.Result = new RedirectResult("http://local.user.easyzy.com?from=" + filterContext.HttpContext.Request.Url);
+                //    filterContext.Result = new RedirectResult("http://user.easyzy.com?from=" + filterContext.HttpContext.Request.Url);
                 //}
                 string currentUrl = HttpUtility.UrlEncode(filterContext.HttpContext.Request.Url.ToString());
-                filterContext.Result = new RedirectResult("http://local.user.easyzy.com/home/login?from=" + currentUrl);
+                filterContext.Result = new RedirectResult("http://user.easyzy.com/home/login?from=" + currentUrl);
             }
             base.OnActionExecuting(filterContext);
 

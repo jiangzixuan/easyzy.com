@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static easyzy.sdk.Const;
 
 namespace hw.easyzy.bll
 {
@@ -26,8 +25,8 @@ namespace hw.easyzy.bll
         {
             dto_User tempresult = null;
             T_User u = null;
-            string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.User, userId.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.User.ToString()))
+            string key = RedisHelper.GetEasyZyRedisKey(Const.CacheCatalog.User, userId.ToString());
+            using (var client = RedisHelper.GetRedisClient(Const.CacheCatalog.User.ToString()))
             {
                 if (client != null)
                 {

@@ -131,7 +131,7 @@ namespace easyzy.sdk
                                        _RedisPoolTimeoutSeconds,
                                        new string[] { string.Format("{0}@{1}:{2}", _rm.Pwd, _rm.Ip, _rm.Port) })
             {
-                ConnectTimeout = 1500
+                ConnectTimeout = 10000 // 1500
             };
             PoolInstanceDictonary.TryAdd(catelog, Instance);
             return Instance;
