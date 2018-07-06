@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.ServiceLocation;
+﻿using easyzy.sdk;
+using Microsoft.Practices.ServiceLocation;
 using SolrNet;
 using SolrNet.Commands.Parameters;
 using System;
@@ -12,7 +13,7 @@ namespace hw.easyzy.common
 {
     public class SolrHelper
     {
-        private static readonly string SolrCoreUrl = "http://47.94.100.66:8080/solr/ques/";
+        private static readonly string SolrCoreUrl = Util.GetAppSetting("SolrQuesCoreUrl");
 
         static SolrHelper()
         {
