@@ -23,7 +23,7 @@ namespace hw.easyzy.common
 
         public static int[] QueryQuesIds(int courseId, int kpointId, int[] cpointIds, int typeId, int diffType, int paperYear, int pageIndex, int pageSize, out int totalCount)
         {
-            List<int> list = null;
+            List<int> list = new List<int>(); ;
             ISolrOperations<dto_SolrQues> solr = ServiceLocator.Current.GetInstance<ISolrOperations<dto_SolrQues>>();
 
             //SolrMultipleCriteriaQuery sq = GetSolrQueryByField(courseId, kpointId, cpointIds, typeId, diffType, paperYear);
@@ -36,14 +36,13 @@ namespace hw.easyzy.common
 
             if (solrResults.Count != 0)
             {
-                list = new List<int>();
                 foreach (var solrQueryResult in solrResults)
                 {
                     list.Add(solrQueryResult.id);
                 }
             }
             
-            return list == null ? null : list.ToArray();
+            return list.ToArray();
         }
 
         public static SolrMultipleCriteriaQuery GetSolrQueryByField(int courseId, int kpointId, int[] cpointIds, int typeId, int diffType, int paperYear)
@@ -123,14 +122,14 @@ namespace hw.easyzy.common
 
             if (kpointId != 0)
             {
-                qs += string.Format(" AND kpoints: *{0}*", kpointId);
+                qs += string.Format(" AND kpoints: *\\\"{0}\\\"*", kpointId);
             }
 
             if (cpointIds.Length > 0)
             {
                 if (cpointIds.Length == 1)
                 {
-                    qs += string.Format(" AND cpoints: *{0}*", cpointIds[0]);
+                    qs += string.Format(" AND cpoints: *\\\"{0}\\\"*", cpointIds[0]);
                 }
                 else
                 {
@@ -138,7 +137,7 @@ namespace hw.easyzy.common
                     string s = "";
                     foreach (var c in cpointIds)
                     {
-                        s += string.Format(" OR cpoints: *{0}*", c);
+                        s += string.Format(" OR cpoints: *\\\"{0}\\\"*", c);
                     }
                     qs += s.Substring(3) + ")";
                 }

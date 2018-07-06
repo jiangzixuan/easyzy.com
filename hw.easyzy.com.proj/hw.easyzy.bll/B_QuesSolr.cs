@@ -30,12 +30,9 @@ namespace hw.easyzy.bll
                 int[] s = B_QuesBase.GetSimilarCatalogs(courseId, cpointId);
                 if (s == null)
                 {
-                    cpointIds = new int[1] { cpointId };
+                    s = new int[1] { cpointId };
                 }
-                else
-                {
-                    cpointIds = s;
-                }
+                cpointIds = s;
             }
 
             return SolrHelper.QueryQuesIds(courseId, kpointId, cpointIds, typeId, diffType, paperYear, pageIndex, pageSize, out totalCount);
