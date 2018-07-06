@@ -12,6 +12,5 @@ namespace easyzy.com.Controllers
         {
             return View();
         }
-        
     }
 }

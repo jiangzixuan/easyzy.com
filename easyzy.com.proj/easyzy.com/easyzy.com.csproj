@@ -167,6 +167,7 @@
     <Content Include="Images\home-img-4.jpg" />
     <Content Include="Images\home-img-5.jpg" />
     <Content Include="Images\home-img-6.jpg" />
+    <Content Include="Images\logo.jpg" />
     <Content Include="Images\menu-bg-gallery.png" />
     <Content Include="Images\menu-bg-home.png" />
     <Content Include="Scripts\bootstrap.js" />
@@ -194,6 +195,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\uaredirect.js" />
     <Content Include="Scripts\umeng.js" />
+    <Content Include="h\help.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -206,7 +208,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\AboutUS.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

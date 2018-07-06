@@ -1,166 +1,160 @@
-﻿@{ 
-    Layout= null;
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "易作业-超级简单、方便的作业平台";
 }
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>易作业-超级简单、方便的作业平台</title>
-    <meta name="keywords" content="易作业,easy作业,题库作业,文件作业,简单,易用,免费,好用,作业平台,作业工具,文件上传作业,线上作业,无需注册,上传作业图片">
-    <meta name="description" content="易作业，简单、稳定、高效的作业工具，线上布置，线上完成作业，无需登录即可体验，登录后更可解锁更多功能！">
 
+@section css{
     <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="~/Content/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="~/Content/style.css">
+}
 
-</head>
+<div class="container">
+    <div class="row">
+        <div class="main-page">
 
-<body>
-    <div class="main-body">
-        <div class="container">
-            <div class="row">
-                <div class="main-page">
+            <aside class="main-navigation">
+                <div class="main-menu">
+                    <div class="menu-container">
+                        <div class="block-keep-ratio  block-keep-ratio-1-1  block-width-half  pull-left  about-main">
+                            <a href="http://user.easyzy.com/personal" class="main-menu-link about block-keep-ratio__content flexbox-center">
+                                <i class="fa fa-user fa-4x main-menu-link-icon"></i>
+                                个人中心
+                            </a>
+                        </div>
 
-                    <aside class="main-navigation">
-                        <div class="main-menu">
-                            <div class="menu-container">
-                                <div class="block-keep-ratio  block-keep-ratio-1-1  block-width-half  pull-left  about-main">
-                                    <a href="http://user.easyzy.com/personal" class="main-menu-link about block-keep-ratio__content flexbox-center">
-                                        <i class="fa fa-user fa-4x main-menu-link-icon"></i>
-                                        个人中心
-                                    </a>
-                                </div>
+                        <div class="block-keep-ratio  block-keep-ratio-1-1  block-width-half  pull-right  contact-main">
+                            <a href="contact.html" class="main-menu-link contact block-keep-ratio__content flexbox-center">
+                                <i class="fa fa-envelope-o fa-4x main-menu-link-icon"></i>
+                                关于我们
+                            </a>
+                        </div>
+                    </div>
+                    <div class="menu-container">
+                        <div class="block-keep-ratio block-keep-ratio-2-1 block-width-full home">
+                            <a href="http://bbs.easyzy.com" class="block-keep-ratio__content  main-menu-link">
+                                <span class="main-menu-link-text">
+                                    论坛
+                                </span>
+                            </a>
+                        </div>
+                    </div>
 
-                                <div class="block-keep-ratio  block-keep-ratio-1-1  block-width-half  pull-right  contact-main">
-                                    <a href="contact.html" class="main-menu-link contact block-keep-ratio__content flexbox-center">
-                                        <i class="fa fa-envelope-o fa-4x main-menu-link-icon"></i>
-                                        关于我们
-                                    </a>
-                                </div>
+                    @*<div class="menu-container">
+                            <div class="block-keep-ratio block-keep-ratio-1-1 block-keep-ratio-md-2-1 block-width-full gallery">
+                                <a href="http://paper.easyzy.com" class="main-menu-link  block-keep-ratio__content">
+                                    <span class="main-menu-link-text">
+                                        套卷（尚未上线）
+                                    </span>
+                                </a>
                             </div>
-                            <div class="menu-container">
-                                <div class="block-keep-ratio block-keep-ratio-2-1 block-width-full home">
-                                    <a href="http://bbs.easyzy.com" class="block-keep-ratio__content  main-menu-link">
-                                        <span class="main-menu-link-text">
-                                            论坛
-                                        </span>
-                                    </a>
+                        </div>*@
+                    <div class="menu-container">
+                        <div class="block-keep-ratio block-keep-ratio-2-1 block-width-full home2">
+                            <a href="http://tj.easyzy.com/grzd" class="main-menu-link  block-keep-ratio__content">
+                                <span class="main-menu-link-text">
+                                    个人诊断（尚未上线）
+                                </span>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="menu-container">
+                        <div class="block-keep-ratio block-keep-ratio-2-1 block-width-full home3">
+                            <a href="http://tj.easyzy.com/errorques" class="main-menu-link  block-keep-ratio__content">
+                                <span class="main-menu-link-text">
+                                    错题/推送（尚未上线）
+                                </span>
+                            </a>
+                        </div>
+
+                    </div> <!-- row -->
+                </div> <!-- main-menu -->
+            </aside> <!-- main-navigation -->
+
+            <div class="content-main">
+                <div class="row margin-b-30">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="banner-main-home">
+                            <div class="banner-main-home-text">
+                                <div class="heading">
+                                    <h1>作业列表</h1>
                                 </div>
+                                <div class="desc">
+                                    <p style="color:#fff">
+                                        老师可以在此查看自己建的作业以及作业提交情况、批改作业和针对每次作业的统计分析<br />
+                                        学生可以在此查看老师建的作业、自己完成的作业以及针对每个作业的班级排名、统计分析
+                                    </p>
+                                    <button type="button" class="queryhwlist">查 看</button>
+                                </div>
+
                             </div>
-
-                            @*<div class="menu-container">
-                                <div class="block-keep-ratio block-keep-ratio-1-1 block-keep-ratio-md-2-1 block-width-full gallery">
-                                    <a href="http://paper.easyzy.com" class="main-menu-link  block-keep-ratio__content">
-                                        <span class="main-menu-link-text">
-                                            套卷（尚未上线）
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>*@
-                            <div class="menu-container">
-                                <div class="block-keep-ratio block-keep-ratio-2-1 block-width-full home2">
-                                    <a href="http://tj.easyzy.com/grzd" class="main-menu-link  block-keep-ratio__content">
-                                        <span class="main-menu-link-text">
-                                            个人诊断（尚未上线）
-                                        </span>
-                                    </a>
-                                </div>
-
+                            @*<img src="images/home-img-1.png" alt="Image" class="img-responsive">*@
+                        </div>
+                    </div>
+                </div>
+                <div class="row margin-b-30">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="box createzy" style="cursor:pointer;">
+                            <div class="box-icon">
+                                <img src="images/home-img-2.jpg" alt="Image" class="img-responsive">
                             </div>
-                            <div class="menu-container">
-                                <div class="block-keep-ratio block-keep-ratio-2-1 block-width-full home3">
-                                    <a href="http://tj.easyzy.com/errorques" class="main-menu-link  block-keep-ratio__content">
-                                        <span class="main-menu-link-text">
-                                            错题/推送（尚未上线）
-                                        </span>
-                                    </a>
+                            <div class="info float-container">
+                                <div class="col-sm-12 london-title">
+                                    <h3 class="text-uppercase">新建作业</h3>
                                 </div>
-
-                            </div> <!-- row -->
-                        </div> <!-- main-menu -->
-                    </aside> <!-- main-navigation -->
-
-                    <div class="content-main">
-                        <div class="row margin-b-30">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="banner-main-home">
-                                    <div class="banner-main-home-text">
-                                        <div class="heading">
-                                            <h1>作业列表</h1>
-                                        </div>
-                                        <div class="desc">
-                                            <p style="color:#fff">
-                                                老师可以在此查看自己建的作业以及作业提交情况、批改作业和针对每次作业的统计分析<br />
-                                                学生可以在此查看老师建的作业、自己完成的作业以及针对每个作业的班级排名、统计分析
-                                            </p>
-                                            <button type="button" class="queryhwlist">查 看</button>
-                                        </div>
-                                        
+                                <p>章节、知识点、套卷多维度选题。<br />百万级优质试题资源任您使用，您保存的作业将被关注您的学生看到。<br />没有账号也可体验。</p>
+                                <hr />
+                                <div class="col-sm-12 location-main">
+                                    <div class="pull-left location">
+                                        <i class="fa fa-map-marker fa-2x"></i><span>老师</span>
                                     </div>
-                                    @*<img src="images/home-img-1.png" alt="Image" class="img-responsive">*@
                                 </div>
                             </div>
                         </div>
-                        <div class="row margin-b-30">
-                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                <div class="box createzy" style="cursor:pointer;">
-                                    <div class="box-icon">
-                                        <img src="images/home-img-2.jpg" alt="Image" class="img-responsive">
-                                    </div>
-                                    <div class="info float-container">
-                                        <div class="col-sm-12 london-title">
-                                            <h3 class="text-uppercase">新建作业</h3>
-                                        </div>
-                                        <p>章节、知识点、套卷多维度选题。<br />百万级优质试题资源任您使用，您保存的作业将被关注您的学生看到。<br />没有账号也可体验。</p>
-                                        <hr />
-                                        <div class="col-sm-12 location-main">
-                                            <div class="pull-left location">
-                                                <i class="fa fa-map-marker fa-2x"></i><span>老师</span>
-                                            </div>
-                                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="box submitzy">
+                            <div class="box-icon">
+                                <img src="images/home-img-3.jpg" alt="Image" class="img-responsive">
+                            </div>
+                            <div class="info float-container">
+                                <div class="col-sm-12 london-title paris-title">
+                                    <h3 class="text-uppercase">套卷（尚未上线）</h3>
+                                </div>
+                                <p>成套的精品作业/试卷，学生可以直接作答。（尚未上线） </p><hr />
+                                <div class="col-sm-12 location-main">
+                                    <div class="pull-left location location2">
+                                        <i class="fa fa-map-marker fa-2x"></i><span>学生</span>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div> <!-- row -->
 
-                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                <div class="box submitzy">
-                                    <div class="box-icon">
-                                        <img src="images/home-img-3.jpg" alt="Image" class="img-responsive">
-                                    </div>
-                                    <div class="info float-container">
-                                        <div class="col-sm-12 london-title paris-title">
-                                            <h3 class="text-uppercase">套卷（尚未上线）</h3>
-                                        </div>
-                                        <p>成套的精品作业/试卷，学生可以直接作答。（尚未上线） </p><hr />
-                                        <div class="col-sm-12 location-main">
-                                            <div class="pull-left location location2">
-                                                <i class="fa fa-map-marker fa-2x"></i><span>学生</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- row -->
 
-                        
-                    </div> <!-- .content-main -->
-                </div> <!-- .main-page -->
-            </div> <!-- .row -->
-            <footer class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 footer">
-                    <p class="copyright">
-                        &copy; @DateTime.Now.Year - 易作业 | 超级简单、易用的作业平台 | 京ICP备17073793 @*| 联系我们 QQ:260031297*@ | <script type="text/javascript" src="http://easyzy.com/scripts/umeng.js"></script>
-                    </p>
-                </div>
-            </footer>  <!-- .row -->
-        </div> <!-- .container -->
-    </div> <!-- .main-body -->
+            </div> <!-- .content-main -->
+        </div> <!-- .main-page -->
+    </div> <!-- .row -->
+    <footer class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 footer">
+            <p class="copyright">
+                &copy; @DateTime.Now.Year - 易作业 | 超级简单、易用的作业平台 | 京ICP备17073793 @*| 联系我们 QQ:260031297*@ |
+                <script type="text/javascript" src="http://easyzy.com/scripts/umeng.js"></script>
+            </p>
+        </div>
+    </footer>  <!-- .row -->
+</div> <!-- .container -->
+
+@section scriptlast{
     <!-- JavaScript -->
     <script src="/Scripts/jquery-1.10.2.min.js"></script>
     <script src="/Scripts/bootstrap.min.js"></script>
     <script src="/Scripts/uaredirect.js"></script>
+
+
     <script type="text/javascript">
         $(function () {
             uaredirect("http://m.easyzy.com"); //跳转移动版
@@ -173,5 +167,4 @@
             window.location.href = "http://hw.easyzy.com/list/home"
         })
     </script>
-</body>
-</html>
+}

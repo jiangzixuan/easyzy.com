@@ -4,7 +4,7 @@ a:hover{-webkit-transition: all 0.3s ease;transition: all 0.3s ease;}
 .margin-b-30{margin-bottom: 30px;}
 /* **/.Absolute-Center{margin: auto;position: absolute;top: 0;left: 0;bottom: 0;right: 0;}
 body{margin: 0;padding: 0;background-color: mistyrose;font-family: 'Open Sans', sans-serif;overflow-x: hidden;}
-.main-body{float: left;width: 100%;background-size: 100% auto;background-attachment: fixed;}
+.main-body{float: left;width: 100%;background-size: 100% auto;background-attachment: fixed; overflow:hidden;}
 /* * http://philipnewcomer.net/2014/04/target-internet-explorer-10-11-css/ * Background attachment fixed bug on IE*/.copyrights{text-indent:-9999px;height:0;line-height:0;font-size:0;overflow:hidden;}
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active){/* IE10+ CSS styles go here*/.main-body{background-attachment: scroll;}}
 .main-page{position: relative;margin-top: 80px;}
@@ -220,3 +220,12 @@ textarea.form-control{height:135px;}
 .main-menu-link-icon{font-size: 3em;}
 .gallery_title h3{font-size: 40px;}
 .gallery_title h4{font-size: 18px;}}
+li{list-style-type:none}
+.top{background:#2aabe6; height: 50px;}
+.top-main{width:1170px; margin:0 auto; clear:both; overflow:hidden; }
+.top-main .logo{float:left; width:300px; height:50px;}
+.top-main .logo span{float:left; color:#fff; }
+.top-main .help{float:right;}
+        
+.help ul li{float:right; padding: 15px 10px; cursor:pointer;}
+.help li a{color:#fff;}

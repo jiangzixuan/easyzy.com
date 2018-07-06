@@ -1,17 +1,35 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta charset="utf-8" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>@ViewBag.Title</title>
+    <meta name="keywords" content="易作业,easy作业,题库作业,文件作业,简单,易用,免费,好用,作业平台,作业工具,文件上传作业,线上作业,无需注册,上传作业图片">
+    <meta name="description" content="易作业，简单、稳定、高效的作业工具，线上布置，线上完成作业，无需登录即可体验，登录后更可解锁更多功能！">
+    @RenderSection("css", false)
+    @RenderSection("scriptfirst", false)
 </head>
 <body>
-    
-    <div class="container body-content">
+    <div class="top">
+        <div class="top-main">
+            <div class="logo">
+                <span><img src="~/Images/logo.jpg" width="50" height="50" /></span><span style="line-height:50px; margin-left:10px;">易作业-超级简单、易用的作业平台</span>
+            </div>
+            <div class="help">
+                <ul>
+                    <li><a href="/h/help.html" target="_blank">联系我们</a></li>
+                    <li><a href="/h/help.html" target="_blank">使用帮助</a></li>
+                    <li><a href="/h/help.html" target="_blank">关于我们</a></li>
+                </ul>
+            </div>
+            
+        </div>
+    </div>
+    <div class="main-body">
         @RenderBody()
         <hr />
     </div>
+    @RenderSection("scriptlast", false)
 </body>
 </html>
