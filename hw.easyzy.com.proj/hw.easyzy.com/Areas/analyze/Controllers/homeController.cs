@@ -1,6 +1,7 @@
 ﻿using easyzy.sdk;
 using hw.easyzy.bll;
 using hw.easyzy.model.dto;
+using hw.easyzy.model.entity;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -200,18 +201,21 @@ namespace hw.easyzy.com.Areas.analyze.Controllers
         {
             int id = IdNamingHelper.Decrypt(IdNamingHelper.IdTypeEnum.Zy, zyId);
             List<dto_StudentPoint> list = B_Analyze.GetStudentPoint2(id, schoolId, gradeId, classId);
+            List<T_User> list2 = B_User.GetClassmates(schoolId, gradeId, classId);
             if (list != null)
             {
                 foreach (var l in list)
                 {
-                    dto_User u = B_UserRedis.GetUser(l.StudentId);
+                    T_User u = list2.Find(a => a.Id == l.StudentId);
                     l.UserName = u.UserName;
                     l.TrueName = u.TrueName;
                     l.NewId = zyId;
                     l.ZyId = 0;
+                    list2.RemoveAll(a => a.Id == l.StudentId);
                 }
             }
             ViewBag.List = list;
+            ViewBag.List2 = list2.Select(a=>a.UserName + "【" + a.TrueName + "】").ToList();
             return PartialView();
         }
     }

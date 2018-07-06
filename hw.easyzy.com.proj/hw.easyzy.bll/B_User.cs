@@ -81,5 +81,29 @@ namespace hw.easyzy.bll
             }
             return result == null ? null : result.ToArray();
         }
+
+        /// <summary>
+        /// 查找一个班的所有同学
+        /// </summary>
+        /// <param name="schoolId"></param>
+        /// <param name="gradeId"></param>
+        /// <param name="classId"></param>
+        /// <returns></returns>
+        public static List<T_User> GetClassmates(int schoolId, int gradeId, int classId)
+        {
+            List<T_User> model = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(UserConnString),
+                "select Id, UserName, TrueName, Psd, Mobile, FirstLoginDate, CreateDate, ZyPsd, ZyPrice, ProvinceId, CityId, DistrictId, SchoolId, GradeId, ClassId from T_User where SchoolId = @SchoolId and GradeId = @GradeId and ClassId = @ClassId",
+                "@SchoolId".ToInt32InPara(schoolId),
+                "@GradeId".ToInt32InPara(gradeId),
+                "@ClassId".ToInt32InPara(classId)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    model = MySqlDBHelper.ConvertDataReaderToEntityList<T_User>(dr);
+                }
+            }
+            return model;
+        }
     }
 }

@@ -110,7 +110,8 @@ namespace hw.easyzy.com.Areas.create.Controllers
         public ActionResult GetQuestions(int courseId, int kpointId, int cpointId, int typeId, int diffType, int paperYear, int pageIndex, int pageSize)
         {
             int totalCount = 0;
-            int[] qids = B_Ques.GetQuesIds(courseId, kpointId, cpointId, typeId, diffType, paperYear, pageIndex, pageSize, out totalCount);
+            //int[] qids = B_Ques.GetQuesIds(courseId, kpointId, cpointId, typeId, diffType, paperYear, pageIndex, pageSize, out totalCount);
+            int[] qids = B_QuesSolr.GetQuesIds(courseId, kpointId, cpointId, typeId, diffType, paperYear, pageIndex, pageSize, out totalCount);
             int totalPage = Util.GetTotalPageCount(totalCount, pageSize);
 
             List<dto_Question> list = null;

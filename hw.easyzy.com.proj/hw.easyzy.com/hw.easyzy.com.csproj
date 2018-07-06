@@ -260,7 +260,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Log4Net.config" />
-    <Content Include="Scripts\user.easyzy.common.js" />
+    <Content Include="Scripts\hw.easyzy.common.js" />
     <Content Include="Areas\create\Views\web.config" />
     <Content Include="Areas\submit\Views\web.config" />
     <Content Include="Areas\list\Views\web.config" />

@@ -1,6 +1,8 @@
 ﻿@using hw.easyzy.model.dto;
 
 @{List<dto_StudentPoint> sl = ViewBag.List;}
+@{List<string> sl2 = ViewBag.List2;}
+<div style="padding-bottom:20px; font-weight:bold;">已提交名单</div>
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -31,3 +33,21 @@
         }
     </tbody>
 </table>
+
+<div style="padding:20px 0; font-weight:bold;">未提交名单</div>
+<div>
+    <ul>
+        @if (sl2 != null && sl2.Count > 0)
+        {
+            foreach (var s in sl2)
+            {
+        <li style="width:200px; float:left; text-align:left;">@s</li>
+            }
+        }
+        else
+        {
+            <li>无</li>
+        }
+
+    </ul>
+</div>

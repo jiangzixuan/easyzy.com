@@ -354,6 +354,13 @@ namespace user.easyzy.bll
             return o == null ? false : true;
         }
 
+        /// <summary>
+        /// 查找一个班的所有同学
+        /// </summary>
+        /// <param name="schoolId"></param>
+        /// <param name="gradeId"></param>
+        /// <param name="classId"></param>
+        /// <returns></returns>
         public static List<T_User> GetClassmates(int schoolId, int gradeId, int classId)
         {
             List<T_User> model = null;
