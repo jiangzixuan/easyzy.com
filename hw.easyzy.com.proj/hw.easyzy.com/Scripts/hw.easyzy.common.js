@@ -27,8 +27,6 @@ var savesuggest = function () {
 
 
 $(function () {
-    uaredirect("http://m.easyzy.com"); //跳转移动版
-
     $(".head .udiv").mouseover(function () {
         $(".head .uinfo i").css("background-position", "0 -22px");
         $(".head .uprop").show();

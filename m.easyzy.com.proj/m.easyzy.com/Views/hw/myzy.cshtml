@@ -16,7 +16,8 @@
 <script type="text/javascript">
     var cur_data = {
         lastid: 0,
-        pagesize: 10
+        pagesize: 10,
+        q: false
     }
 
     var GetLastId = function () {
@@ -25,15 +26,19 @@
     }
 
     var GetMyZyData = function () {
-        $(".newsList").append("<div class='loading'>加载中...</div>");
-        GetLastId();
-        $.post("/hw/GetMyZy",
-            { lastId: cur_data.lastid, count: cur_data.pagesize },
-            function (data) {
-                $(".newsList .loading").remove();
-                $(".newsList .nomore").remove();
-                $(".newsList").append(data);
-            })
+        if (!cur_data.q) {
+            cur_data.q = true;
+            $(".newsList").append("<div class='loading'>加载中...</div>");
+            GetLastId();
+            $.post("/hw/GetMyZy",
+                { lastId: cur_data.lastid, count: cur_data.pagesize },
+                function (data) {
+                    $(".newsList .loading").remove();
+                    $(".newsList .nomore").remove();
+                    $(".newsList").append(data);
+                    cur_data.q = false;
+                })
+        }
     }
 
     $(function () {
