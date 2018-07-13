@@ -6,48 +6,151 @@
     <meta name="keywords" content="易作业,easy作业,题库作业,文件作业,简单,易用,免费,好用,作业平台,作业工具,文件上传作业,线上作业,无需注册,上传作业图片">
     <meta name="description" content="易作业，简单、稳定、高效的作业工具，线上布置，线上完成作业，无需登录即可体验，登录后更可解锁更多功能！">
     <link rel="stylesheet" type="text/css" href="/Content/style.css">
-    <style type="text/css">
-        .main-body .helper{clear:both;}
-        .main-body .helper .list{float:left; width:260px; background:#f5f5f5;}
-        .main-body .helper .list:hover{background:#e3e3e3;}
-        .main-body .helper .list.active{background:#1d75bb;}
-        .main-body .helper .desc{float:left; margin-left:20px; width:900px;}
-    </style>
+    
+    
 </head>
-<body>
+<body style="background:#fff;">
     <div class="top">
         <div class="top-main">
             <div class="logo">
                 <span><img src="/Images/logo.jpg" width="50" height="50" /></span><span style="line-height:50px; margin-left:10px;">易作业-超级简单、易用的作业平台</span>
             </div>
             <div class="help">
-                <ul>
+                <!--<ul style="overflow:hidden; margin:0;">
                     <li><a href="help.html" target="_blank">联系我们</a></li>
                     <li><a href="help.html" target="_blank">使用帮助</a></li>
                     <li><a href="help.html" target="_blank">关于我们</a></li>
-                </ul>
+                </ul>-->
             </div>
-
         </div>
     </div>
     <div class="main-body">
         <div class="helper">
             <div class="list">
                 <ul>
-                    <li>关于我们</li>
-                    <li>
-                        <span>使用帮助</span>
+                    <li class="l1 active" data-bind="aboutus">关于我们</li>
+                    <li class="l1" data-bind="" style="cursor:default;">使用帮助</li>
+                    <span class="list-tab">
                         <ul>
-                            <li>校领导</li>
-                            <li>老师</li>
-                            <li>学生</li>
+                            <li class="l2" data-bind="helper-t">老师</li>
+                            <li class="l2" data-bind="helper-s">学生</li>
+                            <li class="l2" data-bind="helper-xld">校领导</li>
+
                         </ul>
-                    </li>
-                    <li>联系我们</li>
+                    </span>
+                    <li class="l1" data-bind="contactus">联系我们</li>
                 </ul>
             </div>
-            <div class="desc"></div>
+            <div class="content-desc">
+                <div name="aboutus" class="content-span" id="aboutus">
+
+                    <p class="title">关于我们</p>
+                    <p>作为前一线教师，我们深切体会到每天大量的作业给教师和学生带来的负担。特别是寒暑假，学生在假期有没有按时做作业、哪些题答的不好、哪些知识点掌握的不好需要巩固提高，这都是困扰着各位一线的教师问题。</p>
+                    <p>而网络上各种作业类软件存在题库质量低下、检索错误、使用不便、作业统计要么没有要么设计的大而无用、不切合教师使用等等问题。</p>
+                    <p><b>易作业系统就是为了解决广大师生作业上的困扰而设计，在此，您将获得以下帮助：</b></p>
+                    <p>1、高质量的题库资源，10分钟出一份高质量作业</p>
+                    <p>2、作业的高效管控，每份作业状态实时更新</p>
+                    <p>3、客观题系统自动批改，节省老师宝贵时间</p>
+                    <p>4、作业情况（提交情况、每道题正确率、每个选项选择率）实时查询，精确高效</p>
+                    <p>5、师生论坛，试题可直接引用进论坛讨论</p>
+                    <p><b>同时，我们也在加紧开发以下功能：</b></p>
+                    <p>1、错题本以及错题推送</p>
+                    <p>2、弱项知识精确定位，并推送试题</p>
+                    <p>3、名校套卷，学生无门槛自由练习</p>
+                </div>
+                
+                <div name="helper" class="content-span" id="helper-t">
+
+                    <p class="title">使用帮助 - 老师</p>
+                    <p class="qa">
+                        <span class="q">Q：为什么要用这种关注的方式来管理老师和学生的对应关系？</span><br />
+                        <span class="a">A：有感于维护学校、年级、班级、老师、学生关系的巨大工作量以及为了后期作业功能扩展，我们借鉴微博的关注功能，来处理老师和学生的对应关系。</span>
+                    </p>
+                    <p class="qa">
+                        <span class="q">Q：作业保存后怎么让学生看到？</span><br />
+                        <span class="a">A：只要关注了您的学生，都能看到您保存的作业。</span>
+                    </p>
+
+                    <p class="qa">
+                        <span class="q">Q：有人随意关注我，并看到我的作业，怎么处理？</span><br />
+                        <span class="a">A：您可以在个人中心删除关注自己的学生。同时，当班级所有学生都关注了您之后，我们建议您锁定自己，这样任何人都无法再关注到您。</span>
+                    </p>
+                    <p class="qa">
+                        <span class="q">Q：主观题也能自动批改吗？</span><br />
+                        <span class="a">A：臣妾真的做不到。国内没有任何团队能实现这个，想想语文和英语的作文、数学和化学的公式等等，难度不仅仅在于识别+判断。</span>
+                    </p>
+                    <p class="qa">
+                        <span class="q">Q：为什么统计只包含客观题，不包含主观题？</span><br />
+                        <span class="a">A：这来源于我们对“作业”的定位，本着减少老师工作量的出发点考虑，我们觉得针对大量的普通作业，客观题能自动批改、主观题学生作答后能查看到答案和解析就已足够，老师也节省了大量时间做更有意义的事。</span>
+                    </p>
+                    <p class="qa">
+                        <span class="q">Q：能否用QQ/手机号快速注册？</span><br />
+                        <span class="a">A：在开发计划中。</span>
+                    </p>
+                    <p class="qa">
+                        <span class="q">Q：怎么看到详细的提交学生列表？</span><br />
+                        <span class="a">A：从作业列表->我建的作业中找到对应作业，点击后面的“统计”打开统计页，在“各班提交人数对比”块有一个“查看明细”按钮。</span>
+                    </p>
+                </div>
+                
+                <div name="helper" class="content-span" id="helper-s">
+                    <p class="title">使用帮助 - 学生</p>
+                    <p class="qa">
+                        <span class="q">Q：怎么看到老师作业？</span><br />
+                        <span class="a">A：你可以在作业列表看到关注老师的所有作业，前提是：在个人中心关注你的老师。</span>
+                    </p>
+                    <p class="qa">
+                        <span class="q">Q：想修改学校信息怎么办？</span><br />
+                        <span class="a">A：学校信息都是不允许随意改的。如果是转校这种特殊情况，可以在个人中心提修改学校请求，我们会帮忙调整（10个工作日内）</span>
+                    </p>
+
+                    <p class="qa">
+                        <span class="q">Q：班级修改了有什么影响吗？</span><br />
+                        <span class="a">A：虽然系统允许修改班级，但是我们并不支持随意修改，请务必仅在调班、升年级等情况下使用。调班后，您之前做过的作业的统计都还落在旧班级中。</span>
+                    </p>
+                    <p class="qa">
+                        <span class="q">Q：套卷是什么？</span><br />
+                        <span class="a">A：套卷是全国各地的成套的试卷，包括高考真题、高考模拟、月考卷、期中期末试卷等等。您可以自己选择试卷来作答，跟做老师保存的作业一样。敬请期待</span>
+                    </p>
+                    <p class="qa">
+                        <span class="q">Q：错题本还未开放的情况下，如何看自己错题？</span><br />
+                        <span class="a">A：您可以从作业列表找到已提交的作业，点击“查看答案”，就可以查看到整个作业中你自己的答案和正确答案/解析</span>
+                    </p>
+                </div>
+
+                <div name="helper" class="content-span" id="helper-xld">
+                    <p class="title">使用帮助 - 校领导</p>
+                    <p class="qa">
+                        <span class="q">校领导相关功能还在设计中，会有的。</span>
+                    </p>
+                </div>
+
+                <div name="about" class="content-span" id="contactus">
+                    <p class="title">联系我们</p>
+                    <p>首页的联系我们功能将很快上线，另外，您还可以通过以下方式联系我们：</p>
+                    <p>1、<a class="qq" target="blank" href="tencent://message/?uin=260031297&amp;Menu=yes">QQ联系</a></p>
+                    <p>2、各二级页面右下方的“意见反馈”给我们留言</p>
+                </div>
+            </div>
         </div>
     </div>
+    <script src="/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".main-body .helper li").on("click", function () {
+                var data = $(this).attr("data-bind");
+                if (data == "") return false;
+                $(this).addClass("active").siblings().removeClass("active");
+                if ($(this).hasClass("l1")) {
+                    $(".main-body .helper .list .l2").removeClass("active");
+                }
+                else {
+                    $(".main-body .helper .list .l1").removeClass("active");
+                }
+                window.location.href = "#" + data;
+            })
+            
+        })
+    </script>
 </body>
 </html>

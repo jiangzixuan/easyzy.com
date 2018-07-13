@@ -170,6 +170,7 @@
     <Content Include="Images\logo.jpg" />
     <Content Include="Images\menu-bg-gallery.png" />
     <Content Include="Images\menu-bg-home.png" />
+    <Content Include="Images\qqimg.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">

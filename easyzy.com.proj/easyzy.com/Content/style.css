@@ -1,6 +1,7 @@
 
 a:hover, a:focus{text-decoration: none;}
 a:hover{-webkit-transition: all 0.3s ease;transition: all 0.3s ease;}
+a{text-decoration:none;}
 .margin-b-30{margin-bottom: 30px;}
 /* **/.Absolute-Center{margin: auto;position: absolute;top: 0;left: 0;bottom: 0;right: 0;}
 body{margin: 0;padding: 0;background-color: mistyrose;font-family: 'Open Sans', sans-serif;overflow-x: hidden;}
@@ -47,7 +48,7 @@ body{margin: 0;padding: 0;background-color: mistyrose;font-family: 'Open Sans', 
 .carousel-control.right{display: -webkit-flex;display: -ms-flexbox;display: -webkit-box;display: flex;-webkit-align-items: center;-ms-flex-align: center;-webkit-box-align: center;align-items: center;-webkit-justify-content: center;-ms-flex-pack: center;-webkit-box-pack: center;justify-content: center;margin-bottom: 0;}
 .banner-main-home-text,
 .banner-main-about-text{position: relative;float: left;width: 55%;color: #000;text-align: left;right: 0;top: 0px;left: 0;text-shadow: none;}
-.menu-caption{float: left;width: 100%;background-color: #cfb011;text-align: center;left: 0px;bottom: 0px;position: absolute;top: 67%;opacity: 0.7;padding-top: 15px;padding-bottom: 0px;padding-left: 0px;padding-right: 0px;text-transform: uppercase;}
+.menu-caption{float: left;width: 100%;background-color: #cfb011;text-align: center;left: 0px;bottom: 0px;position: absolute;top: 67%;opacity: 0.7;padding: 15px 0 0 0;text-transform: uppercase;}
 .heading, .heading2{float: left;width: 100%;margin: 10px 0px;}
 .heading{border-left: 4px solid #10a5cd;}
 .heading2{border-left: 4px solid #a92446;}
@@ -221,11 +222,23 @@ textarea.form-control{height:135px;}
 .gallery_title h3{font-size: 40px;}
 .gallery_title h4{font-size: 18px;}}
 li{list-style-type:none}
-.top{background:#2aabe6; height: 50px;}
-.top-main{width:1170px; margin:0 auto; clear:both; overflow:hidden; }
-.top-main .logo{float:left; width:300px; height:50px;}
+.top{background:#2aabe6; height: 50px;  position:fixed; width:100%}
+.top-main{width:1170px; margin:0 auto;clear:both; overflow:hidden;}
+.top-main .logo{float:left; width:320px; clear:both;}
 .top-main .logo span{float:left; color:#fff; }
-.top-main .help{float:right;}
+.top-main .help{float:right; width:830px;}
         
 .help ul li{float:right; padding: 15px 10px; cursor:pointer;}
 .help li a{color:#fff;}
+.main-body .helper{width:1170px; margin:60px auto; clear:both; overflow:hidden; }
+.main-body .helper .list{width:13%; background:#f5f5f5; position:fixed;}
+.main-body .helper ul{padding-left:20px;}
+.main-body .helper li{cursor:pointer;}
+.main-body .helper .list li{ padding:10px 10px;}
+.main-body .helper .list li:hover{background:#e3e3e3;}
+.main-body .helper .list li.active{background:#1d75bb; color:#fff; font-weight:bold;}
+.main-body .helper .content-desc{float:right; margin-left:20px; width:76%;}
+.content-desc .title{border-bottom:1px solid #000000; font-size:16px; font-weight:bold; padding-bottom:10px; color:#0026ff}
+.content-desc .content-span{padding-bottom:50px;}
+.content-desc .content-span .qa .q{font-weight:bold; line-height:50px;}
+.qq{background:url("/Images/qqimg.png") no-repeat; padding-left:25px;}
