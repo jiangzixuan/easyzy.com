@@ -129,7 +129,7 @@ table{border-collapse:collapse;border-spacing:0}
 .personal-info .inner-content .tselect{padding:20px 0; line-height:40px;}
 .personal-info .inner-content .tselect select{width: 100px;height: 24px;border: solid 1px #dfdfdf;padding-left: 2px;background: #f4f4f4;}
 .personal-info .inner-content .tselect select.long{width:250px;}
-.personal-info .inner-content a{padding: 5px 20px; background:#e91a53; color:#fff;}
+/*.personal-info .inner-content a{padding: 5px 20px; background:#e91a53; color:#fff;}*/
 .personal-info .inner-content .rearea{width:100%; height:100px;}
 .personal-info .inner-content .requests{clear:both; padding: 20px 0;}
 .personal-info .inner-content .requests .req{float:left; width:90%}

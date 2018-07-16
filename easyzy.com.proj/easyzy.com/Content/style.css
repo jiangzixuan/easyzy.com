@@ -104,8 +104,8 @@ body{margin: 0;padding: 0;background-color: mistyrose;font-family: 'Open Sans', 
 .second{background-color: rgba(21, 150, 144, 0.8);}
 .third{background-color: rgba(211,150,14,0.8);}
 .footer{color: white;font-size: 12px;padding-right: 0;}
-.copyright{color: #fff;font-size: 11px;margin-bottom: 0;text-align: right;padding: 30px 0;}
-.copyright a{color: #fff;}
+.copyright{color: #333;font-size: 14px;margin-bottom: 0;text-align: right;padding: 30px 0;}
+.copyright a{color: #333;}
 .copyright a:hover{color: #FF0;}
 .about_box_line{border-top: 7px solid #10a5cd;}
 .about_box_title{padding: 0 0 0 5px;border-left: 2px solid #10a5cd;margin: 20px 0px;}

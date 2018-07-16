@@ -22,7 +22,7 @@
             <span>状态：<label>等待处理</label></span>
         </div>
         <div class="creq">
-            <a href="javascript:void(0);" onclick="CancelRequest(@ViewBag.Model.Id);">取消</a>
+            <a href="javascript:void(0);" class="btn" onclick="CancelRequest(@ViewBag.Model.Id);">取消</a>
         </div>
     </div>
     }
@@ -61,7 +61,7 @@
         </div>
         
         <div>
-            <a href="javascript:void(0);" class="request">申请</a>
+            <a href="javascript:void(0);" class="request btn">申请</a>
         </div>
     </div>
     }
@@ -222,7 +222,7 @@
                     window.location.reload();
                 }
                 else {
-                    dialogAlert("修改失败！");
+                    dialogAlert("取消请求失败！");
                 }
             })
     }
