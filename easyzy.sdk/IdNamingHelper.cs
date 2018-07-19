@@ -16,6 +16,7 @@ namespace easyzy.sdk
 
         public static long _questimes = 45902673;
         public static long _quesadds = 260039487;
+        
 
         public enum IdTypeEnum
         {
@@ -31,7 +32,7 @@ namespace easyzy.sdk
             {
                 newid = id * _questimes + _quesadds;
             }
-            else if(type == IdTypeEnum.Zy)
+            else if (type == IdTypeEnum.Zy || type == IdTypeEnum.Paper)
             {
                 newid = id * _zytimes + _zyadds;
             }
@@ -46,7 +47,7 @@ namespace easyzy.sdk
             {
                 oldid = (id - _quesadds) / _questimes;
             }
-            else if (type == IdTypeEnum.Zy)
+            else if (type == IdTypeEnum.Zy || type == IdTypeEnum.Paper)
             {
                 oldid = (id - _zyadds) / _zytimes;
             }

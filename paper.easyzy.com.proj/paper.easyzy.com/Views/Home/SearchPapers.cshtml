@@ -1,0 +1,25 @@
+﻿@using paper.easyzy.model.dto;
+
+@{List<dto_Paper> zl = ViewBag.PaperList;}
+
+<table class="table">
+    
+    <tbody>
+        @if (zl != null && zl.Count > 0)
+        {
+            foreach (var zy in zl)
+            {
+                <tr data-bind="@zy.PaperId">
+                    <td style="text-align:left;"><a href="/home/paperinfo?id=@zy.NewId">@zy.Title</a></td>
+                    <td>@zy.PaperYear</td>
+                    <td>@zy.GradeName</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr><td colspan="4">当前条件下没有任何试卷！</td></tr>
+        }
+        <tr style="display:none"><td id="PageCountDiv">@ViewBag.PageCount</td></tr>
+    </tbody>
+</table>

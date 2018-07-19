@@ -1,0 +1,96 @@
+﻿@using paper.easyzy.model.dto;
+@{
+    ViewBag.Title = "易作业-答卷";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    .foot-wrap {
+        display: none;
+    }
+</style>
+
+<div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > <a href="~">试卷列表</a></div>
+
+<div class="content">
+    <div class="main-content">
+        <div class="zyname-center">
+            <h1></h1>
+            <h2></h2>
+        </div>
+        <div class="queslist">
+
+        </div>
+        <div class="quesop">
+            <a href="javascript:void(0);" class="submit">提交</a>
+        </div>
+    </div>
+</div>
+
+@section scriptlast{
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+}
+<script type="text/javascript">
+    var cur_data = {
+        paperid: '@ViewBag.PaperId'
+    }
+
+    $(function () {
+        $.post("/home/getquestions",
+            { courseId: courseid, paperId: cur_data.paperid },
+            function (data) {
+                $(".queslist").html(data);
+            })
+    })
+    
+    var SubmitOK = function () {
+        //submit
+        var qlist = [], anslist = [], qanswer_temp = [];
+        var qid = 0;
+        var qanswer = "";
+
+        $(".queslist .option.active").each(function () {
+            if ($(this).parent().hasClass("coption")) {
+                qid = $(this).parents(".cques").attr("data-bind");
+            }
+            else {
+                qid = $(this).parents(".pques").attr("data-bind");
+            }
+
+            //一个多选题只循环一次
+            if ($.inArray(qid, qlist) == -1) {
+                if ($(this).hasClass("single")) {
+                    qanswer = $(this).attr("data-bind");
+                }
+                else {
+                    qanswer_temp = [];
+                    qanswer_temp.push($(this).attr("data-bind"));
+                    $(this).siblings(".option").each(function () {
+                        if ($(this).hasClass("active")) {
+                            qanswer_temp.push($(this).attr("data-bind"));
+                        }
+                    })
+                    qanswer = qanswer_temp.join("");
+                }
+                qlist.push(qid);
+                anslist.push(qanswer);
+            }
+        })
+
+        var questions = qlist.length > 0 ? qlist.join(",") : "";
+        var answers = anslist.length > 0 ? anslist.join(",") : "";
+
+        $.post("/submit/qdb/SubmitAnswer",
+            { zyId: cur_data.zyid, questions: questions, answers: answers },
+            function (data) {
+                if (data.code == "0") {
+                    window.location.href = "/list/submited/desc?zyid=" + cur_data.zyid;
+                }
+                else {
+                    dialogAlert(data.message);
+                }
+            })
+    }
+
+</script>

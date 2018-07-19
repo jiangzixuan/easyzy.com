@@ -1,0 +1,204 @@
+﻿@{
+    ViewBag.Title = "易作业-名校试卷";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    #pager {
+        background: #fff;
+        overflow: hidden;
+        margin: 20px 0;
+    }
+</style>
+<div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > 名校试卷</div>
+<div class="content-title">
+    <div class="page-top">
+        <div class="page-nav">
+            <div class="kct left">
+                <div class="select-header">
+                    <div class="selectkc">
+                        <div class="left currentkc" data-bind="26">高中语文</div>
+                        <div class="left" style="padding-top: 15px;padding-left: 4px;">
+                            <div class="white-line"></div>
+                            <div class="white-line"></div>
+                            <div class="white-line"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <ul class="stage-list">
+                    <li class="stage">
+                        <span>高中</span>
+                        <ul>
+                            <li>
+                                @foreach (var s in ViewBag.SeniorCourses)
+                                {
+                                    <a class="left" data-bind="@s.Key">@s.Value</a>
+                                }
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="stage">
+                        <span>初中</span>
+                        <ul>
+                            <li>
+                                @foreach (var s in ViewBag.JuniorCourses)
+                                {
+                                    <a class="left" data-bind="@s.Key">@s.Value</a>
+                                }
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="stage">
+                        <span>小学</span>
+                        <ul>
+                            <li>
+                                @foreach (var s in ViewBag.PrimaryCourses)
+                                {
+                                    <a class="left" data-bind="@s.Key">@s.Value</a>
+                                }
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="main-content" style="background:#f4f4f4; width:1200px; padding: 0;">
+        <div class="quessearch">
+            <div class="line grade">
+                <b>年级：</b><a href="javascript:void(0);" data-bind="0" class="active">全部</a>
+            </div>
+            <div class="line type">
+                <b>类型：</b><a href="javascript:void(0);" data-bind="0" class="active">全部</a>
+                @foreach (var t in ViewBag.PaperTypes)
+                {
+                    <a data-bind="@t.Key" href="javascript:void(0);">@t.Value</a>
+                }
+            </div>
+            <div class="line paperyear">
+                @{ int year = DateTime.Now.Year; int year1 = year - 1; int year2 = year - 2; int year3 = year - 3; int year4 = (year - 4) * -1;}
+                <b>年份：</b><a href="#" class="active" data-bind="0">全部</a>
+                <a href="javascript:void(0);" data-bind="@year">@year</a>
+                <a href="javascript:void(0);" data-bind="@year1">@year1</a>
+                <a href="javascript:void(0);" data-bind="@year2">@year2</a>
+                <a href="javascript:void(0);" data-bind="@year3">@year3</a>
+                <a href="javascript:void(0);" data-bind="@year4">更早以前</a>
+            </div>
+            <div class="line area">
+                <b>地区：</b><a href="javascript:void(0);" data-bind="0" class="active">全部</a>
+                @foreach (var t in ViewBag.Provinces)
+                {
+                    <a data-bind="@t.Key" href="javascript:void(0);">@t.Value</a>
+                }
+            </div>
+        </div>
+        
+        <div class="queryresult">
+
+        </div>
+        <div id="pager" class="zypager"></div>
+    </div>
+</div>
+
+@section scriptlast{
+    <script type="text/javascript" src="/scripts/jquery.cookie.js"></script>
+}
+
+<script type="text/javascript">
+    //有选择过课程，则以cookie记录的课程为默认课程
+    //否则默认高中语文
+    var cur_data = {
+        default_courseId: 26,
+        default_courseName: "高中语文",
+        pageindex: 1,
+        pagesize: 10
+    }
+
+    $(function () {
+        var defaultCourse = $.cookie("easyzy.basket.defaultcourse");
+        if (defaultCourse) {
+            cur_data.default_courseId = defaultCourse.split('|')[0];
+            cur_data.default_courseName = defaultCourse.split('|')[1];
+        }
+        $(".currentkc").attr("data-bind", cur_data.default_courseId).html(cur_data.default_courseName);
+        $(".stage-list li a[data-bind='" + cur_data.default_courseId + "']").addClass("active");
+
+        GetGrades();
+        SearchPapers();
+    })
+
+    //弹层显示、隐藏以及一些页面交互
+    $(".select-header, .page-nav .stage-list").on("mouseover", function () {
+        $(".page-nav .stage-list").show();
+    });
+
+    $(".page-nav .kct").on("mouseout", function () {
+        $(".page-nav .stage-list").hide();
+    })
+
+    $(".quessearch a").on("click", function () {
+        $(this).addClass("active").siblings().removeClass("active");
+        cur_data.pageindex = 1;
+        SearchPapers();
+    })
+
+    //选择课程
+    $(".page-nav .stage-list .stage li a").on("click", function () {
+        $(this).addClass("active").siblings().removeClass("active").parents(".stage").siblings().find("a").removeClass("active");
+        var id = $(this).attr("data-bind");
+        var name = $(this).parents("ul").siblings("span").html() + $(this).html();
+        $(".currentkc").attr("data-bind", id);
+        $(".currentkc").html(name);
+
+        var s = id + "|" + name;
+        $.cookie("easyzy.basket.defaultcourse", s, { expires: 30, path: '/' });
+        $(".page-nav .stage-list").hide();
+        GetGrades();
+    })
+
+    //年级随课程切换
+    var GetGrades = function () {
+        var html = "";
+        var courseid = parseInt($(".currentkc").attr("data-bind"));
+        if (courseid <= 9) {
+            html = "<b>年级：</b><a href='javascript:void(0);' data-bind='0' class='active'>全部</a><a href='javascript:void(0);' data-bind='1'>一年级</a><a href='javascript:void(0);' data-bind='2'>二年级</a><a href='javascript:void(0);' data-bind='3'>三年级</a><a href='javascript:void(0);' data-bind='4'>四年级</a><a href='javascript:void(0);' data-bind='5'>五年级</a><a href='javascript:void(0);' data-bind='6'>六年级</a>";
+        }
+        else if (courseid <= 25) {
+            html = "<b>年级：</b><a href='javascript:void(0);' data-bind='0' class='active'>全部</a><a href='javascript:void(0);' data-bind='7'>七年级</a><a href='javascript:void(0);' data-bind='8'>八年级</a><a href='javascript:void(0);' data-bind='9'>九年级</a>";
+        }
+        else {
+            html = "<b>年级：</b><a href='javascript:void(0);' data-bind='0' class='active'>全部</a><a href='javascript:void(0);' data-bind='10'>高一</a><a href='javascript:void(0);' data-bind='11'>高二</a><a href='javascript:void(0);' data-bind='12'>高三</a>";
+        }
+        $(".quessearch .grade").html(html);
+
+        $(".quessearch .grade a").on("click", function () {
+            $(this).addClass("active").siblings().removeClass("active");
+            cur_data.pageindex = 1;
+            SearchPapers();
+        })
+    }
+
+    var PageClick = function (PageIndex) {
+        cur_data.pageindex = PageIndex;
+        SearchPapers();
+    }
+
+    var SearchPapers = function () {
+        var courseid = $(".currentkc").attr("data-bind");
+        var gradeid = $(".quessearch .grade a.active").attr("data-bind");
+        var typeid = $(".quessearch .type a.active").attr("data-bind");
+        var paperyear = $(".quessearch .paperyear a.active").attr("data-bind");
+        var areaid = $(".quessearch .area a.active").attr("data-bind");
+        $(".queryresult").html("<div><img src='/images/loader.gif'><b>正在加载……</b></div>");
+        $.post("/home/SearchPapers",
+            { courseId: courseid, gradeId: gradeid, typeId: typeid, paperYear: paperyear, areaId: areaid, pageIndex: cur_data.pageindex, pageSize: cur_data.pagesize },
+            function (data) {
+                $(".queryresult").html(data);
+                if (parseInt($("#PageCountDiv").html()) > 1) {
+                    $("#pager").pager({ pagenumber: cur_data.pageindex, pagecount: $("#PageCountDiv").html(), buttonClickCallback: PageClick });
+                }
+            })
+    }
+</script>

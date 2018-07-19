@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <redis catelog="User" ip="47.94.100.66" port="6379" pwd="260031297" db="0">用户</redis>
+  <redis catelog="Zy" ip="47.94.100.66" port="6379" pwd="260031297" db="1">作业内容和答案解析</redis>
+  <redis catelog="QdbZyQues" ip="47.94.100.66" port="6379" pwd="260031297" db="1">作业结构</redis>
+  <redis catelog="SelfZyQues" ip="47.94.100.66" port="6379" pwd="260031297" db="1">答案</redis>
+  <redis catelog="QdbZyAllQuestions" ip="47.94.100.66" port="6379" pwd="260031297" db="1">作业结构</redis>
+  <redis catelog="SelfZyStruct" ip="47.94.100.66" port="6379" pwd="260031297" db="1">答案</redis>
+  <redis catelog="SelfZyAnswer" ip="47.94.100.66" port="6379" pwd="260031297" db="1">答案</redis>
+
+  <redis catelog="CheckCode" ip="47.94.100.66" port="6379" pwd="260031297" db="12">验证码</redis>
+  <redis catelog="TextBooks" ip="47.94.100.66" port="6379" pwd="260031297" db="13">教材</redis>
+  <redis catelog="TextBookVersions" ip="47.94.100.66" port="6379" pwd="260031297" db="13">教材版本</redis>
+  <redis catelog="Catalogs" ip="47.94.100.66" port="6379" pwd="260031297" db="13">课本目录</redis>
+  <redis catelog="KnowledgePoints" ip="47.94.100.66" port="6379" pwd="260031297" db="13">知识点</redis>
+  <redis catelog="Ques" ip="47.94.100.66" port="6379" pwd="260031297" db="14">试题缓存</redis>
+  <redis catelog="Base" ip="47.94.100.66" port="6379" pwd="260031297" db="15">Base库中地区学校</redis>
+</root>

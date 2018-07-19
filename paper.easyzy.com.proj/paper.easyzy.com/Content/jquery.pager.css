@@ -1,0 +1,40 @@
+﻿.zypager ul.pages {
+    display: block;
+    border: none;
+    text-transform: uppercase;
+    font-size: 10px;
+    /*margin:10px 0 50px;*/
+    padding: 0;    
+    position: relative;
+    float:right;
+}
+
+    .zypager ul.pages li {
+        list-style: none;
+        float: left;
+        border: 1px solid #bbbbbb;
+        text-decoration: none;
+        margin: 0 5px 0 0;
+        padding: 6px 18px;
+        color: #333333;
+        background-color: whitesmoke;
+        border-radius: 3px;
+    }
+
+        .zypager ul.pages li:hover {
+            background-color: #e6e6e6;
+        }
+
+        .zypager ul.pages li.pgEmpty {
+            border: 1px solid #c7c6c6;
+            color: #c7c6c6;
+        }
+
+            .zypager ul.pages li.pgEmpty:hover {
+                background-color: #fff;
+            }
+
+        .zypager ul.pages li.pgCurrent {
+            font-weight: 700;
+            background-color: #e6e6e6;
+        }
