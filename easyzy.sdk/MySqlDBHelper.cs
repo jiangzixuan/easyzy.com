@@ -361,6 +361,33 @@ namespace easyzy.sdk
         #endregion
 
         #region 关于DataReader/DataTable转List/Single的方法
+        public static List<T> ConvertDataTableToEntityList<T>(DataTable dt) where T : new()
+        {
+            var type = typeof(T);
+            var list = new List<T>();
+            if (dt.Rows.Count == 0)
+            {
+                return list;
+            }
+            var pros = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            foreach (DataRow dr in dt.Rows)
+            {
+                var t = new T();
+                foreach (var p in pros)
+                {
+                    if (p.CanWrite)
+                    {
+                        if (dt.Columns.Contains(p.Name) && !Convert.IsDBNull(dr[p.Name]))
+                        {
+                            p.SetValue(t, dr[p.Name], null);
+                        }
+                    }
+                }
+                list.Add(t);
+            }
+            return list;
+
+        }
         /// <summary>
         /// 将数据表转换为实体类。
         /// </summary>

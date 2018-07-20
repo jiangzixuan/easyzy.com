@@ -66,6 +66,7 @@
     <Compile Include="D_Base.cs" />
     <Compile Include="D_BaseRedis.cs" />
     <Compile Include="D_Paper.cs" />
+    <Compile Include="D_PaperRedis.cs" />
     <Compile Include="D_Ques.cs" />
     <Compile Include="D_QuesRedis.cs" />
     <Compile Include="D_User.cs" />

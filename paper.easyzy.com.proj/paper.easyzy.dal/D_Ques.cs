@@ -141,5 +141,24 @@ namespace paper.easyzy.dal
             return model;
         }
 
+        
+        public static int[] GetQuestionsBySourceId(int courseId, string sourceIds)
+        {
+            string[] sids = sourceIds.Split(',');
+            List<int> list = new List<int>();
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(QuesConnString),
+                "select qid, OriginalQuesId from temp_q1 where OriginalQuesId in (" + sourceIds + ") order by OriginalQuesId, qid"))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        list.Add(int.Parse(dr[0].ToString()));
+                    }
+                }
+            }
+            return list.ToArray();
+        }
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿using easyzy.sdk;
 using paper.easyzy.bll;
-using paper.easyzy.model.entity;
+using paper.easyzy.model.dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace paper.easyzy.com.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public ActionResult Index()
         {
@@ -31,16 +31,36 @@ namespace paper.easyzy.com.Controllers
             return PartialView();
         }
 
+        [LoginFilterAttribute]
         public ActionResult PaperInfo(long id)
         {
+            dto_Paper p = B_Paper.GetPaper(id);
+            ViewBag.CourseId = p == null ? 0 : p.CourseId;
+            ViewBag.PaperName = p == null ? "" : p.Title;
             ViewBag.PaperId = id;
             return View();
         }
 
-        public ActionResult GetQuestions(long paperId)
+        [LoginFilterAttribute]
+        public ActionResult GetQuestions(int courseId, long paperId)
         {
-            ViewBag.QuesList = B_Paper.GetPaperQuestions(paperId);
+            ViewBag.QuesList = B_Paper.GetPaperQuestions(courseId, paperId);
             return PartialView();
+        }
+
+        /// <summary>
+        /// 将T_Paper表的QuestionIds修改为T_Questions表的Id数组json，不是业务用到的Controller方法
+        /// </summary>
+        /// <param name="courseId"></param>
+        /// <returns></returns>
+        public ActionResult ModifyPaperQuestions(string courseid)
+        {
+            string[] cl = courseid.Split(',');
+            foreach (var c in cl)
+            {
+                B_Paper.ModifyPaperQuestions(int.Parse(c));
+            }
+            return View();
         }
     }
 }

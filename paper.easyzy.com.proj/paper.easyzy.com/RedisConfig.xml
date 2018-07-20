@@ -8,6 +8,7 @@
   <redis catelog="SelfZyStruct" ip="47.94.100.66" port="6379" pwd="260031297" db="1">答案</redis>
   <redis catelog="SelfZyAnswer" ip="47.94.100.66" port="6379" pwd="260031297" db="1">答案</redis>
 
+  <redis catelog="Paper" ip="47.94.100.66" port="6379" pwd="260031297" db="11">试卷</redis>
   <redis catelog="CheckCode" ip="47.94.100.66" port="6379" pwd="260031297" db="12">验证码</redis>
   <redis catelog="TextBooks" ip="47.94.100.66" port="6379" pwd="260031297" db="13">教材</redis>
   <redis catelog="TextBookVersions" ip="47.94.100.66" port="6379" pwd="260031297" db="13">教材版本</redis>

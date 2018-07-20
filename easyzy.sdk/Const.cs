@@ -57,6 +57,7 @@ namespace easyzy.sdk
             Catalogs,   //课程下的各书本的目录
             KnowledgePoints,
             Ques,  //单独一个试题信息
+            Paper, //试卷信息
 
             User,    //用户
             Zy,    //作业信息

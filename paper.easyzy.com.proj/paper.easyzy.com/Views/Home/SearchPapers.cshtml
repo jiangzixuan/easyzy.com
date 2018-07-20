@@ -10,9 +10,10 @@
             foreach (var zy in zl)
             {
                 <tr data-bind="@zy.PaperId">
-                    <td style="text-align:left;"><a href="/home/paperinfo?id=@zy.NewId">@zy.Title</a></td>
-                    <td>@zy.PaperYear</td>
+                    <td style="text-align:left;"><a href="/home/paperinfo?id=@(zy.NewId)">@zy.Title</a></td>
+                    
                     <td>@zy.GradeName</td>
+                    <td>-</td>
                 </tr>
             }
         }

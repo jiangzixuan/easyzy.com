@@ -89,7 +89,7 @@ namespace paper.easyzy.dal
         {
             dto_Paper p = null;
             using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(QuesConnString),
-                "select PaperId, CourseId, TypeId, GradeId, AreaId, PaperYear, Title, QuestionIds from T_Paper where PaperId = @PaperId",
+                "select PaperId, CourseId, TypeId, GradeId, AreaId, PaperYear, Title, QIds from T_Paper where PaperId = @PaperId",
                 "@PaperId".ToInt32InPara(paperId)))
             {
                 if (dr != null && dr.HasRows)
@@ -98,6 +98,14 @@ namespace paper.easyzy.dal
                 }
             }
             return p;
+        }
+
+        public static void UpdatePaperQIds(int paperId, string qids)
+        {
+            MySqlHelper.ExecuteNonQuery(Util.GetConnectString(QuesConnString),
+                "update T_Paper set QIds = @QIds where PaperId = @PaperId",
+                "@QIds".ToVarCharInPara(qids),
+                "@PaperId".ToInt32InPara(paperId));
         }
     }
 }

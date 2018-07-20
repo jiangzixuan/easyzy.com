@@ -25,6 +25,14 @@ namespace paper.easyzy.model.entity
 
         public string Title { get; set; }
 
+        /// <summary>
+        /// 存OriginalQuesId
+        /// </summary>
         public string QuestionIds { get; set; }
+
+        /// <summary>
+        /// 存QuesId
+        /// </summary>
+        public string QIds { get; set; }
     }
 }

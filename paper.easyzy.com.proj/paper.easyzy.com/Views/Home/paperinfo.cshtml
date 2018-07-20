@@ -10,7 +10,7 @@
     }
 </style>
 
-<div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > <a href="~">试卷列表</a></div>
+<div class="content-nav">当前位置：<a href="http://easyzy.com">首页</a> > <a href="/">名校试卷</a> > @ViewBag.PaperName</div>
 
 <div class="content">
     <div class="main-content">
@@ -33,12 +33,13 @@
 }
 <script type="text/javascript">
     var cur_data = {
-        paperid: '@ViewBag.PaperId'
+        paperid: '@ViewBag.PaperId',
+        courseid: '@ViewBag.CourseId'
     }
 
     $(function () {
         $.post("/home/getquestions",
-            { courseId: courseid, paperId: cur_data.paperid },
+            { courseId: cur_data.courseid, paperId: cur_data.paperid },
             function (data) {
                 $(".queslist").html(data);
             })
