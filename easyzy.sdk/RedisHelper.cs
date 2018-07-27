@@ -17,22 +17,45 @@ namespace easyzy.sdk
     /// </summary>
     public class RedisHelper
     {
+        private static volatile RedisHelper _instance = null;
+
+        private static object _lock = new object();
+
         private const string RedisConfigName = "RedisConfig.xml";
         /// <summary>
         /// 单实例的RedisClient字典
         /// </summary>
-        private static readonly ConcurrentDictionary<string, IRedisClient> RedisCatelogDictionary;
+        private readonly ConcurrentDictionary<string, IRedisClient> RedisCatelogDictionary;
 
         /// <summary>
         /// 缓存池方式的RedisClient字典
         /// </summary>
-        private static readonly ConcurrentDictionary<string, PooledRedisClientManager>  PoolInstanceDictonary;
+        private readonly ConcurrentDictionary<string, PooledRedisClientManager>  PoolInstanceDictonary;
 
-        static RedisHelper()
+        private RedisHelper()
         {
             RedisCatelogDictionary = new ConcurrentDictionary<string, IRedisClient>();
 
             PoolInstanceDictonary = new ConcurrentDictionary<string, PooledRedisClientManager>();
+        }
+
+        /// <summary>
+        /// 获取实例
+        /// </summary>
+        public static RedisHelper Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    lock (_lock)
+                    {
+                        if (_instance == null)
+                            _instance = new RedisHelper();
+                    }
+                }
+                return _instance;
+            }
         }
 
         /// <summary>
@@ -70,7 +93,7 @@ namespace easyzy.sdk
             return r;
         }
 
-        public static IRedisClient GetRedisClient(string catelog)
+        public IRedisClient GetRedisClient(string catelog)
         {
             #region 单例模式
             //GetRedisClientBySingle(catelog);
@@ -86,7 +109,7 @@ namespace easyzy.sdk
         /// </summary>
         /// <param name="catelog"></param>
         /// <returns></returns>
-        private static IRedisClient GetRedisClientBySingle(string catelog)
+        private IRedisClient GetRedisClientBySingle(string catelog)
         {
             IRedisClient result;
             bool b = RedisCatelogDictionary.TryGetValue(catelog, out result);
@@ -104,7 +127,7 @@ namespace easyzy.sdk
         /// </summary>
         /// <param name="catelog"></param>
         /// <returns></returns>
-        private static IRedisClient GetRedisClientByPool(string catelog)
+        private IRedisClient GetRedisClientByPool(string catelog)
         {
             PooledRedisClientManager result;
             bool b = PoolInstanceDictonary.TryGetValue(catelog, out result);
@@ -121,7 +144,7 @@ namespace easyzy.sdk
         /// </summary>
         /// <param name="catelog"></param>
         /// <returns></returns>
-        private static PooledRedisClientManager InitPool(string catelog)
+        private PooledRedisClientManager InitPool(string catelog)
         {   
             int _RedisPoolSize = 10000;
             int _RedisPoolTimeoutSeconds = 2;

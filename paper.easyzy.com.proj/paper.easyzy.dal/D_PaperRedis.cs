@@ -17,7 +17,7 @@ namespace paper.easyzy.dal
         {
             dto_Paper tempresult = null;
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Paper, paperId.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.Paper.ToString()))
+            using (var client = RedisHelper.Instance.GetRedisClient(CacheCatalog.Paper.ToString()))
             {
                 if (client != null)
                 {

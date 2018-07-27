@@ -38,7 +38,7 @@ namespace paper.easyzy.com.Controllers
         public ActionResult PaperInfo(long id)
         {
             dto_Paper p = B_Paper.GetPaper(id);
-            bool b = B_Paper.IsPaperSubmited(id, 1000002);
+            bool b = B_Paper.IsPaperSubmited(id, UserId);
             ViewBag.CourseId = p == null ? 0 : p.CourseId;
             ViewBag.PaperName = p == null ? "" : p.Title;
             ViewBag.PaperId = id;
@@ -103,7 +103,6 @@ namespace paper.easyzy.com.Controllers
         //[LoginFilterAttribute]
         public ActionResult GetPaperAnswer(int courseId, long paperId)
         {
-            int UserId = 1000002;
             ViewBag.QuesList = B_Paper.GetPaperAnswer(courseId, paperId, UserId);
             return PartialView();
         

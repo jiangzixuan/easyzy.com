@@ -17,7 +17,7 @@ namespace hw.easyzy.bll
         {
             dto_Question tempresult = null;
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Ques, qId.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.Ques.ToString()))
+            using (var client = RedisHelper.Instance.GetRedisClient(CacheCatalog.Ques.ToString()))
             {
                 if (client != null)
                 {
@@ -40,7 +40,7 @@ namespace hw.easyzy.bll
         {
             dto_Question tempresult = null;
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Ques, qId.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.Ques.ToString()))
+            using (var client = RedisHelper.Instance.GetRedisClient(CacheCatalog.Ques.ToString()))
             {
                 if (client != null)
                 {
@@ -60,7 +60,7 @@ namespace hw.easyzy.bll
         {
             List<T_CatalogNodes> tempresult = null;
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Catalogs, textbookId.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.Catalogs.ToString()))
+            using (var client = RedisHelper.Instance.GetRedisClient(CacheCatalog.Catalogs.ToString()))
             {
                 if (client != null)
                 {
@@ -83,7 +83,7 @@ namespace hw.easyzy.bll
         {
             List<T_KnowledgePoints> tempresult = null;
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.KnowledgePoints, courseId.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.KnowledgePoints.ToString()))
+            using (var client = RedisHelper.Instance.GetRedisClient(CacheCatalog.KnowledgePoints.ToString()))
             {
                 if (client != null)
                 {

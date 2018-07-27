@@ -20,7 +20,7 @@ namespace user.easyzy.bll
         {
             string result = "";
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.CheckCode, token);
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.CheckCode.ToString()))
+            using (var client = RedisHelper.Instance.GetRedisClient(CacheCatalog.CheckCode.ToString()))
             {
                 if (client != null)
                 {
@@ -34,7 +34,7 @@ namespace user.easyzy.bll
         public static void SetCheckCode(string token, string checkCode)
         {
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.CheckCode, token);
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.CheckCode.ToString()))
+            using (var client = RedisHelper.Instance.GetRedisClient(CacheCatalog.CheckCode.ToString()))
             {
                 if (client != null)
                 {

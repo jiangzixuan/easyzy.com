@@ -25,7 +25,7 @@ namespace m.easyzy.bll
             List<T_City> tempresult = null;
 
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Base, "CL_" + provinceId.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.Base.ToString()))
+            using (var client = RedisHelper.Instance.GetRedisClient(CacheCatalog.Base.ToString()))
             {
                 if (client != null)
                 {
@@ -54,7 +54,7 @@ namespace m.easyzy.bll
             List<T_District> tempresult = null;
 
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Base, "DL_" + cityId.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.Base.ToString()))
+            using (var client = RedisHelper.Instance.GetRedisClient(CacheCatalog.Base.ToString()))
             {
                 if (client != null)
                 {
@@ -83,7 +83,7 @@ namespace m.easyzy.bll
             List<T_School> tempresult = null;
 
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Base, "SL_" + districtId.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.Base.ToString()))
+            using (var client = RedisHelper.Instance.GetRedisClient(CacheCatalog.Base.ToString()))
             {
                 if (client != null)
                 {
@@ -112,7 +112,7 @@ namespace m.easyzy.bll
             T_School tempresult = null;
 
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Base, "SCH_" + schoolId.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.Base.ToString()))
+            using (var client = RedisHelper.Instance.GetRedisClient(CacheCatalog.Base.ToString()))
             {
                 if (client != null)
                 {

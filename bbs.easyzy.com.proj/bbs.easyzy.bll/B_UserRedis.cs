@@ -22,7 +22,7 @@ namespace bbs.easyzy.bll
             dto_User tempresult = null;
             T_User u = null;
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.User, userId.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.User.ToString()))
+            using (var client = RedisHelper.Instance.GetRedisClient(CacheCatalog.User.ToString()))
             {
                 if (client != null)
                 {

@@ -17,7 +17,7 @@ namespace m.easyzy.bll
         {
             dto_Question tempresult = null;
             string key = RedisHelper.GetEasyZyRedisKey(CacheCatalog.Ques, qId.ToString());
-            using (var client = RedisHelper.GetRedisClient(CacheCatalog.Ques.ToString()))
+            using (var client = RedisHelper.Instance.GetRedisClient(CacheCatalog.Ques.ToString()))
             {
                 if (client != null)
                 {
