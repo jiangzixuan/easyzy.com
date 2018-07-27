@@ -13,7 +13,7 @@
                     <td style="text-align:left;"><a href="/home/paperinfo?id=@(zy.NewId)">@zy.Title</a></td>
                     
                     <td>@zy.GradeName</td>
-                    <td>-</td>
+                    <td>@(zy.Submited ? "已完成" : "-")</td>
                 </tr>
             }
         }

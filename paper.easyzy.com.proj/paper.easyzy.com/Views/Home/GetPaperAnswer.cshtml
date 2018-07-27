@@ -1,10 +1,10 @@
-﻿@using hw.easyzy.model.dto;
+﻿@using paper.easyzy.model.dto;
 @using easyzy.sdk;
 
 @{List<dto_Question> ql = ViewBag.QuesList;}
 @{List<dto_UserAnswer> al = ViewBag.Answers;}
 
-<div class="answerpiclist">
+@*<div class="answerpiclist">
     <ul id="imgul">
         @if (!string.IsNullOrEmpty(ViewBag.AnswerImg))
         {
@@ -15,7 +15,7 @@
             }
         }
     </ul>
-</div>
+</div>*@
 
 @if (ql != null && ql.Count > 0)
 {
@@ -74,7 +74,7 @@
                 <div class="panswer @(q.SAnswer == q.quesanswer?"":"error")">正确答案：@Html.Raw(@q.quesanswer)</div>
                 <div class="panswer @(q.SAnswer == q.quesanswer?"":"error")">解析：@Html.Raw(@q.quesparse)</div>
             }
-
+            
             @if (q.haschildren && q.Children != null && q.Children.Count > 0)
             {
                 int cnum = 0;
@@ -113,14 +113,14 @@
                         </div>
                     }
                 </div>
-                
+
             }
         </div>
     }
 }
 else
 {
-    <div style="padding-top:20px; text-align:center;">未找到作业内容！</div>
+        <div style="padding-top:20px; text-align:center;">未找到试题！</div>
 }
 
 <script type="text/javascript">

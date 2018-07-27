@@ -11,5 +11,7 @@ namespace paper.easyzy.model.dto
     {
         public long NewId { get; set; }
         public string GradeName { get; set; }
+
+        public bool Submited { get; set; }
     }
 }

@@ -156,6 +156,8 @@
         $.cookie("easyzy.basket.defaultcourse", s, { expires: 30, path: '/' });
         $(".page-nav .stage-list").hide();
         GetGrades();
+        cur_data.pageindex = 1;
+        SearchPapers();
     })
 
     //年级随课程切换

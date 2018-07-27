@@ -46,6 +46,8 @@
     <Compile Include="dto\dto_Paper.cs" />
     <Compile Include="dto\dto_Question.cs" />
     <Compile Include="dto\dto_User.cs" />
+    <Compile Include="dto\dto_UserAnswer.cs" />
+    <Compile Include="entity\T_Answer.cs" />
     <Compile Include="entity\T_City.cs" />
     <Compile Include="entity\T_CQuestions.cs" />
     <Compile Include="entity\T_District.cs" />

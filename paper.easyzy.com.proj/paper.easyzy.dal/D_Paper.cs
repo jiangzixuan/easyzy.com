@@ -15,9 +15,11 @@ namespace paper.easyzy.dal
     public class D_Paper
     {
         private static string QuesConnString = "";
+        private static string PaperConnString = "";
         static D_Paper()
         {
             Const.DBConnStrNameDic.TryGetValue(Const.DBName.Ques, out QuesConnString);
+            Const.DBConnStrNameDic.TryGetValue(Const.DBName.Paper, out PaperConnString);
         }
 
         /// <summary>
@@ -106,6 +108,102 @@ namespace paper.easyzy.dal
                 "update T_Paper set QIds = @QIds where PaperId = @PaperId",
                 "@QIds".ToVarCharInPara(qids),
                 "@PaperId".ToInt32InPara(paperId));
+        }
+
+        /// <summary>
+        /// 提交答案
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public static bool InsertZyAnswer(T_Answer a)
+        {
+            int i = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(PaperConnString),
+                "insert into T_Answer(PaperId, StudentId, AnswerJson, AnswerImg, Submited, CreateDate, Ip, IMEI, MobileBrand, SystemType, Browser) values (@ZyId, @StudentId, @AnswerJson, @AnswerImg, @Submited, @CreateDate, @Ip, @IMEI, @MobileBrand, @SystemType, @Browser);",
+                "@ZyId".ToInt32InPara(a.PaperId),
+                "@StudentId".ToInt32InPara(a.StudentId),
+                "@AnswerJson".ToVarCharInPara(a.AnswerJson),
+                "@AnswerImg".ToVarCharInPara(a.AnswerImg),
+                "@Submited".ToBitInPara(a.Submited),
+                "@CreateDate".ToDateTimeInPara(a.CreateDate),
+                "@Ip".ToVarCharInPara(a.Ip),
+                "@IMEI".ToVarCharInPara(a.IMEI),
+                "@MobileBrand".ToVarCharInPara(a.MobileBrand),
+                "@SystemType".ToVarCharInPara(a.SystemType),
+                "@Browser".ToVarCharInPara(a.Browser)
+                );
+            return i > 0;
+        }
+
+        /// <summary>
+        /// 修改作业的AnswerJson并提交作业
+        /// </summary>
+        /// <param name="paperId"></param>
+        /// <param name="userId"></param>
+        /// <param name="answerJson"></param>
+        /// <returns></returns>
+        public static bool UpdateAnswerJson(int paperId, int userId, string answerJson)
+        {
+            int i = MySqlHelper.ExecuteNonQuery(Util.GetConnectString(PaperConnString),
+                "update T_Answer set CreateDate = now(), AnswerJson = @AnswerJson, Submited = 1 where PaperId = @PaperId and StudentId = @StudentId",
+                "@PaperId".ToInt32InPara(paperId),
+                "@StudentId".ToInt32InPara(userId),
+                "@AnswerJson".ToVarCharInPara(answerJson)
+                );
+            return i > 0;
+        }
+
+        /// <summary>
+        /// 获取答案
+        /// </summary>
+        /// <param name="paperId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public static T_Answer GetAnswer(int paperId, int userId)
+        {
+            T_Answer model = null;
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(PaperConnString),
+                "select Id, PaperId, StudentId, AnswerJson, AnswerImg, Submited, CreateDate from T_Answer where PaperId = @PaperId and StudentId = @StudentId",
+                "@PaperId".ToInt32InPara(paperId),
+                "@StudentId".ToInt32InPara(userId)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    model = MySqlDBHelper.ConvertDataReaderToEntitySingle<T_Answer>(dr);
+                }
+            }
+            return model;
+        }
+
+        public static int[] GetSubmitedPapers(int studentId, int[] paperId)
+        {
+            List<int> result = null;
+            string ps = string.Join(",", paperId);
+            using (MySqlDataReader dr = MySqlHelper.ExecuteReader(Util.GetConnectString(PaperConnString),
+                "select PaperId from T_Answer where PaperId in (" + ps + ") and StudentId = @StudentId and Submited = 1",
+                "@StudentId".ToInt32InPara(studentId)))
+            {
+                if (dr != null && dr.HasRows)
+                {
+                    result = new List<int>();
+                    while (dr.Read())
+                    {
+                        result.Add(int.Parse(dr[0].ToString()));
+                    }
+                }
+            }
+            return result == null ? null : result.ToArray();
+
+        }
+
+        public static bool IsPaperSubmited(int studentId, int paperId)
+        {
+            object o = MySqlHelper.ExecuteScalar(Util.GetConnectString(PaperConnString),
+                "select 1 from T_Answer where PaperId = @PaperId and StudentId = @StudentId and Submited = 1",
+                "@StudentId".ToInt32InPara(studentId),
+                "@PaperId".ToInt32InPara(paperId));
+
+            return o == null ? false : true;
+
         }
     }
 }

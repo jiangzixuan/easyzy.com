@@ -1,6 +1,6 @@
 ﻿@using paper.easyzy.model.dto;
 @{
-    ViewBag.Title = "易作业-答卷";
+    ViewBag.Title = "易作业-名校试卷";
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
@@ -21,9 +21,12 @@
         <div class="queslist">
 
         </div>
+        @if (!ViewBag.IsSubmited)
+        {
         <div class="quesop">
             <a href="javascript:void(0);" class="submit">提交</a>
         </div>
+        }
     </div>
 </div>
 
@@ -34,19 +37,32 @@
 <script type="text/javascript">
     var cur_data = {
         paperid: '@ViewBag.PaperId',
-        courseid: '@ViewBag.CourseId'
+        courseid: '@ViewBag.CourseId',
+        submited: '@ViewBag.IsSubmited'
     }
 
     $(function () {
-        $.post("/home/getquestions",
-            { courseId: cur_data.courseid, paperId: cur_data.paperid },
-            function (data) {
-                $(".queslist").html(data);
+        if (cur_data.submited == "True") {
+            $.post("/home/getpaperanswer",
+                { courseId: cur_data.courseid, paperId: cur_data.paperid },
+                function (data) {
+                    $(".queslist").html(data);
+                })
+        }
+        else {
+            $.post("/home/getquestions",
+                { courseId: cur_data.courseid, paperId: cur_data.paperid },
+                function (data) {
+                    $(".queslist").html(data);
+                })
+
+            $(".submit").on("click", function () {
+                SubmitOK();
             })
+        }
     })
     
     var SubmitOK = function () {
-        //submit
         var qlist = [], anslist = [], qanswer_temp = [];
         var qid = 0;
         var qanswer = "";
@@ -82,11 +98,11 @@
         var questions = qlist.length > 0 ? qlist.join(",") : "";
         var answers = anslist.length > 0 ? anslist.join(",") : "";
 
-        $.post("/submit/qdb/SubmitAnswer",
-            { zyId: cur_data.zyid, questions: questions, answers: answers },
+        $.post("/home/SubmitAnswer",
+            { courseId: cur_data.courseid, paperId: cur_data.paperid, zyId: cur_data.zyid, questions: questions, answers: answers },
             function (data) {
                 if (data.code == "0") {
-                    window.location.href = "/list/submited/desc?zyid=" + cur_data.zyid;
+                    window.location.href = "/";
                 }
                 else {
                     dialogAlert(data.message);
