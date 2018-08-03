@@ -60,7 +60,7 @@ namespace hw.easyzy.com.Areas.submit.Controllers
             if (zy.UserId == 0)
             {
                 r.code = AjaxResultCodeEnum.Error;
-                r.message = "试用作业仅用于数据展示，不允许进行操作！";
+                r.message = "试用作业仅用于数据展示，不允许进行操作！<br/>注册成为正式用户后即可体验所有功能！";
                 r.data = "";
                 return JsonConvert.SerializeObject(r);
             }
@@ -144,7 +144,7 @@ namespace hw.easyzy.com.Areas.submit.Controllers
             if (zy.UserId == 0)
             {
                 r.code = AjaxResultCodeEnum.Error;
-                r.message = "试用作业仅用于数据展示，不允许进行操作！";
+                r.message = "试用作业仅用于数据展示，不允许进行操作！<br/>注册成为正式用户后即可体验所有功能！";
                 r.data = "";
                 return Json(r);
             }
