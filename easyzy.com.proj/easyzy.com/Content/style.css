@@ -28,7 +28,7 @@ body{margin: 0;padding: 0;background-color: mistyrose;font-family: 'Open Sans', 
 .flexbox-center{display: -webkit-box;display: -webkit-flex;display: -ms-flexbox;display: flex;-webkit-box-orient: vertical;-webkit-box-direction: normal;-webkit-flex-direction: column;-ms-flex-direction: column;flex-direction: column;-webkit-box-pack: center;-webkit-justify-content: center;-ms-flex-pack: center;justify-content: center;text-align: center;}
 .main-menu-link:hover{color: #66FFFF;}
 .main-menu-link:focus{color: #fff;}
-.home{background-color: rgba(16, 165, 205, 0.8);background-image: url(../images/menu-bg-home.png);background-repeat: no-repeat;background-size: 100% 100%;}
+.home{background-color: rgba(16, 165, 205, 0.8);background-image: url(../images/menu-bg-home.jpg);background-repeat: no-repeat;background-size: 100% 100%;}
 .home2{background-color: rgba(16, 165, 205, 0.8);background-image: url(../images/home-img-5.jpg);background-repeat: no-repeat;background-size: 100% 100%;}
 .home3{background-color: rgba(16, 165, 205, 0.8);background-image: url(../images/home-img-6.jpg);background-repeat: no-repeat;background-size: 100% 100%;}
 .about-main{padding-left: 0;}
@@ -37,8 +37,8 @@ body{margin: 0;padding: 0;background-color: mistyrose;font-family: 'Open Sans', 
 .card{width: -webkit-calc(33% - 1em);width: calc(33% - 1em);margin-bottom: 30px;}
 .contact{background-color: rgba(107,181,34,0.8);}
 .about i, .contact i{float: left;width: 100%;text-align: center;margin-bottom: 10px;}
-.gallery{background-image: url(../images/menu-bg-gallery.png);background-repeat: no-repeat;background-size: 100% 100%;}
-.banner-main-home{background-color: white;background-image: url(../images/banner-bg-home.jpg);background-repeat: no-repeat;background-size: cover;background-position: bottom right;border-top: 7px solid #10a5cd;min-height: 320px;overflow-y: auto;}
+.gallery{background-image: url(/images/menu-bg-gallery.jpg);background-repeat: no-repeat;background-size: 100% 100%;}
+.banner-main-home{background-color: white;background-image: url(/images/banner-bg-home.jpg);background-repeat: no-repeat;background-size: cover;background-position: bottom right;border-top: 7px solid #10a5cd;min-height: 320px;overflow-y: auto;}
 .banner-main-home,
 .banner-main-about{padding: 70px 30px 60px 50px;}
 .banner-main-home img{float: right;margin: 45px 0px;height: auto;}
