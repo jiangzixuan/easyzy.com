@@ -222,7 +222,7 @@ textarea.form-control{height:135px;}
 .gallery_title h3{font-size: 40px;}
 .gallery_title h4{font-size: 18px;}}
 li{list-style-type:none}
-.top{background:#2aabe6; height: 50px;  position:fixed; width:100%}
+.top{background:#2aabe6; height: 50px; width:100%}
 .top-main{width:1170px; margin:0 auto;clear:both; overflow:hidden;}
 .top-main .logo{float:left; width:320px; clear:both;}
 .top-main .logo span{float:left; color:#fff; }
