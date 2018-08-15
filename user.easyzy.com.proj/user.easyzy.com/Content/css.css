@@ -57,7 +57,7 @@ table{border-collapse:collapse;border-spacing:0}
 .head .navigate{padding-top:1px; padding-left:50px; font-size:18px;}
 .head .navigate a{padding:5px 10px; color:#333;}
 .head .navigate a:hover{color:#e91a53}
-.topnav{height:40px; background:#faa; line-height:40px;color:#fff; margin-top:10px;}
+.topnav{height:40px; background:#0094ff; line-height:40px;color:#fff; margin-top:10px;}
 .topnav-list{width:1200px; margin:auto;}
 .topnav .notice{float:left; }
 .topnav .notice img{width:20px; height:20px; vertical-align:middle;}
