@@ -82,7 +82,7 @@ table{border-collapse:collapse;border-spacing:0}
 .reg .regtip{border-bottom:2px solid #288ff2;color:#288ff2;float:left;width:142px}
 .reg .regtip label{background:url("/Images/icon-reg.png") no-repeat;width:100px;padding-left:27px}
 .reg .logintip{float:right;width:250px;border-bottom:1px solid #dfdfdf;font-size:14px;text-align:right}
-.reg .logintip a{color:#288ff2}
+.reg .logintip a{color:red;font-weight:bolder;font-size:16px;}
 .reg .title{font-size:16px;width:85px;text-align:right}
 .reg .text1{line-height:35px;height:35px;width:300px;border:1px solid rgb(169,212,253);padding-left:5px}
 .reg .text1:focus,.reg .text2:focus{border-style:solid;border-color:#03a9f4;box-shadow:0 0 15px #03a9f4}
