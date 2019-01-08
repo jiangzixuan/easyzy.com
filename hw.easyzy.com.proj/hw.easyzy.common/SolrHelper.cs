@@ -124,8 +124,8 @@ namespace hw.easyzy.common
             {
                 qs += string.Format(" AND kpoints: *\\\"{0}\\\"*", kpointId);
             }
-
-            if (cpointIds.Length > 0)
+            
+            if (cpointIds != null && cpointIds.Length > 0)
             {
                 if (cpointIds.Length == 1)
                 {
