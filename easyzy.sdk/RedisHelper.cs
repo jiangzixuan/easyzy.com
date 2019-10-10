@@ -105,7 +105,7 @@ namespace easyzy.sdk
         }
 
         /// <summary>
-        /// 单实例方式
+        /// 单实例方式，单例方式需要指定db
         /// </summary>
         /// <param name="catelog"></param>
         /// <returns></returns>
@@ -123,7 +123,7 @@ namespace easyzy.sdk
         }
 
         /// <summary>
-        /// 缓存池方式
+        /// 集群【缓存池方式】，集群没有db概念
         /// </summary>
         /// <param name="catelog"></param>
         /// <returns></returns>
